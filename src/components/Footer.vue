@@ -1,14 +1,14 @@
 <template>
 
 <footer>
-    <p>© FinFam 2025. Todos los Derechos Reservados.</p>
+    <p>© Finanza Familiar 2025. Todos los Derechos Reservados.</p>
 </footer>
 </template>
 
 <style scoped>
 
 footer {
-background-color:rgb(70, 226, 122);
+background-color:rgb(33, 209, 92);
 color: hsl(0, 45%, 98%);
 text-align: center;
 padding: 20px;
