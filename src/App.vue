@@ -1,22 +1,18 @@
+<template>
+    <div>
+        <router-view></router-view>
+    </div>
 </template>
-<v-app>
-    <Header />
-    <Carrusel />
-    <HeroSection />
-    <Galeriacarrusel />
-    <Footer />
-    <Navbar/>
-</v-app>
 
 <script setup>
 
 // Importamos los componentes principales de nuestra página
 
-import Header from './components/Header.vue'
-import Carrusel from './components/Carrusel.vue'
-import Footer from './components/Footer.vue'
-import HeroSection from '@/components/herosection.vue'
-import Galeriacarrusel from '@/components/Galeriacarrusel.vue'
+//import Header from './components/Header.vue'
+//import Carrusel from './components/Carrusel.vue'
+//import Footer from './components/Footer.vue'
+//import HeroSection from '@/components/herosection.vue'
+//import Galeriacarrusel from '@/components/Galeriacarrusel.vue'
 
 </script>
 

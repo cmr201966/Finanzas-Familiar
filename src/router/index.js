@@ -1,10 +1,10 @@
 import { createRouter, createWebHistory } from 'vue-router'
-import Dashboard from '../views/Dashboard.vue'
-import Expenses from '../views/Expenses.vue'
+import Home from '../views/Home.vue'
+//import Expenses from '../views/Expenses.vue'
 
 	const routes = [
-    { path: '/', name: 'dashboard', component: Dashboard },
-	{ path: '/expenses', name: 'expenses', component: Expenses },
+    { path: '/', name: 'Home', component: Home },
+	//{ path: '/expenses', name: 'expenses', component: Expenses },
 	  // más rutas...
 	]
 
