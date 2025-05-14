@@ -1,34 +1,20 @@
 <template>
-    <div>
-        <router-view></router-view>
-    </div>
+  <div>
+    <router-view></router-view>
+  </div>
 </template>
 
-<script setup>
-
-// Importamos los componentes principales de nuestra página
-
-//import Header from './components/Header.vue'
-//import Carrusel from './components/Carrusel.vue'
-//import Footer from './components/Footer.vue'
-//import HeroSection from '@/components/herosection.vue'
-//import Galeriacarrusel from '@/components/Galeriacarrusel.vue'
-
-</script>
-
 <style scoped>
-
-/* Estilos globales para la página */
-body {
-    margin: 0;
-    font-family: 'Segoe UI', sans-serif;
+.logo {
+  height: 6em;
+  padding: 1.5em;
+  will-change: filter;
+  transition: filter 300ms;
 }
-.section-hero {
-    display: flex;
-    flex-direction: column;
-    min-height: calc(100vh - 114px);
+.logo:hover {
+  filter: drop-shadow(0 0 2em #646cffaa);
 }
-
-
+.logo.vue:hover {
+  filter: drop-shadow(0 0 2em #42b883aa);
+}
 </style>
-
