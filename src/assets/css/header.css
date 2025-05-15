@@ -1,0 +1,131 @@
+.header {
+  height: 80px;
+  background-color: #3664ee;
+  color: rgb(252, 252, 252);
+  padding:20px;
+  display: flex;
+  box-shadow: 0 4px 8px rgba(30, 28, 28, 0.2);
+
+}
+
+.encabezado {
+  display: flex;
+  align-items: center;
+  /* Centra verticalmente */
+  gap: 15px;
+  /* Espacio entre el círculo y el texto */
+  padding: 10px;
+}
+
+.circulo-logo img {
+  width: 50px;
+  height:50px;
+  border-radius: 50%;
+  background-color: hsl(180, 9%, 98%);
+  margin-top: 50px;
+  margin-bottom: 50px;
+  margin-left: 100px;
+}
+
+
+  .posicion-Input {
+      width: 500px;
+      height: 25px;
+      padding: 5px 5px;
+      margin-left: 150px;
+      border:none;
+      background-color: aliceblue;
+      border-radius: 5px;
+  }
+  nav a {
+    color: rgb(249, 249, 249);
+    text-decoration: none;
+    margin-top: 5px;
+    font-weight: bold;
+  }
+
+  .nav-izquierda {
+    display: flex;
+    gap: 25px;
+    margin-left: 150px;
+  }
+  .nav-container {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .dropdown {
+    position: relative;
+    display: inline-block;
+    margin-top: 5px;
+  }
+  .dropbtn {
+    color: rgb(249, 249, 249);
+    text-decoration: none;
+    font-weight: bold;
+    margin-left: 5px;
+  }
+  .dropdown-content {
+    display: none;
+    position: absolute;
+    background: white;
+    min-width: 100px;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.2);
+    z-index: 100;
+    padding: 5px 0;
+  }
+  .dropdown-content a {
+    color: #333;
+    padding: 5px 10px;
+    text-decoration: none;
+    font-size: 14px;
+    margin: 0;
+    display: block;
+    font-weight: normal;
+    line-height: 1.2;
+    border-bottom: 1px solid #ccc;
+    /* Opcional: separador fino */
+  }
+
+    .dropdown-content a:hover {
+      background-color: #f1f1f1;
+    }
+
+  .dropdown:hover .dropdown-content {
+    display: block;
+  }
+
+  .opciones {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 20px;
+    /* separa el input del menú */
+  }
+
+  .texto {
+    flex-direction: column;
+    align-items: center;
+    display: flex;
+    width: 50%;
+    padding: 20px;
+  }
+  .acercade {
+    /* Aquí defines tamaño, color, posición, etc */
+    font-size: 16px;
+    color: #fff; /* o el color que uses */
+    margin-left: 400px;
+    display: inline-block;
+  }
+
+  .acercade a {
+    color: inherit; /* para que herede el color del div */
+    text-decoration: none;
+    cursor:pointer; /* esto hace que el mouse cambie al pasar por encima */
+    transition: color 0.3s;
+    }
+
+  .acercade a:hover {
+    color: #ffd700; /* color al pasar el mouse, por ejemplo dorado */
+  }
+
