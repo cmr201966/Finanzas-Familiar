@@ -1,6 +1,5 @@
 <template>
   <div class="carousel-container">
-    <button @click="moveSlide(-1)" class="nav-button">❮</button>
     
     <div class="carousel-track">
       <div
@@ -21,27 +20,27 @@
       </div>
     </div>
 
-    <button @click="moveSlide(1)" class="nav-button">❯</button>
   </div>
 </template>
 
 <script setup>
-import ahorros from '../assets/img/ahorros.jpg'
-import gastos from '../assets/img/gastos.jpg'
-import historial from '../assets/img/historial.jpg'
-import ingresos from '../assets/img/ingresos.jpg'
-import presupuesto from '../assets/img/presupuesto.jpg'
-import reportes from '../assets/img/reportes.jpg'
 import { ref } from 'vue'
+import { useRouter } from 'vue-router'
+
+import categoria_ingreso from '../assets/img/catIngresos.png'
+import categoria_gasto from '../assets/img/catGastos.png'
+import Cuentas from '../assets/img/cuenta.jpg'
+import transferencias from '../assets/img/transferencias.png'
+
+const router = useRouter()
 
 const images = ref([
-  { src: ahorros, alt: 'Ahorros', id: 1 },
-  { src: gastos, alt: 'Gastos', id: 2 },
-  { src: historial, alt: 'Historial', id: 3 },
-  { src: ingresos, alt: 'Ingresos', id: 4 },
-  { src: presupuesto, alt: 'Presupuesto', id: 5 },
-  { src: reportes, alt: 'Reportes', id: 5 },
-  ])
+  { src: categoria_ingreso, alt: 'Categoria ingreso', id: 1 },
+  { src: categoria_gasto, alt: 'Categoria gasto', id: 2 },
+  { src: Cuentas, alt: 'Cuentas', id: 3 },
+  { src: transferencias, alt: 'Transferencias', id: 4 },
+])
+
 const currentIndex = ref(0)
 const visibleCount = 3
 const imageWidth = 200
@@ -54,9 +53,11 @@ const moveSlide = (direction) => {
 }
 
 const handleClick = (image) => {
-  alert(`Seleccionaste: ${image.alt} (ID: ${image.id})`)
-  // También puedes usar router.push() si usas Vue Router
-  // router.push(`/detalle/${image.id}`)
+  if (image.alt === 'Cuentas') {
+    router.push('/Cuentas')
+  } else {
+    alert(`Navegación no implementada para: ${image.alt}`)
+  }
 }
 </script>
 
@@ -67,7 +68,7 @@ const handleClick = (image) => {
   width: 660px;
   margin: auto;
   overflow: hidden;
-  position: absolute; top: 250px; left: 200px;
+  position: absolute; top: 180px; left: 150px;
 }
 
 .carousel-track {
@@ -112,6 +113,7 @@ const handleClick = (image) => {
   padding: 5px;
   transition: transform 0.3s, border-color 0.3s;
   background: transparent;
+  height: 135px;
 }
 
 .image-wrapper:hover {
@@ -126,7 +128,7 @@ const handleClick = (image) => {
 }
 
 .image-label {
-  font-size: 15px;
+  font-size: 13px;
   margin-top: 8px;
   font-weight: bold;
   color: #333;

@@ -1,6 +1,6 @@
 <template>
-      <p class="frase">"El control de tus finanzas personales<br>es el camino hacia la libertad financiera"</p>
-      <p class="entradas">Entradas</p>
+      <p class="frase">"Planificar tus finanzas  es el camino hacia la libertad financiera"</p>
+      <p class="entradas">Catalogos</p>
       <p class="salidas">Salidas</p>
 </template>
 
@@ -9,14 +9,14 @@ body{
   background-color: white;
 }
 .frase{
-  color: darkblue; 
-  position: absolute; top: 140px; left: 150px;
+  color: rgb(0, 0, 0); 
+  position: absolute; top: 100px; left: 150px;
   font-family: 'Italic'; 
   font-size: 25px;
 }
 .entradas{
   color: rgb(0, 0, 0);
-  position: absolute; top: 225px; left: 200px;
+  position: absolute; top: 150px; left: 150px;
   font-family: 'Italic';
   font-size: 18px;
 }

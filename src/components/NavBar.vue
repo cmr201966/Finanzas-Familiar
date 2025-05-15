@@ -4,20 +4,9 @@
         <div class="logo-titulo">
             <img class="logo" src="../assets/img/Logo/logo.jpg" />
             <h1 class="titulo">Finanza Familiar</h1>
-             <div class="buscador">
-            <input type="text" placeholder="Buscar" class="input" v-model="query"  @keyup.enter="buscar"    />
-            <button class="boton" @click="buscar">🔍</button>
-        </div>
         </div>
 
-        <v-btn class="acerca" variant="text" style="position: absolute; right: 115px; top: 40px; color: darkblue; font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;">Acercade</v-btn>
-    </div>
-    <div class="menu">
-         <div class="d-flex align-center justify-center" style="height: 100%">
-            <v-btn class="mx-2"variant="text" style=" color: darkblue; font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif">Inicio</v-btn>
-            <v-btn class="mx-2" variant="text" style=" color: darkblue; font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif">Registrarse</v-btn>
-            <v-btn class="mx-2" variant="text" style=" color: darkblue; font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif">Opciones</v-btn>
-        </div>
+        <v-btn class="acerca" variant="text" style="position: absolute; right: 115px; top: 40px; color: darkblue; font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;">Acerca de</v-btn>
     </div>
     </v-app>
 </template>
@@ -34,13 +23,14 @@
     }
 
     .titulo {
-        color: darkblue;
+        margin-top: 10px;
+        color: rgb(255, 255, 255);
         font-size: 20px;
-        font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+        font-family: 'Italic';
     }
 
     .Barra{
-        background-color: rgb(70, 226, 122);
+        background-color: rgb(12, 155, 12);
         width: 100vw;
         height: 80px;
         position: fixed;
@@ -53,7 +43,7 @@
         border-radius: 100%;
         width: 45px;
         height: 40px;
-        margin-left: 50px;
+        margin-left: -25px;
         margin-top: 8px;
     }
 
@@ -67,7 +57,7 @@
         background-color: white;
   width: 500px;
   border: 2px solid black;
-  margin-left: -40px;
+  margin-left: 5px;
   padding: 8px;
   border-radius: 50px;
 }
@@ -78,17 +68,6 @@
         background-color: transparent;
     }
 
-    .menu{
-        position: fixed;
-        top: 80px;
-        left: 0;
-        background-color: rgb(0, 180, 60);
-        width: 100vw;
-        padding: px;
-        border-top: 3px solid black;
-        border-bottom: 3px solid black;
-         z-index: 999; /* También agregado */
-    }
 </style>
 
 <script>
@@ -100,5 +79,8 @@ name: 'Navbar',
     }
   }
 }
-
+ /*<div class="buscador">
+            <input type="text" placeholder="Buscar" class="input" v-model="query"  @keyup.enter="buscar"    />
+            <button class="boton" @click="buscar">🔍</button>
+        </div>*/
 </script>

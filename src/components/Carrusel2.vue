@@ -26,17 +26,21 @@
 </template>
 
 <script setup>
-import Resumen from '../assets/img/resumen.jpeg'
-import Transferencia from '../assets/img/transferencia.jpeg'
-import historial from '../assets/img/historial.jpg'
-import ingresos from '../assets/img/ingresos.jpg'
-import presupuesto from '../assets/img/presupuesto.jpg'
-import reportes from '../assets/img/reportes.jpg'
+import Resumen_General from '../assets/img/Resumen General.png'
+import Vista_Transacciones from '../assets/img/Vista_Transacciones.jpg'
+import Vista_Categorias from '../assets/img/categorias.jpg'
+import Vista_Trasnferencias from '../assets/img/transferencias.png'
+import Anual from '../assets/img/Anual.jpg'
+import Presupuesto from '../assets/img/Presupuesto (2).jpg'
 import { ref } from 'vue'
 
 const images = ref([
-  { src: Resumen, alt: 'Resumen', id: 1 },
-  { src: Transferencia, alt: 'Transferencia', id: 2 },
+  { src: Resumen_General, alt: 'Resumen General', id: 1 },
+  { src: Vista_Transacciones, alt: 'Vista Transacciones', id: 2 },
+  { src: Vista_Categorias, alt: 'Vista Categorias', id: 3 },
+  { src: Vista_Trasnferencias, alt: 'Vista Trasnferencias', id: 4 },
+  { src: Anual, alt: 'Informe Mensual/Anual', id: 5 },
+  { src: Presupuesto, alt: 'Presupuesto', id: 6 },
   ])
 const currentIndex = ref(0)
 const visibleCount = 3
@@ -108,6 +112,8 @@ const handleClick = (image) => {
   padding: 5px;
   transition: transform 0.3s, border-color 0.3s;
   background: transparent;
+  border: 2px solid #0056b3;
+  height: 145px;
 }
 
 .image-wrapper2:hover {
@@ -122,7 +128,7 @@ const handleClick = (image) => {
 }
 
 .image-label2 {
-  font-size: 14px;
+  font-size: 13px;
   margin-top: 8px;
   font-weight: bold;
   color: #333;
