@@ -1,20 +1,32 @@
 // src/main.js
-import { createApp } from 'vue'
-import App from './App.vue'
-"./assets/app.vue.css";
+//import { createApp } from 'vue'
+//import App from './App.vue';
+//import './assets/styles.css';
+//import router from './router';
+//import '@mdi/font/css/materialdesignicons.css';
 
 // Vuetify
-import 'vuetify/styles'
-import { createVuetify } from 'vuetify'
-import * as components from 'vuetify/components'
-import * as directives from 'vuetify/directives'
+//import 'vuetify/styles'
+//import vuetify from './plugins/vuetify';
+//import { createVuetify } from 'vuetify'
+//import * as components from 'vuetify/components'
+//import * as directives from 'vuetify/directives'
 //import { aliases, mdi } from 'vuetify/iconsets/mdi'
 //import '@mdi/font/css/materialdesignicons.css'
-const vuetify = createVuetify({
-  components,
-  directives,
-})
 
-createApp(App)
-  .use(vuetify)
-  .mount('#app')
+//localStorage.removeItem('token');
+
+
+//const app = createApp(App);
+//app.use(router);
+//app.use(vuetify);
+//app.mount('#app');
+import { createApp } from 'vue'
+import './style.css'
+import App from './App.vue'
+import router from './router';
+
+const app = createApp(App);
+
+app.use(router);
+app.mount('#app');
