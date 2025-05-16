@@ -5,6 +5,7 @@ import Cuentas from '../views/Cuentas.vue';
 const routes = [
     { path: '/', name: 'home', component: Home },
     { path: '/Cuentas', name: 'cuentas', component: Cuentas },
+    //{ path: '/Presupuesto', name: 'presupuesto', component: Presupuesto },
 ]
 
 const router = createRouter({

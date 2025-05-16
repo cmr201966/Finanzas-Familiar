@@ -1,20 +1,20 @@
 <template>
-  <div class="carousel-container">
+  <div class="carousel-container3">
     
-    <div class="carousel-track">
+    <div class="carousel-track3">
       <div
-        class="carousel-slide"
+        class="carousel-slide3"
         :style="{ transform: `translateX(-${currentIndex * imageWidth}px)` }"
       >
            <div
   v-for="(image, index) in images"
   :key="index"
-  class="carousel-item"
+  class="carousel-item3"
   @click="handleClick(image)"
 >
-  <div class="image-wrapper">
+  <div class="image-wrapper3">
     <img :src="image.src" :alt="image.alt" />
-    <p class="image-label">{{ image.alt }}</p>
+    <p class="image-label3">{{ image.alt }}</p>
   </div>
 </div>
       </div>
@@ -27,18 +27,16 @@
 import { ref } from 'vue'
 import { useRouter } from 'vue-router'
 
-import categoria_ingreso from '../assets/img/catIngresos.png'
-import categoria_gasto from '../assets/img/catGastos.png'
-import Cuentas from '../assets/img/cuenta.jpg'
-import transferencias from '../assets/img/transferencias.png'
+import ingresos from '../assets/img/Ingreso.png'
+import gastos from '../assets/img/Gastos.png'
+import transferencia from '../assets/img/transferencia.jpeg'
 
 const router = useRouter()
 
 const images = ref([
-  { src: categoria_ingreso, alt: 'Categoria ingreso', id: 1 },
-  { src: categoria_gasto, alt: 'Categoria gasto', id: 2 },
-  { src: Cuentas, alt: 'Cuentas', id: 3 },
-  { src: transferencias, alt: 'Transferencias', id: 4 },
+  { src: ingresos, alt: 'Ingresos', id: 1 },
+  { src: gastos, alt: 'Gastos', id: 2 },
+  { src: transferencia, alt: 'Transferencias', id: 3 },
 ])
 
 const currentIndex = ref(0)
@@ -62,43 +60,46 @@ const handleClick = (image) => {
 </script>
 
 <style>
-.carousel-container {
+.carousel-container3 {
   display: flex;
   align-items: center;
-  width: 660px;
+  width: 490px;
   margin: auto;
   overflow: hidden;
-  position: absolute; top: 180px; left: 150px;
+  position: absolute; top: 165px; left: 550px;
+  border: 2px solid #0056b3;
 }
 
-.carousel-track {
+.carousel-track3 {
   overflow: hidden;
   width: 100%;
 }
 
-.carousel-slide {
+.carousel-slide3 {
   display: flex;
   transition: transform 0.5s ease;
 }
 
-.carousel-item {
-  flex: 0 0 0px;
-  padding: 10px;
+.carousel-item3 {
+  flex: 0 0 auto;
+  padding: 10px; /* antes 10px */
+  margin-right: 30px; /* espacio entre imágenes */
   cursor: pointer;
   text-align: center;
+  margin-left: 10px;
 }
 
-.carousel-item img {
+.carousel-item3 img {
   width: 100%;
   border-radius: 10px;
   transition: transform 0.2s;
 }
 
-.carousel-item:hover img {
+.carousel-item3:hover img {
   transform: scale(1.05);
 }
 
-.nav-button {
+.nav-button3 {
   background-color: transparent;
   color: rgb(0, 0, 0);
   border: none;
@@ -106,9 +107,8 @@ const handleClick = (image) => {
   cursor: pointer;
   padding: 10px;
 }
-.image-wrapper {
+.image-wrapper3 {
   width: 100px;
-  border: 2px solid #0056b3;
   border-radius: 8px;
   padding: 5px;
   transition: transform 0.3s, border-color 0.3s;
@@ -116,18 +116,18 @@ const handleClick = (image) => {
   height: 135px;
 }
 
-.image-wrapper:hover {
+.image-wrapper3:hover {
   transform: scale(0.8);
   border-color: rgb(70, 226, 122);
 }
 
-.image-wrapper img {
+.image-wrapper3 img {
   width: 80px;
   height: auto;
   border-radius: 5px;
 }
 
-.image-label {
+.image-label3 {
   font-size: 13px;
   margin-top: 8px;
   font-weight: bold;

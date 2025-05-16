@@ -3,7 +3,7 @@
 //import App from './App.vue';
 //import './assets/styles.css';
 //import router from './router';
-//import '@mdi/font/css/materialdesignicons.css';
+import '@mdi/font/css/materialdesignicons.css';
 
 // Vuetify
 //import 'vuetify/styles'
@@ -21,13 +21,18 @@
 //app.use(router);
 //app.use(vuetify);
 //app.mount('#app');
+// src/main.js
 import { createApp } from 'vue'
-import './style.css'
 import App from './App.vue'
-import router from './router';
+import router from './router'
+
+// ✅ Importa el archivo .ts como un módulo normal
 import vuetify from './plugins/vuetify'
 
-const app = createApp(App);
-app.use(vuetify);
-app.use(router);
-app.mount('#app');
+import 'vuetify/styles'
+import './style.css'
+
+const app = createApp(App)
+app.use(router)
+app.use(vuetify)
+app.mount('#app')

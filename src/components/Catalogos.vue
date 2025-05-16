@@ -1,49 +1,44 @@
 <template>
-  <div class="carousel-container2">
-    <button @click="moveSlide(-1)" class="nav-button2">❮</button>
+  <div class="carousel-container">
     
-    <div class="carousel-track2">
+    <div class="carousel-track">
       <div
-        class="carousel-slide2"
+        class="carousel-slide"
         :style="{ transform: `translateX(-${currentIndex * imageWidth}px)` }"
       >
            <div
   v-for="(image, index) in images"
   :key="index"
-  class="carousel-item2"
+  class="carousel-item"
   @click="handleClick(image)"
 >
-  <div class="image-wrapper2">
+  <div class="image-wrapper">
     <img :src="image.src" :alt="image.alt" />
-    <p class="image-label2">{{ image.alt }}</p>
+    <p class="image-label">{{ image.alt }}</p>
   </div>
 </div>
       </div>
     </div>
 
-    <button @click="moveSlide(1)" class="nav-button2">❯</button>
   </div>
 </template>
 
 <script setup>
-import Resumen_General from '../assets/img/Resumen General.png'
-import Vista_Trasnferencias from '../assets/img/transferencia.jpeg'
-import Cuentas from '../assets/img/cuenta.png'
-import Vista_Transacciones from '../assets/img/Vista_Transacciones.jpg'
-import Categorias from '../assets/img/categorias.jpg'
-import Anual from '../assets/img/Anual.jpg'
-import Presupuesto from '../assets/img/Presupuesto (2).jpg'
 import { ref } from 'vue'
+import { useRouter } from 'vue-router'
+
+import categoria_ingreso from '../assets/img/catIngresos.png'
+import categoria_gasto from '../assets/img/catGastos.png'
+import Cuentas from '../assets/img/cuenta.png'
+
+const router = useRouter()
 
 const images = ref([
-  { src: Resumen_General, alt: 'Resumen General', id: 1 },
-  { src: Vista_Trasnferencias, alt: 'Vista Trasnferencias', id: 2 },
+  { src: categoria_ingreso, alt: 'Categoria ingreso', id: 1 },
+  { src: categoria_gasto, alt: 'Categoria gasto', id: 2 },
   { src: Cuentas, alt: 'Cuentas', id: 3 },
-  { src: Presupuesto, alt: 'Presupuesto', id: 4 },
-  { src: Anual, alt: 'Informe Mensual/Anual', id: 5 },
-  { src: Categorias, alt: 'Categorias', id: 6 },
-  //{ src: Vista_Categorias, alt: 'Vista Categorias', id: 6 },
-  ])
+])
+
 const currentIndex = ref(0)
 const visibleCount = 3
 const imageWidth = 200
@@ -56,53 +51,53 @@ const moveSlide = (direction) => {
 }
 
 const handleClick = (image) => {
-  alert(`Seleccionaste: ${image.alt} (ID: ${image.id})`)
-  // También puedes usar router.push() si usas Vue Router
-  // router.push(`/detalle/${image.id}`)
+  if (image.alt === 'Cuentas') {
+    router.push('/Cuentas')
+  } else {
+    alert(`Navegación no implementada para: ${image.alt}`)
+  }
 }
 </script>
 
 <style>
-.carousel-container2 {
+.carousel-container {
   display: flex;
   align-items: center;
-  width: 940px;
+  width: 380px;
   margin: auto;
   overflow: hidden;
-  position: absolute; top: 360px; left: 100px;
+  position: absolute; top: 165px; left: 100px;
   border: 2px solid #0056b3;
-  color: white;
 }
 
-.carousel-track2 {
+.carousel-track {
   overflow: hidden;
   width: 100%;
 }
 
-.carousel-slide2 {
+.carousel-slide {
   display: flex;
   transition: transform 0.5s ease;
 }
 
-.carousel-item2 {
+.carousel-item {
   flex: 0 0 0px;
   padding: 10px;
   cursor: pointer;
   text-align: center;
-  margin-right: 30px;
 }
 
-.carousel-item2 img {
+.carousel-item img {
   width: 100%;
   border-radius: 10px;
   transition: transform 0.2s;
 }
 
-.carousel-item2:hover img {
+.carousel-item:hover img {
   transform: scale(1.05);
 }
 
-.nav-button2 {
+.nav-button {
   background-color: transparent;
   color: rgb(0, 0, 0);
   border: none;
@@ -110,27 +105,27 @@ const handleClick = (image) => {
   cursor: pointer;
   padding: 10px;
 }
-.image-wrapper2 {
+.image-wrapper {
   width: 100px;
   border-radius: 8px;
   padding: 5px;
   transition: transform 0.3s, border-color 0.3s;
   background: transparent;
-  height: 145px;
+  height: 135px;
 }
 
-.image-wrapper2:hover {
+.image-wrapper:hover {
   transform: scale(0.8);
   border-color: rgb(70, 226, 122);
 }
 
-.image-wrapper2 img {
+.image-wrapper img {
   width: 80px;
-  height: 80px;
+  height: auto;
   border-radius: 5px;
 }
 
-.image-label2 {
+.image-label {
   font-size: 13px;
   margin-top: 8px;
   font-weight: bold;

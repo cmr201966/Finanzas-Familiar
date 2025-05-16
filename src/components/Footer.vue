@@ -15,8 +15,8 @@ name: 'Footer'
 footer {
 width: 100vw;
 position: fixed; left: 0; bottom: 0;
-background-color:rgb(12, 155, 12);
-color: hsl(0, 0%, 0%);
+background-color:rgb(12, 155, 80);
+color: hsl(0, 0%, 100%);
 padding: 10px;
 margin-top: 5px;
 box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
