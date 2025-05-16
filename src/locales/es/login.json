@@ -1,0 +1,10 @@
+
+{
+    "title": "Inicio de sesion",
+    "username": "Usuario",
+    "password": "Contraseña",
+    "confirm": "Confirmar",
+    "email": "Correo",
+    "phone": "Teléfono",
+    "generalData": "Datos generales"
+}

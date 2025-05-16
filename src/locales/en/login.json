@@ -1,0 +1,9 @@
+{
+    "title": "Inicio de sesion",
+    "username": "usuario",
+    "password": "Contraseña",
+    "confirm": "Confirmar",
+    "email": "Correo elect",
+    "telephone": "Teléfono",
+    "generalData": "Datos generales"
+}
