@@ -63,7 +63,7 @@ const handleClick = (image) => {
 .carousel-container3 {
   display: flex;
   align-items: center;
-  width: 33.7%;              /* tamaño original */
+  width: 31.1%;              /* tamaño original */
   overflow: hidden;
   position: absolute;
   top: 28.5%; /* 15% de la altura de la ventana */
@@ -96,7 +96,7 @@ const handleClick = (image) => {
 
 .carousel-item3 img {
   width: 100%;
-  border-radius: 10%;
+  border-radius: 1%;
   transition: transform 0.2s;
 }
 
@@ -125,7 +125,7 @@ const handleClick = (image) => {
 }
 
 .image-label3 {
-  font-size: 1.2vw;
+  font-size: 90%;
   margin-top: 1%;
   font-weight: bold;
   color: #333;

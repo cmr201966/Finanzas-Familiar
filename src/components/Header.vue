@@ -20,44 +20,44 @@ body {
 .frase {
   color: rgb(0, 0, 0);
   position: absolute;
-  top: 15vh; /* 10% de la altura de la ventana */
-  left: 10vw; /* 8% del ancho de la ventana */
+  top: 15%; /* 10% de la altura de la ventana */
+  left: 10%; /* 8% del ancho de la ventana */
   font-family: 'Popins', arial, sans-serif;
-  font-size: 2vw; /* Tamaño relativo al ancho de la ventana */
+  font-size: 150%; /* Tamaño relativo al ancho de la ventana */
   
 } 
 
 .entradas {
   color: rgb(0, 0, 0);
   position: absolute;
-  top: 23vh; /* 15% de la altura de la ventana */
-  left: 10vw; /* 10% del ancho de la ventana */
+  top: 23%; /* 15% de la altura de la ventana */
+  left: 10%; /* 10% del ancho de la ventana */
   font-family: 'Italic';
-  font-size: 1.5vw; /* Tamaño relativo al ancho de la ventana */
+  font-size: 100%; /* Tamaño relativo al ancho de la ventana */
 }
 
 .entradas2 {
   color: rgb(0, 0, 0);
   position: absolute;
-  top: 23vh; /* 15% de la altura de la ventana */
-  left: 50vw; /* 50% del ancho de la ventana */
+  top: 23%; /* 15% de la altura de la ventana */
+  left: 50%; /* 50% del ancho de la ventana */
   font-family: 'Italic';
-  font-size: 1.5vw; /* Tamaño relativo al ancho de la ventana */
+  font-size: 100%; /* Tamaño relativo al ancho de la ventana */
 }
 
 .salidas {
   color: rgb(0, 0, 0);
   position: absolute;
-  top: 56vh; /* 30% de la altura de la ventana */
-  left: 10vw; /* 10% del ancho de la ventana */
+  top: 56%; /* 30% de la altura de la ventana */
+  left: 10%; /* 10% del ancho de la ventana */
   font-family: 'Italic';
-  font-size: 1.5vw; /* Tamaño relativo al ancho de la ventana */
+  font-size: 100%; /* Tamaño relativo al ancho de la ventana */
 }
 
 .presupuesto {
   position: absolute;
-  top: 12vh; /* 12% de la altura de la ventana */
-  left: 76.5vw; /* 80% del ancho de la ventana */
+  top: 12%; /* 12% de la altura de la ventana */
+  left: 76.5%; /* 80% del ancho de la ventana */
   cursor: pointer;
   text-align: center;
   transition: transform 0.3s, border-color 0.3s;
@@ -68,8 +68,8 @@ body {
 }
 
 .imagen-presupuesto {
-  width: 5vw; /* Tamaño relativo al ancho de la ventana */
-  height: 5vw; /* Tamaño relativo al ancho de la ventana */
+  width: 30%; /* Tamaño relativo al ancho de la ventana */
+  height: 30%; /* Tamaño relativo al ancho de la ventana */
 }
 
 .label-presupuesto {

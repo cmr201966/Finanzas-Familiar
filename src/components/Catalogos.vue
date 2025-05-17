@@ -86,7 +86,7 @@ const handleClick = (image) => {
 }
 
 .carousel-item {
-  flex: 0 0 auto;
+ flex: 0 0 auto;
   padding: 3%;
   cursor: pointer;
   text-align: center;
@@ -125,7 +125,7 @@ const handleClick = (image) => {
 }
 
 .image-label {
-  font-size: 1.2vw;
+  font-size: 90%;
   margin-top: 1%;
   font-weight: bold;
   color: #333;
