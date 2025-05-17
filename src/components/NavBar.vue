@@ -57,7 +57,7 @@
         <v-menu offset-y>
           <template #activator="{ props }">
             <v-btn class="puntitos-3" icon v-bind="props">
-              <img :src="currentFlagIcon" style="width: 35px; height: 35px;" />
+              <img :src="currentFlagIcon" class="bandera"/>
             </v-btn>
           </template>
           <v-list>
@@ -130,50 +130,45 @@ export default {
 </script>
 
 <style scoped>
-/* Usamos unidades relativas como vw, vh y % */
-.usuario {
-  width: 3vw !important; /* 5% del ancho de la ventana */
-  height: 3vw !important; /* 5% del ancho de la ventana */
-  margin-left: 50vw; /* 20% del ancho de la ventana */
-  color: white; /* para que el icono se vea */
-  margin-bottom: 5vw;
-  margin-right: 2vw;
-}
-
-.puntitos-2 {
+.usuario{
   width: 3vw !important;
   height: 3vw !important;
+  margin-bottom: 1vw;
+  margin-right: 2vw;
   color: white;
+  margin-left: auto;
 }
-
+.bandera{
+  width: 35px; height: 35px
+}
 .puntitos-3 {
   width: 3vw !important;
   height: 3vw !important;
-  color: white;
-  margin-bottom: 5vw;
+  margin-bottom: 1vw;
   margin-right: 2vw;
+  color: white;
 }
 
 .logo-titulo {
   display: flex;
   align-items: center;
-  margin-left: 5vw; /* 5% del ancho de la ventana */
-  margin-top: 1vh; /* 1% de la altura de la ventana */
+  margin-left: 5vw;
+  margin-top: 1vh;
 }
 
 .titulo {
-  color: rgb(255, 255, 255);
-  font-size: 2.5vw; /* Proporcional al ancho de la ventana */
+  color: white;
+  font-size: 2.5vw;
   font-family: 'Italic';
   margin-left: 1vw;
-  margin-bottom: 5vw;
+  margin-bottom: 1vw;
 }
 
 .Barra {
   background-color: rgb(12, 155, 80);
-  border-bottom: 1px;
+  border-bottom: 1px solid #ccc;
   width: 100%;
-  height: 8vh; /* 8% de la altura de la ventana */
+  height: 8vh;
   position: fixed;
   top: 0;
   left: 0;
@@ -182,9 +177,58 @@ export default {
 
 .logo {
   border-radius: 100%;
-  width: 3vw; /* 8% del ancho de la ventana */
-  height: 3vw; /* 7% del ancho de la ventana */
+  width: 3vw;
+  height: 3vw;
   margin-left: 1vw;
-  margin-bottom: 5vw;
+  margin-bottom: 1vw;
+}
+
+/* ADAPTACIÓN RESPONSIVA SIN MOVER ELEMENTOS */
+@media (max-width: 720px) {
+  .logo {
+    border-radius: 100%;
+  width: 3vw;
+  height: 3vw;
+  margin-left: 1vw;
+  margin-bottom: 1vw;
+  }
+
+  .titulo {
+     color: white;
+  font-size: 2.5vw;
+  font-family: 'Italic';
+  margin-left: 1vw;
+  margin-bottom: 1vw;
+  }
+
+  .puntitos-3 {
+  width: 3vw !important;
+  height: 3vw !important;
+  margin-bottom: 1vw;
+  margin-right: 2vw;
+  color: white;
+  }
+}
+.bandera{
+  width: 30px; height: 30px
+}
+@media (max-width: 480px) {
+  .logo {
+    width: 8vw;
+    height: 8vw;
+  }
+.bandera{
+  width: 20px; height: 20px
+}
+  .titulo {
+    font-size: 5vw;
+  }
+
+  .usuario,
+  .puntitos-3,
+  .puntitos-2 {
+    width: 7vw !important;
+    height: 7vw !important;
+  }
 }
 </style>

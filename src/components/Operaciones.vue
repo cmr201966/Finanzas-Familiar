@@ -63,11 +63,16 @@ const handleClick = (image) => {
 .carousel-container3 {
   display: flex;
   align-items: center;
-  width: 490px;
-  margin: auto;
+  width: 33.7vw;              /* tamaño original */
   overflow: hidden;
-  position: absolute; top: 165px; left: 550px;
+  position: absolute;
+  top: 28.5vh; /* 15% de la altura de la ventana */
+  left: 50vw; /* 50% del ancho de la ventana */
   border: 2px solid #0056b3;
+  box-sizing: border-box;
+  background-color: white;
+  height: auto;
+  transition: width 0.3s ease, left 0.3s ease, top 0.3s ease;
 }
 
 .carousel-track3 {
@@ -82,11 +87,11 @@ const handleClick = (image) => {
 
 .carousel-item3 {
   flex: 0 0 auto;
-  padding: 10px; /* antes 10px */
-  margin-right: 30px; /* espacio entre imágenes */
+  padding: 10px;
   cursor: pointer;
   text-align: center;
-  margin-left: 10px;
+  width: 100px;            /* ancho fijo para mantener proporción */
+  margin-right: 20px;
 }
 
 .carousel-item3 img {
@@ -99,21 +104,14 @@ const handleClick = (image) => {
   transform: scale(1.05);
 }
 
-.nav-button3 {
-  background-color: transparent;
-  color: rgb(0, 0, 0);
-  border: none;
-  font-size: 24px;
-  cursor: pointer;
-  padding: 10px;
-}
 .image-wrapper3 {
   width: 100px;
+  height: 135px;
   border-radius: 8px;
   padding: 5px;
-  transition: transform 0.3s, border-color 0.3s;
   background: transparent;
-  height: 135px;
+  transition: transform 0.3s, border-color 0.3s;
+  box-sizing: border-box;
 }
 
 .image-wrapper3:hover {
@@ -134,4 +132,69 @@ const handleClick = (image) => {
   color: #333;
   font-family: Arial, sans-serif;
 }
+
+/* Media queries para adaptarlo sin perder posición */
+
+/* Pantallas medianas (tablets, etc) */
+@media (max-width: 1024px) {
+  .carousel-container3 {
+    width: 33.7vw;           /* tamaño proporcional más pequeño */
+    top: 160px;             /* posición ajustada */
+  left: 50vw; /* 50% del ancho de la ventana */
+  }
+  
+  .carousel-item3 {
+    width: 80px;
+    margin-right: 15px;
+    padding: 7px;
+  }
+
+  .image-wrapper3 {
+    width: 80px;
+    height: 110px;
+    padding: 4px;
+  }
+
+  .image-wrapper3 img {
+    width: 65px;
+  }
+
+  .image-label3 {
+    font-size: 11px;
+  }
+}
+
+/* Pantallas pequeñas (móviles) */
+@media (max-width: 480px) {
+  .carousel-container3 {
+    width: 43vw;
+    top: 115px;
+    left: 70%;
+    transform: translateX(-50%);
+    position: fixed; /* para que quede visible y centrado */
+    height: 20vw;
+  }
+
+  .carousel-item3 {
+    width: 30px;
+    margin-right: 10px;
+    padding: 5px;
+  }
+
+  .image-wrapper3 {
+    width: 30px;
+    height: 95px;
+    padding: 3px;
+    margin-top: 10vw;
+  }
+
+  .image-wrapper3 img {
+    width: 7vw;
+  }
+
+  .image-label3 {
+    font-size: 7px;
+  }
+}
+
 </style>

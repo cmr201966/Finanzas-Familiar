@@ -66,12 +66,17 @@ const handleClick = (image) => {
 .carousel-container2 {
   display: flex;
   align-items: center;
-  width: 940px;
-  margin: auto;
+  width: 75.8vw;              /* tamaño original */
   overflow: hidden;
-  position: absolute; top: 360px; left: 100px;
+  position: absolute;
+  top: 360px;                /* posición original */
+  left: 100px;               /* posición original */
   border: 2px solid #0056b3;
   color: white;
+  box-sizing: border-box;
+  background-color: white;
+  padding: 5px;
+  transition: width 0.3s ease, left 0.3s ease, top 0.3s ease;
 }
 
 .carousel-track2 {
@@ -83,13 +88,22 @@ const handleClick = (image) => {
   display: flex;
   transition: transform 0.5s ease;
 }
-
+.nav-button2 {
+  background-color: transparent;
+  color: rgb(0, 0, 0);
+  border: none;
+  font-size: 24px;
+  cursor: pointer;
+  padding: 10px;
+  transition: color 0.3s ease;
+}
 .carousel-item2 {
-  flex: 0 0 0px;
+  flex: 0 0 auto;
   padding: 10px;
   cursor: pointer;
   text-align: center;
   margin-right: 30px;
+  width: 100px;  /* ancho fijo para consistencia */
 }
 
 .carousel-item2 img {
@@ -102,21 +116,14 @@ const handleClick = (image) => {
   transform: scale(1.05);
 }
 
-.nav-button2 {
-  background-color: transparent;
-  color: rgb(0, 0, 0);
-  border: none;
-  font-size: 24px;
-  cursor: pointer;
-  padding: 10px;
-}
 .image-wrapper2 {
   width: 100px;
+  height: 145px;
   border-radius: 8px;
   padding: 5px;
-  transition: transform 0.3s, border-color 0.3s;
   background: transparent;
-  height: 145px;
+  transition: transform 0.3s, border-color 0.3s;
+  box-sizing: border-box;
 }
 
 .image-wrapper2:hover {
@@ -136,5 +143,74 @@ const handleClick = (image) => {
   font-weight: bold;
   color: #333;
   font-family: Arial, sans-serif;
+}
+
+/* Media queries para adaptar sin perder posición */
+
+/* Pantallas medianas */
+@media (max-width: 1024px) {
+  .carousel-container2 {
+    width: 78vw;            /* ancho relativo */
+    max-width: 78vw;
+    top: 355px;             /* ajustado */
+    left: 60px;             /* ajustado */
+  }
+
+  .carousel-item2 {
+    width: 80px;
+    margin-right: 20px;
+    padding: 7px;
+  }
+
+  .image-wrapper2 {
+    width: 80px;
+    height: 115px;
+    padding: 4px;
+  }
+
+  .image-wrapper2 img {
+    width: 65px;
+    height: 65px;
+  }
+
+  .image-label2 {
+    font-size: 12px;
+  }
+}
+
+/* Pantallas pequeñas (móviles) */
+@media (max-width: 480px) {
+  .carousel-container2 {
+    width: 85vw;
+    max-width: 350px;
+    top: 250px;
+    left: 49.5%;
+    transform: translateX(-50%);
+    position: fixed; /* centrado fijo */
+    height: 25vw;
+  }
+
+  .carousel-item2 {
+    width: 30px;
+    margin-right: 15px;
+    padding: 5px;
+  }
+
+  .image-wrapper2 {
+    width: 30px;
+    height: 100px;
+    padding: 3px;
+    margin-top: 10vw;
+  }
+
+  .image-wrapper2 img {
+    width: 7vw;
+    height: 7vw;
+  }
+
+  .image-label2 {
+    font-size: 2vw;
+    margin-right: 10px;
+  }
 }
 </style>

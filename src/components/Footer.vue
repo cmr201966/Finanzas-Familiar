@@ -12,10 +12,10 @@ export default {
 
 <style scoped>
 footer {
-  width: 100vw;
+  width: 100%;
   position: fixed;
-  left: 0;
-  bottom: 0;
+  left: 0vw;
+  bottom: 0vw;
   background-color: rgb(12, 155, 80);
   color: hsl(0, 0%, 100%);
   padding: 10px;

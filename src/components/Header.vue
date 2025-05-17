@@ -24,7 +24,8 @@ body {
   left: 10vw; /* 8% del ancho de la ventana */
   font-family: 'Popins', arial, sans-serif;
   font-size: 2vw; /* Tamaño relativo al ancho de la ventana */
-}
+  
+} 
 
 .entradas {
   color: rgb(0, 0, 0);
@@ -78,6 +79,68 @@ body {
   font-size: 1.5vw; /* Tamaño relativo al ancho de la ventana */
   color: black;
 }
+@media (max-width: 480px) {
+.frase {
+  color: rgb(0, 0, 0);
+  position: absolute;
+  top: 15vh; /* 10% de la altura de la ventana */
+  left: 10vw; /* 8% del ancho de la ventana */
+  font-family: 'Popins', arial, sans-serif;
+  font-size: 3.2vw; /* Tamaño relativo al ancho de la ventana */
+}
+.presupuesto {
+  position: absolute;
+  top: 10vh; /* 12% de la altura de la ventana */
+  left: 81.5vw; /* 80% del ancho de la ventana */
+  cursor: pointer;
+  text-align: center;
+  transition: transform 0.3s, border-color 0.3s;
+}
+
+.presupuesto:hover {
+  transform: scale(0.8);
+}
+
+.imagen-presupuesto {
+  width: 10vw; /* Tamaño relativo al ancho de la ventana */
+  height: 10vw; /* Tamaño relativo al ancho de la ventana */
+}
+
+.label-presupuesto {
+  display: block;
+  margin-top: -1vh; /* Ajuste basado en la altura de la ventana */
+  font-family: 'Italic';
+  font-size: 3vw; /* Tamaño relativo al ancho de la ventana */
+  color: black;
+}
+
+.entradas {
+  color: rgb(0, 0, 0);
+  position: absolute;
+  top: 23vh; /* 15% de la altura de la ventana */
+  left: 10vw; /* 10% del ancho de la ventana */
+  font-family: 'Italic';
+  font-size: 3vw; /* Tamaño relativo al ancho de la ventana */
+}
+
+.entradas2 {
+  color: rgb(0, 0, 0);
+  position: absolute;
+  top: 23vh; /* 15% de la altura de la ventana */
+  left: 50vw; /* 50% del ancho de la ventana */
+  font-family: 'Italic';
+  font-size: 3vw; /* Tamaño relativo al ancho de la ventana */
+}
+
+.salidas {
+  color: rgb(0, 0, 0);
+  position: absolute;
+  top: 54vh; /* 30% de la altura de la ventana */
+  left: 10vw; /* 10% del ancho de la ventana */
+  font-family: 'Italic';
+  font-size: 3vw; /* Tamaño relativo al ancho de la ventana */
+}
+} 
 </style>
 
 <script>
@@ -96,4 +159,5 @@ export default {
     }
   }
 };
+
 </script>
