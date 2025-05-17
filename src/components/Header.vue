@@ -1,6 +1,6 @@
 <template>
   <div>
-    <p class="frase">"Planificar tus finanzas es el camino hacia la libertad financiera"</p>
+    <p class="frase">"Alcanza tu libertad financiera. Empieza ahora"</p>
     <p class="entradas">Catálogos</p>
     <p class="entradas2">Operaciones</p>
     <p class="salidas">Informes</p>
@@ -16,34 +16,47 @@
 body {
   background-color: white;
 }
+
 .frase {
-  color: rgb(0, 0, 0); 
-  position: absolute; top: 100px; left: 80px;
-  font-family: 'Popins', arial, sans-serif; 
-  font-size: 20px;
+  color: rgb(0, 0, 0);
+  position: absolute;
+  top: 15vh; /* 10% de la altura de la ventana */
+  left: 10vw; /* 8% del ancho de la ventana */
+  font-family: 'Popins', arial, sans-serif;
+  font-size: 2vw; /* Tamaño relativo al ancho de la ventana */
 }
+
 .entradas {
   color: rgb(0, 0, 0);
-  position: absolute; top: 140px; left: 100px;
+  position: absolute;
+  top: 23vh; /* 15% de la altura de la ventana */
+  left: 10vw; /* 10% del ancho de la ventana */
   font-family: 'Italic';
-  font-size: 15px;
+  font-size: 1.5vw; /* Tamaño relativo al ancho de la ventana */
 }
+
 .entradas2 {
   color: rgb(0, 0, 0);
-  position: absolute; top: 140px; left: 550px;
+  position: absolute;
+  top: 23vh; /* 15% de la altura de la ventana */
+  left: 50vw; /* 50% del ancho de la ventana */
   font-family: 'Italic';
-  font-size: 15px;
+  font-size: 1.5vw; /* Tamaño relativo al ancho de la ventana */
 }
+
 .salidas {
   color: rgb(0, 0, 0);
-  position: absolute; top: 330px; left: 100px;
+  position: absolute;
+  top: 56vh; /* 30% de la altura de la ventana */
+  left: 10vw; /* 10% del ancho de la ventana */
   font-family: 'Italic';
-  font-size: 18px;
+  font-size: 1.5vw; /* Tamaño relativo al ancho de la ventana */
 }
+
 .presupuesto {
   position: absolute;
-  top: 80px;
-  left: 950px;
+  top: 12vh; /* 12% de la altura de la ventana */
+  left: 76.5vw; /* 80% del ancho de la ventana */
   cursor: pointer;
   text-align: center;
   transition: transform 0.3s, border-color 0.3s;
@@ -52,16 +65,17 @@ body {
 .presupuesto:hover {
   transform: scale(0.8);
 }
+
 .imagen-presupuesto {
-  width: 60px;
-  height: 60px;
+  width: 5vw; /* Tamaño relativo al ancho de la ventana */
+  height: 5vw; /* Tamaño relativo al ancho de la ventana */
 }
 
 .label-presupuesto {
   display: block;
-  margin-top: -5px;
+  margin-top: -1vh; /* Ajuste basado en la altura de la ventana */
   font-family: 'Italic';
-  font-size: 15px;
+  font-size: 1.5vw; /* Tamaño relativo al ancho de la ventana */
   color: black;
 }
 </style>
@@ -69,17 +83,17 @@ body {
 <script>
 const handleClick = (image) => {
   if (image.alt === 'Presupuesto') {
-    router.push('/Presupuesto')
+    router.push('/Presupuesto');
   } else {
-    alert(`Navegación no implementada para: ${image.alt}`)
+    alert(`Navegación no implementada para: ${image.alt}`);
   }
-}
+};
 export default {
   name: 'Header',
   methods: {
     irAPresupuesto() {
-      this.$router.push('/presupuesto') // Asegúrate de tener una ruta definida para '/presupuesto'
+      this.$router.push('/presupuesto'); // Asegúrate de tener una ruta definida para '/presupuesto'
     }
   }
-}
+};
 </script>
