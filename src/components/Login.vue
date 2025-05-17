@@ -1,12 +1,14 @@
 <template>
     <div class="login-page">
         <div class="login-box">
+
             <!-- Parte izquierda con logo y nombre -->
             <div class="logo-section">
 
                 <!-- Logo de la app -->
                 <img src="../assets/img/Logo/logo.jpg" alt="Finanza Familiar Logo" class="logo" />
-                <h1 class="app-name">Finanza - Familiar</h1>
+                <h1 class="app-name">Finanzas Familiar</h1>
+
             </div>
 
             <!-- Parte derecha con fondo degradado dentro del recuadro blanco -->
@@ -14,63 +16,59 @@
                 <div class="form-gradient-box">
 
                     <!-- Imagen centrada arriba -->
-                    <img src="../assets/img/icono/user.png" alt="Icono usuario" class="user-icon" />
+                    <img src="../assets/img/icono/user.png" class="user-icon" alt="Icono usuario"  />
 
                     <!-- Línea negra debajo -->
                     <hr class="divider" />
 
-                    <!-- Aquí puedes poner los campos de login luego -->
-
-                    <!-- Usuario -->
-                    <div class="form-field-horizontal">
-                        <img src="../assets/img/icono/username.png" class="input-icon" alt="Usuario" />
-                        <label for="username">{{ $t('login.username') }}</label>
-                        <input id="username" type="text" :placeholder="$t('login.username')" required />
+                    <!-- Usuario-->
+                    <div class="form-field-horizontal input-with-icon">
+                        <img src="../assets/img/icono/username.png" class="input-icon-inside" alt="usuario" />
+                        <input  type="text" placeholder="username" />
                     </div>
 
                     <!-- Contraseña -->
-                    <div class="form-field-horizontal">
-                        <img src="../assets/img/icono/pwd.png" class="input-icon" alt="Contraseña" />
-                        <label for="password">{{ $t('login.password') }}</label>
-                        <div class="input-icon-wrapper">
-                            <input id="password" :type="showPassword ? 'text' : 'password'" :placeholder="$t('login.password')" />
-                            <img class="icono-ojo" :src="showPassword ? eyeIcon : eyeOffIcon" @click="showPassword = !showPassword" />
-                        </div>
+                    <div class="form-field-horizontal input-with-icon">
+                        <img src="../assets/img/icono/pwd.png" class="input-icon-inside" alt="contraseña" />
+                        <input :type="showPassword ? 'text' : 'password'" placeholder="Contraseña" />
+                        <img class="icono-ojo" :src="showPassword ? eyeIcon : eyeOffIcon" @click="showPassword = !showPassword" />
                     </div>
 
                     <!-- Confirmar Contraseña -->
-                    <div class="form-field-horizontal">
-                        <img src="../assets/img/icono/rpwd.png" class="input-icon" alt="Confirmar Contraseña" />
-                        <label for="confirm">{{ $t('login.confirm') }}</label>
-                        <div class="input-icon-wrapper">
+                    <div class="form-field-horizontal input-with-icon">
+                        <img src="../assets/img/icono/rpwd.png" class="input-icon-inside" alt="Confirmar Contraseña" />
                             <input id="confirm" :type="showConfirm ? 'text' : 'password'" :placeholder="$t('login.confirm')" />
                             <img class="icono-ojo" :src="showConfirm ? eyeIcon : eyeOffIcon" @click="showConfirm = !showConfirm" />
                         </div>
+
+                    <!--Email -->
+                    <div class="form-field-horizontal input-with-icon">
+                        <img src="../assets/img/icono/email.png" class="input-icon-inside" alt="email" />
+                        <input type="email" placeholder="Correo Electrónico" />
                     </div>
 
                     <!-- Phone -->
-                    <div class="form-field-horizontal">
-                        <img src="../assets/img/icono/phone.png" class="input-icon" alt="Teléfono" />
-                        <label for="phone">{{ $t('login.phone') }}</label>
-                        <input id="phone" v-model="phone" type="text" :placeholder="$t('login.phone')" />
+                    <div class="form-field-horizontal input-with-icon">
+                        <img src="../assets/img/icono/phone.png" class="input-icon-inside" alt="teléfono" />
+                        <input type="tel" placeholder="Teléfono" />
                     </div>
 
-                    <!-- Email -->
-                    <div class="form-field-horizontal">
-                        <img src="../assets/img/icono/email.png" class="input-icon" alt="Email" />
-                        <label for="email">{{ $t('login.email') }}</label>
-                        <input id="email" v-model="email" type="text" :placeholder="$t('login.email')" />
-                    </div>
 
                     <!-- Línea negra debajo -->
                     <hr class="divider" />
+                    <button class="submit-button">{{ $t('login.register') }}</button>
+                    <div class="register-link">
+                        ¿No tienes cuenta? <a href="/register">Regístrate</a>
+                    </div>
                 </div>
             </div>
+
         </div>
     </div>
 </template>
 
 <script setup>
+
 import { ref } from 'vue'
 
 
@@ -128,8 +126,8 @@ const eyeOffIcon = new URL('../assets/img/icono/ojo-cerrado.png', import.meta.ur
 }
 
 .logo {
-    width: 100px;
-    height: 100px;
+    width: 200px;
+    height: 200px;
     object-fit: contain;
     margin-bottom: 10px;
 }
@@ -142,20 +140,20 @@ const eyeOffIcon = new URL('../assets/img/icono/ojo-cerrado.png', import.meta.ur
     text-align: center;
 }
 
-
 /* Columna derecha */
 .form-container {
+    max-width: 400px;  /* Limita el ancho máximo del formulario */
+    margin: auto;
     flex: 2;
     display: flex;
     align-items: center;
     justify-content: center;
-    padding: 10px;
+    padding: 20px;
 }
 
 /* Recuadro con gradiente */
 .form-gradient-box {
-    width: 100%;
-    max-width: 450px; /* Limita el ancho interno */
+    max-width: 500px; /* Limita el ancho interno */
     border-radius: 10px;
     background: linear-gradient(135deg, #4caf50, #2196f3);
     display: flex;
@@ -175,33 +173,16 @@ const eyeOffIcon = new URL('../assets/img/icono/ojo-cerrado.png', import.meta.ur
 }
 
 .form-gradient-box img.user-icon {
-    width: 80px;
-    height: 80px;
+    width: 50px;
+    height: 50px;
     margin-top: 10px;
     object-fit: contain;
 }
 
-.form-field {
-    width: 70%;
-    margin-bottom: 12px;
-    display: flex;
-    justify-content: center;
-}
-
-.form-field input {
-    width: 100%;
-    height: 30px;
-    padding: 0 35px 0 10px;
-    border-radius: 5px;
-    border: none;
-    outline: none;
-    font-size: 12px;
-}
-
 /* Imagen de usuario más pequeña */
 .user-icon {
-    width: 100px;
-    height: 100px;
+    width:50px;
+    height: 50px;
     object-fit: contain;
     margin-bottom: 10px;
 }
@@ -214,45 +195,11 @@ const eyeOffIcon = new URL('../assets/img/icono/ojo-cerrado.png', import.meta.ur
     max-width: 350px;
 }
 
-.label-row {
-    display: flex;
-    align-items: center;
-    margin-bottom: 5px;
-}
-
-/* Íconos al lado del label */
-.label-row img.input-icon {
-    width: 30px;
-    height: 30px;
-    margin-right: 6px;
-}
-
-.label-row label {
-    color: white;
-    font-weight: 500;
-}
-
-.input-icon-wrapper {
-    position: relative;
-    display: flex;
-    align-items: center;
-    width: 100%;
-}
-
-.input-icon-wrapper input {
-    flex: 1;
-    padding-right: 30px;
-    height: 30px;
-    font-size: 14px;
-    border-radius: 5px;
-    border: none;
-    outline: none;
-}
-
 /* Ícono del ojo bien posicionado */
 .icono-ojo {
     position: absolute;
     right: 10px;
+    top:-15px;
     width: 18px;
     height: 18px;
     cursor: pointer;
@@ -296,6 +243,73 @@ const eyeOffIcon = new URL('../assets/img/icono/ojo-cerrado.png', import.meta.ur
     width: 26px;
     height: 26px;
     transform: -2px; /* Sube un poco el icono */
+}
+
+
+.input-with-icon {
+    position: relative;
+    display: flex;
+    align-items: center;
+    width: 100%;
+    margin-bottom: 16px;
+}
+
+.input-with-icon input {
+    width: 100%;
+    padding: 10px 12px 10px 44px; /* espacio izquierdo para la imagen */
+    border: 2px solid gray;
+    border-radius: 20px;
+    font-size: 14px;
+    outline: none;
+    box-sizing: border-box;
+    background-color: white; /* O blanco implícito */
+}
+
+.input-icon-inside {
+    position: absolute;
+    left: -15px;
+    top:-15px;
+    width: 20px;
+    height: 20px;
+    border-radius: 5px;
+}
+
+.input-with-icon .input-icon-inside {
+    position: absolute;
+    left: 12px;
+    width: 20px;
+    height: 20px;
+}
+
+.submit-button {
+    background-color: rgb(122, 134, 240);
+    color: #f6f7f8;
+    border: 2px solid white;
+    border-radius: 20px;
+    padding: 5px 10px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: background 0.3s;
+    width: 40%;
+    height: 20%;
+    margin-bottom: 12px;
+}
+.submit-button:hover {
+    background-color: rgba(255, 255, 255, 0.9);
+}
+
+.register-link {
+    text-align: center;
+    font-size: 14px;
+    margin-top: 8px;
+}
+.register-link a {
+    color: #f4faf9;
+    text-decoration: none;
+    font-weight: bold;
+}
+.register-link a:hover {
+    text-decoration: underline;
 }
 
 /* Esto es para obligar al navegador a que ponga el color q tenia el input*/

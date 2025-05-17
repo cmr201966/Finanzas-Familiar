@@ -6,5 +6,9 @@
     "confirm": "Confirmar",
     "email": "Correo",
     "phone": "Teléfono",
-    "generalData": "Datos generales"
+    "generalData": "Datos generales",
+    "register":"Inicio",
+    "Family Finance":"Finanza Familiar"
+
+
 }
