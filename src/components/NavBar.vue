@@ -155,6 +155,7 @@ export default {
   background: transparent;
   height: 135px;
 }
+
 .logo-titulo {
   display: flex;
   align-items: center;
