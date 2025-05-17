@@ -166,12 +166,11 @@ export default {
 
 .Barra {
   background-color: rgb(12, 155, 80);
-  border-bottom: 1px solid #ccc;
   width: 100%;
   height: 8vh;
   position: fixed;
-  top: 0;
-  left: 0;
+  top: 0vw;
+  left: 0vw;
   z-index: 1000;
 }
 

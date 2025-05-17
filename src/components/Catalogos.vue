@@ -66,8 +66,8 @@ const handleClick = (image) => {
   width: 31.1vw;              /* tamaño original */
   overflow: hidden;
   position: absolute;
-  top: 165px;                /* posición original */
-  left: 100px;               /* posición original */
+  top: 28.5vh;                /* posición original */
+  left: 9%;               /* posición original */
   border: 2px solid #0056b3;
   box-sizing: border-box;
   background-color: white;
@@ -90,13 +90,13 @@ const handleClick = (image) => {
   padding: 10px;
   cursor: pointer;
   text-align: center;
-  width: 100px;            /* ancho fijo para mantener proporción */
-  margin-right: 20px;
+  width: 10vw;            /* ancho fijo para mantener proporción */
+  margin-right: 0.8vw;
 }
 
 .carousel-item img {
   width: 100%;
-  border-radius: 10px;
+  border-radius: 1vw;
   transition: transform 0.2s;
 }
 
@@ -105,10 +105,9 @@ const handleClick = (image) => {
 }
 
 .image-wrapper {
-  width: 100px;
-  height: 135px;
-  border-radius: 8px;
-  padding: 5px;
+  width: 8vw;
+  height: 23vh;
+  border-radius: 1vw;
   background: transparent;
   transition: transform 0.3s, border-color 0.3s;
   box-sizing: border-box;
@@ -120,14 +119,14 @@ const handleClick = (image) => {
 }
 
 .image-wrapper img {
-  width: 80px;
+  width: 7vw;
   height: auto;
-  border-radius: 5px;
+  border-radius: 1vw;
 }
 
 .image-label {
-  font-size: 13px;
-  margin-top: 8px;
+  font-size: 1.2vw;
+  margin-top: 1vw;
   font-weight: bold;
   color: #333;
   font-family: Arial, sans-serif;
@@ -139,8 +138,8 @@ const handleClick = (image) => {
 @media (max-width: 1024px) {
   .carousel-container {
     width: 31.1vw;           /* tamaño proporcional más pequeño */
-    top: 160px;             /* posición ajustada */
-    left: 60px;
+    top: 16vw;             /* posición ajustada */
+    left: 9.5%;
   }
   
   .carousel-item {
@@ -168,7 +167,7 @@ const handleClick = (image) => {
 @media (max-width: 480px) {
   .carousel-container {
     width: 36vw;
-    top: 115px;
+    top: 27vh;
     left: 25%;
     transform: translateX(-50%);
     position: fixed; /* para que quede visible y centrado */
@@ -176,16 +175,15 @@ const handleClick = (image) => {
   }
 
   .carousel-item {
-    width: 30px;
-    margin-right: 10px;
-    padding: 5px;
+    width: 8vw;
+    margin-right: 3.2vw;
+
   }
 
   .image-wrapper {
-    width: 30px;
-    height: 95px;
-    padding: 3px;
-    margin-top: 10vw;
+    width: 5vw;
+    height: 15vh;
+    margin-top: 2vw;
   }
 
   .image-wrapper img {
@@ -193,7 +191,7 @@ const handleClick = (image) => {
   }
 
   .image-label {
-    font-size: 7px;
+    font-size: 2vw;
   }
 }
 
