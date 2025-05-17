@@ -63,15 +63,15 @@ const handleClick = (image) => {
 .carousel-container {
   display: flex;
   align-items: center;
-  width: 31.1vw;              /* tamaño original */
+  width: 31.1%;              /* tamaño original */
   overflow: hidden;
   position: absolute;
-  top: 28.5vh;                /* posición original */
+  top: 28.5%;                /* posición original */
   left: 9%;               /* posición original */
   border: 2px solid #0056b3;
   box-sizing: border-box;
   background-color: white;
-  height: auto;
+  height: 27%;
   transition: width 0.3s ease, left 0.3s ease, top 0.3s ease;
 }
 
@@ -87,16 +87,16 @@ const handleClick = (image) => {
 
 .carousel-item {
   flex: 0 0 auto;
-  padding: 10px;
+  padding: 3%;
   cursor: pointer;
   text-align: center;
-  width: 10vw;            /* ancho fijo para mantener proporción */
-  margin-right: 0.8vw;
+  width: 10%;            /* ancho fijo para mantener proporción */
+  margin-right: 25%;
 }
 
 .carousel-item img {
   width: 100%;
-  border-radius: 1vw;
+  border-radius: 1%;
   transition: transform 0.2s;
 }
 
@@ -105,9 +105,9 @@ const handleClick = (image) => {
 }
 
 .image-wrapper {
-  width: 8vw;
-  height: 23vh;
-  border-radius: 1vw;
+  width: 8%;
+  height: 23%;
+  border-radius: 1%;
   background: transparent;
   transition: transform 0.3s, border-color 0.3s;
   box-sizing: border-box;
@@ -119,14 +119,14 @@ const handleClick = (image) => {
 }
 
 .image-wrapper img {
-  width: 7vw;
+  width: 7000%;
   height: auto;
-  border-radius: 1vw;
+  border-radius: 1%;
 }
 
 .image-label {
   font-size: 1.2vw;
-  margin-top: 1vw;
+  margin-top: 1%;
   font-weight: bold;
   color: #333;
   font-family: Arial, sans-serif;
@@ -137,61 +137,59 @@ const handleClick = (image) => {
 /* Pantallas medianas (tablets, etc) */
 @media (max-width: 1024px) {
   .carousel-container {
-    width: 31.1vw;           /* tamaño proporcional más pequeño */
-    top: 16vw;             /* posición ajustada */
+    width: 31.1%;           /* tamaño proporcional más pequeño */
+    top: 27.8%;             /* posición ajustada */
     left: 9.5%;
   }
   
   .carousel-item {
-    width: 80px;
-    margin-right: 15px;
-    padding: 7px;
+    width: 30%;
+    margin-right: 5%;
   }
 
   .image-wrapper {
-    width: 80px;
-    height: 110px;
-    padding: 4px;
+    width: 80%;
+    height: auto;
   }
 
   .image-wrapper img {
-    width: 65px;
+    width: 125%;
   }
 
   .image-label {
-    font-size: 11px;
+    font-size: 80%;
   }
 }
 
 /* Pantallas pequeñas (móviles) */
 @media (max-width: 480px) {
   .carousel-container {
-    width: 36vw;
-    top: 27vh;
+    width: 36%;
+    top: 27%;
     left: 25%;
     transform: translateX(-50%);
     position: fixed; /* para que quede visible y centrado */
-    height: 20vw;
+    height: 16.5%;
   }
 
   .carousel-item {
-    width: 8vw;
-    margin-right: 3.2vw;
+    width: 24%;
+    margin-right: 8%;
 
   }
 
   .image-wrapper {
-    width: 5vw;
-    height: 15vh;
-    margin-top: 2vw;
+    width: 5%;
+    height: auto;
+    margin-top: 2%;
   }
 
   .image-wrapper img {
-    width: 7vw;
+    width: 7000%;
   }
 
   .image-label {
-    font-size: 2vw;
+    font-size: 45%;
   }
 }
 
