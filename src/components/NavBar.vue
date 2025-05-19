@@ -167,7 +167,7 @@ export default {
 .Barra {
   background-color: rgb(12, 155, 80);
   width: 100%;
-  height: 8vh;
+  height: 8%;
   position: fixed;
   top: 0vw;
   left: 0vw;
@@ -228,6 +228,15 @@ export default {
   .puntitos-2 {
     width: 7vw !important;
     height: 7vw !important;
+  }
+  .Barra{
+    background-color: rgb(12, 155, 80);
+  width: 100%;
+  height: auto;
+  position: fixed;
+  top: 0vw;
+  left: 0vw;
+  z-index: 1000;
   }
 }
 </style>

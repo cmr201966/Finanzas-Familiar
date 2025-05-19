@@ -71,7 +71,7 @@ const handleClick = (image) => {
   border: 2px solid #0056b3;
   box-sizing: border-box;
   background-color: white;
-  height: 27%;
+  height: 25%;
   transition: width 0.3s ease, left 0.3s ease, top 0.3s ease;
 }
 
@@ -140,6 +140,7 @@ const handleClick = (image) => {
     width: 31.1%;           /* tamaño proporcional más pequeño */
     top: 27.8%;             /* posición ajustada */
     left: 9.5%;
+    height: 25%;
   }
   
   .carousel-item {
@@ -173,19 +174,19 @@ const handleClick = (image) => {
   }
 
   .carousel-item {
-    width: 24%;
-    margin-right: 8%;
+    width: 30%;
+    margin-right: 4%;
 
   }
 
   .image-wrapper {
-    width: 5%;
+    width: 4.5%;
     height: auto;
     margin-top: 2%;
   }
 
   .image-wrapper img {
-    width: 7000%;
+    width: 2000%;
   }
 
   .image-label {
