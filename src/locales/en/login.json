@@ -1,9 +1,11 @@
 {
-    "title": "Inicio de sesion",
-    "username": "usuario",
-    "password": "Contraseña",
-    "confirm": "Confirmar",
-    "email": "Correo elect",
-    "telephone": "Teléfono",
-    "generalData": "Datos generales"
+  "app_name": "Family Finances",
+  "username": "Username",
+  "password": "Password",
+  "confirm": "Confirm password",
+  "email": "Email",
+  "phone": "Phone",
+  "login": "Section",
+  "no_account": "¿Don't have an account?",
+  "sign_up": "Sign up"
 }

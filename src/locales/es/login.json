@@ -1,14 +1,11 @@
-
 {
-    "title": "Inicio de sesion",
-    "username": "Usuario",
-    "password": "Contraseña",
-    "confirm": "Confirmar",
-    "email": "Correo",
-    "phone": "Teléfono",
-    "generalData": "Datos generales",
-    "register":"Inicio",
-    "Family Finance":"Finanza Familiar"
-
-
+  "app_name": "Finanzas Familiares",
+  "username": "Usuario",
+  "password": "Contraseña",
+  "confirm": "Confirmar contraseña",
+  "email": "Correo electrónico",
+  "phone": "Teléfono",
+  "login": "Inicio",
+  "no_account": "¿No tienes cuenta?",
+  "sign_up": "Regístrate"
 }

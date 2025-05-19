@@ -1,91 +1,119 @@
 <template>
     <div class="login-page">
+
         <div class="login-box">
 
             <!-- Parte izquierda con logo y nombre -->
             <div class="logo-section">
-
-                <!-- Logo de la app -->
                 <img src="../assets/img/Logo/logo.jpg" alt="Finanza Familiar Logo" class="logo" />
-                <h1 class="app-name">Finanzas Familiar</h1>
+                <h1 class="app-name">{{ $t('login.app_name') }}</h1>
 
+                <!-- Selector de idioma -->
+                <div class="language-switcher">
+                    <select v-model="currentLocale" @change="changeLanguage" class="border p-2 rounded-md">
+                        <!-- <select v-model="currentLocale" @change="changeLanguage"> -->
+                        <option value="es">Español</option>
+                        <option value="us">Ingles</option>
+                    </select>
+                </div>
             </div>
 
-            <!-- Parte derecha con fondo degradado dentro del recuadro blanco -->
+            <!-- Parte derecha con fondo degradado -->
             <div class="form-container">
                 <div class="form-gradient-box">
-
-                    <!-- Imagen centrada arriba -->
-                    <img src="../assets/img/icono/user.png" class="user-icon" alt="Icono usuario"  />
-
-                    <!-- Línea negra debajo -->
+                    <img src="../assets/img/icono/user.png" class="user-icon" alt="Icono usuario" />
                     <hr class="divider" />
 
-                    <!-- Usuario-->
+                    <!-- Usuario -->
                     <div class="form-field-horizontal input-with-icon">
                         <img src="../assets/img/icono/username.png" class="input-icon-inside" alt="usuario" />
-                        <input  type="text" placeholder="username" />
+                        <input type="text" :placeholder="$t('login.username')" v-model="username" name="username"autocomplete="username"
+                        class="custom-input"/>
                     </div>
 
                     <!-- Contraseña -->
                     <div class="form-field-horizontal input-with-icon">
                         <img src="../assets/img/icono/pwd.png" class="input-icon-inside" alt="contraseña" />
-                        <input :type="showPassword ? 'text' : 'password'" placeholder="Contraseña" />
+                        <input :type="showPassword ? 'text' : 'password'" :placeholder="$t('login.password')" v-model="password" />
                         <img class="icono-ojo" :src="showPassword ? eyeIcon : eyeOffIcon" @click="showPassword = !showPassword" />
                     </div>
 
-                    <!-- Confirmar Contraseña -->
-                    <div class="form-field-horizontal input-with-icon">
-                        <img src="../assets/img/icono/rpwd.png" class="input-icon-inside" alt="Confirmar Contraseña" />
-                            <input id="confirm" :type="showConfirm ? 'text' : 'password'" :placeholder="$t('login.confirm')" />
-                            <img class="icono-ojo" :src="showConfirm ? eyeIcon : eyeOffIcon" @click="showConfirm = !showConfirm" />
-                        </div>
-
-                    <!--Email -->
-                    <div class="form-field-horizontal input-with-icon">
-                        <img src="../assets/img/icono/email.png" class="input-icon-inside" alt="email" />
-                        <input type="email" placeholder="Correo Electrónico" />
-                    </div>
-
-                    <!-- Phone -->
-                    <div class="form-field-horizontal input-with-icon">
-                        <img src="../assets/img/icono/phone.png" class="input-icon-inside" alt="teléfono" />
-                        <input type="tel" placeholder="Teléfono" />
-                    </div>
-
-
-                    <!-- Línea negra debajo -->
                     <hr class="divider" />
-                    <button class="submit-button">{{ $t('login.register') }}</button>
+                    <button class="submit-button" @click="handlelogin">{{ $t('login.login') }}</button>
+
                     <div class="register-link">
-                        ¿No tienes cuenta? <a href="/register">Regístrate</a>
+                        {{ $t('login.no_account') }}
+                        <router-link to="/registrarse">{{ $t('login.sign_up') }}</router-link>
                     </div>
                 </div>
             </div>
-
         </div>
     </div>
 </template>
 
 <script setup>
-
 import { ref } from 'vue'
+import { useI18n } from 'vue-i18n'
 
+// Manejo de idioma
+const { locale } = useI18n()
+const currentLocale = ref(locale.value)
+const changeLanguage = () => {
+    locale.value = currentLocale.value
+    }
 
-// Datos
+// Campos del formulario
 const username = ref('')
 const password = ref('')
-const confirmPassword = ref('')
-const email = ref('')
-const phone = ref('')
-
-// Mostrar/Ocultar contraseña
 const showPassword = ref(false)
-const showConfirm = ref(false)
 
-// Íconos de ojo (puedes poner tus propias imágenes)
+// Iconos de ojo
 const eyeIcon = new URL('../assets/img/icono/ojo.png', import.meta.url).href
 const eyeOffIcon = new URL('../assets/img/icono/ojo-cerrado.png', import.meta.url).href
+
+// Función para mostrar errores (puedes reemplazar esto con toast/alerta elegante)
+const showError = (msg) => {
+    alert(msg)
+    }
+
+// Lógica de login
+const handleLogin = async () => {
+    if (!username.value || !password.value) {
+        showError('Debes completar todos los campos.')
+    return
+    }
+
+    if (password.value.length < 8) {
+        showError('La contraseña debe tener al menos 8 caracteres.')
+        return
+    }
+
+    try {
+    const response = await fetch('/api/login/', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+        username: username.value,
+        password: password.value,
+        }),
+        })
+
+    if (!response.ok) {
+        const data = await response.json()
+        showError(data?.detail || 'Credenciales inválidas')
+        return
+        }
+
+    const data = await response.json()
+    console.log('Autenticado:', data)
+
+    // Aquí puedes guardar el token o redirigir
+    // localStorage.setItem('token', data.token)
+    } catch (error) {
+        showError('Error de red o servidor')
+        console.error(error)
+        }
+}
 </script>
 
 <style scoped>
@@ -311,15 +339,41 @@ const eyeOffIcon = new URL('../assets/img/icono/ojo-cerrado.png', import.meta.ur
 .register-link a:hover {
     text-decoration: underline;
 }
+.language-switcher {
+    position:relative;
+    top: 10px;
+    right: 10px;
+    z-index: 100;
+}
+
+.language-switcher select {
+    padding: 4px 8px;
+    border-radius: 6px;
+    border: 1px solid #060000;
+}
+
+.custom-input {
+    padding-left: 40px; /* deja espacio para el icono */
+    width: 100%;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    height: 40px;
+    font-size: 16px;
+    background-color: white;
+    color: black;
+}
+
 
 /* Esto es para obligar al navegador a que ponga el color q tenia el input*/
 input:-webkit-autofill,
 input:-webkit-autofill:hover,
 input:-webkit-autofill:focus,
 input:-webkit-autofill:active {
-    -webkit-box-shadow: 0 0 0px 1000px white inset !important;
-    box-shadow: 0 0 0px 1000px white inset !important;
+    -webkit-box-shadow: 0 0 0 1000px white inset !important;
+    box-shadow: 0 0 0 1000px white inset !important;
+    background-color: white !important;
     -webkit-text-fill-color: black !important;
-    transition: background-color 5000s ease-in-out 0s;
-    }
+    -webkit-background-clip: text;
+}
+
 </style>

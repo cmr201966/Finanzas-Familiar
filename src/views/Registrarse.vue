@@ -1,7 +1,7 @@
 <template>
-    <Registrarse />
+    <registrarse />
 </template>
 
 <script setup>
-    import Registrarse from '../components/Registrarse.vue'
+    import Registrarse from '../components/registrarse.vue'
 </script>
