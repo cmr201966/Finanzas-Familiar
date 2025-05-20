@@ -1,20 +1,28 @@
 <template>
     <div class="login-page">
-
         <div class="login-box">
-
-            <!-- Parte izquierda con logo y nombre -->
+        <!-- Parte izquierda con logo y nombre -->
             <div class="logo-section">
                 <img src="../assets/img/Logo/logo.jpg" alt="Finanza Familiar Logo" class="logo" />
                 <h1 class="app-name">{{ $t('login.app_name') }}</h1>
 
                 <!-- Selector de idioma -->
                 <div class="language-switcher">
-                    <select v-model="currentLocale" @change="changeLanguage" class="border p-2 rounded-md">
-                        <!-- <select v-model="currentLocale" @change="changeLanguage"> -->
-                        <option value="es">Español</option>
-                        <option value="us">Ingles</option>
-                    </select>
+                    <v-menu offset-y>
+                    <template #activator="{ props }">
+                        <v-btn class="border p-2 rounded-md" icon v-bind="props">
+                            <img :src="currentFlagIcon" class="bandera" />
+                        </v-btn>
+                    </template>
+                    <v-list>
+                        <v-list-item @click="opcion11">
+                            <v-list-item-title>Español</v-list-item-title>
+                        </v-list-item>
+                        <v-list-item @click="opcion12">
+                            <v-list-item-title>Inglés</v-list-item-title>
+                        </v-list-item>
+                    </v-list>
+                    </v-menu>
                 </div>
             </div>
 
@@ -27,23 +35,26 @@
                     <!-- Usuario -->
                     <div class="form-field-horizontal input-with-icon">
                         <img src="../assets/img/icono/username.png" class="input-icon-inside" alt="usuario" />
-                        <input type="text" :placeholder="$t('login.username')" v-model="username" name="username"autocomplete="username"
-                        class="custom-input"/>
+                        <input type="text" :placeholder="$t('login.username')" v-model="username" name="username" autocomplete="username" class="custom-input" />
                     </div>
 
                     <!-- Contraseña -->
                     <div class="form-field-horizontal input-with-icon">
                         <img src="../assets/img/icono/pwd.png" class="input-icon-inside" alt="contraseña" />
-                        <input :type="showPassword ? 'text' : 'password'" :placeholder="$t('login.password')" v-model="password" />
+                        <input :type="showPassword ? 'text' : 'password'" :placeholder="$t('login.password')" v-model="password" autocomplete="password" class="custom-input" />
                         <img class="icono-ojo" :src="showPassword ? eyeIcon : eyeOffIcon" @click="showPassword = !showPassword" />
                     </div>
 
+                    <!-- Raya de división -->
                     <hr class="divider" />
+
+                    <!-- Boton inicio -->
                     <button class="submit-button" @click="handlelogin">{{ $t('login.login') }}</button>
 
+                    <!-- Contraseña -->
                     <div class="register-link">
                         {{ $t('login.no_account') }}
-                        <router-link to="/registrarse">{{ $t('login.sign_up') }}</router-link>
+                        <router-link to="/register">{{ $t('login.sign_up') }}</router-link>
                     </div>
                 </div>
             </div>
@@ -52,69 +63,71 @@
 </template>
 
 <script setup>
-import { ref } from 'vue'
+import { ref, watch } from 'vue'
 import { useI18n } from 'vue-i18n'
 
-// Manejo de idioma
-const { locale } = useI18n()
+const { locale, t } = useI18n()
 const currentLocale = ref(locale.value)
-const changeLanguage = () => {
-    locale.value = currentLocale.value
+const currentFlagIcon = ref(getFlagIcon(locale.value))
+
+watch(currentLocale, (newLocale) => {
+    locale.value = newLocale
+    currentFlagIcon.value = getFlagIcon(newLocale)
+    })
+
+function getFlagIcon(locale) {
+    return locale === 'es' ? '/flags/spain.png' : '/flags/uk.png'
     }
 
-// Campos del formulario
+function opcion11() {
+    currentLocale.value = 'es'
+    }
+
+function opcion12() {
+    currentLocale.value = 'en'
+    }
+
 const username = ref('')
 const password = ref('')
 const showPassword = ref(false)
-
-// Iconos de ojo
 const eyeIcon = new URL('../assets/img/icono/ojo.png', import.meta.url).href
 const eyeOffIcon = new URL('../assets/img/icono/ojo-cerrado.png', import.meta.url).href
 
-// Función para mostrar errores (puedes reemplazar esto con toast/alerta elegante)
-const showError = (msg) => {
-    alert(msg)
-    }
 
-// Lógica de login
-const handleLogin = async () => {
+
+async function handlelogin() {
     if (!username.value || !password.value) {
-        showError('Debes completar todos los campos.')
+        alert(t('login.complete_fields'))
     return
     }
 
     if (password.value.length < 8) {
-        showError('La contraseña debe tener al menos 8 caracteres.')
-        return
+        alert(t('login.password_length'))
+    return
     }
 
     try {
     const response = await fetch('/api/login/', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-        username: username.value,
-        password: password.value,
-        }),
-        })
-
-    if (!response.ok) {
-        const data = await response.json()
-        showError(data?.detail || 'Credenciales inválidas')
-        return
-        }
+        body: JSON.stringify({ username: username.value, password: password.value }),
+    })
 
     const data = await response.json()
-    console.log('Autenticado:', data)
 
-    // Aquí puedes guardar el token o redirigir
-    // localStorage.setItem('token', data.token)
-    } catch (error) {
-        showError('Error de red o servidor')
-        console.error(error)
-        }
+    if (!response.ok) {
+        alert(data?.detail || t('login.invalid_credentials'))
+        return
+    }
+
+    console.log('Login exitoso:', data)
+    } catch (err) {
+        alert(t('login.network_error'))
+        console.error(err)
+    }
 }
 </script>
+
 
 <style scoped>
 /* Fondo general de la página */
@@ -124,7 +137,6 @@ const handleLogin = async () => {
     display: flex;
     justify-content: center;
     align-items: center;
-    background-color: #e0e0e0;
 }
 
 /* Recuadro blanco principal */
@@ -362,7 +374,10 @@ const handleLogin = async () => {
     background-color: white;
     color: black;
 }
-
+.bandera{
+    width: 40px;
+    height: 40px;
+}
 
 /* Esto es para obligar al navegador a que ponga el color q tenia el input*/
 input:-webkit-autofill,

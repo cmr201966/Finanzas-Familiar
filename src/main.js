@@ -5,6 +5,10 @@ import router from './router'
 import { createI18n } from 'vue-i18n'
 import '@mdi/font/css/materialdesignicons.css'
 import vuetify from './plugins/vuetify'
+import 'normalize.css'
+
+// Importa el reset global
+import './assets/reset.css'
 
 // Cargar todos los JSON de locales dinámicamente
 function loadLocaleMessages() {

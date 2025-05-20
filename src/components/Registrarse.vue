@@ -1,100 +1,122 @@
 <template>
     <div class="login-page">
         <div class="login-box">
-            <!-- Parte izquierda con logo y nombre -->
+            <!-- Parte izquierda -->
             <div class="logo-section">
                 <img src="../assets/img/Logo/logo.jpg" alt="Finanza Familiar Logo" class="logo" />
                 <h1 class="app-name">{{ $t('login.app_name') }}</h1>
 
-        <!-- Selector de idioma -->
-        <div class="language-switcher">
-            <select v-model="currentLocale" @change="changeLanguage" class="border p-2 rounded-md">
-            <!-- <select v-model="currentLocale" @change="changeLanguage"> -->
-            <option value="es">Español</option>
-            <option value="en">English</option>
-          </select>
-        </div>
-      </div>
+                <!-- Selector de idioma -->
+                <div class="language-switcher">
+                    <v-menu offset-y>
+                        <template #activator="{ props }">
+                        <v-btn class="border p-2 rounded-md" icon v-bind="props">
+                            <img :src="currentFlagIcon" class="bandera" />
+                            </v-btn>
+                        </template>
+                        <v-list>
+                            <v-list-item @click="opcion11">
+                                <v-list-item-title>Español</v-list-item-title>
+                            </v-list-item>
+                            <v-list-item @click="opcion12">
+                                <v-list-item-title>Inglés</v-list-item-title>
+                            </v-list-item>
+                        </v-list>
+                    </v-menu>
+                </div>
+            </div>
 
-      <!-- Parte derecha con fondo degradado -->
-      <div class="form-container">
-        <div class="form-gradient-box">
-          <img src="../assets/img/icono/user.png" class="user-icon" alt="Icono usuario" />
-          <hr class="divider" />
+            <!-- Parte derecha -->
+            <div class="form-container">
+                <div class="white-box">
+                    <div class="form-gradient-box">
+                        <img src="../assets/img/icono/user.png" class="user-icon" alt="Icono usuario" />
+                        <hr class="divider" />
 
-          <!-- Usuario -->
-          <div class="form-field-horizontal input-with-icon">
-            <img src="../assets/img/icono/username.png" class="input-icon-inside" alt="usuario" />
-            <input type="text" :placeholder="$t('login.username')" v-model="username" />
-          </div>
+                        <!-- Usuario -->
+                        <div class="form-field-horizontal input-with-icon">
+                            <img src="../assets/img/icono/username.png" class="input-icon-inside" />
+                            <input type="text" :placeholder="$t('login.username')" v-model="username" class="custom-input" />
+                        </div>
 
-          <!-- Contraseña -->
-          <div class="form-field-horizontal input-with-icon">
-            <img src="../assets/img/icono/pwd.png" class="input-icon-inside" alt="contraseña" />
-            <input :type="showPassword ? 'text' : 'password'" :placeholder="$t('login.password')" v-model="password" />
-            <img class="icono-ojo" :src="showPassword ? eyeIcon : eyeOffIcon" @click="showPassword = !showPassword" />
-          </div>
+                        <!-- Contraseña -->
+                        <div class="form-field-horizontal input-with-icon">
+                            <img src="../assets/img/icono/pwd.png" class="input-icon-inside" />
+                            <input :type="showPassword ? 'text' : 'password'" :placeholder="$t('login.password')" v-model="password" class="custom-input" />
+                            <img :src="showPassword ? eyeIcon : eyeOffIcon" class="icono-ojo" @click="showPassword = !showPassword" />
+                        </div>
 
-          <!-- Confirmar Contraseña -->
-          <div class="form-field-horizontal input-with-icon">
-            <img src="../assets/img/icono/rpwd.png" class="input-icon-inside" alt="Confirmar Contraseña" />
-            <input :type="showConfirm ? 'text' : 'password'" :placeholder="$t('login.confirm')" v-model="confirmPassword" />
-            <img class="icono-ojo" :src="showConfirm ? eyeIcon : eyeOffIcon" @click="showConfirm = !showConfirm" />
-          </div>
+                        <!-- Confirmar Contraseña -->
+                        <div class="form-field-horizontal input-with-icon">
+                            <img src="../assets/img/icono/rpwd.png" class="input-icon-inside" />
+                            <input :type="showConfirm ? 'text' : 'password'" :placeholder="$t('login.confirm')" v-model="confirmPassword" class="custom-input" />
+                            <img :src="showConfirm ? eyeIcon : eyeOffIcon" class="icono-ojo" @click="showConfirm = !showConfirm" />
+                        </div>
 
-          <!-- Email -->
-          <div class="form-field-horizontal input-with-icon">
-            <img src="../assets/img/icono/email.png" class="input-icon-inside" alt="email" />
-            <input type="email" :placeholder="$t('login.email')" v-model="email" />
-          </div>
+                        <!-- Email -->
+                        <div class="form-field-horizontal input-with-icon">
+                            <img src="../assets/img/icono/email.png" class="input-icon-inside" />
+                            <input type="email" :placeholder="$t('login.email')" v-model="email" class="custom-input" />
+                        </div>
 
-          <!-- Teléfono -->
-          <div class="form-field-horizontal input-with-icon">
-            <img src="../assets/img/icono/phone.png" class="input-icon-inside" alt="teléfono" />
-            <input type="tel" :placeholder="$t('login.phone')" v-model="phone" />
-          </div>
+                        <!-- Teléfono -->
+                        <div class="form-field-horizontal input-with-icon">
+                            <img src="../assets/img/icono/phone.png" class="input-icon-inside" />
+                            <input type="tel" :placeholder="$t('login.phone')" v-model="phone" class="custom-input" />
+                        </div>
 
-          <hr class="divider" />
-          <button class="submit-button" @click="handleRegister">{{ $t('login.register') }}</button>
-
-            <div class="register-link">
-                {{ $t('login.have_account') }}
-                <a href="/login">{{ $t('login.login') }}</a>
+                        <hr class="divider" />
+                        <button class="submit-button" @click="handleRegister">{{ $t('login.register') }}</button>
+                    </div>
+                </div>
             </div>
         </div>
-      </div>
     </div>
-  </div>
 </template>
 
 <script setup>
-import { ref } from 'vue'
+import { ref, watch } from 'vue'
 import { useI18n } from 'vue-i18n'
 
-// Campos del formulario
 const username = ref('')
 const password = ref('')
 const confirmPassword = ref('')
 const email = ref('')
 const phone = ref('')
 
-// Manejo de idiomas
-const { locale } = useI18n()
-const currentLocale = ref(locale.value)
-const changeLanguage = () => {
-  locale.value = currentLocale.value
-}
-
-// Mostrar/Ocultar contraseñas
 const showPassword = ref(false)
 const showConfirm = ref(false)
 
-// Iconos de ojos
+const { locale } = useI18n()
+const currentLocale = ref(locale.value)
+const changeLanguage = () => { locale.value = currentLocale.value }
+const currentFlagIcon = ref(getFlagIcon(locale.value))
+
+watch(currentLocale, (newLocale) => {
+  locale.value = newLocale
+  currentFlagIcon.value = getFlagIcon(newLocale)
+})
+
+function getFlagIcon(locale) {
+  return locale === 'es' ? '/flags/spain.png' : '/flags/uk.png'
+}
+
+function opcion11() { currentLocale.value = 'es' }
+function opcion12() { currentLocale.value = 'en' }
+
 const eyeIcon = new URL('../assets/img/icono/ojo.png', import.meta.url).href
 const eyeOffIcon = new URL('../assets/img/icono/ojo-cerrado.png', import.meta.url).href
 
-// Función de registro
 const handleRegister = () => {
+  if (!username.value || !password.value || !confirmPassword.value || !email.value) {
+    alert("Por favor, completa todos los campos obligatorios.")
+    return
+  }
+  if (password.value !== confirmPassword.value) {
+    alert("Las contraseñas no coinciden.")
+    return
+  }
+
   console.log("Datos ingresados:", {
     username: username.value,
     password: password.value,
@@ -106,63 +128,63 @@ const handleRegister = () => {
 </script>
 
 <style scoped>
-/* (Mantén tu CSS original aquí, ya está bien organizado) */
-</style>
+/* Reset básico para anular estilos del navegador */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html, body {
+  height: 100%;
+  font-family: sans-serif;
+  background: #f5f5f5;
+  color: #000;
+}
 
 
-<style scoped>
-/* Fondo general de la página */
+/* Estructura */
 
 .login-page {
-    height: 90vh;
+    height: 100vh;
     display: flex;
     justify-content: center;
     align-items: center;
-    background-color: #e0e0e0;
 }
-
-/* Recuadro blanco principal */
 
 .login-box {
-    background-color: white;
-    width: 700px;
-    min-height: 500px;
-    border-radius: 12px;
     display: flex;
-    box-shadow: 0 0 20px rgba(0, 0, 0, 0.15);
+    background: white;
+    width: 700px;
+    min-height: 550px;
+    border-radius: 12px;
     overflow: hidden;
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
     border: 2px solid rgb(11, 76, 4);
 }
-
-/* Columna izquierda: logo y nombre */
-
 .logo-section {
-    flex: 1;
-    background-color: white;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    border-right: 1px solid #ddd;
-    padding: 20px;
+  flex: 1;
+  padding: 20px;
+  border-right: 1px solid #ddd;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
 }
-
 .logo {
-    width: 200px;
-    height: 200px;
-    object-fit: contain;
-    margin-bottom: 10px;
+  width: 150px;
+  height: 150px;
+  object-fit: contain;
+  margin-bottom: 10px;
 }
-
 .app-name {
-    font-family: 'Poppins', sans-serif;
-    font-size: 20px;
-    font-weight: 700;
-    color: #333;
-    text-align: center;
+  font-size: 20px;
+  font-weight: bold;
+  text-align: center;
 }
-
-/* Columna derecha */
+.language-switcher {
+    margin-top: 15px;
+}
 .form-container {
     max-width: 400px;  /* Limita el ancho máximo del formulario */
     margin: auto;
@@ -172,8 +194,6 @@ const handleRegister = () => {
     justify-content: center;
     padding: 20px;
 }
-
-/* Recuadro con gradiente */
 .form-gradient-box {
     max-width: 500px; /* Limita el ancho interno */
     border-radius: 10px;
@@ -185,89 +205,34 @@ const handleRegister = () => {
     box-sizing: border-box;
     color: white;
     border: 2px solid blue;
-
 }
-
-.form-gradient-box img{
-    width: 20%;
-    height: 20%;
-    margin-top: 20px;
-}
-
-.form-gradient-box img.user-icon {
-    width: 50px;
-    height: 50px;
-    margin-top: 10px;
-    object-fit: contain;
-}
-
-/* Imagen de usuario más pequeña */
 .user-icon {
-    width:50px;
-    height: 50px;
-    object-fit: contain;
-    margin-bottom: 10px;
+  width: 50px;
+  height: 50px;
+  margin-bottom: 10px;
 }
-
-/* Línea negra */
 .divider {
     width: 80%;
     border: 1px solid black;
     margin-bottom: 20px;
     max-width: 350px;
 }
-
-/* Ícono del ojo bien posicionado */
-.icono-ojo {
-    position: absolute;
-    right: 10px;
-    top:-15px;
-    width: 18px;
-    height: 18px;
-    cursor: pointer;
-}
-/* poner alineado horizontal icono, label e input*/
-
 .form-field-horizontal {
-    display: flex;
-    align-items: center;
-    gap: 4px;
-    margin-bottom: 12px;
+  position: relative;
+  margin-bottom: 16px;
+}
+
+.input-with-icon input.custom-input {
     width: 100%;
-    margin-bottom: 8px; /* antes era 12px */
-}
-
-.form-field-horizontal label {
-    color: white;
-    min-width: 90px;
-    font-weight: 500;
-}
-
-.form-field-horizontal input {
-    flex: 1;
-    height: 30px;
-    padding: 10px 10px;
-    border-radius: 5px;
-    border: none;
-    outline: none;
+    padding: 10px 12px 10px 44px;
+    border-radius: 20px;
+    border: 2px solid #ccc;
+    background-color: white !important;
+    color: black !important;
     font-size: 14px;
-    max-width: 250px;
+    outline: none;
+    box-sizing: border-box;
 }
-
-.form-field-horizontal .icono-ojo {
-    position: absolute;
-    right: 8px;
-    width: 18px;
-    height: 18px;
-}
-
-.form-field-horizontal img.input-icon {
-    width: 26px;
-    height: 26px;
-    transform: -2px; /* Sube un poco el icono */
-}
-
-
 .input-with-icon {
     position: relative;
     display: flex;
@@ -276,84 +241,79 @@ const handleRegister = () => {
     margin-bottom: 16px;
 }
 
-.input-with-icon input {
-    width: 100%;
-    padding: 10px 12px 10px 44px; /* espacio izquierdo para la imagen */
-    border: 2px solid gray;
-    border-radius: 20px;
-    font-size: 14px;
-    outline: none;
-    box-sizing: border-box;
-    background-color: white; /* O blanco implícito */
-}
-
 .input-icon-inside {
-    position: absolute;
-    left: -15px;
-    top:-15px;
-    width: 20px;
-    height: 20px;
-    border-radius: 5px;
+  position: absolute;
+  left: 10px;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 20px;
+  height: 20px;
 }
-
-.input-with-icon .input-icon-inside {
-    position: absolute;
-    left: 12px;
-    width: 20px;
-    height: 20px;
+.icono-ojo {
+  position: absolute;
+  right: 10px;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 20px;
+  height: 20px;
+  cursor: pointer;
 }
-
 .submit-button {
-    background-color: rgb(122, 134, 240);
-    color: #f6f7f8;
-    border: 2px solid white;
-    border-radius: 20px;
-    padding: 5px 10px;
-    font-weight: bold;
-    cursor: pointer;
-    transition: background 0.3s;
-    width: 40%;
-    height: 20%;
-    margin-bottom: 12px;
+  margin-top: 10px;
+  padding: 10px 25px;
+  border: none;
+  border-radius: 25px;
+  background-color: white;
+  color: #2196f3;
+  font-weight: bold;
+  cursor: pointer;
+  transition: 0.3s;
 }
 .submit-button:hover {
-    background-color: rgba(255, 255, 255, 0.9);
+  background-color: #e0e0e0;
 }
 
-.register-link {
-    text-align: center;
-    font-size: 14px;
-    margin-top: 8px;
-}
-.register-link a {
-    color: #f4faf9;
-    text-decoration: none;
-    font-weight: bold;
-}
-.register-link a:hover {
-    text-decoration: underline;
-}
-.language-switcher {
-    position:relative;
-    top: 10px;
-    right: 10px;
-    z-index: 100;
+.bandera{
+    width: 40px;
+    height: 40px;
 }
 
-.language-switcher select {
-    padding: 4px 8px;
-    border-radius: 6px;
-    border: 1px solid #060000;
+.white-box {
+  background-color: white;
+  border-radius: 10px;
+  padding: 20px;
+  width: 100%;
+  color: black;
 }
 
-/* Esto es para obligar al navegador a que ponga el color q tenia el input*/
+.custom-input {
+  padding-left: 40px; /* espacio para el ícono */
+  width: 50%;
+  border: 1px solid #ccc;
+  border-radius: 20px;
+  height: 40px;
+  font-size: 14px;
+  background-color: white;
+  color: black;
+  outline: none;
+  box-sizing: border-box;
+  border-radius: 4px;
+  height: 40px;
+}
+
+.custom-input:focus {
+  border-color: #2196f3; /* cambia al color azul cuando se enfoca */
+  box-shadow: 0 0 5px rgba(33, 150, 243, 0.5);
+}
+
 input:-webkit-autofill,
 input:-webkit-autofill:hover,
 input:-webkit-autofill:focus,
 input:-webkit-autofill:active {
-    -webkit-box-shadow: 0 0 0px 1000px white inset !important;
-    box-shadow: 0 0 0px 1000px white inset !important;
+    -webkit-box-shadow: 0 0 0 1000px white inset !important;
+    box-shadow: 0 0 0 1000px white inset !important;
+    background-color: white !important;
     -webkit-text-fill-color: black !important;
-    transition: background-color 5000s ease-in-out 0s;
-    }
+    -webkit-background-clip: text;
+}
 </style>

@@ -6,7 +6,7 @@ import Registrarse from '../views/Registrarse.vue';
 const routes = [
   //  { path: '/', name: 'home', component: Home },
     { path: '/', name: 'Login', component: Login },
-    { path: '/', name: 'Registrarse', component: Registrarse },
+    { path: '/register', name: 'Registrarse', component: Registrarse },
 
 ]
 

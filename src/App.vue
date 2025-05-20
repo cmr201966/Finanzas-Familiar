@@ -3,10 +3,6 @@
     <router-view></router-view>
   </div>
 
-  <div style="margin: 10px;">
-    <button @click="$i18n.locale = 'es'">🇪🇸 Español</button>
-    <button @click="$i18n.locale = 'en'">🇺🇸 English</button>
-  </div>
 </template>
 
 <style scoped>
