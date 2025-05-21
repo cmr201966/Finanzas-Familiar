@@ -7,6 +7,7 @@
                 <h1 class="app-name">{{ $t('login.app_name') }}</h1>
 
                 <!-- Selector de idioma -->
+                <p class="idioma-conf">Seleccione el idioma</p>
                 <div class="language-switcher">
                     <v-menu offset-y>
                     <template #activator="{ props }">
@@ -239,10 +240,11 @@ async function handlelogin() {
 .icono-ojo {
     position: absolute;
     right: 10px;
-    top:-15px;
     width: 18px;
     height: 18px;
     cursor: pointer;
+    transform: translateY(-50%);
+
 }
 /* poner alineado horizontal icono, label e input*/
 
@@ -251,7 +253,7 @@ async function handlelogin() {
     align-items: center;
     gap: 4px;
     margin-bottom: 12px;
-    width: 100%;
+    width: 80%;
     margin-bottom: 8px; /* antes era 12px */
 }
 
@@ -262,7 +264,6 @@ async function handlelogin() {
 }
 
 .form-field-horizontal input {
-    flex: 1;
     height: 30px;
     padding: 10px 10px;
     border-radius: 5px;
@@ -274,7 +275,7 @@ async function handlelogin() {
 
 .form-field-horizontal .icono-ojo {
     position: absolute;
-    right: 8px;
+    right: 30px;
     width: 18px;
     height: 18px;
 }
@@ -295,7 +296,7 @@ async function handlelogin() {
 }
 
 .input-with-icon input {
-    width: 100%;
+    width: 80%;
     padding: 10px 12px 10px 44px; /* espacio izquierdo para la imagen */
     border: 2px solid gray;
     border-radius: 20px;
@@ -303,12 +304,14 @@ async function handlelogin() {
     outline: none;
     box-sizing: border-box;
     background-color: white; /* O blanco implícito */
+    margin-left: 28px;
+
 }
 
 .input-icon-inside {
     position: absolute;
-    left: -15px;
-    top:-15px;
+    left: 25px;
+    top: -15px;
     width: 20px;
     height: 20px;
     border-radius: 5px;
@@ -316,13 +319,13 @@ async function handlelogin() {
 
 .input-with-icon .input-icon-inside {
     position: absolute;
-    left: 12px;
+    left: 34px;
     width: 20px;
     height: 20px;
 }
 
 .submit-button {
-    background-color: rgb(122, 134, 240);
+    background-color: #196c2c;
     color: #f6f7f8;
     border: 2px solid white;
     border-radius: 20px;
@@ -330,9 +333,9 @@ async function handlelogin() {
     font-weight: bold;
     cursor: pointer;
     transition: background 0.3s;
-    width: 40%;
+    width: 30%;
     height: 20%;
-    margin-bottom: 12px;
+    margin-bottom: 10px;
 }
 .submit-button:hover {
     background-color: rgba(255, 255, 255, 0.9);
@@ -366,17 +369,23 @@ async function handlelogin() {
 
 .custom-input {
     padding-left: 40px; /* deja espacio para el icono */
-    width: 100%;
+    width: 70%;
     border: 1px solid #ccc;
-    border-radius: 4px;
+    border-radius: 20px;
     height: 40px;
-    font-size: 16px;
+    font-size: 12px;
     background-color: white;
     color: black;
+    outline: none;
+    box-sizing: border-box;
+    height: 30px;
 }
 .bandera{
     width: 40px;
     height: 40px;
+}
+.idioma-conf{
+    font-size: 12px;
 }
 
 /* Esto es para obligar al navegador a que ponga el color q tenia el input*/
