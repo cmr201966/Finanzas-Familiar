@@ -53,15 +53,15 @@
       <hr class="mi-barra2" />
 
       <div class="botones">
-        <v-btn color="primary" prepend-icon="mdi-plus" @click="guardarCuenta">
+        <v-btn class="save" color="primary" prepend-icon="mdi-plus" @click="guardarCuenta">
           
         </v-btn>
 
-        <v-btn color="warning" prepend-icon="mdi-pencil" @click="editarCuenta">
+        <v-btn class="editar" color="warning" prepend-icon="mdi-pencil" @click="editarCuenta">
           
         </v-btn>
 
-        <v-btn color="error" prepend-icon="mdi-close" @click="cancelar">
+        <v-btn class="cancelar" color="error" prepend-icon="mdi-close" @click="cancelar">
           
         </v-btn>
       </div>
@@ -115,40 +115,22 @@ export default {
   left: 50%;
   display: flex;
   gap: 1vw;
-  width: 9vw;
-  height: 9vw;
+  min-width: 0.5vw;
 }
-.pie {
-  position: absolute;
-  top: 90%;
-  left: 8%;
+.save{
+ width: 3vw !important;
+  height: 5vh !important;
 }
-.pie2 {
-  position: absolute;
-  top: 95%;
-  left: 8%;
+.editar{
+ width: 3vw !important;
+  height: 5vh !important;
 }
-.seleccion-idioma {
-  position: absolute;
-  top: 68%;
-  margin-left: -40%;
-  color: black;
-  font-family: "Popins", arial;
-  font-size: 1.2vw;
+
+.cancelar{
+ width: 3vw !important;
+  height: 5vh !important;
 }
-.titulo-logo {
-  position: absolute;
-  top: 60%;
-  margin-left: -40%;
-  color: black;
-  font-family: "Popins", arial, sans-serif;
-  font-size: 2.5vw;
-}
-.notificaciones {
-  position: absolute;
-  margin-left: 50%;
-  margin-top: -5%;
-}
+
 .entrada-nombre{
 position: absolute;
   top: 15%;
@@ -209,18 +191,17 @@ position: absolute;
 .entrada-saldo input{
  width: 100%;
 }
-.entrada-cuenta-principal {
+.entrada-cuenta-principal{
   position: absolute;
   top: 55.5%;
-  left: 18%;
+  left: 45%;
   background-color: transparent;
   border-radius: 0.5vw;
-  width: 48%;
 }
 .entrada-notificaciones {
   position: absolute;
-  top: 55.5%;
-  left: 87%;
+  top: 63.5%;
+  left: 45%;
   background-color: transparent;
 }
 .fondo {
@@ -254,7 +235,7 @@ position: absolute;
   border-bottom: 2px solid #000;  /* línea negra de 2px */
   width: 90%;       /* o el ancho que quieras */
   margin: 10px 0;    /* espacio arriba y abajo */
-  top: 65%;
+  top: 70%;
   left: 5%;
 }
 .nombre {
@@ -283,30 +264,19 @@ position: absolute;
   left: 8%;
 }
 .cuenta-principal {
-   position: absolute;
+  position: absolute;
   top: 55%;
   left: 8%;
 }
-.notificaciones{
+.notificaciones {
   position: absolute;
-  top: 61%;
-  left: 0%;
+  top: 63%;
+  left: 8%;
 }
 
 /* Responsive media queries (solo ajustan tamaños y anchos para móvil y tablet, sin tocar posiciones absolutas) */
 
 @media (max-width: 1024px) {
-  .logo-cuentas {
-    width: 14%;
-    height: 28%;
-  }
-  .titulo-logo {
-    font-size: 2vw;
-  }
-  .pie,
-  .pie2 {
-    font-size: 1vw;
-  }
   .entrada-nombre{
     top: 13.5%;
     left: 45%;
@@ -323,7 +293,7 @@ position: absolute;
   .entrada-banco select{
     width: 100%;
     font-size: 1.5vw;
-    margin-left: 0.5vw;
+    margin-left: 0.5%;
   }
   .entrada-tipo-cuenta{
     top: 30%;
@@ -333,7 +303,7 @@ position: absolute;
   .entrada-tipo-cuenta select{
     width: 100%;
     font-size: 1.3vw;
-    margin-left: 0.5vw;
+    margin-left: 0.5%;
   }
   .entrada-fecha-apertura{
      top: 37.5%;
@@ -351,20 +321,36 @@ position: absolute;
   .entrada-saldo input {
     width: 100%;
   }
-  .entrada-cuenta-principal {
-    top: 55.4%;
-    left: 20%;
+  .entrada-cuenta-principal{
+    top: 54.4%;
+    left: 55%;
   }
-  .entrada-notificaciones {
-    top: 55.4%;
-    left: 90%;
+  .entrada-notificaciones{
+    top: 62.5%;
+    left: 55%;
   }
-  .botones {
-    font-size: 0.5vw;
-    height: 12vw;
-    width: 12vw;
-    position: absolute; left: 36%;
-  }
+.botones {
+  position: absolute;
+  top: 80%;
+  left: 38%;
+  display: flex;
+  gap: 1vw;
+}
+ .save{
+  width: 5vw !important;
+  height: 5vh !important;
+  min-width: 1vw;
+}
+.editar{
+ width: 5vw !important;
+  height: 5vh !important;
+  min-width: 1vw;
+}
+.cancelar{
+ width: 5vw !important;
+  height: 5vh !important;
+  min-width: 1vw;
+}
   .crear {
   position: absolute;
   top: 4%;
@@ -387,7 +373,7 @@ position: absolute;
   border-bottom: 2px solid #000;  /* línea negra de 2px */
   width: 90%;       /* o el ancho que quieras */
   margin: 10px 0;    /* espacio arriba y abajo */
-  top: 65%;
+  top: 70%;
   left: 5%;
 }
 .nombre {
@@ -428,45 +414,106 @@ position: absolute;
 }
 .notificaciones{
   position: absolute;
-  top: 59.5%;
-  left: 0%;
+  top: 63%;
+  left: 8%;
   font-size: 1.5vw;
 }
 }
 
-@media (max-width: 480px) {
-  .logo-cuentas {
-    width: 25%;
-    height: 35%;
-    top: 20%;
-    margin-left: -35%;
-  }
-  .titulo-logo {
-    font-size: 4vw;
-  }
-  .pie,
-  .pie2 {
-    font-size: 2vw;
-  }
-  .entrada-nombre input,
-  .entrada-banco select,
-  .entrada-tipo-cuenta select,
-  .entrada-fecha-apertura input,
+@media (max-width: 500px) {
+  .entrada-nombre input{
+  font-size: 1.5vw;
+    width: 100% !important;
+    height: auto;}
+  .entrada-banco select{
+  font-size: 1.5vw;
+    width: 100% !important;
+    height: auto;}
+  .entrada-tipo-cuenta select{
+  font-size: 1.5vw;
+    width: 100% !important;
+    height: auto;}
+  .entrada-fecha-apertura input{
+  font-size: 1.5vw;
+    width: 100% !important;
+    height: auto;}
   .entrada-saldo input {
-    font-size: 3vw;
-    width: 90% !important;
+    font-size: 1.5vw;
+    width: 100% !important;
+    height: 20%;
   }
-  .botones {
-    flex-direction: column;
-    gap: 0.8rem;
-    margin-left: 5% !important;
-    margin-top: 4% !important;
-    width: 2px;
+  .entrada-cuenta-principal input{
+        position: absolute;
+        top: -21%;
+        left: 58%;
+        width: 16%;
   }
-  .botones v-btn {
-    font-size: 3vw;
-    height: 4.5vw;
-    min-width: 2vw;
+  .entrada-notificaciones input{
+        position: absolute;
+        top: -33%;
+        left: 58%;
+        width: 18%;
   }
+
+  .entrada-nombre{
+   font-size: 1.5vw;
+    width: 50% !important;
+    height: 5%;
+    margin-top:2%}
+  .entrada-banco{
+   font-size: 1.5vw;
+    width: 50% !important;
+    height: 5%;
+    margin-top:2%}
+  .entrada-tipo-cuenta{
+   font-size: 1.5vw;
+    width: 50% !important;
+    height: 5%;
+    margin-top:2%}
+  .entrada-fecha-apertura{
+   font-size: 1.5vw;
+    width: 50% !important;
+    height: 5%;
+    margin-top:2%}
+  .entrada-cuenta-principal{
+   font-size: 1.5vw;
+    width: 50% !important;
+    height: 5%;
+    margin-top:2%}
+  .entrada-notificaciones{
+   font-size: 1.5vw;
+    width: 50% !important;
+    height: 5%;
+    margin-top:2%}
+  .entrada-saldo {
+    font-size: 1.5vw;
+    width: 50% !important;
+    height: 5%;
+    margin-top:2%
+  }
+.botones {
+  top: 76%;
+  left: 35%;
+  flex-direction: column;
+  gap: 1vw;
+}
+ .save{
+  width: 2vw !important;
+  height: 4.5vh !important;
+  min-width: 1vw;
+}
+.editar{
+ width: 2vw !important;
+  height: 4.5vh !important;
+  min-width: 1vw;
+}
+.cancelar{
+  width: 2vw !important;
+  height: 4.5vh !important;
+  min-width: 1vw;
+}
+.fondo{
+  position: fixed;
+}
 }
 </style>

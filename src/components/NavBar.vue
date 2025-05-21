@@ -148,7 +148,6 @@ export default {
   margin-right: 2vw;
   color: white;
 }
-
 .logo-titulo {
   display: flex;
   align-items: center;
