@@ -31,8 +31,10 @@ import vuetify from './plugins/vuetify'
 
 import 'vuetify/styles'
 import './style.css'
+import { i18n } from './i18n'
 
 const app = createApp(App)
 app.use(router)
 app.use(vuetify)
+app.use(i18n)
 app.mount('#app')
