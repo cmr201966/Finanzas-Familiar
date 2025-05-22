@@ -17,10 +17,10 @@
                         </template>
                         <v-list>
                             <v-list-item @click="opcion11">
-                                <v-list-item-title>Español</v-list-item-title>
+                                <v-list-item-title>{{ $t('register.spanish') }}</v-list-item-title>
                             </v-list-item>
                             <v-list-item @click="opcion12">
-                                <v-list-item-title>Inglés</v-list-item-title>
+                                <v-list-item-title>{{ $t('register.english') }}</v-list-item-title>
                             </v-list-item>
                         </v-list>
                     </v-menu>
@@ -49,17 +49,15 @@
                         <!-- Nombre completo Usuario -->
                         <div class="form-field-horizontal input-with-icon">
                             <img src="../assets/img/icono/username.png" class="input-icon-inside" />
-                            <input type="text" :placeholder="$t('register.fullname')" v-model="fullName" class="custom-input" />
+                            <input type="text" :placeholder="$t('register.Enter the full name')" v-model="fullName" class="custom-input" />
                         </div>
-                        <p class="password-info">{{ $t('register.Enter the full name') }}</p>
 
                         <!-- Contraseña -->
                         <div class="form-field-horizontal input-with-icon">
                             <img src="../assets/img/icono/pwd.png" class="input-icon-inside" />
-                            <input :type="showPassword ? 'text' : 'password'" :placeholder="$t('register.password')" v-model="password" class="custom-input" />
+                            <input :type="showPassword ? 'text' : 'password'" :placeholder="$t('register.passwordHint')" v-model="password" class="custom-input" />
                             <img :src="showPassword ? eyeIcon : eyeOffIcon" class="icono-ojo" @click="showPassword = !showPassword" />
                         </div>
-                        <p class="password-info">{{ $t('register.passwordHint') }}</p>
 
                         <!-- Confirmar Contraseña -->
                         <div class="form-field-horizontal input-with-icon">
@@ -338,6 +336,11 @@ html, body {
     margin-bottom: 16px;
 }
 
+input::placeholder {
+    font-size: 10px; /* tamaño de letra del placeholder */
+    margin-left: 10px;
+
+}
 .input-icon-inside {
   position: absolute;
   left: 40px;
@@ -431,14 +434,6 @@ html, body {
 .btn-cancelar {
   background-color: #dc3545; /* rojo */
   color: white;
-}
-
-.password-info {
-    font-size: 11px;
-    color: #fbfafa;
-    margin-top: -14px;
-    margin-left: 9px; /* o lo necesario para alinear bien debajo del input */
-    margin-bottom: 10px;
 }
 
 .idioma-conf{

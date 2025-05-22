@@ -9,19 +9,21 @@
     "success": "Registro exitoso!",
     "submit": "Register",
     "cancel": "Cancel",
+    "spanish":"Spanish",
+    "english":"English",
     "Select the language":"Select the language",
     "Enter the full name":"Enter the full name",
-    "complete_fields": "Debes completar todos los campos.",
-    "password_length": "La contraseña debe tener al menos 8 caracteres.",
-    "invalid_credentials": "Credenciales inválidas.",
-    "network_error": "Error de red o del servidor.",
+    "complete_fields": "Please fill in all fields",
+    "password_length": "The password must be at least 8 characters long",
+    "invalid_credentials": "Invalid credentials",
+    "network_error": "Network or server error",
     "passwordHint": "Must be at least 8 characters",
     "errors": {
-        "nicknameRequired": "El apodo es obligatorio.",
-        "fullnameRequired": "El nombre completo es obligatorio.",
-        "passwordMin": "La contraseña debe tener al menos 6 caracteres.",
+        "nicknameRequired": "Nickname is required",
+        "fullnameRequired": "Full name is required",
+        "passwordMin": "The password must be at least 8 characters long",
         "passwordMatch": "Las contraseñas no coinciden.",
-        "emailInvalid": "Correo electrónico inválido.",
-        "phoneRequired": "El teléfono es obligatorio."
+        "emailInvalid": "Invalid email address",
+        "phoneRequired": "Phone number is required"
         }
     }

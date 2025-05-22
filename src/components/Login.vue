@@ -39,7 +39,7 @@
                     <!-- Usuario -->
                     <div class="form-field-horizontal input-with-icon">
                         <img src="../assets/img/icono/username.png" class="input-icon-inside" alt="usuario" />
-                        <input type="text" :placeholder="$t('login.username')" v-model="username" name="username" autocomplete="username" class="custom-input" />
+                        <input type="text" :placeholder="$t('login.Enter username, email or mobile')" v-model="username" name="username" autocomplete="username" class="custom-input" />
                     </div>
 
                     <!-- Contraseña -->
@@ -55,7 +55,7 @@
                     <!-- Boton inicio -->
                     <button class="submit-button" @click="handlelogin">{{ $t('login.login') }}</button>
 
-                    <!-- Contraseña -->
+                    <!-- Boton login -->
                     <div class="register-link">
                         {{ $t('login.no_account') }}
                         <router-link to="/register">{{ $t('login.sign_up') }}</router-link>
@@ -96,6 +96,8 @@ function opcion11() {
 function opcion12() {
     currentLocale.value = 'en'
     }
+
+    
 const username = ref('')
 const password = ref('')
 const showPassword = ref(false)
@@ -283,10 +285,10 @@ async function handlelogin() {
 
 .form-field-horizontal .icono-ojo {
     position: absolute;
-    right: 30px;
+    right: 15px;
     width: 15px;
     height: 15px;
-    top:-4px;
+    top:-5px;
 }
 
 .form-field-horizontal img.input-icon {
@@ -305,15 +307,20 @@ async function handlelogin() {
 }
 
 .input-with-icon input {
-    width: 80%;
+    width: 90%;
     padding: 10px 12px 10px 44px; /* espacio izquierdo para la imagen */
     border: 2px solid gray;
     border-radius: 20px;
-    font-size: 14px;
     outline: none;
     box-sizing: border-box;
     background-color: white; /* O blanco implícito */
-    margin-left: 28px;
+    margin-left: 15px;
+
+}
+
+input::placeholder {
+    font-size: 10px; /* tamaño de letra del placeholder */
+    margin-left: 10px;
 
 }
 
@@ -324,13 +331,15 @@ async function handlelogin() {
     width: 20px;
     height: 20px;
     border-radius: 5px;
+
 }
 
 .input-with-icon .input-icon-inside {
     position: absolute;
-    left: 34px;
+    left: 18px;
     width: 20px;
     height: 20px;
+
 }
 
 .submit-button {
@@ -395,6 +404,14 @@ async function handlelogin() {
 }
 .idioma-conf{
     font-size: 12px;
+}
+
+.user-info {
+    font-size: 11px;
+    color: #fbfafa;
+    margin-top: -14px;
+    margin-left: 9px; /* o lo necesario para alinear bien debajo del input */
+    margin-bottom: 10px;
 }
 
 /* Esto es para obligar al navegador a que ponga el color q tenia el input*/
