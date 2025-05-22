@@ -7,24 +7,27 @@
                 <h1 class="app-name">{{ $t('login.app_name') }}</h1>
 
                 <!-- Selector de idioma -->
-                <p class="idioma-conf">Seleccione el idioma</p>
+                <p class="idioma-conf">{{ $t('login.Select the language') }}</p>
                 <div class="language-switcher">
                     <v-menu offset-y>
-                    <template #activator="{ props }">
+                        <template #activator="{ props }">
                         <v-btn class="border p-2 rounded-md" icon v-bind="props">
                             <img :src="currentFlagIcon" class="bandera" />
-                        </v-btn>
-                    </template>
-                    <v-list>
-                        <v-list-item @click="opcion11">
-                            <v-list-item-title>Español</v-list-item-title>
-                        </v-list-item>
-                        <v-list-item @click="opcion12">
-                            <v-list-item-title>Inglés</v-list-item-title>
-                        </v-list-item>
-                    </v-list>
+                            </v-btn>
+                        </template>
+                        <v-list>
+                            <v-list-item @click="opcion11">
+                                <v-list-item-title>{{ $t('login.spanish') }}</v-list-item-title>
+                            </v-list-item>
+                            <v-list-item @click="opcion12">
+                                <v-list-item-title>{{ $t('login.english') }}</v-list-item-title>
+                            </v-list-item>
+                        </v-list>
                     </v-menu>
                 </div>
+                <!-- Mostrar mensajes de error y éxito -->
+                <p v-if="errorMessage" style="color: red;background-color:yellow; text-align:center; margin-top: 40%;">{{ errorMessage }}</p>
+                <p v-if="successMessage" style="color: green; text-align:center;">{{ successMessage }}</p>
             </div>
 
             <!-- Parte derecha con fondo degradado -->
@@ -66,7 +69,13 @@
 <script setup>
 import { ref, watch } from 'vue'
 import { useI18n } from 'vue-i18n'
+import { useRouter } from 'vue-router'
 
+// Router
+const router = useRouter()
+
+
+// i18n y bandera
 const { locale, t } = useI18n()
 const currentLocale = ref(locale.value)
 const currentFlagIcon = ref(getFlagIcon(locale.value))
@@ -87,7 +96,6 @@ function opcion11() {
 function opcion12() {
     currentLocale.value = 'en'
     }
-
 const username = ref('')
 const password = ref('')
 const showPassword = ref(false)
@@ -240,8 +248,8 @@ async function handlelogin() {
 .icono-ojo {
     position: absolute;
     right: 10px;
-    width: 18px;
-    height: 18px;
+    width: 15px;
+    height: 15px;
     cursor: pointer;
     transform: translateY(-50%);
 
@@ -276,8 +284,9 @@ async function handlelogin() {
 .form-field-horizontal .icono-ojo {
     position: absolute;
     right: 30px;
-    width: 18px;
-    height: 18px;
+    width: 15px;
+    height: 15px;
+    top:-4px;
 }
 
 .form-field-horizontal img.input-icon {

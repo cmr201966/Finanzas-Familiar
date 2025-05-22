@@ -1,4 +1,5 @@
 {
+
   "app_name": "Finanzas Familiares",
   "username": "Usuario",
   "password": "Contraseña",
@@ -8,5 +9,8 @@
   "complete_fields": "Debes completar todos los campos.",
   "password_length": "La contraseña debe tener al menos 8 caracteres.",
   "invalid_credentials": "Credenciales inválidas.",
-  "network_error": "Error de red o del servidor."
+  "network_error": "Error de red o del servidor.",
+  "Select the language":"Seleccione el idioma",
+  "spanish":"Español",
+  "english":"Ingles"
 }

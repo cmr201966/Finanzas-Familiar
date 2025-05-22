@@ -1,15 +1,16 @@
 {
-"register": {
     "app_name": "Family Finances",
-    "username": "Full Name",
+    "fullname": "Full Name",
     "nickname":"UserName",
     "password": "password",
     "confirm": "Confirm password",
     "email": "Email",
     "phone": "Phone",
     "success": "Registro exitoso!",
-    "submit": "Aceptar",
-    "cancel": "Cancelar",
+    "submit": "Register",
+    "cancel": "Cancel",
+    "Select the language":"Select the language",
+    "Enter the full name":"Enter the full name",
     "complete_fields": "Debes completar todos los campos.",
     "password_length": "La contraseña debe tener al menos 8 caracteres.",
     "invalid_credentials": "Credenciales inválidas.",
@@ -24,4 +25,3 @@
         "phoneRequired": "El teléfono es obligatorio."
         }
     }
-}

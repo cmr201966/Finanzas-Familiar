@@ -4,10 +4,10 @@
             <!-- Parte izquierda -->
             <div class="logo-section">
                 <img src="../assets/img/Logo/logo.jpg" alt="Finanza Familiar Logo" class="logo" />
-                <h1 class="app-name">{{ $t('login.app_name') }}</h1>
+                <h1 class="app-name">{{ $t('register.app_name') }}</h1>
 
                 <!-- Selector de idioma -->
-                <p class="idioma-conf">Seleccione el idioma</p>
+                <p class="idioma-conf">{{ $t('register.Select the language') }}</p>
                 <div class="language-switcher">
                     <v-menu offset-y>
                         <template #activator="{ props }">
@@ -25,6 +25,11 @@
                         </v-list>
                     </v-menu>
                 </div>
+
+                <!-- Mostrar mensajes de error y éxito -->
+                <p v-if="errorMessage" style="color: red;background-color:yellow; text-align:center; margin-top: 40%;">{{ errorMessage }}</p>
+                <p v-if="successMessage" style="color: green; text-align:center;">{{ successMessage }}</p>
+
             </div>
 
             <!-- Parte derecha -->
@@ -37,60 +42,51 @@
                         <!-- Nick Usuario -->
                         <div class="form-field-horizontal input-with-icon">
                             <img src="../assets/img/icono/username.png" class="input-icon-inside" />
-                            <input type="text" :placeholder="$t('login.username')" v-model="username" class="custom-input" />
+                            <input type="text" :placeholder="$t('register.nickname')" v-model="username" class="custom-input" />
                         </div>
 
 
                         <!-- Nombre completo Usuario -->
                         <div class="form-field-horizontal input-with-icon">
                             <img src="../assets/img/icono/username.png" class="input-icon-inside" />
-                            <input type="text" :placeholder="$t('login.fullname')" v-model="fullName" class="custom-input" />
+                            <input type="text" :placeholder="$t('register.fullname')" v-model="fullName" class="custom-input" />
                         </div>
-                        <p class="password-info">Nombre completo</p>
+                        <p class="password-info">{{ $t('register.Enter the full name') }}</p>
 
                         <!-- Contraseña -->
                         <div class="form-field-horizontal input-with-icon">
                             <img src="../assets/img/icono/pwd.png" class="input-icon-inside" />
-                            <input :type="showPassword ? 'text' : 'password'" :placeholder="$t('login.password')" v-model="password" class="custom-input" />
+                            <input :type="showPassword ? 'text' : 'password'" :placeholder="$t('register.password')" v-model="password" class="custom-input" />
                             <img :src="showPassword ? eyeIcon : eyeOffIcon" class="icono-ojo" @click="showPassword = !showPassword" />
                         </div>
-                        <p class="password-info">La contraseña debe tener hasta 8 caracteres</p>
+                        <p class="password-info">{{ $t('register.passwordHint') }}</p>
 
                         <!-- Confirmar Contraseña -->
                         <div class="form-field-horizontal input-with-icon">
                             <img src="../assets/img/icono/rpwd.png" class="input-icon-inside" />
-                            <input :type="showConfirm ? 'text' : 'password'" :placeholder="$t('login.confirm')" v-model="confirmPassword" class="custom-input" />
+                            <input :type="showConfirm ? 'text' : 'password'" :placeholder="$t('register.confirm')" v-model="confirmPassword" class="custom-input" />
                             <img :src="showConfirm ? eyeIcon : eyeOffIcon" class="icono-ojo" @click="showConfirm = !showConfirm" />
                         </div>
 
                         <!-- Email -->
                         <div class="form-field-horizontal input-with-icon">
                             <img src="../assets/img/icono/email.png" class="input-icon-inside" />
-                            <input type="email" :placeholder="$t('login.email')" v-model="email" class="custom-input" />
+                            <input type="email" :placeholder="$t('register.email')" v-model="email" class="custom-input" />
                         </div>
 
                         <!-- Teléfono -->
                         <div class="form-field-horizontal input-with-icon">
                             <img src="../assets/img/icono/phone.png" class="input-icon-inside" />
-                            <input type="tel" :placeholder="$t('login.phone')" v-model="phone" class="custom-input" />
+                            <input type="tel" :placeholder="$t('register.phone')" v-model="phone" class="custom-input" />
                         </div>
 
                         <!-- Raya negra -->
                         <hr class="divider" />
 
-                        <!-- Mostrar mensajes de error y éxito -->
-                        <p v-if="errorMessage" style="color: red; text-align:center;">{{ errorMessage }}</p>
-                        <p v-if="successMessage" style="color: green; text-align:center;">{{ successMessage }}</p>
-
-
                         <!-- Botones de aceptar y cancelar -->
                         <div class="form-buttons">
-                            <button class="btn btn-aceptar" @click="handleRegister":disabled="loading">
-                              {{ loading ? $t('login.loading') : $t('login.accept') }}
-                            </button>
-                            <button class="btn btn-cancelar" @click="cancelarRegistro">
-                              {{ $t('login.cancel') }}
-                            </button>
+                            <button class="btn btn-aceptar" @click="handleRegister" :disabled="loading">{{ $t('register.submit') }} </button>
+                            <button class="btn btn-cancelar" @click="cancelarRegistro"> {{ $t('register.cancel') }} </button>
                         </div>
 
                     </div>
@@ -100,15 +96,39 @@
     </div>
 </template>
 
+
 <script setup>
 
 import { ref, watch } from 'vue'
 import { useI18n } from 'vue-i18n'
 import { useRouter } from 'vue-router'
 
+// Router
 const router = useRouter()
 
-// Campos formulario
+// i18n y bandera
+const { locale, t } = useI18n()
+const currentLocale = ref(locale.value)
+const currentFlagIcon = ref(getFlagIcon(locale.value))
+
+watch(currentLocale, (newLocale) => {
+    locale.value = newLocale
+    currentFlagIcon.value = getFlagIcon(newLocale)
+    })
+
+function getFlagIcon(locale) {
+    return locale === 'es' ? '/flags/spain.png' : '/flags/uk.png'
+    }
+
+function opcion11() {
+    currentLocale.value = 'es'
+    }
+
+function opcion12() {
+    currentLocale.value = 'en'
+    }
+
+// Datos formulario
 const username = ref('')
 const fullName = ref('')
 const password = ref('')
@@ -116,151 +136,92 @@ const confirmPassword = ref('')
 const email = ref('')
 const phone = ref('')
 
-// Mostrar / ocultar contraseña
-const showPassword = ref(false)
-const showConfirm = ref(false)
-
-// Mensajes y loading
-const errorMessage = ref('')
-const successMessage = ref('')
-const loading = ref(false)
-
-// Manejo idioma y banderas
-const { locale } = useI18n()
-const currentLocale = ref(locale.value)
-const currentFlagIcon = ref(getFlagIcon(locale.value))
-
-watch(currentLocale, (newLocale) => {
-  locale.value = newLocale
-  currentFlagIcon.value = getFlagIcon(newLocale)
-})
-
-function getFlagIcon(locale) {
-  return locale === 'es' ? '/flags/spain.png' : '/flags/uk.png'
-}
-
-function opcion11() { currentLocale.value = 'es' }
-function opcion12() { currentLocale.value = 'en' }
-
 // Iconos ojo
 const eyeIcon = new URL('../assets/img/icono/ojo.png', import.meta.url).href
 const eyeOffIcon = new URL('../assets/img/icono/ojo-cerrado.png', import.meta.url).href
 
-/*Boton Aceptar
 
-const handleRegister = () => {
-  if (!username.value || !fullName.value || !password.value || !confirmPassword.value || !email.value) {
-    alert("Por favor, completa todos los campos obligatorios.")
+// Control de visibilidad
+const showPassword = ref(false)
+const showConfirm = ref(false)
+
+// Mensajes
+const errorMessage = ref('')
+const successMessage = ref('')
+const loading = ref(false)
+
+// Función de registro
+const handleRegister = async () => {
+  errorMessage.value = ''
+  successMessage.value = ''
+
+  // Validaciones
+  if (!username.value || !fullName.value || !password.value || !confirmPassword.value || !email.value || !phone.value) {
+    errorMessage.value = 'Por favor, completa todos los campos.'
     return
   }
+
   if (password.value !== confirmPassword.value) {
-    alert("Las contraseñas no coinciden.")
+    errorMessage.value = 'Las contraseñas no coinciden.'
     return
   }
 
-  console.log("Datos ingresados:", {
-    username: username.value,
-    fullName: fullName.value,
-    password: password.value,
-    confirmPassword: confirmPassword.value,
-    email: email.value,
-    phone: phone.value
-  })
-}*/
+  const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
+  if (!emailRegex.test(email.value)) {
+    errorMessage.value = 'El email no tiene un formato válido.'
+    return
+  }
 
-// Función para validar y enviar formulario
-export default {
-  data() {
-    return {
-      email: '',
-      password: '',
-      nombre: '',
-      telefono: '',
-      errorMessage: '',
-      successMessage: '',
-      loading: false,
+  if (password.value.length < 6) {
+    errorMessage.value = 'La contraseña debe tener al menos 6 caracteres.'
+    return
+  }
+
+  const telefonoRegex = /^[0-9]{7,15}$/
+  if (!telefonoRegex.test(phone.value)) {
+    errorMessage.value = 'El teléfono debe tener entre 7 y 15 dígitos.'
+    return
+  }
+
+  loading.value = true
+
+  try {
+    const response = await fetch('http://tu-api.com/api/register', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        username: username.value,
+        fullName: fullName.value,
+        email: email.value,
+        password: password.value,
+        phone: phone.value
+      })
+    })
+
+    const data = await response.json()
+
+    if (!response.ok) {
+      errorMessage.value = data.message || 'Error al registrar usuario.'
+      loading.value = false
+      return
     }
-  },
-  methods: {
-    async handleRegister() {
-      this.errorMessage = '';
-      this.successMessage = '';
 
-      // Validaciones
-      if (!this.email || !this.password || !this.nombre || !this.telefono) {
-        this.errorMessage = 'Por favor, complete todos los campos.';
-        return;
-      }
-
-      // Validar email con regex simple
-      const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-      if (!emailRegex.test(this.email)) {
-        this.errorMessage = 'El email no tiene un formato válido.';
-        return;
-      }
-
-      // Validar contraseña
-      if (this.password.length < 6) {
-        this.errorMessage = 'La contraseña debe tener al menos 6 caracteres.';
-        return;
-      }
-
-      // Validar teléfono (solo dígitos y longitud)
-      const telefonoRegex = /^[0-9]{7,15}$/;
-      if (!telefonoRegex.test(this.telefono)) {
-        this.errorMessage = 'El teléfono debe tener entre 7 y 15 dígitos numéricos.';
-        return;
-      }
-
-      this.loading = true;
-
-      try {
-        // Enviar datos al backend
-        const response = await fetch('http://tu-api.com/api/register', {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-          },
-          body: JSON.stringify({
-            email: this.email,
-            password: this.password,
-            nombre: this.nombre,
-            telefono: this.telefono,
-          }),
-        });
-
-        const data = await response.json();
-
-        if (!response.ok) {
-          // Backend responde con error
-          this.errorMessage = data.message || 'Error al registrar usuario.';
-          this.loading = false;
-          return;
-        }
-
-        // Éxito
-        this.successMessage = 'Registro exitoso. Redirigiendo al login...';
-
-        // Esperar 2 segundos y redirigir a login
-        setTimeout(() => {
-          this.$router.push({ name: 'Login' });
-        }, 2000);
-
-      } catch (error) {
-        this.errorMessage = 'Error de conexión. Intente más tarde.';
-        this.loading = false;
-      }
-    }
+    successMessage.value = 'Registro exitoso. Redirigiendo...'
+    setTimeout(() => {
+      router.push({ name: 'Login' })  // o el nombre de tu vista de login
+    }, 2000)
+  } catch (error) {
+    errorMessage.value = 'Error de conexión. Intente más tarde.'
+  } finally {
+    loading.value = false
   }
 }
 
-/*Boton Cancelar*/
-
-function cancelarRegistro() {
-  router.push('/')  // Asegúrate que '/login' sea la ruta correcta de tu vista de login
+const cancelarRegistro = () => {
+  router.push('/')  // Ajusta según la ruta de tu vista principal
 }
-
 </script>
+
 
 <style scoped>
 /* Reset básico para anular estilos del navegador */
@@ -387,11 +348,11 @@ html, body {
 }
 .icono-ojo {
   position: absolute;
-  right: 30px;
+  right: 35px;
   top: 50%;
   transform: translateY(-50%);
-  width: 20px;
-  height: 20px;
+  width: 15px;
+  height: 15px;
   cursor: pointer;
 }
 .submit-button {

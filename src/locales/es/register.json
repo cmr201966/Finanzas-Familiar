@@ -1,15 +1,16 @@
 {
-"register": {
     "app_name": "Finanzas Familiares",
-    "username": "Nombre completo",
+    "fullname": "Nombre completo",
     "nickname":"Usuario",
     "password": "Contraseña",
     "confirm": "Confirmar contraseña",
     "email": "Correo Electrónico",
     "phone": "Movil",
     "success": "Registro exitoso!",
-    "submit": "Aceptar",
+    "submit": "Registrar",
     "cancel": "Cancelar",
+    "Select the language":"Seleccione el idioma",
+    "Enter the full name":"Entre el nombre completo",
     "complete_fields": "Debes completar todos los campos.",
     "password_length": "La contraseña debe tener al menos 8 caracteres.",
     "invalid_credentials": "Credenciales inválidas.",
@@ -23,5 +24,4 @@
         "emailInvalid": "Correo electrónico inválido.",
         "phoneRequired": "El teléfono es obligatorio."
     }
-}
 }
