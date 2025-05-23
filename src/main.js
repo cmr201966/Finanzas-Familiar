@@ -8,6 +8,7 @@ import '@mdi/font/css/materialdesignicons.css'
 import vuetify from './plugins/vuetify'
 import 'normalize.css'
 import './assets/reset.css'
+import './assets/css/responsive.css'
 
 const app = createApp(App)
 app.use(router)

@@ -450,4 +450,100 @@ input:-webkit-autofill:active {
     -webkit-text-fill-color: black !important;
     -webkit-background-clip: text;
 }
+
+/* ============ RESPONSIVE ============ */
+
+/* Teléfonos pequeños (hasta 575px) */
+@media (max-width: 575.98px) {
+  .login-page {
+    align-items: flex-start;
+    padding-top: 20px;
+  }
+
+  .login-box {
+    flex-direction: column;
+    width: 100%;
+    min-height: unset;
+    border-radius: 0;
+    border: none;
+    box-shadow: none;
+  }
+
+  .logo-section {
+    border-right: none;
+    border-bottom: 1px solid #ddd;
+    padding: 10px;
+  }
+
+  .logo {
+    width: 100px;
+    height: 100px;
+  }
+
+  .app-name {
+    font-size: 16px;
+  }
+
+  .form-container {
+    padding: 10px;
+  }
+
+  .form-gradient-box {
+    padding: 15px 10px;
+    border-radius: 0;
+  }
+
+  .input-with-icon input.custom-input {
+    width: 100%;
+    margin-left: 0;
+    padding-left: 40px;
+  }
+
+  .input-icon-inside {
+    left: 12px;
+  }
+
+  .icono-ojo {
+    right: 12px;
+  }
+
+  .form-buttons {
+    flex-direction: column;
+    margin-left: 0;
+    gap: 8px;
+  }
+
+  .btn {
+    width: 100%;
+  }
+
+  .submit-button {
+    width: 100%;
+  }
+
+  .idioma-conf {
+    text-align: center;
+  }
+}
+
+/* Tablets (576px a 767px) */
+@media (min-width: 576px) and (max-width: 767.98px) {
+  .login-box {
+    flex-direction: column;
+    width: 90%;
+  }
+
+  .form-container {
+    padding: 15px;
+  }
+
+  .form-buttons {
+    margin-left: 0;
+    justify-content: space-between;
+  }
+
+  .btn {
+    width: 45%;
+  }
+}
 </style>

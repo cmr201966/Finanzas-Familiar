@@ -6,7 +6,7 @@
                 <img src="../assets/img/Logo/logo.jpg" alt="Finanza Familiar Logo" class="logo" />
                 <h1 class="app-name">{{ $t('login.app_name') }}</h1>
 
-                <!-- Selector de idioma -->
+                <!-- Selector de idioma con menu desplegable-->
                 <p class="idioma-conf">{{ $t('login.Select the language') }}</p>
                 <div class="language-switcher">
                     <v-menu offset-y>
@@ -36,30 +36,33 @@
                     <img src="../assets/img/icono/user.png" class="user-icon" alt="Icono usuario" />
                     <hr class="divider" />
 
-                    <!-- Usuario -->
-                    <div class="form-field-horizontal input-with-icon">
-                        <img src="../assets/img/icono/username.png" class="input-icon-inside" alt="usuario" />
-                        <input type="text" :placeholder="$t('login.Enter username, email or mobile')" v-model="username" name="username" autocomplete="username" class="custom-input" />
-                    </div>
+                    <form autocomplete="off">
+                        <!-- Usuario -->
+                        <div class="form-field-horizontal input-with-icon">
+                            <img src="../assets/img/icono/username.png" class="input-icon-inside" alt="usuario" />
+                            <input type="text" :placeholder="$t('login.Enter username, email or mobile')" v-model="username"
+                            name="username" autocomplete="off" class="custom-input"  id="new-user" ref="usernameInput"/>
+                        </div>
 
-                    <!-- Contraseña -->
-                    <div class="form-field-horizontal input-with-icon">
+                        <!-- Contraseña -->
+                        <div class="form-field-horizontal input-with-icon">
                         <img src="../assets/img/icono/pwd.png" class="input-icon-inside" alt="contraseña" />
                         <input :type="showPassword ? 'text' : 'password'" :placeholder="$t('login.password')" v-model="password" autocomplete="password" class="custom-input" />
                         <img class="icono-ojo" :src="showPassword ? eyeIcon : eyeOffIcon" @click="showPassword = !showPassword" />
-                    </div>
+                        </div>
 
-                    <!-- Raya de división -->
-                    <hr class="divider" />
+                        <!-- Raya de división -->
+                        <hr class="divider" />
 
-                    <!-- Boton inicio -->
-                    <button class="submit-button" @click="handlelogin">{{ $t('login.login') }}</button>
+                        <!-- Boton inicio -->
+                        <button class="submit-button" @click="handlelogin">{{ $t('login.login') }}</button>
 
-                    <!-- Boton login -->
-                    <div class="register-link">
+                        <!-- Boton login -->
+                        <div class="register-link">
                         {{ $t('login.no_account') }}
                         <router-link to="/register">{{ $t('login.sign_up') }}</router-link>
-                    </div>
+                        </div>
+                    </form>
                 </div>
             </div>
         </div>
@@ -67,28 +70,35 @@
 </template>
 
 <script setup>
-import { ref, watch } from 'vue'
+
+// Importamos funcionalidades reactivas y de router
+
+import { ref, watch, onMounted } from 'vue'
 import { useI18n } from 'vue-i18n'
 import { useRouter } from 'vue-router'
 
-// Router
-const router = useRouter()
 
+// Inicializamos router para navegación
+
+const router = useRouter()
 
 // i18n y bandera
 const { locale, t } = useI18n()
 const currentLocale = ref(locale.value)
 const currentFlagIcon = ref(getFlagIcon(locale.value))
 
+// Observamos cambios en currentLocale para actualizar idioma y bandera
 watch(currentLocale, (newLocale) => {
     locale.value = newLocale
     currentFlagIcon.value = getFlagIcon(newLocale)
     })
 
+// Función para obtener la ruta de la bandera según idioma
 function getFlagIcon(locale) {
     return locale === 'es' ? '/flags/spain.png' : '/flags/uk.png'
     }
 
+// Funciones para cambiar idioma al español o inglés
 function opcion11() {
     currentLocale.value = 'es'
     }
@@ -97,15 +107,27 @@ function opcion12() {
     currentLocale.value = 'en'
     }
 
-    
+// Variables reactivas para login y control de visibilidad de contraseña
 const username = ref('')
 const password = ref('')
+
+const successMessage = ref('');
+const usernameInput = ref(null); // Referencia al input
+
+onMounted(() => {
+    username.value = '';
+    password.value = '';
+    if (usernameInput.value) {
+        usernameInput.value.focus(); // Aplica el foco cuando la vista se carga
+    }
+});
+
 const showPassword = ref(false)
 const eyeIcon = new URL('../assets/img/icono/ojo.png', import.meta.url).href
 const eyeOffIcon = new URL('../assets/img/icono/ojo-cerrado.png', import.meta.url).href
 
 
-
+// Función para manejar login (comentario: función asíncrona de login)
 async function handlelogin() {
     if (!username.value || !password.value) {
         alert(t('login.complete_fields'))
@@ -143,6 +165,7 @@ async function handlelogin() {
 <style scoped>
 /* Fondo general de la página */
 
+/* Contenedor general de la página, centrado vertical y horizontal */
 .login-page {
     height: 90vh;
     display: flex;
@@ -150,8 +173,7 @@ async function handlelogin() {
     align-items: center;
 }
 
-/* Recuadro blanco principal */
-
+/* Caja blanca principal que contiene logo y formulario */
 .login-box {
     background-color: white;
     width: 700px;
@@ -163,8 +185,7 @@ async function handlelogin() {
     border: 2px solid rgb(11, 76, 4);
 }
 
-/* Columna izquierda: logo y nombre */
-
+/* Parte izquierda: logo y texto */
 .logo-section {
     flex: 1;
     background-color: white;
@@ -176,6 +197,7 @@ async function handlelogin() {
     padding: 20px;
 }
 
+/* Logo */
 .logo {
     width: 200px;
     height: 200px;
@@ -183,6 +205,7 @@ async function handlelogin() {
     margin-bottom: 10px;
 }
 
+/* Nombre app */
 .app-name {
     font-family: 'Poppins', sans-serif;
     font-size: 20px;
@@ -191,7 +214,7 @@ async function handlelogin() {
     text-align: center;
 }
 
-/* Columna derecha */
+/* Parte derecha: formulario y fondo */
 .form-container {
     max-width: 400px;  /* Limita el ancho máximo del formulario */
     margin: auto;
@@ -223,6 +246,7 @@ async function handlelogin() {
     margin-top: 20px;
 }
 
+/* Icono de usuario arriba */
 .form-gradient-box img.user-icon {
     width: 50px;
     height: 50px;
@@ -238,7 +262,7 @@ async function handlelogin() {
     margin-bottom: 10px;
 }
 
-/* Línea negra */
+/* Línea divisoria */
 .divider {
     width: 80%;
     border: 1px solid black;
@@ -256,7 +280,12 @@ async function handlelogin() {
     transform: translateY(-50%);
 
 }
-/* poner alineado horizontal icono, label e input*/
+
+/* ======================== */
+/* Inputs con iconos dentro */
+/* ======================== */
+
+/* Contenedor flex para alinear icono e input horizontalmente */
 
 .form-field-horizontal {
     display: flex;
@@ -297,7 +326,7 @@ async function handlelogin() {
     transform: -2px; /* Sube un poco el icono */
 }
 
-
+/* Input personalizado con espacio para icono a la izquierda */
 .input-with-icon {
     position: relative;
     display: flex;
@@ -354,6 +383,7 @@ input::placeholder {
     width: 30%;
     height: 20%;
     margin-bottom: 10px;
+    font-size: 12px;
 }
 .submit-button:hover {
     background-color: rgba(255, 255, 255, 0.9);
@@ -425,5 +455,175 @@ input:-webkit-autofill:active {
     -webkit-text-fill-color: black !important;
     -webkit-background-clip: text;
 }
+
+/* =====================================================
+        Responsive Styles - Archivo CSS Reutilizable
+        Puedes incluir este archivo en todas tus vistas.
+    ===================================================== */
+
+    /* ============ TELÉFONOS GRANDES (576px a 767px) ============ */
+@media (max-width: 768px) {
+    .login-box {
+        flex-direction: column;
+        width: 90vw;
+        min-height: auto;
+        border-radius: 8px;
+        }
+
+    .logo-section {
+        border-right: none;
+        border-bottom: 1px solid #ddd;
+        padding: 15px;
+        flex: none;
+        width: 100%;
+        }
+
+    .logo {
+        width: 120px;
+        height: 120px;
+        margin-bottom: 5px;
+    }
+
+    .app-name {
+        font-size: 18px;
+    }
+
+    .form-container {
+        flex: none;
+        width: 100%;
+        max-width: 100%;
+        padding: 15px;
+        margin: 0;
+    }
+
+    .form-gradient-box {
+        max-width: 100%;
+        padding: 15px 10px;
+        border-radius: 8px;
+    }
+
+    .form-gradient-box img.user-icon {
+        width: 40px;
+        height: 40px;
+        margin-top: 5px;
+    }
+
+    .input-with-icon input {
+        width: 100%;
+        padding-left: 40px;
+    }
+
+    .submit-button {
+        width: 100%;
+        height: 40px;
+        margin-bottom: 15px;
+    }
+
+    .language-switcher {
+        top: 0;
+        right: 0;
+        margin-bottom: 10px;
+    }
+
+    .bandera {
+        width: 30px;
+        height: 30px;
+    }
+}
+
+/* ============ TABLETS (768px a 991px) ============ */
+
+@media (min-width: 768px) and (max-width: 991.98px) {
+    .login-box {
+        width: 80%;
+    }
+
+    .form-gradient-box {
+        padding: 30px;
+    }
+
+    .logo {
+        width: 100px;
+        height: 100px;
+    }
+
+    .app-name {
+        font-size: 20px;
+    }
+
+    .submit-button {
+        height: 42px;
+        font-size: 16px;
+    }
+    }
+
+/* ============ MÓVILES PEQUEÑOS (Teléfonos < 576px) ============ */
+
+@media (max-width: 575.98px) {
+
+    /* Contenedor principal */
+
+    .login-box {
+        width: 100%;
+        margin: 0;
+        border-radius: 0;
+    }
+
+    .form-gradient-box {
+        padding: 20px;
+    }
+
+    .form-container {
+        padding: 10px;
+    }
+
+    .logo {
+        width: 80px;
+        height: 80px;
+    }
+
+    .app-name {
+        font-size: 16px;
+    }
+
+    .submit-button {
+        height: 36px;
+        font-size: 14px;
+    }
+
+    .footer {
+        font-size: 12px;
+    }
+}
+
+/* ============ LAPTOPS (992px a 1199px) ============ */
+
+@media (min-width: 992px) and (max-width: 1199.98px) {
+
+    .login-box {
+        width: 60%;
+    }
+
+    .form-gradient-box {
+        padding: 35px;
+    }
+
+    .logo {
+        width: 120px;
+        height: 120px;
+    }
+
+    .app-name {
+        font-size: 22px;
+    }
+
+    .submit-button {
+        height: 46px;
+        font-size: 17px;
+    }
+    }
+
+
+
 
 </style>
