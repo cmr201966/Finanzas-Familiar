@@ -1,6 +1,6 @@
 <template>
   <div class="carousel-container3">
-    
+
     <div class="carousel-track3">
       <div
         class="carousel-slide3"
@@ -27,9 +27,9 @@
 import { ref } from 'vue'
 import { useRouter } from 'vue-router'
 
-import ingresos from '../assets/img/Ingreso.png'
-import gastos from '../assets/img/Gastos.png'
-import transferencia from '../assets/img/transferencia.jpeg'
+import ingresos from '../assets/img/tarjetas'
+import gastos from '../assets/img/tarjetas'
+import transferencia from '../assets/img/tarjetas'
 
 const router = useRouter()
 
@@ -141,7 +141,7 @@ const handleClick = (image) => {
   left: 50%; /* 50% del ancho de la ventana */
   height: 25%;
   }
-  
+
   .carousel-item3 {
     width: 30%;
     margin-right: 4.6%;

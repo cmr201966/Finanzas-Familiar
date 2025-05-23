@@ -159,6 +159,26 @@ async function handlelogin() {
         console.error(err)
     }
 }
+
+/* para buscar el usuario en la BD con Axios*/
+
+import { ref } from 'vue'
+import { login } from '@/services/auth'
+
+const form = ref({ user: '', password: '' })
+const error = ref(null)
+
+const onLogin = async () => {
+  error.value = null
+  try {
+    const response = await login(form.value)
+    console.log('Login correcto. Token guardado:', response.data.token)
+    // Redirige, muestra mensaje, etc.
+  } catch (err) {
+    error.value = err.message || 'Error al iniciar sesión'
+  }
+}
+
 </script>
 
 
