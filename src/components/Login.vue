@@ -55,7 +55,7 @@
                         <hr class="divider" />
 
                         <!-- Boton inicio -->
-                        <button class="submit-button" @click="handlelogin">{{ $t('login.login') }}</button>
+                        <button class="submit-button" @click.prevent="handlelogin">{{ $t('login.login') }}</button>
 
                         <!-- Boton login -->
                         <div class="register-link">
@@ -128,54 +128,30 @@ const eyeOffIcon = new URL('../assets/img/icono/ojo-cerrado.png', import.meta.ur
 
 
 // Función para manejar login (comentario: función asíncrona de login)
-async function handlelogin() {
-    if (!username.value || !password.value) {
-        alert(t('login.complete_fields'))
-    return
-    }
-
-    if (password.value.length < 8) {
-        alert(t('login.password_length'))
-    return
-    }
-
-    try {
-    const response = await fetch('/api/login/', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ username: username.value, password: password.value }),
-    })
-
-    const data = await response.json()
-
-    if (!response.ok) {
-        alert(data?.detail || t('login.invalid_credentials'))
-        return
-    }
-
-    console.log('Login exitoso:', data)
-    } catch (err) {
-        alert(t('login.network_error'))
-        console.error(err)
-    }
-}
-
-/* para buscar el usuario en la BD con Axios*/
-
-import { ref } from 'vue'
 import { login } from '@/services/auth'
+async function handlelogin(event) {
+  event.preventDefault() // evita que el formulario recargue la página
 
-const form = ref({ user: '', password: '' })
-const error = ref(null)
+  if (!username.value || !password.value) {
+    alert(t('login.complete_fields'))
+    return
+  }
 
-const onLogin = async () => {
-  error.value = null
+  if (password.value.length < 8) {
+    alert(t('login.password_length'))
+    return
+  }
+
   try {
-    const response = await login(form.value)
+    const response = await login({
+      user: username.value,
+      password: password.value
+    })
     console.log('Login correcto. Token guardado:', response.data.token)
-    // Redirige, muestra mensaje, etc.
+    // redirige si es necesario
+    router.push('/register') // ejemplo de redirección tras login
   } catch (err) {
-    error.value = err.message || 'Error al iniciar sesión'
+    alert(err.message || 'Error al iniciar sesión')
   }
 }
 
