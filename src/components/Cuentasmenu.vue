@@ -3,13 +3,11 @@
     <div class="fondo">
       <p class="crear">Crear cuenta bancaria</p>
       <hr class="mi-barra" />
-
-      <p class="nombre">Nombre de cuenta:</p>
+      <img class="img-nombre" src="..\assets\img\icono\cuenta.png" alt="">
       <div class="entrada-nombre">
-        <input class="in-nombre" type="text" v-model="form.nombreCuenta" />
+        <input class="in-nombre" type="text" v-model="form.nombreCuenta" placeholder="Nombre de cuenta" />
       </div>
-
-      <p class="banco">Banco:</p>
+      <img class="img-banco" src="..\assets\img\icono\banco.png" alt="">
       <div class="entrada-banco">
         <select v-model="form.banco">
           <option disabled value="">Seleccione un banco</option>
@@ -19,8 +17,7 @@
           <option value="fincimex">FINCIMEX</option>
         </select>
       </div>
-
-      <p class="tipo-cuenta">Tipo de cuenta:</p>
+       <img class="img-tipo" src="..\assets\img\icono\TCB.png" alt="">
       <div class="entrada-tipo-cuenta">
         <select v-model="form.tipoCuenta">
           <option disabled value="">Seleccione tipo de cuenta</option>
@@ -30,22 +27,22 @@
         </select>
       </div>
 
-      <p class="fecha-apertura">Fecha de apertura:</p>
       <div class="entrada-fecha-apertura">
         <input type="date" v-model="form.fechaApertura" />
       </div>
-
-      <p class="saldo">Saldo inicial:</p>
+      <img class="img-saldo" src="..\assets\img\icono\dinero.png" alt="">
       <div class="entrada-saldo">
-        <input type="number" v-model="form.saldoInicial" />
+        <input type="number" v-model="form.saldoInicial" placeholder="Saldo inicial" />
       </div>
-
-      <p class="cuenta-principal">Cuenta principal:</p>
+      <img class="img-cuentaP" src="..\assets\img\icono\cuentaP.png" alt="">
+      <div class="contenedor-p"><p class="cuenta-principal">Cuenta principal</p></div>
       <div class="entrada-cuenta-principal">
         <input type="checkbox" v-model="form.cuentaPrincipal" />
       </div>
-
-      <p class="notificaciones">Recibir notificaciones:</p>
+      <img class="img-notificaciones" src="..\assets\img\icono\notifica.png" alt="">
+      <div class="contenedor-p2">
+        <p class="notificaciones">Notificaciones</p>
+      </div>
       <div class="entrada-notificaciones">
         <input type="checkbox" v-model="form.recibirNotificaciones" />
       </div>
@@ -102,6 +99,54 @@ export default {
 </script>
 
 <style scoped>
+.img-nombre{
+  position: absolute;
+  top: 14.4% ;
+  left: 13%;
+  width: 8%;
+  height: 8%;
+  z-index: 1000;
+}
+.img-banco{
+  position: absolute;
+  top: 22.4% ;
+  left: 13%;
+  width: 8%;
+  height: 8%;
+  z-index: 1000;
+}
+.img-tipo{
+  position: absolute;
+  top: 30.4% ;
+  left: 13%;
+  width: 8%;
+  height: 8%;
+  z-index: 1000;
+}
+.img-cuentaP{
+  position: absolute;
+  top: 46.4% ;
+  left: 13%;
+  width: 8%;
+  height: 8%;
+  z-index: 1000;
+}
+.img-notificaciones{
+  position: absolute;
+  top: 46.4% ;
+  left: 53%;
+  width: 8%;
+  height: 8%;
+  z-index: 1000;
+}
+.img-saldo{
+  position: absolute;
+  top: 38.4% ;
+  left: 53%;
+  width: 8%;
+  height: 8%;
+  z-index: 1000;
+}
 .logo-cuentas {
   position: absolute;
   top: 25%;
@@ -134,75 +179,82 @@ export default {
 .entrada-nombre{
 position: absolute;
   top: 15%;
-  left: 40%;
+  left: 13%;
   background-color: white;
-  border-radius: 0.5vw;
+  border-radius: 1vw;
   border: 2px solid #000000;
-  width: 48%;
+  width: 75%;
 }
 .entrada-nombre input{
  width: 100%;
+ margin-left: 20%;
+ font-size: 1vw;
 }
 .entrada-banco{
   position: absolute;
   top: 23%;
-  left: 40%;
+  left: 13%;
   background-color: white;
-  border-radius: 0.5vw;
+  border-radius: 1vw;
   border: 2px solid #000000;
-   width: 48%;
+  width: 75%;
 }
 .entrada-banco select{
  width: 100%;
+ margin-left: 20%;
+ font-size: 1vw;
 }
 .entrada-tipo-cuenta{
-position: absolute;
+  position: absolute;
   top: 31%;
-  left: 40%;
+  left: 13%;
   background-color: white;
-  border-radius: 0.5vw;
+  border-radius: 1vw;
   border: 2px solid #000000;
-   width: 48%;
+  width: 75%;
 }
 .entrada-tipo-cuenta select{
  width: 100%;
+ margin-left: 20%;
+ font-size: 1vw;
 }
 .entrada-fecha-apertura{
   position: absolute;
   top: 39%;
-  left: 40%;
+  left: 13%;
   background-color: white;
-  border-radius: 0.5vw;
+  border-radius: 1vw;
   border: 2px solid #000000;
-   width: 48%;
+  width: 35%;
 }
 .entrada-fecha-apertura input{
  width: 100%;
 }
 .entrada-saldo {
   position: absolute;
-  top: 47%;
-  left: 40%;
+  top: 39%;
+  left: 53%;
   background-color: white;
-  border-radius: 0.5vw;
+  border-radius: 1vw;
   border: 2px solid #000000;
-   width: 48%;
+  width: 35%;
 }
 .entrada-saldo input{
  width: 100%;
+ margin-left: 25%;
+ font-size: 1vw;
 }
 .entrada-cuenta-principal{
   position: absolute;
-  top: 55.5%;
-  left: 45%;
-  background-color: transparent;
+  top: 47.8%;
+  left: 43%;
   border-radius: 0.5vw;
 }
 .entrada-notificaciones {
   position: absolute;
-  top: 63.5%;
-  left: 45%;
-  background-color: transparent;
+  top: 47.8%;
+  left: 83%;
+  border-radius: 0.5vw;
 }
 .fondo {
   background: linear-gradient(#79bef7, #13ac18);
@@ -238,40 +290,39 @@ position: absolute;
   top: 70%;
   left: 5%;
 }
-.nombre {
-  position: absolute;
-  top: 15%;
-  left: 8%;
-}
-.banco {
-  position: absolute;
-  top: 23%;
-  left: 8%;
-}
-.tipo-cuenta {
-  position: absolute;
-  top: 31%;
-  left: 8%;
-}
-.fecha-apertura {
-  position: absolute;
-  top: 39%;
-  left: 8%;
-}
-.saldo {
+.contenedor-p{
   position: absolute;
   top: 47%;
-  left: 8%;
+  left: 13%;
+  background-color: white;
+  border-radius: 1vw;
+  border: 2px solid #000000;
+  width: 35%;
+  height: 7%;
 }
 .cuenta-principal {
   position: absolute;
-  top: 55%;
-  left: 8%;
+  top: 10%;
+  left: 20%;
+  font-size: 1vw;
+  font-weight: bold;
+}
+.contenedor-p2{
+  position: absolute;
+  top: 47%;
+  left: 53%;
+  background-color: white;
+  border-radius: 1vw;
+  border: 2px solid #000000;
+  width: 35%;
+  height: 7%;
 }
 .notificaciones {
   position: absolute;
-  top: 63%;
-  left: 8%;
+  top: 10%;
+  left: 25%;
+  font-size: 1vw;
+  font-weight: bold;
 }
 
 /* Responsive media queries (solo ajustan tamaños y anchos para móvil y tablet, sin tocar posiciones absolutas) */
