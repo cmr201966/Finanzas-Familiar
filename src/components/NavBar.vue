@@ -2,8 +2,8 @@
   <v-app>
     <div class="Barra">
       <div class="logo-titulo">
-        <img class="logo" src="../assets/img/Logo/logo.jpg" />
-        <h1 class="titulo">Finanza Familiar</h1>
+        <img class="logo" src="../assets/img/Logo/logo3.jpg" />
+        <h1 class="titulo">{{$t('home.titulo')}}</h1>
 
         <!-- Aquí agregamos el menú -->
         <v-menu offset-y>
@@ -74,59 +74,66 @@
   </v-app>
 </template>
 
-<script>
-export default {
-  name: 'Navbar',
-  data() {
-    return {
-      currentFlagIcon: '/Flags/spain.png' // bandera por defecto
-    };
-  },
-  methods: {
-    opcion1() {
-      alert('Nombre del usuario');
-    },
-    opcion2() {
-      alert('Contraseña');
-    },
-    opcion3() {
-      alert('Categorias');
-    },
-    opcion4() {
-      alert('Cuentas');
-    },
-    opcion5() {
-      alert('Transacciones');
-    },
-    opcion6() {
-      alert('Tranferencias');
-    },
-    opcion7() {
-      alert('Tranferencias');
-    },
-    opcion8() {
-      alert('Tranferencias');
-    },
-    opcion9() {
-      alert('Tranferencias');
-    },
-    opcion10() {
-      alert('Tranferencias');
-    },
-    opcion11() {
-      this.currentFlagIcon = '/Flags/spain.png';
-    },
-    opcion12() {
-      this.currentFlagIcon = '/Flags/uk.png';
-    },
-    opcion13() {
-      alert('Tranferencias');
-    },
-    opcion14() {
-      alert('Tranferencias');
-    }
-  }
-};
+<script setup>
+import { ref, watch } from 'vue'
+import { useI18n } from 'vue-i18n'
+
+const { locale, t } = useI18n()
+const currentLocale = ref(locale.value)
+const currentFlagIcon = ref(getFlagIcon(locale.value))
+
+watch(currentLocale, (newLocale) => {
+  locale.value = newLocale
+  currentFlagIcon.value = getFlagIcon(newLocale)
+})
+
+function getFlagIcon(locale) {
+  return locale === 'es' ? '/Flags/spain.png' : '/Flags/uk.png'
+}
+
+// Métodos
+function opcion1() {
+  alert('Nombre del usuario')
+}
+function opcion2() {
+  alert('Contraseña')
+}
+function opcion3() {
+  alert('Categorias')
+}
+function opcion4() {
+  alert('Cuentas')
+}
+function opcion5() {
+  alert('Transacciones')
+}
+function opcion6() {
+  alert('Transferencias')
+}
+function opcion7() {
+  alert('Transferencias')
+}
+function opcion8() {
+  alert('Transferencias')
+}
+function opcion9() {
+  alert('Transferencias')
+}
+function opcion10() {
+  alert('Transferencias')
+}
+function opcion11() {
+  currentLocale.value = 'es'
+}
+function opcion12() {
+  currentLocale.value = 'en'
+}
+function opcion13() {
+  alert('Transferencias')
+}
+function opcion14() {
+  alert('Transferencias')
+}
 </script>
 
 <style scoped>
@@ -148,7 +155,6 @@ export default {
   margin-right: 2vw;
   color: white;
 }
-
 .logo-titulo {
   display: flex;
   align-items: center;

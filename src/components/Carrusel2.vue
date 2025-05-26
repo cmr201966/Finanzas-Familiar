@@ -1,23 +1,23 @@
 <template>
   <div class="carousel-container2">
     <button @click="moveSlide(-1)" class="nav-button2">❮</button>
-    
+
     <div class="carousel-track2">
       <div
         class="carousel-slide2"
         :style="{ transform: `translateX(-${currentIndex * imageWidth}px)` }"
       >
-           <div
-  v-for="(image, index) in images"
-  :key="index"
-  class="carousel-item2"
-  @click="handleClick(image)"
->
-  <div class="image-wrapper2">
-    <img :src="image.src" :alt="image.alt" />
-    <p class="image-label2">{{ image.alt }}</p>
-  </div>
-</div>
+        <div
+          v-for="(image, index) in images"
+          :key="index"
+          class="carousel-item2"
+          @click="handleClick(image)"
+        >
+          <div class="image-wrapper2">
+            <img :src="image.src" :alt="t(image.alt)" />
+            <p class="image-label2">{{ t(image.alt) }}</p>
+          </div>
+        </div>
       </div>
     </div>
 
@@ -26,24 +26,28 @@
 </template>
 
 <script setup>
-import Resumen_General from '../assets/img/Resumen General.png'
-import Vista_Trasnferencias from '../assets/img/transferencia.jpeg'
-import Cuentas from '../assets/img/cuenta.png'
-import Vista_Transacciones from '../assets/img/Vista_Transacciones.jpg'
-import Categorias from '../assets/img/categorias.jpg'
-import Anual from '../assets/img/Anual.jpg'
-import Presupuesto from '../assets/img/Presupuesto (2).jpg'
 import { ref } from 'vue'
+import { useI18n } from 'vue-i18n'
+
+import Resumen_General from '../assets/img/tarjetas/resumen gral.png'
+import Vista_Trasnferencias from '../assets/img/tarjetas/transf.png'
+import Cuentas from '../assets/img/tarjetas/cuentas.png'
+import Vista_Transacciones from '../assets/img/Vista_Transacciones.jpg'
+import Categorias from '../assets/img/tarjetas/CatIngresosgGastos.png'
+import Anual from '../assets/img/tarjetas/reportes.png'
+import Presupuesto from '../assets/img/tarjetas/presupuesto.png'
+
+const { t } = useI18n()
 
 const images = ref([
-  { src: Resumen_General, alt: 'Resumen General', id: 1 },
-  { src: Vista_Trasnferencias, alt: 'Vista Trasnferencias', id: 2 },
-  { src: Cuentas, alt: 'Cuentas', id: 3 },
-  { src: Presupuesto, alt: 'Presupuesto', id: 4 },
-  { src: Anual, alt: 'Informe Mensual/Anual', id: 5 },
-  { src: Categorias, alt: 'Categorias', id: 6 },
-  //{ src: Vista_Categorias, alt: 'Vista Categorias', id: 6 },
-  ])
+  { src: Resumen_General, alt: 'home.resumenGeneral', id: 1 },
+  { src: Vista_Trasnferencias, alt: 'home.transferencias', id: 2 },
+  { src: Cuentas, alt: 'home.cuentas', id: 3 },
+  { src: Presupuesto, alt: 'home.presupuesto', id: 4 },
+  { src: Anual, alt: 'home.informeAnual', id: 5 },
+  { src: Categorias, alt: 'home.categorias', id: 6 }
+])
+
 const currentIndex = ref(0)
 const visibleCount = 3
 const imageWidth = 200
@@ -56,9 +60,7 @@ const moveSlide = (direction) => {
 }
 
 const handleClick = (image) => {
-  alert(`Seleccionaste: ${image.alt} (ID: ${image.id})`)
-  // También puedes usar router.push() si usas Vue Router
-  // router.push(`/detalle/${image.id}`)
+  alert(`Seleccionaste: ${t(image.alt)} (ID: ${image.id})`)
 }
 </script>
 
@@ -66,12 +68,12 @@ const handleClick = (image) => {
 .carousel-container2 {
   display: flex;
   align-items: center;
-  width: 79%;              /* tamaño original */
+  width: 84%;              /* tamaño original */
   overflow: hidden;
   position: absolute;
-  top: 60.1%;                /* posición original */
-  left: 9%;               /* posición original */
-  border: 2px solid #0056b3;
+  top: 48.1%;                /* posición original */
+  left: 5%;               /* posición original */
+
   color: white;
   box-sizing: border-box;
   background-color: white;
@@ -101,6 +103,7 @@ const handleClick = (image) => {
   text-align: center;
   margin-right: 2.5vw;
   width: 100px;  /* ancho fijo para consistencia */
+  margin-left: 2%;
 }
 
 .carousel-item2 img {
@@ -129,13 +132,13 @@ const handleClick = (image) => {
 }
 
 .image-wrapper2 img {
-  width: 7vw;
+  width: 3vw;
   height: auto;
   border-radius: 1vw;
 }
 
 .image-label2 {
-  font-size: 1.2vw;
+  font-size: 60%;
   margin-top: 1vh;
   font-weight: bold;
   color: #333;
@@ -147,15 +150,15 @@ const handleClick = (image) => {
 /* Pantallas medianas */
 @media (max-width: 1024px) {
   .carousel-container2 {
-    width: 80.5%;            /* ancho relativo */
+    width: 85.5%;            /* ancho relativo */
     max-width: 90%;
-    top: 61vh;             /* ajustado */
-    left: 9.5%;             /* ajustado */
+    top: 50vh;             /* ajustado */
+    left:4%;             /* ajustado */
   }
 
   .carousel-item2 {
-    width: 8.5vw;
-    margin-right: 2.2vw;
+    width: 8vw;
+    margin-right: 3vw;
   }
 
   .image-wrapper2 {
@@ -164,45 +167,44 @@ const handleClick = (image) => {
   }
 
   .image-wrapper2 img {
-    width: 7vw;
+    width: 3vw;
     height: auto;
   }
 
   .image-label2 {
-    font-size: 1.2vw;
+    font-size: 50%;
   }
 }
 
 /* Pantallas pequeñas (móviles) */
 @media (max-width: 480px) {
   .carousel-container2 {
-    width: 85%;
+    width: 90%;
     max-width: 90%;
-    top: 59%; 
-    left: 49.5%;
+    top: 45%; 
+    left: 46.5%;
     transform: translateX(-50%);
     position: fixed; /* centrado fijo */
     height: 23%;
   }
 
   .carousel-item2 {
-   width: 11%;
-  margin-right: 6%;
+   width: 30%;
+   margin-right: -15%;
   }
 
   .image-wrapper2 {
-    width: 5%;
-    height: 15%;
+    width: 50%;
+    height: 100%;
     margin-top: 2%;
   }
 
   .image-wrapper2 img {
-    width: 2000%;
-    height: 300%;
+    width: 60%;
   }
 
   .image-label2 {
-    font-size: 2vw;
+    font-size: 20%;
     margin-right: 2%;
   }
 }

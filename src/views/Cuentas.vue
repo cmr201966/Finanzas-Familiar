@@ -1,11 +1,11 @@
 <template>
     <NavBar />
     <Footer />
-  <Cuentasmenu />
+    <Cuentas />
 </template>
 
 <script setup>
 import NavBar from '../components/NavBar.vue'
 import Footer from '../components/Footer.vue'
-import Cuentasmenu from '../components/Cuentasmenu.vue'
+import Cuentas from '../components/Cuentasmenu.vue'
 </script>

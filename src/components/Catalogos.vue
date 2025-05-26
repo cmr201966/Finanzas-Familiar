@@ -1,46 +1,52 @@
 <template>
   <div class="carousel-container">
-    
     <div class="carousel-track">
       <div
         class="carousel-slide"
         :style="{ transform: `translateX(-${currentIndex * imageWidth}px)` }"
       >
-           <div
-  v-for="(image, index) in images"
-  :key="index"
-  class="carousel-item"
-  @click="handleClick(image)"
->
-  <div class="image-wrapper">
-    <img :src="image.src" :alt="image.alt" />
-    <p class="image-label">{{ image.alt }}</p>
-  </div>
-</div>
+        <div
+          v-for="(image, index) in images"
+          :key="index"
+          class="carousel-item"
+          @click="handleClick(image)"
+        >
+          <div class="image-wrapper">
+            <img :src="image.src" :alt="t(image.alt)" />
+            <p class="image-label">{{ t(image.alt) }}</p>
+          </div>
+        </div>
       </div>
     </div>
-
   </div>
 </template>
 
 <script setup>
 import { ref } from 'vue'
 import { useRouter } from 'vue-router'
+import { useI18n } from 'vue-i18n'
 
-import categoria_ingreso from '../assets/img/catIngresos.png'
-import categoria_gasto from '../assets/img/catGastos.png'
-import Cuentas from '../assets/img/cuenta.png'
+import CatIngresosgGastos from '../assets/img/CatIngresosgGastos.png'
+import presupuesto from '../assets/img/tarjetas/presupuesto.png'
+import Cuentas from '../assets/img/cuentas.png'
+import ingresos from '../assets/img/tarjetas/ingresos.png'
+import gastos from '../assets/img/Gastos.png'
+import transferencia from '../assets/img/tarjetas/transf.png'
 
 const router = useRouter()
+const { t } = useI18n()
 
 const images = ref([
-  { src: categoria_ingreso, alt: 'Categoria ingreso', id: 1 },
-  { src: categoria_gasto, alt: 'Categoria gasto', id: 2 },
-  { src: Cuentas, alt: 'Cuentas', id: 3 },
+  { src: CatIngresosgGastos, alt: 'home.catIngresosGastos', id: 1 },
+  { src: Cuentas, alt: 'home.cuentas', id: 2 },
+  { src: presupuesto, alt: 'home.presupuesto', id: 3 },
+  { src: ingresos, alt: 'home.ingresos', id: 4 },
+  { src: gastos, alt: 'home.gastos', id: 5 },
+  { src: transferencia, alt: 'home.transferencias', id: 6 }
 ])
 
 const currentIndex = ref(0)
-const visibleCount = 3
+const visibleCount = 6
 const imageWidth = 200
 
 const moveSlide = (direction) => {
@@ -51,10 +57,10 @@ const moveSlide = (direction) => {
 }
 
 const handleClick = (image) => {
-  if (image.alt === 'Cuentas') {
+  if (image.id === 2) {
     router.push('/Cuentas')
   } else {
-    alert(`Navegación no implementada para: ${image.alt}`)
+    alert(`Navegación no implementada para: ${t(image.alt)}`)
   }
 }
 </script>
@@ -63,15 +69,14 @@ const handleClick = (image) => {
 .carousel-container {
   display: flex;
   align-items: center;
-  width: 31.1%;              /* tamaño original */
+  width: 75.1%;              /* tamaño original */
   overflow: hidden;
   position: absolute;
-  top: 28.5%;                /* posición original */
+  top: 20.5%;                /* posición original */
   left: 9%;               /* posición original */
-  border: 2px solid #0056b3;
   box-sizing: border-box;
   background-color: white;
-  height: 25%;
+  height: 20%;
   transition: width 0.3s ease, left 0.3s ease, top 0.3s ease;
 }
 
@@ -91,7 +96,7 @@ const handleClick = (image) => {
   cursor: pointer;
   text-align: center;
   width: 10%;            /* ancho fijo para mantener proporción */
-  margin-right: 25%;
+  margin-right: 6.5%;
 }
 
 .carousel-item img {
@@ -105,12 +110,12 @@ const handleClick = (image) => {
 }
 
 .image-wrapper {
-  width: 8%;
-  height: 23%;
+  width: 8vw;
+  height: 100%;
   border-radius: 1%;
+  border: 2px solid #0056b3;
   background: transparent;
   transition: transform 0.3s, border-color 0.3s;
-  box-sizing: border-box;
 }
 
 .image-wrapper:hover {
@@ -119,13 +124,13 @@ const handleClick = (image) => {
 }
 
 .image-wrapper img {
-  width: 7000%;
+  width: 3vw;
   height: auto;
   border-radius: 1%;
 }
 
 .image-label {
-  font-size: 90%;
+  font-size: 60%;
   margin-top: 1%;
   font-weight: bold;
   color: #333;
@@ -137,37 +142,38 @@ const handleClick = (image) => {
 /* Pantallas medianas (tablets, etc) */
 @media (max-width: 1024px) {
   .carousel-container {
-    width: 31.1%;           /* tamaño proporcional más pequeño */
-    top: 27.8%;             /* posición ajustada */
+    width: 75.1%;           /* tamaño proporcional más pequeño */
+    top: 20.8%;             /* posición ajustada */
     left: 9.5%;
     height: 25%;
   }
   
   .carousel-item {
     width: 30%;
-    margin-right: 5%;
+    margin-right: -10%;
   }
 
   .image-wrapper {
-    width: 80%;
-    height: auto;
+    width: 9vw;
+    height: 100%;
   }
 
   .image-wrapper img {
-    width: 125%;
+    width: 3vw;
+  
   }
 
   .image-label {
-    font-size: 80%;
+    font-size: 50%;
   }
 }
 
 /* Pantallas pequeñas (móviles) */
 @media (max-width: 480px) {
   .carousel-container {
-    width: 36%;
-    top: 27%;
-    left: 25%;
+    width: 80.1%;
+    top: 20%;
+    left: 48%;
     transform: translateX(-50%);
     position: fixed; /* para que quede visible y centrado */
     height: 16.5%;
@@ -175,22 +181,22 @@ const handleClick = (image) => {
 
   .carousel-item {
     width: 30%;
-    margin-right: 4%;
+    margin-right: -15%;
 
   }
 
   .image-wrapper {
-    width: 4.5%;
-    height: auto;
+    width: 50%;
+    height: 100%;
     margin-top: 2%;
   }
 
   .image-wrapper img {
-    width: 2000%;
+    width: 100%;
   }
 
   .image-label {
-    font-size: 45%;
+    font-size: 20%;
   }
 }
 
