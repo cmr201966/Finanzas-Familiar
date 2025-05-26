@@ -15,7 +15,7 @@
                             <img :src="currentFlagIcon" class="bandera" />
                             </v-btn>
                         </template>
-                        <v-list padd>
+                        <v-list class="menu-reducido">
                             <v-list-item @click="opcion11">
                                 <v-list-item-title>{{ $t('login.spanish') }}</v-list-item-title>
                             </v-list-item>
@@ -59,7 +59,7 @@
                         <!-- Boton inicio -->
 
                         <div class="form-buttons">
-                            <button class="btn btn-aceptar" @click.prevent="handleRegister" :disabled="loading">{{ $t('login.login') }} </button>
+                            <button class="btn btn-aceptar" @click.prevent="handleLogin" :disabled="loading">{{ $t('login.login') }} </button>
                         </div>
                         <!--      <button class="submit-button" @click.prevent="handlelogin">{{ $t('login.login') }}</button>-->
                             <!--   Boton login-->
@@ -138,7 +138,7 @@ const eyeOffIcon = new URL('../assets/img/icono/ojo-cerrado.png', import.meta.ur
 
 import { login } from '@/services/auth'
 
-async function handlelogin(event) {
+async function handleLogin(event) {
   event.preventDefault() // evita que el formulario recargue la página
 
     if (!username.value || !password.value) {
@@ -159,8 +159,7 @@ async function handlelogin(event) {
         console.log('Login correcto. Token guardado:', response.data.token)
 
         // redirige si es necesario
-        //router.push('/home')
-        router.push('/register') // ejemplo de redirección tras login
+        router.push('/home')
     } catch (err) {
         alert(err.message || 'Error al iniciar sesión')
     }
@@ -439,9 +438,16 @@ input::placeholder {
 }
 
 .language-switcher select {
-    padding: 4px 8px;
+    padding: 4px 4px;
     border-radius: 6px;
     border: 1px solid #060000;
+}
+
+.menu-reducido {
+  width: 100px;
+  padding: 2px 0; /* Ajusta el alto vertical */
+  padding-inline: 7px;
+  min-height: 32px;
 }
 
 .custom-input {

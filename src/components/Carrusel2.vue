@@ -32,7 +32,7 @@ import { useI18n } from 'vue-i18n'
 import Resumen_General from '../assets/img/tarjetas/resumen gral.png'
 import Vista_Trasnferencias from '../assets/img/tarjetas/transf.png'
 import Cuentas from '../assets/img/tarjetas/cuentas.png'
-import Vista_Transacciones from '../assets/img/Vista_Transacciones.jpg'
+//import Vista_Transacciones from '../assets/img/Vista_Transacciones.jpg'
 import Categorias from '../assets/img/tarjetas/CatIngresosgGastos.png'
 import Anual from '../assets/img/tarjetas/reportes.png'
 import Presupuesto from '../assets/img/tarjetas/presupuesto.png'
@@ -181,7 +181,7 @@ const handleClick = (image) => {
   .carousel-container2 {
     width: 90%;
     max-width: 90%;
-    top: 45%; 
+    top: 45%;
     left: 46.5%;
     transform: translateX(-50%);
     position: fixed; /* centrado fijo */
