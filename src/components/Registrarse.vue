@@ -191,28 +191,35 @@ const loading = ref(false)
   try {
     const response = await register({
       username: username.value,
-      full_name: fullName.value,
+      name: fullName.value,
       password: password.value,
       email: email.value,
       phone: phone.value,
     })
 
-    if (response && response.status === 201) {
-      successMessage.value = t('register.success')
+    console.log(response)
+    if (response) {
+//      if (response && response.status === 200) {
+        successMessage.value = t('register.success')
 
       setTimeout(() => {
-        router.push({ name: 'Login' }) // o ajusta la ruta según tu router
+        router.push({ name: 'Login' })
         }, 2000)
       } else {
       errorMessage.value = response?.data?.message || t('register.error')
     }
 
   } catch (error) {
-    errorMessage.value = error.response?.data?.message || t('register.connection_error')
+    // validar los <> errores
+    if (error.error.code==400) errorMessage.value= error.message
+    else
+      if (error.error.code==500) errorMessage.value= "Error interno del servidor"
+        else
+          errorMessage.value = error.response?.data?.message || t('register.connection_error')
   } finally {
     loading.value = false
   }
-}
+  }
 
   const cancelarRegistro = () => {
   router.push('/')  // Ajusta según la ruta de tu vista principal

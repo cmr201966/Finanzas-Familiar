@@ -3,18 +3,24 @@ import axios from 'axios'
 const API_URL = 'http://localhost:3000/api/auth'
 
 export const register = async (param) => {
-//  export const login = async (form) => {
-    try {
-//    const response = await axios.post('http://localhost:3000/api/auth/login', param)
-    const response = await axios.post(`${API_URL}/register`, param)
+  try {
+    const response = await axios.post('${API_URL}/register', param)
 
-    // Si el login fue exitoso, guarda el token
-    const token = response.data.data.token
-    localStorage.setItem('token', token)
+    const token = response?.data?.data?.token
+    if (token) {
+      localStorage.setItem('token', token)
+    }
 
     return response.data
   } catch (error) {
-    throw error.response?.data || { message: 'Error inesperado' }
+    // Lanza error con status y mensaje personalizados si están disponibles
+    if (error.response) {
+      const { status, data } = error.response
+      throw { status, ...data }
+    } else {
+      // Si no hay respuesta del servidor
+      throw { status: 500, message: 'Error inesperado' }
+    }
   }
 }
 

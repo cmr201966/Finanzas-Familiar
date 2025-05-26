@@ -58,9 +58,11 @@
                         <button class="submit-button" @click.prevent="handlelogin">{{ $t('login.login') }}</button>
 
                         <!-- Boton login -->
-                        <div class="register-link">
-                        {{ $t('login.no_account') }}
-                        <router-link to="/register">{{ $t('login.sign_up') }}</router-link>
+                        <div class="form-buttons">
+                            <div class="register-link">
+                                {{ $t('login.no_account') }}
+                                <router-link to="/register">{{ $t('login.sign_up') }}</router-link>
+                            </div>
                         </div>
                     </form>
                 </div>
@@ -252,6 +254,11 @@ async function handlelogin(event) {
     object-fit: contain;
 }
 
+ .form-buttons {
+    margin-left: 0;
+    justify-content: space-between;
+  }
+  
 /* Imagen de usuario más pequeña */
 .user-icon {
     width:50px;

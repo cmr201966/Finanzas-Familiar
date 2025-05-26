@@ -25,6 +25,7 @@
         "passwordMatch": "Las contraseñas no coinciden.",
         "emailInvalid": "Invalid email address",
         "phoneRequired": "Phone number is required",
-        "phoneInvalid": "The phone number must be between 7 and 15 digits"
+        "phoneInvalid": "The phone number must be between 7 and 15 digits",
+        "connection_error": "Connection error. Please try again later."
         }
     }
