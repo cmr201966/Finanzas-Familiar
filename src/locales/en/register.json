@@ -24,6 +24,7 @@
         "passwordMin": "The password must be at least 8 characters long",
         "passwordMatch": "Las contraseñas no coinciden.",
         "emailInvalid": "Invalid email address",
-        "phoneRequired": "Phone number is required"
+        "phoneRequired": "Phone number is required",
+        "phoneInvalid": "The phone number must be between 7 and 15 digits"
         }
     }

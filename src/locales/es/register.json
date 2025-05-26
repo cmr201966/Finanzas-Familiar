@@ -12,7 +12,7 @@
     "Select the language":"Seleccione el idioma",
     "Enter the full name":"Entre el nombre completo",
     "complete_fields": "Debes completar todos los campos.",
-    "password_length": "Contraseña al menos 8 caracteres",
+    "password_length": "Contraseña al menos de 8 caracteres",
     "invalid_credentials": "Credenciales inválidas.",
     "network_error": "Error de red o del servidor.",
     "passwordHint": "Contraseña al menos 8 caracteres",
@@ -24,6 +24,7 @@
         "passwordMin": "La contraseña debe tener al menos 6 caracteres.",
         "passwordMatch": "Las contraseñas no coinciden.",
         "emailInvalid": "Correo electrónico inválido.",
-        "phoneRequired": "El teléfono es obligatorio."
+        "phoneRequired": "El teléfono es obligatorio.",
+        "phoneInvalid": "El teléfono debe tener entre 7 y 15 dígitos"
     }
 }

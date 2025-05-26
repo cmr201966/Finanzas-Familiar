@@ -83,7 +83,7 @@
 
                         <!-- Botones de aceptar y cancelar -->
                         <div class="form-buttons">
-                            <button class="btn btn-aceptar" @click="handleRegister" :disabled="loading">{{ $t('register.submit') }} </button>
+                            <button class="btn btn-aceptar" @click.prevent="handleRegister" :disabled="loading">{{ $t('register.submit') }} </button>
                             <button class="btn btn-cancelar" @click="cancelarRegistro"> {{ $t('register.cancel') }} </button>
                         </div>
 
@@ -97,9 +97,11 @@
 
 <script setup>
 
-import { ref, watch } from 'vue'
+import { ref, watch, onMounted  } from 'vue'
 import { useI18n } from 'vue-i18n'
 import { useRouter } from 'vue-router'
+import { register } from '@/services/register'
+
 
 // Router
 const router = useRouter()
@@ -134,6 +136,7 @@ const confirmPassword = ref('')
 const email = ref('')
 const phone = ref('')
 
+
 // Iconos ojo
 const eyeIcon = new URL('../assets/img/icono/ojo.png', import.meta.url).href
 const eyeOffIcon = new URL('../assets/img/icono/ojo-cerrado.png', import.meta.url).href
@@ -148,74 +151,70 @@ const errorMessage = ref('')
 const successMessage = ref('')
 const loading = ref(false)
 
-// Función de registro
-const handleRegister = async () => {
+  // Validaciones
+  // Función para manejar login (comentario: función asíncrona de login)
+
+  const handleRegister = async () => {
   errorMessage.value = ''
   successMessage.value = ''
 
   // Validaciones
   if (!username.value || !fullName.value || !password.value || !confirmPassword.value || !email.value || !phone.value) {
-    errorMessage.value = 'Por favor, completa todos los campos.'
+    errorMessage.value = t('register.complete_fields')
     return
   }
 
   if (password.value !== confirmPassword.value) {
-    errorMessage.value = 'Las contraseñas no coinciden.'
+    errorMessage.value = t('register.passwordMatch')
     return
   }
 
   const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
   if (!emailRegex.test(email.value)) {
-    errorMessage.value = 'El email no tiene un formato válido.'
+    errorMessage.value = t('register.emailInvalid')
     return
   }
 
-  if (password.value.length < 6) {
-    errorMessage.value = 'La contraseña debe tener al menos 6 caracteres.'
+  if (password.value.length < 8) {
+    errorMessage.value = t('register.passwordMin')
     return
   }
 
   const telefonoRegex = /^[0-9]{7,15}$/
   if (!telefonoRegex.test(phone.value)) {
-    errorMessage.value = 'El teléfono debe tener entre 7 y 15 dígitos.'
+    errorMessage.value = t('register.phoneInvalid')
     return
   }
 
   loading.value = true
 
   try {
-    const response = await fetch('http://tu-api.com/api/register', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({
-        username: username.value,
-        fullName: fullName.value,
-        email: email.value,
-        password: password.value,
-        phone: phone.value
-      })
+    const response = await register({
+      username: username.value,
+      full_name: fullName.value,
+      password: password.value,
+      email: email.value,
+      phone: phone.value,
     })
 
-    const data = await response.json()
+    if (response && response.status === 201) {
+      successMessage.value = t('register.success')
 
-    if (!response.ok) {
-      errorMessage.value = data.message || 'Error al registrar usuario.'
-      loading.value = false
-      return
+      setTimeout(() => {
+        router.push({ name: 'Login' }) // o ajusta la ruta según tu router
+        }, 2000)
+      } else {
+      errorMessage.value = response?.data?.message || t('register.error')
     }
 
-    successMessage.value = 'Registro exitoso. Redirigiendo...'
-    setTimeout(() => {
-      router.push({ name: 'Login' })  // o el nombre de tu vista de login
-    }, 2000)
   } catch (error) {
-    errorMessage.value = 'Error de conexión. Intente más tarde.'
+    errorMessage.value = error.response?.data?.message || t('register.connection_error')
   } finally {
     loading.value = false
   }
 }
 
-const cancelarRegistro = () => {
+  const cancelarRegistro = () => {
   router.push('/')  // Ajusta según la ruta de tu vista principal
 }
 </script>

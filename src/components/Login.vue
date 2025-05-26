@@ -128,19 +128,21 @@ const eyeOffIcon = new URL('../assets/img/icono/ojo-cerrado.png', import.meta.ur
 
 
 // Función para manejar login (comentario: función asíncrona de login)
+
 import { login } from '@/services/auth'
+
 async function handlelogin(event) {
   event.preventDefault() // evita que el formulario recargue la página
 
-  if (!username.value || !password.value) {
-    alert(t('login.complete_fields'))
-    return
-  }
+    if (!username.value || !password.value) {
+        alert(t('login.complete_fields'))
+        return
+        }
 
-  if (password.value.length < 8) {
-    alert(t('login.password_length'))
-    return
-  }
+    if (password.value.length < 8) {
+        alert(t('login.password_length'))
+        return
+        }
 
   try {
     const response = await login({
