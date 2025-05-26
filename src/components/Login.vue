@@ -15,7 +15,7 @@
                             <img :src="currentFlagIcon" class="bandera" />
                             </v-btn>
                         </template>
-                        <v-list>
+                        <v-list padd>
                             <v-list-item @click="opcion11">
                                 <v-list-item-title>{{ $t('login.spanish') }}</v-list-item-title>
                             </v-list-item>
@@ -34,6 +34,8 @@
             <div class="form-container">
                 <div class="form-gradient-box">
                     <img src="../assets/img/icono/user.png" class="user-icon" alt="Icono usuario" />
+
+                    <!-- Raya de división -->
                     <hr class="divider" />
 
                     <form autocomplete="off">
@@ -55,15 +57,18 @@
                         <hr class="divider" />
 
                         <!-- Boton inicio -->
-                        <button class="submit-button" @click.prevent="handlelogin">{{ $t('login.login') }}</button>
 
-                        <!-- Boton login -->
                         <div class="form-buttons">
+                            <button class="btn btn-aceptar" @click.prevent="handleRegister" :disabled="loading">{{ $t('login.login') }} </button>
+                        </div>
+                        <!--      <button class="submit-button" @click.prevent="handlelogin">{{ $t('login.login') }}</button>-->
+                            <!--   Boton login-->
+
                             <div class="register-link">
                                 {{ $t('login.no_account') }}
                                 <router-link to="/register">{{ $t('login.sign_up') }}</router-link>
                             </div>
-                        </div>
+
                     </form>
                 </div>
             </div>
@@ -146,17 +151,19 @@ async function handlelogin(event) {
         return
         }
 
-  try {
+    try {
     const response = await login({
-      user: username.value,
-      password: password.value
-    })
-    console.log('Login correcto. Token guardado:', response.data.token)
-    // redirige si es necesario
-    router.push('/register') // ejemplo de redirección tras login
-  } catch (err) {
-    alert(err.message || 'Error al iniciar sesión')
-  }
+        user: username.value,
+        password: password.value
+        })
+        console.log('Login correcto. Token guardado:', response.data.token)
+
+        // redirige si es necesario
+        //router.push('/home')
+        router.push('/register') // ejemplo de redirección tras login
+    } catch (err) {
+        alert(err.message || 'Error al iniciar sesión')
+    }
 }
 
 </script>
@@ -254,11 +261,28 @@ async function handlelogin(event) {
     object-fit: contain;
 }
 
- .form-buttons {
-    margin-left: 0;
+.form-buttons {
+    margin-left: 85px;
     justify-content: space-between;
-  }
-  
+}
+
+.btn {
+  display: flex; /* ← clave */
+  align-items: center; /* centra verticalmente */
+  justify-content: center; /* centra horizontalmente */
+  padding: 10px 20px;
+  font-size: 12px;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  width: 60px;
+  height: 30px;
+}
+
+.btn-aceptar {
+  background-color: #196c2c; /* verde */
+  color: white;
+}
 /* Imagen de usuario más pequeña */
 .user-icon {
     width:50px;

@@ -211,6 +211,7 @@ const loading = ref(false)
 
   } catch (error) {
     // validar los <> errores
+    console.log(error)
     if (error.error.code==400) errorMessage.value= error.message
     else
       if (error.error.code==500) errorMessage.value= "Error interno del servidor"
