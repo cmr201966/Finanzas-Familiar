@@ -124,10 +124,11 @@ const handleClick = (image) => {
 }
 
 .image-wrapper img {
-  width: 3vw;
+  width: 6vw;
+ /* width: 3vw;*/
   height: auto;
-  border-radius: 1%;
-}
+  border-radius: 5%;
+  }
 
 .image-label {
   font-size: 60%;
