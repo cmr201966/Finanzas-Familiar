@@ -3,5 +3,5 @@
 </template>
 
 <script setup>
-    import Login from '../components/presupuesto.vue'
+    import presupuesto from '../components/presupuesto.vue'
 </script>

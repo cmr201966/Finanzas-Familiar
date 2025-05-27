@@ -75,7 +75,7 @@ const categories = [
     object-fit: contain;
 }
 
-* Imagen de la opcion */
+/* Imagen de la opcion */
 .user-icon {
     width:50px;
     height: 50px;

@@ -201,6 +201,7 @@ const loading = ref(false)
     if (response) {
 //      if (response && response.status === 200) {
         successMessage.value = t('register.success')
+        router.push('/home')
 
       setTimeout(() => {
         router.push({ name: 'Login' })

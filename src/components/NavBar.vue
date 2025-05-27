@@ -164,8 +164,9 @@ function opcion14() {
 
 .titulo {
   color: white;
-  font-size: 2.5vw;
-  font-family: 'Italic';
+  /*font-size: 2.5vw;*/
+  font-size: 1.5vw;
+  font-family: 'popins';
   margin-left: 1vw;
   margin-bottom: 1vw;
 }
