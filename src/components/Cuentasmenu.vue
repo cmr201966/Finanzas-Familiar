@@ -176,21 +176,18 @@ export default {
   height: 5vh !important;
 }
 
-.entrada-nombre{
-position: absolute;
+.entrada-nombre input{
+  position: absolute;
   top: 15%;
   left: 13%;
   background-color: white;
   border-radius: 1vw;
   border: 2px solid #000000;
   width: 75%;
+  padding-left: 8vw;
 }
-.entrada-nombre input{
- width: 100%;
- margin-left: 20%;
- font-size: 1vw;
-}
-.entrada-banco{
+
+.entrada-banco select{
   position: absolute;
   top: 23%;
   left: 13%;
@@ -198,13 +195,10 @@ position: absolute;
   border-radius: 1vw;
   border: 2px solid #000000;
   width: 75%;
+  padding-left: 7.5vw;
 }
-.entrada-banco select{
- width: 100%;
- margin-left: 20%;
- font-size: 1vw;
-}
-.entrada-tipo-cuenta{
+
+.entrada-tipo-cuenta select{
   position: absolute;
   top: 31%;
   left: 13%;
@@ -212,13 +206,10 @@ position: absolute;
   border-radius: 1vw;
   border: 2px solid #000000;
   width: 75%;
+  padding-left: 6.5vw;
 }
-.entrada-tipo-cuenta select{
- width: 100%;
- margin-left: 20%;
- font-size: 1vw;
-}
-.entrada-fecha-apertura{
+
+.entrada-fecha-apertura input{
   position: absolute;
   top: 39%;
   left: 13%;
@@ -226,11 +217,10 @@ position: absolute;
   border-radius: 1vw;
   border: 2px solid #000000;
   width: 35%;
+  padding-left: 3vw;
 }
-.entrada-fecha-apertura input{
- width: 100%;
-}
-.entrada-saldo {
+
+.entrada-saldo input{
   position: absolute;
   top: 39%;
   left: 53%;
@@ -238,11 +228,7 @@ position: absolute;
   border-radius: 1vw;
   border: 2px solid #000000;
   width: 35%;
-}
-.entrada-saldo input{
- width: 100%;
- margin-left: 25%;
- font-size: 1vw;
+  padding-left: 3vw;
 }
 .entrada-cuenta-principal{
   position: absolute;
@@ -328,23 +314,17 @@ position: absolute;
 /* Responsive media queries (solo ajustan tamaños y anchos para móvil y tablet, sin tocar posiciones absolutas) */
 
 @media (max-width: 1024px) {
-  .entrada-nombre{
-    top: 13.5%;
-    left: 45%;
-    width: 45%;
-  }
+ 
   .entrada-nombre input{
-     width: 100%;
+    top: 15%;
+    left: 13%;
+    width: 75%;
   }
-  .entrada-banco{
-    top: 21.5%;
-    left: 45%;
-    width: 45%;
-  }
+ 
   .entrada-banco select{
-    width: 100%;
-    font-size: 1.5vw;
-    margin-left: 0.5%;
+    top: 23%;
+    left: 13%;
+    width: 45%;
   }
   .entrada-tipo-cuenta{
     top: 30%;
@@ -427,36 +407,7 @@ position: absolute;
   top: 70%;
   left: 5%;
 }
-.nombre {
-  position: absolute;
-  top: 15%;
-  left: 8%;
-  font-size: 1.5vw;
-}
-.banco {
-  position: absolute;
-  top: 23%;
-  left: 8%;
-  font-size: 1.5vw;
-}
-.tipo-cuenta {
-  position: absolute;
-  top: 31%;
-  left: 8%;
-  font-size: 1.5vw;
-}
-.fecha-apertura {
-  position: absolute;
-  top: 39%;
-  left: 8%;
-  font-size: 1.5vw;
-}
-.saldo {
-  position: absolute;
-  top: 47%;
-  left: 8%;
-  font-size: 1.5vw;
-}
+
 .cuenta-principal {
    position: absolute;
   top: 55%;
