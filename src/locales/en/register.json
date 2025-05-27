@@ -1,0 +1,31 @@
+{
+    "app_name": "Family Finances",
+    "fullname": "Full Name",
+    "nickname":"UserName",
+    "password": "password",
+    "confirm": "Confirm password",
+    "email": "Email",
+    "phone": "Phone",
+    "success": "Registro exitoso!",
+    "submit": "Register",
+    "cancel": "Cancel",
+    "spanish":"Spanish",
+    "english":"English",
+    "Select the language":"Select the language",
+    "Enter the full name":"Enter the full name",
+    "complete_fields": "Please fill in all fields",
+    "password_length": "The password must be at least 8 characters long",
+    "invalid_credentials": "Invalid credentials",
+    "network_error": "Network or server error",
+    "passwordHint": "Must be at least 8 characters",
+    "errors": {
+        "nicknameRequired": "Nickname is required",
+        "fullnameRequired": "Full name is required",
+        "passwordMin": "The password must be at least 8 characters long",
+        "passwordMatch": "Las contraseñas no coinciden.",
+        "emailInvalid": "Invalid email address",
+        "phoneRequired": "Phone number is required",
+        "phoneInvalid": "The phone number must be between 7 and 15 digits",
+        "connection_error": "Connection error. Please try again later."
+        }
+    }

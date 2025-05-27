@@ -1,0 +1,154 @@
+
+    /* =====================================================
+        Responsive Styles - Archivo CSS Reutilizable
+        Puedes incluir este archivo en todas tus vistas.
+    ===================================================== */
+
+
+/* ============ TELÉFONOS GRANDES (576px a 767px) ============ */
+
+
+@media (min-width: 576px) and (max-width: 767.98px) {
+    .login-box {
+        width: 90%;
+    }
+
+    .form-gradient-box {
+        padding: 25px;
+    }
+
+    .logo {
+        width: 90px;
+        height: 90px;
+    }
+
+    .app-name {
+        font-size: 18px;
+    }
+
+    .submit-button {
+        height: 40px;
+        font-size: 15px;
+    }
+    }
+
+
+/* ============ TABLETS (768px a 991px) ============ */
+
+@media (min-width: 768px) and (max-width: 991.98px) {
+    .login-box {
+        width: 80%;
+    }
+
+    .form-gradient-box {
+        padding: 30px;
+    }
+
+    .logo {
+        width: 100px;
+        height: 100px;
+    }
+
+    .app-name {
+        font-size: 20px;
+    }
+
+    .submit-button {
+        height: 42px;
+        font-size: 16px;
+    }
+    }
+
+/* ============ MÓVILES PEQUEÑOS (Teléfonos < 576px) ============ */
+
+@media (max-width: 575.98px) {
+
+    /* Contenedor principal */
+
+    .login-box {
+        width: 100%;
+        margin: 0;
+        border-radius: 0;
+    }
+
+    .form-gradient-box {
+        padding: 20px;
+    }
+
+    .form-container {
+        padding: 10px;
+    }
+
+    .logo {
+        width: 80px;
+        height: 80px;
+    }
+
+    .app-name {
+        font-size: 16px;
+    }
+
+    .submit-button {
+        height: 36px;
+        font-size: 14px;
+    }
+
+    .footer {
+        font-size: 12px;
+    }
+}
+
+/* ============ LAPTOPS (992px a 1199px) ============ */
+
+@media (min-width: 992px) and (max-width: 1199.98px) {
+
+    .login-box {
+        width: 60%;
+    }
+
+    .form-gradient-box {
+        padding: 35px;
+    }
+
+    .logo {
+        width: 120px;
+        height: 120px;
+    }
+
+    .app-name {
+        font-size: 22px;
+    }
+
+    .submit-button {
+        height: 46px;
+        font-size: 17px;
+    }
+    }
+
+
+/* ============ ESCRITORIOS GRANDES (≥ 1200px) ============ */
+
+@media (min-width: 1200px) {
+
+    .login-box {
+        width: 50%;
+    }
+
+    .form-gradient-box {
+        padding: 40px;
+    }
+
+    .logo {
+        width: 140px;
+        height: 140px;
+    }
+
+    .app-name {
+        font-size: 24px;
+    }
+
+    .submit-button {
+        height: 48px;
+        font-size: 18px;
+    }
+    }

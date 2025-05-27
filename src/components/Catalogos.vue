@@ -26,11 +26,11 @@ import { ref } from 'vue'
 import { useRouter } from 'vue-router'
 import { useI18n } from 'vue-i18n'
 
-import CatIngresosgGastos from '../assets/img/CatIngresosgGastos.png'
+import CatIngresosgGastos from '../assets/img/tarjetas/CatIngresosgGastos.png'
 import presupuesto from '../assets/img/tarjetas/presupuesto.png'
-import Cuentas from '../assets/img/cuentas.png'
+import Cuentas from '../assets/img/tarjetas/cuentas.png'
 import ingresos from '../assets/img/tarjetas/ingresos.png'
-import gastos from '../assets/img/Gastos.png'
+import gastos from '../assets/img/tarjetas/Gastos.png'
 import transferencia from '../assets/img/tarjetas/transf.png'
 
 const router = useRouter()
@@ -147,7 +147,7 @@ const handleClick = (image) => {
     left: 9.5%;
     height: 25%;
   }
-  
+
   .carousel-item {
     width: 30%;
     margin-right: -10%;
@@ -160,7 +160,7 @@ const handleClick = (image) => {
 
   .image-wrapper img {
     width: 3vw;
-  
+
   }
 
   .image-label {

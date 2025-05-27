@@ -1,0 +1,17 @@
+{
+
+  "app_name": "Finanzas Familiares",
+  "username": "Usuario",
+  "password": "Contraseña",
+  "login": "Inicio",
+  "no_account": "¿No tienes cuenta?",
+  "sign_up": "Regístrate",
+  "complete_fields": "Debes completar todos los campos.",
+  "password_length": "La contraseña debe tener al menos 8 caracteres.",
+  "invalid_credentials": "Credenciales inválidas.",
+  "network_error": "Error de red o del servidor.",
+  "Select the language":"Seleccione el idioma",
+  "spanish":"Español",
+  "english":"Ingles",
+  "Enter username, email or mobile":"Entre el usuario, correo o movil"
+}
