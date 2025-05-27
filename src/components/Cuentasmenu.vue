@@ -3,11 +3,13 @@
     <div class="fondo">
       <p class="crear">Crear cuenta bancaria</p>
       <hr class="mi-barra" />
-      <img class="img-nombre" src="..\assets\img\icono\cuenta.png" alt="">
+
+      <img class="img-nombre" src="../assets/img/icono/cuenta.png" alt="">
       <div class="entrada-nombre">
         <input class="in-nombre" type="text" v-model="form.nombreCuenta" placeholder="Nombre de cuenta" />
       </div>
-      <img class="img-banco" src="..\assets\img\icono\banco.png" alt="">
+
+      <img class="img-banco" src="../assets/img/icono/banco.png" alt="">
       <div class="entrada-banco">
         <select v-model="form.banco">
           <option disabled value="">Seleccione un banco</option>
@@ -17,7 +19,8 @@
           <option value="fincimex">FINCIMEX</option>
         </select>
       </div>
-       <img class="img-tipo" src="..\assets\img\icono\TCB.png" alt="">
+
+      <img class="img-tipo" src="../assets/img/icono/TCB.png" alt="">
       <div class="entrada-tipo-cuenta">
         <select v-model="form.tipoCuenta">
           <option disabled value="">Seleccione tipo de cuenta</option>
@@ -30,19 +33,20 @@
       <div class="entrada-fecha-apertura">
         <input type="date" v-model="form.fechaApertura" />
       </div>
-      <img class="img-saldo" src="..\assets\img\icono\dinero.png" alt="">
+
+      <img class="img-saldo" src="../assets/img/icono/dinero.png" alt="">
       <div class="entrada-saldo">
         <input type="number" v-model="form.saldoInicial" placeholder="Saldo inicial" />
       </div>
-      <img class="img-cuentaP" src="..\assets\img\icono\cuentaP.png" alt="">
-      <div class="contenedor-p"><p class="cuenta-principal">Cuenta principal</p></div>
+
+      <div class="contenedor-p">
+        <p class="cuenta-principal">Cuenta principal</p>
+      </div>
       <div class="entrada-cuenta-principal">
         <input type="checkbox" v-model="form.cuentaPrincipal" />
       </div>
-      <img class="img-notificaciones" src="..\assets\img\icono\notifica.png" alt="">
-      <div class="contenedor-p2">
+
         <p class="notificaciones">Notificaciones</p>
-      </div>
       <div class="entrada-notificaciones">
         <input type="checkbox" v-model="form.recibirNotificaciones" />
       </div>
@@ -51,18 +55,31 @@
 
       <div class="botones">
         <v-btn class="save" color="primary" prepend-icon="mdi-plus" @click="guardarCuenta">
-          
+          {{ editIndex !== null ? '' : '' }}
         </v-btn>
-
-        <v-btn class="editar" color="warning" prepend-icon="mdi-pencil" @click="editarCuenta">
-          
-        </v-btn>
-
         <v-btn class="cancelar" color="error" prepend-icon="mdi-close" @click="cancelar">
-          
         </v-btn>
       </div>
+      <div class="lista-cuentas">
+      <h3>Cuentas guardadas:</h3>
+      <ul>
+        <li v-for="(cuenta, index) in cuentas" :key="index" class="item-cuenta">
+  <span class="texto-cuenta">
+    {{ cuenta.nombreCuenta }} - {{ cuenta.banco }} - {{ cuenta.tipoCuenta }}
+  </span>
+  <span class="botones-cuenta">
+    <v-btn small icon color="blue" @click="editarCuenta(index)">
+      <v-icon>mdi-pencil</v-icon>
+    </v-btn>
+    <v-btn small icon color="red" @click="eliminarCuenta(index)">
+      <v-icon>mdi-delete</v-icon>
+    </v-btn>
+  </span>
+</li>
+      </ul>
     </div>
+    </div>
+
   </div>
 </template>
 
@@ -80,25 +97,88 @@ export default {
         cuentaPrincipal: false,
         recibirNotificaciones: false,
       },
+      cuentas: [],
+      editIndex: null,
     };
   },
   methods: {
     guardarCuenta() {
-      console.log("Cuenta guardada:", this.form);
-      // Aquí iría la llamada al backend
+      if (this.editIndex !== null) {
+        this.cuentas[this.editIndex] = { ...this.form };
+        this.editIndex = null;
+      } else {
+        this.cuentas.push({ ...this.form });
+      }
+      this.resetForm();
     },
-    editarCuenta() {
-      console.log("Editar cuenta");
-      // Implementar edición si quieres
+    editarCuenta(index) {
+      this.form = { ...this.cuentas[index] };
+      this.editIndex = index;
+    },
+    eliminarCuenta(index) {
+      this.cuentas.splice(index, 1);
+      if (this.editIndex === index) {
+        this.resetForm();
+        this.editIndex = null;
+      }
     },
     cancelar() {
+      this.resetForm();
       this.$router.push("/");
+    },
+    resetForm() {
+      this.form = {
+        nombreCuenta: "",
+        banco: "",
+        tipoCuenta: "",
+        fechaApertura: "",
+        saldoInicial: "",
+        cuentaPrincipal: false,
+        recibirNotificaciones: false,
+      };
     },
   },
 };
 </script>
 
 <style scoped>
+.lista-cuentas ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.item-cuenta {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0.5vw 0;
+  border-bottom: 1px solid #ccc;
+}
+
+.texto-cuenta {
+  flex: 1;
+  font-size: 1vw;
+  padding-right: 1vw;
+  word-break: break-word;
+}
+
+.botones-cuenta {
+  display: flex;
+  gap: 0.5vw;
+}
+.lista-cuentas{
+position: absolute;
+  top: 69%;
+  left: 0%;
+  width: 100%;
+  background-color: #ffffffdd;
+  padding: 1vw;
+  border-radius: 0.5vw;
+  border: 1px solid black;
+  font-size: 1vw;
+  height: auto;
+}
 .img-nombre{
   position: absolute;
   top: 14.4% ;
@@ -156,8 +236,8 @@ export default {
 }
 .botones {
   position: absolute;
-  top: 80%;
-  left: 50%;
+  top: 60%;
+  left: 65%;
   display: flex;
   gap: 1vw;
   min-width: 0.5vw;
@@ -186,7 +266,6 @@ export default {
   width: 75%;
   padding-left: 8vw;
 }
-
 .entrada-banco select{
   position: absolute;
   top: 23%;
@@ -197,7 +276,6 @@ export default {
   width: 75%;
   padding-left: 7.5vw;
 }
-
 .entrada-tipo-cuenta select{
   position: absolute;
   top: 31%;
@@ -208,7 +286,6 @@ export default {
   width: 75%;
   padding-left: 6.5vw;
 }
-
 .entrada-fecha-apertura input{
   position: absolute;
   top: 39%;
@@ -219,7 +296,6 @@ export default {
   width: 35%;
   padding-left: 3vw;
 }
-
 .entrada-saldo input{
   position: absolute;
   top: 39%;
@@ -230,27 +306,29 @@ export default {
   width: 35%;
   padding-left: 3vw;
 }
-.entrada-cuenta-principal{
+.entrada-cuenta-principal input{
   position: absolute;
-  top: 47.8%;
+  top: 48%;
   left: 43%;
   border-radius: 0.5vw;
 }
-.entrada-notificaciones {
+.entrada-notificaciones input{
   position: absolute;
-  top: 47.8%;
+  top: 48%;
   left: 83%;
   border-radius: 0.5vw;
 }
 .fondo {
   background: linear-gradient(#79bef7, #13ac18);
   width: 38%;
-  height: 70%;
+  min-height: 70%;
   position: absolute;
-  top: 19%;
+  top: 10%;
   left: 32%;
   border-radius: 1%;
   border: 2px solid black;
+  padding-bottom: 2vw; /* Añade espacio inferior para la lista */
+  overflow-y: auto; /* Habilita scroll si se excede mucho */
 }
 .crear {
   position: absolute;
@@ -273,40 +351,20 @@ export default {
   border-bottom: 2px solid #000;  /* línea negra de 2px */
   width: 90%;       /* o el ancho que quieras */
   margin: 10px 0;    /* espacio arriba y abajo */
-  top: 70%;
+  top: 55%;
   left: 5%;
-}
-.contenedor-p{
-  position: absolute;
-  top: 47%;
-  left: 13%;
-  background-color: white;
-  border-radius: 1vw;
-  border: 2px solid #000000;
-  width: 35%;
-  height: 7%;
 }
 .cuenta-principal {
   position: absolute;
-  top: 10%;
+  top: 47.5%;
   left: 20%;
   font-size: 1vw;
   font-weight: bold;
 }
-.contenedor-p2{
-  position: absolute;
-  top: 47%;
-  left: 53%;
-  background-color: white;
-  border-radius: 1vw;
-  border: 2px solid #000000;
-  width: 35%;
-  height: 7%;
-}
 .notificaciones {
   position: absolute;
-  top: 10%;
-  left: 25%;
+  top: 47.5%;
+  left: 60%;
   font-size: 1vw;
   font-weight: bold;
 }
@@ -314,56 +372,87 @@ export default {
 /* Responsive media queries (solo ajustan tamaños y anchos para móvil y tablet, sin tocar posiciones absolutas) */
 
 @media (max-width: 1024px) {
- 
+ .lista-cuentas ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.item-cuenta {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0.5vw 0;
+  border-bottom: 1px solid #ccc;
+}
+
+.texto-cuenta {
+  flex: 1;
+  font-size: 1.5vw;
+  padding-right: 1vw;
+  word-break: break-word;
+}
+
+.botones-cuenta {
+  display: flex;
+  gap: 0.5vw;
+}
   .entrada-nombre input{
-    top: 15%;
+    top: 15.3%;
     left: 13%;
     width: 75%;
+    padding-left: 3vw;
+    font-size: 1vw;
+    height: 4.5vh;
   }
  
   .entrada-banco select{
-    top: 23%;
+    top: 23.3%;
     left: 13%;
-    width: 45%;
+    width: 75%;
+    padding-left: 3vw;
+    font-size: 1vw;
+    height: 4.5vh;
   }
-  .entrada-tipo-cuenta{
-    top: 30%;
-    left: 45%;
-    width: 45%;
-  }
+ 
   .entrada-tipo-cuenta select{
-    width: 100%;
-    font-size: 1.3vw;
-    margin-left: 0.5%;
+    top: 31.3%;
+    left: 13%;
+    width: 75%;
+    padding-left: 3vw;
+    font-size: 1vw;
+    height: 4.5vh;
   }
-  .entrada-fecha-apertura{
-     top: 37.5%;
-    left: 45%;
-    width: 45%;
-  }
+
   .entrada-fecha-apertura input{
-    width: 100%;
+    top: 39%;
+    left: 13%;
+    width: 35%;
+    padding-left: 1vw;
+    font-size: 1vw;
+    height: 4.5vh;
   }
-  .entrada-saldo {
-    top: 45.5%;
-    left: 45%;
-    width: 45%;
-  }
+ 
   .entrada-saldo input {
-    width: 100%;
+    top: 39%;
+    left: 53%;
+    width: 35%;
+    font-size: 1vw;
+    padding-left: 3vw;
+    height: 4.5vh;
   }
-  .entrada-cuenta-principal{
-    top: 54.4%;
-    left: 55%;
+  .entrada-cuenta-principal input{
+    top: 49.8%;
+    left: 44%;
   }
-  .entrada-notificaciones{
-    top: 62.5%;
-    left: 55%;
+  .entrada-notificaciones input{
+    top: 49.8%;
+    left: 83%;
   }
 .botones {
   position: absolute;
-  top: 80%;
-  left: 38%;
+  top: 60%;
+  left: 60%;
   display: flex;
   gap: 1vw;
 }
@@ -404,98 +493,57 @@ export default {
   border-bottom: 2px solid #000;  /* línea negra de 2px */
   width: 90%;       /* o el ancho que quieras */
   margin: 10px 0;    /* espacio arriba y abajo */
-  top: 70%;
+  top: 55%;
   left: 5%;
 }
 
 .cuenta-principal {
-   position: absolute;
-  top: 55%;
-  left: 8%;
-  font-size: 1.5vw;
+  position: absolute;
+  top: 49%;
+  left: 14%;
+  font-size: 1.3vw;
 }
 .notificaciones{
   position: absolute;
-  top: 63%;
-  left: 8%;
-  font-size: 1.5vw;
+  top: 49%;
+  left: 53%;
+  font-size: 1.3vw;
 }
 }
 
 @media (max-width: 500px) {
   .entrada-nombre input{
   font-size: 1.5vw;
-    width: 100% !important;
-    height: auto;}
+    width: 75% !important;}
   .entrada-banco select{
   font-size: 1.5vw;
-    width: 100% !important;
-    height: auto;}
+    width: 75% !important;}
   .entrada-tipo-cuenta select{
   font-size: 1.5vw;
-    width: 100% !important;
-    height: auto;}
+    width: 75% !important;}
   .entrada-fecha-apertura input{
   font-size: 1.5vw;
-    width: 100% !important;
-    height: auto;}
+    width: 35% !important;}
   .entrada-saldo input {
     font-size: 1.5vw;
-    width: 100% !important;
-    height: 20%;
+    width: 35% !important;
   }
   .entrada-cuenta-principal input{
         position: absolute;
-        top: -21%;
-        left: 58%;
-        width: 16%;
+        top: 47%;
+        left: 43%;
+        width: 5%;
   }
   .entrada-notificaciones input{
         position: absolute;
-        top: -33%;
-        left: 58%;
-        width: 18%;
+        top: 47%;
+        left: 80%;
+        width: 5%;
   }
 
-  .entrada-nombre{
-   font-size: 1.5vw;
-    width: 50% !important;
-    height: 5%;
-    margin-top:2%}
-  .entrada-banco{
-   font-size: 1.5vw;
-    width: 50% !important;
-    height: 5%;
-    margin-top:2%}
-  .entrada-tipo-cuenta{
-   font-size: 1.5vw;
-    width: 50% !important;
-    height: 5%;
-    margin-top:2%}
-  .entrada-fecha-apertura{
-   font-size: 1.5vw;
-    width: 50% !important;
-    height: 5%;
-    margin-top:2%}
-  .entrada-cuenta-principal{
-   font-size: 1.5vw;
-    width: 50% !important;
-    height: 5%;
-    margin-top:2%}
-  .entrada-notificaciones{
-   font-size: 1.5vw;
-    width: 50% !important;
-    height: 5%;
-    margin-top:2%}
-  .entrada-saldo {
-    font-size: 1.5vw;
-    width: 50% !important;
-    height: 5%;
-    margin-top:2%
-  }
 .botones {
   top: 76%;
-  left: 35%;
+  left: 40%;
   flex-direction: column;
   gap: 1vw;
 }
