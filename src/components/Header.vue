@@ -99,6 +99,9 @@ body {
 
 <script>
 const handleClick = (image) => {
+
+  console.log('image.alt:', image.alt);
+
   if (image.alt === 'Presupuesto') {
     router.push('/Presupuesto');
   } else {
