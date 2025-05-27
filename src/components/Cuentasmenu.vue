@@ -124,7 +124,7 @@ export default {
     },
     cancelar() {
       this.resetForm();
-      this.$router.push("/");
+      this.$router.push("/home");
     },
     resetForm() {
       this.form = {
