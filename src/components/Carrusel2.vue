@@ -132,13 +132,13 @@ const handleClick = (image) => {
 }
 
 .image-wrapper2 img {
-  width: 3vw;
+  width: 7vw;
   height: auto;
   border-radius: 1vw;
 }
 
 .image-label2 {
-  font-size: 60%;
+  font-size: 75%;
   margin-top: 1vh;
   font-weight: bold;
   color: #333;

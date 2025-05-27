@@ -17,26 +17,26 @@ body {
   position: absolute;
   top: 10%; /* 10% de la altura de la ventana */
   left: 10%; /* 8% del ancho de la ventana */
-  font-family: sans-serif;
-  font-size: 2vw; /* Tamaño relativo al ancho de la ventana */
-  font-weight: bold;
-  
-} 
+  font-family: 'popins';
+  font-size: 20px; /* Tamaño relativo al ancho de la ventana */
+  font-weight:lighter;
+
+}
 
 .salidas {
   color: rgb(0, 0, 0);
   position: absolute;
-  top: 40%; /* 30% de la altura de la ventana */
+  top: 46%; /* 30% de la altura de la ventana */
   left: 10%; /* 10% del ancho de la ventana */
-  font-family: 'Italic';
+  font-family: popins;
   font-size: 100%; /* Tamaño relativo al ancho de la ventana */
 }
 .notificacionesh{
   color: rgb(0, 0, 0);
   position: absolute;
-  top: 75%; /* 30% de la altura de la ventana */
+  top: 76%; /* 30% de la altura de la ventana */
   left: 10%; /* 10% del ancho de la ventana */
-  font-family: 'Italic';
+  font-family: popins;
   font-size: 100%; /* Tamaño relativo al ancho de la ventana */
 }
 
@@ -66,7 +66,7 @@ body {
   font-family: 'Italic';
   font-size: 1.5vw; /* Tamaño relativo al ancho de la ventana */
 }
-} 
+}
 @media (max-width: 480px) {
 .frase {
   color: rgb(0, 0, 0);
@@ -94,7 +94,7 @@ body {
   font-family: 'Italic';
   font-size: 3vw; /* Tamaño relativo al ancho de la ventana */
 }
-} 
+}
 </style>
 
 <script>

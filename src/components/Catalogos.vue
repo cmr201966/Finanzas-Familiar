@@ -91,7 +91,7 @@ const handleClick = (image) => {
 }
 
 .carousel-item {
- flex: 0 0 auto;
+  flex: 0 0 auto;
   padding: 3%;
   cursor: pointer;
   text-align: center;
@@ -112,7 +112,7 @@ const handleClick = (image) => {
 .image-wrapper {
   width: 8vw;
   height: 100%;
-  border-radius: 1%;
+  border-radius: 10%;
   border: 2px solid #0056b3;
   background: transparent;
   transition: transform 0.3s, border-color 0.3s;
@@ -121,16 +121,18 @@ const handleClick = (image) => {
 .image-wrapper:hover {
   transform: scale(0.8);
   border-color: rgb(70, 226, 122);
+
 }
 
 .image-wrapper img {
-  width: 3vw;
+  width: 6vw;
+ /* width: 3vw;*/
   height: auto;
-  border-radius: 1%;
-}
+  border-radius: 5%;
+  }
 
 .image-label {
-  font-size: 60%;
+  font-size: 75%;
   margin-top: 1%;
   font-weight: bold;
   color: #333;
