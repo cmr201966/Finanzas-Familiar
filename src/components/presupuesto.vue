@@ -14,73 +14,26 @@
                     <!-- Línea divisoria -->
                     <hr class="divider" />
 
-                    <!-- Lista desplegable -->
-                    <div class="select-with-icon">
-                        <!--  <img src="../assets/img/icono/categorias.png" class="posicion-icon" alt="Icono opción"  />-->
-                        <v-autocomplete
-                            v-model="selectedCategory"
-                            label="Seleccione una categoria"
-                            :items="categories"
-                            item-title="name"
-                            item-value="id"
-                            return-object
-                            :loading="loading"
-                            density="compact"
-                            variant="outlined"
-                            bg-color="white"
-                            hide-details
-                            class="custom-select"
-                        >
-                        <!-- Icono dentro del campo -->
-                        <template #prepend-inner>
-                            <v-img
-                                src="../assets/img/icono/categorias.png"
-                                class="input-icon"
-                                width="24"
-                                height="24"
-                                cover
-                            />
-                        </template>
-                        </v-autocomplete>
-                    </div>
+                    <!-- Lista desplegable para seleccionar una categoría -->
+                    <select v-model="form.categoria" id="categoria">
 
-                    <!-- Selector de mes (controlado con v-menu) -->
-                    <div class="month-picker-wrapper">
-                        <v-menu
-                            v-model="menu"
-                            :close-on-content-click="false"
-                            transition="scale-transition"
-                            offset-y
-                            max-width="600px"
-                        >
+                        <!-- Opción inicial deshabilitada -->
+                        <option disabled value="" >Seleccione una categoría</option>
 
-                        <template #activator="{ props }">
-                            <v-text-field
-                                v-model="formattedMonth"
-                                label="Seleccione un mes"
-                                readonly
-                                v-bind="props"
-                                density="compact"
-                                variant="outlined"
-                                bg-color="white"
-                                hide-details
-                            />
-                        </template>
+                        <!-- Opciones cargadas dinámicamente desde el backend -->
+                        <option
+                            v-for="categoria in categorias"
+                            :key="categoria.id"
+                            :value="categoria.codigo">
+                            {{ categoria.nombre }}
+                        </option>
+                    </select>
 
-                        <v-date-picker
-                            v-model="selectedMonth"
-                            view="month"
-                            hide-header
-                            color="primary"
-                            show-adjacent-months
-                            @update:model-value="updateMonth"
-                        />
-                    </v-menu>
-                </div>
+
                     <!-- Línea divisoria -->
                     <hr class="divider" />
-
                 </div>
+
             </div>
         </div>
     </div>
@@ -88,10 +41,21 @@
 
 
 <script setup>
+
+// Importaciones de Vue y librería para peticiones
 import { useI18n } from 'vue-i18n'
 import { useRouter } from 'vue-router'
 import { ref, onMounted } from 'vue'
 import axios from 'axios' // Asegúrate de tener axios instalado
+
+
+// Objeto reactivo del formulario
+const form = ref({
+  categoria: '' // Aquí se almacenará la categoría seleccionada
+})
+
+// Lista de categorías que llega desde el backend
+const categorias = ref([])
 
 //para lo referente al selector del mes
 const selectedMonth = ref(null)
@@ -113,20 +77,15 @@ const selectedCategory = ref(null)
 const categories = ref([])
 const loading = ref(false)
 
-const fetchCategories = async () => {
-    loading.value = true
-    try {
-        const response = await axios.get('/api/categorias-gastos') // Cambia por tu endpoint real
-        categories.value = response.data
-
-        } catch (error) {
-    console.error('Error al obtener categorías:', error)
-
-        } finally {
-    loading.value = false
-        }
-    }
-onMounted(fetchCategories)
+// Al montar el componente, se hace la petición al backend
+onMounted(async () => {
+  try {
+    const response = await axios.get('/api/categorias') // <-- Ajusta este endpoint según tu backend
+    categorias.value = response.data // Asignamos las categorías que nos entrega el backend
+  } catch (error) {
+    console.error('Error al cargar las categorías:', error)
+  }
+})
 
 
 </script>
@@ -212,9 +171,8 @@ onMounted(fetchCategories)
 /* para tratar la lista */
 
 .custom-select {
+   width: 100%;
   max-width: 300px;
-  width: 50px;
-
   margin-bottom: 20px;
   border-radius: 50px;
 }

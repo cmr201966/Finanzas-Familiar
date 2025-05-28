@@ -10,8 +10,12 @@ import "./assets/css/responsive.css";
 import "vuetify/styles";
 import "./style.css";
 
+
+import { createVuetify } from 'vuetify'
+
 const app = createApp(App);
 app.use(router);
 app.use(i18n); // 👈 Aquí lo usas
 app.use(vuetify);
 app.mount("#app");
+
