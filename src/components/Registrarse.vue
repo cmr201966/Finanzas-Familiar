@@ -319,6 +319,7 @@ html, body {
     margin-bottom: 20px;
     max-width: 350px;
 }
+
 .form-field-horizontal {
   position: relative;
   margin-bottom: 16px;
