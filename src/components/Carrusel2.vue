@@ -132,7 +132,7 @@ const handleClick = (image) => {
 }
 
 .image-wrapper2 img {
-  width: 7vw;
+  width: 5vw;
   height: auto;
   border-radius: 1vw;
 }

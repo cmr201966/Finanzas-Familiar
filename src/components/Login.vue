@@ -102,7 +102,7 @@ watch(currentLocale, (newLocale) => {
 
 // Función para obtener la ruta de la bandera según idioma
 function getFlagIcon(locale) {
-    return locale === 'es' ? '/Flags/spain.png' : '/Flags/uk.png'
+    return locale === 'es' ? '/flags/spain.png' : '/flags/uk.png'
     }
 
 // Funciones para cambiar idioma al español o inglés
