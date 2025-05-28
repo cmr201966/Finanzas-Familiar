@@ -143,7 +143,7 @@ const handleClick = (image) => {
   }
 
 .image-label {
-  font-size: 12px;
+  font-size: 0.7vw;
   margin-top: 1%;
   font-weight: bold;
   color: #333;

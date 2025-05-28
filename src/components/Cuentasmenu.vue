@@ -1,18 +1,18 @@
 <template>
   <div>
     <div class="fondo">
-      <p class="crear">Crear cuenta bancaria</p>
+      <p class="crear">{{ $t('cuentas.crear' )}}</p>
       <hr class="mi-barra" />
 
       <img class="img-nombre" src="../assets/img/icono/cuenta.png" alt="">
       <div class="entrada-nombre">
-        <input class="in-nombre" type="text" v-model="form.nombreCuenta" placeholder="Nombre de cuenta" />
+        <input class="in-nombre" type="text" v-model="form.nombreCuenta" :placeholder="$t('cuentas.placeholderNombreCuenta')" />
       </div>
 
       <img class="img-banco" src="../assets/img/icono/banco.png" alt="">
       <div class="entrada-banco">
         <select v-model="form.banco">
-          <option disabled value="">Seleccione un banco</option>
+          <option disabled value="">{{ $t('cuentas.banco' )}}</option>
           <option value="metro">Metro</option>
           <option value="bandec">BANDEC</option>
           <option value="bfi">BFI</option>
@@ -23,7 +23,7 @@
       <img class="img-tipo" src="../assets/img/icono/TCB.png" alt="">
       <div class="entrada-tipo-cuenta">
         <select v-model="form.tipoCuenta">
-          <option disabled value="">Seleccione tipo de cuenta</option>
+          <option disabled value="">{{ $t('cuentas.tipo-cuenta' )}}</option>
           <option value="cup">CUP</option>
           <option value="mlc">MLC</option>
           <option value="usd">USD</option>
@@ -36,17 +36,17 @@
 
       <img class="img-saldo" src="../assets/img/icono/dinero.png" alt="">
       <div class="entrada-saldo">
-        <input type="number" v-model="form.saldoInicial" placeholder="Saldo inicial" />
+        <input type="number" v-model="form.saldoInicial" :placeholder="$t('cuentas.placeholdersaldo')" />
       </div>
 
       <div class="contenedor-p">
-        <p class="cuenta-principal">Cuenta principal</p>
+        <p class="cuenta-principal">{{ $t('cuentas.cuentaP' )}}</p>
       </div>
       <div class="entrada-cuenta-principal">
         <input type="checkbox" v-model="form.cuentaPrincipal" />
       </div>
 
-        <p class="notificaciones">Notificaciones</p>
+        <p class="notificaciones">{{ $t('cuentas.notifica' )}}</p>
       <div class="entrada-notificaciones">
         <input type="checkbox" v-model="form.recibirNotificaciones" />
       </div>
@@ -61,7 +61,7 @@
         </v-btn>
       </div>
       <div class="lista-cuentas">
-      <h3>Cuentas guardadas:</h3>
+      <h3>{{ $t('cuentas.cuentasG' )}}</h3>
       <ul>
         <li v-for="(cuenta, index) in cuentas" :key="index" class="item-cuenta">
   <span class="texto-cuenta">

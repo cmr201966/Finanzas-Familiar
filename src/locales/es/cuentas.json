@@ -1,0 +1,10 @@
+{
+    "crear":"Crear cuenta bancaria",
+    "banco":"Seleccione un banco",
+    "placeholderNombreCuenta": "Nombre de cuenta",
+    "tipo-cuenta":"Seleccione tipo de cuenta",
+    "placeholdersaldo":"Saldo inicial",
+    "cuentaP":"Cuenta principal",
+    "notifica":"Notificaciones",
+    "cuentasG":"Cuentas guardadas:"
+}
