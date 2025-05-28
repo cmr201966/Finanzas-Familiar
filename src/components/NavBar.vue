@@ -2,7 +2,7 @@
   <v-app>
     <div class="Barra">
       <div class="logo-titulo">
-        <img class="logo" src="../assets/img/Logo/logo3.jpg" />
+        <img class="logo" src="../assets/img/Logo/logo.jpg" />
         <h1 class="titulo">{{$t('home.titulo')}}</h1>
 
         <!-- Aquí agregamos el menú -->
@@ -88,7 +88,7 @@ watch(currentLocale, (newLocale) => {
 })
 
 function getFlagIcon(locale) {
-  return locale === 'es' ? '/Flags/spain.png' : '/Flags/uk.png'
+  return locale === 'es' ? '/flags/spain.png' : '/flags/uk.png'
 }
 
 // Métodos
@@ -138,8 +138,8 @@ function opcion14() {
 
 <style scoped>
 .usuario{
-  width: 3vw !important;
-  height: 3vw !important;
+  width: 2vw !important;
+  height: 2vw !important;
   margin-bottom: 1vw;
   margin-right: 2vw;
   color: white;
@@ -149,8 +149,8 @@ function opcion14() {
   width: 35px; height: 35px
 }
 .puntitos-3 {
-  width: 3vw !important;
-  height: 3vw !important;
+  width: 2vw !important;
+  height: 2vw !important;
   margin-bottom: 1vw;
   margin-right: 2vw;
   color: white;
@@ -183,8 +183,8 @@ function opcion14() {
 
 .logo {
   border-radius: 100%;
-  width: 3vw;
-  height: 3vw;
+  width: 2.5vw;
+  height: 2.5vw;
   margin-left: 1vw;
   margin-bottom: 1vw;
 }

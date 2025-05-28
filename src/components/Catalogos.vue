@@ -121,8 +121,8 @@ const handleClick = (image) => {
 }
 
 .image-wrapper {
-  width: 8vw;
-  height: 100%;
+  width: 7vw;
+  height: 9vw;
   border-radius: 10%;
   border: 2px solid #0056b3;
   background: transparent;
@@ -136,14 +136,14 @@ const handleClick = (image) => {
 }
 
 .image-wrapper img {
-  width: 6vw;
+  width: 5vw;
  /* width: 3vw;*/
   height: auto;
   border-radius: 5%;
   }
 
 .image-label {
-  font-size: 75%;
+  font-size: 12px;
   margin-top: 1%;
   font-weight: bold;
   color: #333;
