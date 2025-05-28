@@ -57,11 +57,22 @@ const moveSlide = (direction) => {
 }
 
 const handleClick = (image) => {
-  if (image.id === 2) {
+
+  switch (image.id) {
+  case 3:
+    // Código si expresion === valor1
+    router.push('/presupuesto')
+    break;
+  case 2:
+    // Código si expresion === valor2
     router.push('/Cuentas')
-  } else {
+    break;
+  default:
+    // Código si ningún case coincide
     alert(`Navegación no implementada para: ${t(image.alt)}`)
-  }
+}
+
+
 }
 </script>
 
