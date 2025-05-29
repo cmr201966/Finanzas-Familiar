@@ -4,7 +4,16 @@
             <!-- Parte izquierda -->
             <div class="logo-section">
                 <img src="../assets/img/Logo/logo.jpg" alt="Finanza Familiar Logo" class="logo" />
-                <h1 class="app-name">{{ $t('register.app_name') }}</h1>
+                <!-- Título que cambia según modo: Crear nuevo usuario o Editar usuario existente -->
+    <h2>
+
+      {{ props.userId === null
+
+        ? $t('register.title_new')  /* Cuando es nuevo usuario */
+        : $t('register.title_edit') /* Cuando es edición */
+      }}
+    </h2>
+                <!-- <h1 class="app-name">{{ $t('register.app_name') }}</h1>-->
 
                 <!-- Texto que indica la opción de idioma -->
                 <p class="idioma-conf">{{ $t('login.Select the language') }}</p>
@@ -49,6 +58,7 @@
             </div>
 
             <!-- Parte derecha -->
+
             <div class="form-container">
                 <div class="white-box">
                     <div class="form-gradient-box">
@@ -113,93 +123,132 @@
 
 <script setup>
 
-import { ref, watch, onMounted,  computed   } from 'vue'
+import { ref, watch, onMounted, computed } from 'vue'
 import { useI18n } from 'vue-i18n'
 import { useRouter } from 'vue-router'
-import { register } from '@/services/register'
+import { defineProps } from 'vue'
+import axios from 'axios'
 
+import { register, getUserById, updateUser } from '@/services/register'
 
-// Router
+// Router e internacionalización
 const router = useRouter()
-
-// i18n y bandera
 const { locale, t } = useI18n()
 const currentLocale = ref(locale.value)
 const currentFlagIcon = ref(getFlagIcon(locale.value))
 
-// Función para obtener la imagen de la bandera según el idioma
 function getFlagIcon(locale) {
-    return locale === 'es' ? '/flags/spain.png' : '/flags/uk.png'
-    }
+  return locale === 'es' ? '/flags/spain.png' : '/flags/uk.png'
+}
 
-// Funciones para cambiar idioma al español o inglés
-function opcion11() {
-    currentLocale.value = 'es'
-    }
+// Cambio de idioma
+function opcion11() { currentLocale.value = 'es' }
+function opcion12() { currentLocale.value = 'en' }
+const currentLanguageCode = computed(() => (locale.value === 'es' ? 'ES' : 'EN'))
 
-function opcion12() {
-    currentLocale.value = 'en'
-    }
-// Computed para mostrar 'ES' o 'EN'
-const currentLanguageCode = computed(() => {
-    return locale.value === 'es' ? 'ES' : 'EN'
+watch(currentLocale, (newLocale) => {
+  locale.value = newLocale
+  currentFlagIcon.value = getFlagIcon(newLocale)
 })
 
-// Watcher que sincroniza idioma y bandera
-watch(currentLocale, (newLocale) => {
-    locale.value = newLocale
-    currentFlagIcon.value = getFlagIcon(newLocale)
-    })
+// Props
+const props = defineProps({
+  username: { type: String, default: null },
+  userId: { type: [String, Number], default: null }
+})
 
-// Datos formulario
+
+// Formulario y estados
 const username = ref('')
+const email = ref('')
 const fullName = ref('')
+const phone = ref('')
 const password = ref('')
 const confirmPassword = ref('')
-const email = ref('')
-const phone = ref('')
-
-
-// Iconos ojo
-const eyeIcon = new URL('../assets/img/icono/ojo.png', import.meta.url).href
-const eyeOffIcon = new URL('../assets/img/icono/ojo-cerrado.png', import.meta.url).href
-
-
-// Control de visibilidad
-const showPassword = ref(false)
-const showConfirm = ref(false)
-
-// Mensajes
+const isEditing = ref(false)
+const loading = ref(false)
+const valid = ref(false)
 const errorMessage = ref('')
 const successMessage = ref('')
-const loading = ref(false)
 
-  // Validaciones
-  // Función para manejar login (comentario: función asíncrona de login)
+// Formulario auxiliar
+const form = ref({
+  username: '',
+  email: '',
+  fullName: ''
+})
 
-  const handleRegister = async () => {
+// Función para limpiar formulario (opcional)
+function clearForm() {
+  username.value = ''
+  email.value = ''
+  fullName.value = ''
+  phone.value = ''
+  password.value = ''
+  confirmPassword.value = ''
+  errorMessage.value = ''
+  successMessage.value = ''
+}
+
+// Cargar datos de usuario si está en modo edición
+const loadUserData = async (usernameParam) => {
+  loading.value = true
+  errorMessage.value = ''
+  try {
+    const data = await getUserByUsername(usernameParam) // O getUserById según tu API
+    username.value = data.username || ''
+    email.value = data.email || ''
+    fullName.value = data.fullName || data.name || ''
+    phone.value = data.phone || ''
+    password.value = ''
+    confirmPassword.value = ''
+  } catch (error) {
+    errorMessage.value = 'Error loading user data'
+  } finally {
+    loading.value = false
+  }
+}
+
+// Enviar formulario (registro o actualización)
+const handleRegister = async () => {
   errorMessage.value = ''
   successMessage.value = ''
 
   // Validaciones
-  if (!username.value || !fullName.value || !password.value || !confirmPassword.value || !email.value || !phone.value) {
+  if (!username.value || !fullName.value || !email.value || !phone.value) {
     errorMessage.value = t('register.complete_fields')
     return
   }
 
-  if (password.value !== confirmPassword.value) {
-    errorMessage.value = t('register.passwordMatch')
-    return
+  if (props.userId === null) {
+    if (!password.value || !confirmPassword.value) {
+      errorMessage.value = t('register.complete_fields')
+      return
+    }
+    if (password.value !== confirmPassword.value) {
+      errorMessage.value = t('register.passwordMatch')
+      return
+    }
+    if (password.value.length < 8) {
+      errorMessage.value = t('register.passwordMin')
+      return
+    }
+  } else {
+    if (password.value || confirmPassword.value) {
+      if (password.value !== confirmPassword.value) {
+        errorMessage.value = t('register.passwordMatch')
+        return
+      }
+      if (password.value.length < 8) {
+        errorMessage.value = t('register.passwordMin')
+        return
+      }
+    }
   }
 
   const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
   if (!emailRegex.test(email.value)) {
     errorMessage.value = t('register.emailInvalid')
-    return
-  }
-
-  if (password.value.length < 8) {
-    errorMessage.value = t('register.passwordMin')
     return
   }
 
@@ -212,44 +261,83 @@ const loading = ref(false)
   loading.value = true
 
   try {
-    const response = await register({
-      username: username.value,
-      name: fullName.value,
-      password: password.value,
-      email: email.value,
-      phone: phone.value,
-    })
+    if (props.userId === null) {
+      // Registro nuevo
+      const response = await register({
+        username: username.value,
+        name: fullName.value,
+        password: password.value,
+        email: email.value,
+        phone: phone.value,
+      })
 
-    console.log(response)
-    if (response) {
-//      if (response && response.status === 200) {
+      if (response) {
         successMessage.value = t('register.success')
-        router.push('/home')
-
-      setTimeout(() => {
-        router.push({ name: 'Login' })
-        }, 2000)
+        setTimeout(() => router.push({ name: 'Login' }), 2000)
       } else {
-      errorMessage.value = response?.data?.message || t('register.error')
-    }
+        errorMessage.value = response?.data?.message || t('register.error')
+      }
+    } else {
+      // Actualización
+      const updateData = {
+        username: username.value,
+        name: fullName.value,
+        email: email.value,
+        phone: phone.value,
+      }
+      if (password.value) {
+        updateData.password = password.value
+      }
 
+      const response = await updateUser(props.userId, updateData)
+      if (response) {
+        successMessage.value = t('register.updateSuccess') || 'Perfil actualizado con éxito'
+        setTimeout(() => router.push('/home'), 2000)
+      } else {
+        errorMessage.value = response?.data?.message || t('register.error')
+      }
+    }
   } catch (error) {
-    // validar los <> errores
     console.log(error)
-    if (error.error.code==400) errorMessage.value= error.message
-    else
-      if (error.error.code==500) errorMessage.value= "Error interno del servidor"
-        else
-          errorMessage.value = error.response?.data?.message || t('register.connection_error')
+    errorMessage.value = error.message || t('register.connection_error')
   } finally {
     loading.value = false
   }
-  }
-
-  const cancelarRegistro = () => {
-  router.push('/')  // Ajusta según la ruta de tu vista principal
 }
+
+// Cancelar
+const cancelarRegistro = () => {
+  router.push('/') // Ajusta según tu ruta inicial
+}
+
+// Al montar
+onMounted(() => {
+  console.log("1")
+  console.log(' username:', username)
+  if (props.username && props.username.trim() !== '') {
+    isEditing.value = true
+    loadUserData(props.username)
+  } else {
+    isEditing.value = false
+    clearForm()
+  }
+})
+
+
+// Iconos ojo
+const eyeIcon = new URL('../assets/img/icono/ojo.png', import.meta.url).href
+const eyeOffIcon = new URL('../assets/img/icono/ojo-cerrado.png', import.meta.url).href
+
+
+// Control de visibilidad
+const showPassword = ref(false)
+const showConfirm = ref(false)
+
+
+
 </script>
+
+
 
 
 <style scoped>

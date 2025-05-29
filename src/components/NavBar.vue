@@ -13,12 +13,17 @@
         </template>
         <v-list>
           <v-list-item @click="opcion1">
-            <v-list-item-title>Nombre del usuario</v-list-item-title>
+            <v-list-item-title>{{ username }}</v-list-item-title>
           </v-list-item>
+          <!-- <v-list-item @click="opcion222">
+            <v-list-item-title>Editar perfil</v-list-item-title>
+          </v-list-item>-->
+
           <v-list-item @click="opcion2">
-            <v-list-item-title>Cambiar contraseña</v-list-item-title>
+            <router-link to="/register">Editar perfil</router-link>
           </v-list-item>
         </v-list>
+
       </v-menu>
       <v-menu offset-y>
         <template #activator="{ props }">
@@ -76,6 +81,9 @@
 import { ref, watch } from "vue";
 import { useI18n } from "vue-i18n";
 
+const username = ref(localStorage.getItem('username') || 'Usuario')
+console.log(username)
+
 const { locale, t } = useI18n();
 const currentLocale = ref(locale.value);
 const currentFlagIcon = ref(getFlagIcon(locale.value));
@@ -93,9 +101,10 @@ function getFlagIcon(locale) {
 function opcion1() {
   alert("Nombre del usuario");
 }
-function opcion2() {
-  alert("Contraseña");
-}
+//function opcion2() {
+
+ // alert("Contraseña");
+//}
 function opcion3() {
   alert("Categorias");
 }

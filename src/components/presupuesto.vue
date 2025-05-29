@@ -1,156 +1,145 @@
 <template>
-  <div class="login-page">
-    <div class="login-box">
-      <div class="form-container">
-        <div class="form-gradient-box">
-          <!-- Encabezado con logo y texto -->
-          <div class="header-inline">
-            <img
-              src="../assets/img/tarjetas/presupuesto.png"
-              class="user-icon"
-              alt="Icono opción"
-            />
-            <h1 class="name-opcion">{{ $t("presup.app_option") }}</h1>
-          </div>
+    <div class="login-page">
+        <div class="login-box">
+            <div class="form-container">
+                <div class="form-gradient-box">
+                    <!-- Encabezado con logo y texto -->
+                    <div class="header-inline">
+                        <img src="../assets/img/tarjetas/presupuesto.png" class="user-icon" alt="Icono opción" />
+                        <h1 class="name-opcion">{{ $t("presup.app_option") }}</h1>
+                    </div>
 
-          <hr class="divider" />
+                    <hr class="divider" />
 
-          <!-- Formulario directamente sobre fondo de gradiente -->
+                    <!-- Formulario directamente sobre fondo de gradiente -->
 
-          <v-form @submit.prevent="submitForm" class="form-content">
-            <!--Input para seleccionar la categoria -->
+                    <v-form @submit.prevent="submitForm" class="form-content">
 
-            <v-autocomplete
-              v-model="form.categoria_id"
-              :items="categorias"
-              item-title="name"
-              item-value="id"
-              :label="$t('presup.category')"
-              :search-input.sync="search"
-              :loading="loading"
-              clearable
-              hide-no-data
-              hide-selected
-              required
-              hide-details
-              density="compact"
-              class="custom-white-input"
-            />
+                    <!--Input para seleccionar la categoria -->
 
-            <!--Input para seleccionar el mes -->
+                        <v-autocomplete
+                            v-model="form.categoria_id"
+                            :items="categorias"
+                            item-title="name"
+                            item-value="id"
+                            :label="$t('presup.category')"
+                            :search-input.sync="search"
+                            :loading="loading"
+                            clearable
+                            hide-no-data
+                            hide-selected
+                            required
+                            hide-details
+                            density="compact"
+                            class="custom-white-input"
+                        />
 
-            <v-menu
-              v-model="menuMes"
-              :close-on-content-click="false"
-              transition="scale-transition"
-              offset-y
-              max-width="290px"
-              min-width="auto"
-            >
-              <!-- Activador: el input que abre el menú -->
+                        <!--Input para seleccionar el mes -->
 
-              <template #activator="{ props }">
-                <v-text-field
-                  v-model="form.mes"
-                  v-bind="props"
-                  :label="$t('presup.month')"
-                  placeholder="Ej: mayo de 2025"
-                  readonly
-                  required
-                  hide-details
-                  density="compact"
-                  class="custom-white-input"
-                  prepend-inner-icon="mdi-calendar-month"
-                />
-              </template>
+                        <v-menu
+                            v-model="menuMes"
+                            :close-on-content-click="false"
+                            transition="scale-transition"
+                            offset-y
+                            max-width="290px"
+                            min-width="auto"
+                        >
 
-              <!-- Contenido del menú (picker de mes personalizado) -->
-              <v-date-picker
-                v-model="pickerMes"
-                @update:model-value="selectMes"
-                color="primary"
-                show-adjacent-months
-                hide-header
-                view-mode="month"
-              >
-                <!-- Header de navegación -->
-                <template #header="{ togglePreviousMonth, toggleNextMonth }">
-                  <div class="d-flex justify-space-between pa-2">
-                    <v-btn icon @click="goToPreviousMonth">
-                      <v-icon>mdi-chevron-left</v-icon>
-                    </v-btn>
-                    <v-btn icon @click="goToNextMonth">
-                      <v-icon>mdi-chevron-right</v-icon>
-                    </v-btn>
-                  </div>
-                </template>
-              </v-date-picker>
-            </v-menu>
+                            <!-- Activador: el input que abre el menú -->
 
-            <!-- input importe -->
-            <div class="form-field-horizontal input-with-icon">
-              <img src="../assets/img/icono/dinero.png" class="input-icon-inside" />
-              <input type="number" :placeholder="$t('presup.amount')" v-model="form.importe" class="custom-input" />
+                            <template #activator="{ props }">
+                                <v-text-field
+                                    v-model="form.mes"
+                                    v-bind="props"
+                                    :label="$t('presup.month')"
+                                    placeholder="Ej: mayo de 2025"
+                                    readonly
+                                    required
+                                    hide-details
+                                    density="compact"
+                                    class="custom-white-input"
+                                    prepend-inner-icon="mdi-calendar-month"
+                                    />
+                            </template>
+
+                            <!-- Contenido del menú (picker de mes personalizado) -->
+
+                            <v-date-picker
+                                -model="pickerMes"
+                                @update:model-value="selectMes"
+                                color="primary"
+                                show-adjacent-months
+                                hide-header
+                                view-mode="month"
+                                >
+
+                                <!-- Header de navegación -->
+
+                                <template #header="{ togglePreviousMonth, toggleNextMonth }">
+                                    <div class="d-flex justify-space-between pa-2">
+                                        <v-btn icon @click="goToPreviousMonth">
+                                            <v-icon>mdi-chevron-left</v-icon>
+                                        </v-btn>
+                                        <v-btn icon @click="goToNextMonth">
+                                            <v-icon>mdi-chevron-right</v-icon>
+                                        </v-btn>
+                                    </div>
+                                </template>
+                            </v-date-picker>
+                        </v-menu>
+
+                        <!-- input importe -->
+                        <div class="form-field-horizontal input-with-icon">
+                            <img src="../assets/img/icono/dinero.png" class="input-icon-inside" />
+                            <input type="number" :placeholder="$t('presup.amount')" v-model="form.importe" class="custom-input" />
+                        </div>
+
+                        <hr class="divider1" />
+
+                        <!-- Botones de  Aceptar y cancelar -->
+
+                        <div class="form-buttons">
+
+                            <!-- Botón Aceptar (verde) -->
+
+                            <v-btn @click="submitForm" :loading="enviando" class="btn btn-aceptar">{{ $t("presup.submit") }}</v-btn>
+
+                            <!-- Botón Cancelar (rojo) -->
+
+                            <v-btn @click="cancelarFormulario" :disabled="enviando" class="btn btn-cancelar"> {{ $t("presup.cancel") }}</v-btn>
+                        </div>
+                    </v-form>
+
+                    <!-- Tabla de presupuestos -->
+
+                    <v-data-table
+                        :headers="headers"
+                        :items="presupuestos"
+                        item-value="id"
+                        class="elevation-1 font-tabla"
+                        :items-per-page="-1"
+                        hide-default-footer
+                        hide-default-header
+                    >
+
+                    <!-- la opcion hide-deful... elimina la paginacion -->
+
+                    <template #item.acciones="{ item }">
+
+                        <div class="d-flex align-center">
+                            <v-btn icon class="bg-transparent" @click="editarPresupuesto(item)">
+                                <v-icon size="18">mdi-pencil</v-icon>
+                            </v-btn>
+                            <v-btn icon class="bg-transparent" @click="eliminarPresupuesto(item.id)">
+                                <v-icon size="18" color="red">mdi-delete</v-icon>
+                            </v-btn>
+                        </div>
+                    </template>
+                </v-data-table>
             </div>
-
-            <hr class="divider1" />
-
-            <!-- Botones de  Aceptar y cancelar -->
-            <div class="form-buttons">
-              <!-- Botón Aceptar (verde) -->
-
-              <v-btn
-                @click="submitForm"
-                :loading="enviando"
-                class="btn btn-aceptar"
-                >{{ $t("presup.submit") }}</v-btn
-              >
-
-              <!-- Botón Cancelar (rojo) -->
-              <v-btn
-                @click="cancelarFormulario"
-                :disabled="enviando"
-                class="btn btn-cancelar"
-                >{{ $t("presup.cancel") }}</v-btn
-              >
-            </div>
-          </v-form>
-
-          <!-- Tabla de presupuestos -->
-          <v-data-table
-            :headers="headers"
-            :items="presupuestos"
-            item-value="id"
-            class="elevation-1 font-tabla"
-            :items-per-page="-1"
-            hide-default-footer
-            hide-default-header
-          >
-            <!-- la opcion hide-deful... elimina la paginacion -->
-
-            <template #item.acciones="{ item }">
-              <div class="d-flex align-center">
-                <v-btn
-                  icon
-                  class="bg-transparent"
-                  @click="editarPresupuesto(item)"
-                >
-                  <v-icon size="18">mdi-pencil</v-icon>
-                </v-btn>
-                <v-btn
-                  icon
-                  class="bg-transparent"
-                  @click="eliminarPresupuesto(item.id)"
-                >
-                  <v-icon size="18" color="red">mdi-delete</v-icon>
-                </v-btn>
-              </div>
-            </template>
-          </v-data-table>
         </div>
-      </div>
     </div>
-  </div>
+</div>
 </template>
 
 <script setup>
