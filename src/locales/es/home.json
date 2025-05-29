@@ -16,7 +16,16 @@
   "informeAnual": "Informe Mensual/Anual",
   "categorias": "Categoría ingresos y gastos",
   "spanish":"Español",
-  "english":"Ingles"
+  "english":"Ingles",
+  "español":"Español",
+  "ingles":"Ingles",
+  "uname":"Nombre del usuario",
+  "cpassword":"Cambiar contraseña",
+  "dinero":"Dinero",
+   "categoriaM":"Categorias",
+  "cuentasM":"Cuentas",
+  "transaccionesM":"Transacciones",
+  "transferenciasM":"Transferencias"
 
 
 
