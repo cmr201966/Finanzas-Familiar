@@ -104,6 +104,7 @@ import { useRouter } from 'vue-router'
 // Inicializamos router para navegación
 
 const router = useRouter()
+const loading = ref(false)
 
 // i18n y bandera
 const { locale, t } = useI18n()
@@ -112,7 +113,8 @@ const currentFlagIcon = ref(getFlagIcon(locale.value))
 
 
 // Función para obtener la imagen de la bandera según el idioma
-function getFlagIcon(locale) {
+function getFlagIcon(locale)
+ {
     return locale === 'es' ? '/flags/spain.png' : '/flags/uk.png'
     }
 
@@ -180,8 +182,16 @@ async function handleLogin(event) {
         })
         console.log('Login correcto. Token guardado:', response.data.token)
 
+
+        // Guarda el token en localStorage
+        localStorage.setItem('token', response.data.token)
+
+        // Guarda también el nombre de usuario si quieres
+        localStorage.setItem('username', username.value)
+
         // redirige si es necesario
         router.push('/home')
+
     } catch (err) {
         alert(err.message || 'Error al iniciar sesión')
     }
