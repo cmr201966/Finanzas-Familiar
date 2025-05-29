@@ -1,10 +1,8 @@
-import axios from 'axios';
+// api.js
+import axios from 'axios'
 
 const api = axios.create({
-  baseURL: 'http://localhost:3000/api/accounts',
-  headers: {
-    'Content-Type': 'application/json'
-  }
-});
+  baseURL: 'http://localhost:3000/api/accounts' // ✅
+})
 
-export default api; // ✅ Exportación por defecto
+export default api

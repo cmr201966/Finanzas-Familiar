@@ -14,7 +14,7 @@
         <select v-model="form.banco">
           <option disabled value="">{{ $t('cuentas.banco' )}}</option>
           <option value="metro">Metro</option>
-          <option value="bandec">BANDEC</option>
+          <option value="BANDEC">BANDEC</option>
           <option value="bfi">BFI</option>
           <option value="fincimex">FINCIMEX</option>
         </select>
@@ -24,7 +24,7 @@
       <div class="entrada-tipo-cuenta">
         <select v-model="form.tipoCuenta">
           <option disabled value="">{{ $t('cuentas.tipo-cuenta' )}}</option>
-          <option value="cup">CUP</option>
+          <option value="efectivo">efectivo</option>
           <option value="mlc">MLC</option>
           <option value="usd">USD</option>
         </select>
@@ -65,7 +65,7 @@
       <ul>
         <li v-for="(cuenta, index) in cuentas" :key="index" class="item-cuenta">
   <span class="texto-cuenta">
-    {{ cuenta.nombreCuenta }} - {{ cuenta.banco }} - {{ cuenta.tipoCuenta }}
+    {{ cuenta.name }} - {{ cuenta.bank }} - {{ cuenta.type }}
   </span>
   <span class="botones-cuenta">
     <v-btn small icon color="blue" @click="editarCuenta(index)">
@@ -84,6 +84,7 @@
 </template>
 
 <script setup>
+import { useRouter } from 'vue-router' // importa el enrutador
 import { ref, onMounted } from 'vue'
 import {
   getAllAccounts,
@@ -126,18 +127,19 @@ async function guardarCuenta() {
     name: form.value.nombreCuenta,
     bank: form.value.banco,
     type: form.value.tipoCuenta,
-    open_date: form.value.fechaApertura,
+    created_at: form.value.fechaApertura,
     initial_balance: form.value.saldoInicial,
-    user_id: 1,
     main_account: form.value.cuentaPrincipal,
-    notifications: form.value.recibirNotificaciones
+    notifications: form.value.recibirNotificaciones,
+    user_id: 1
   }
 
   try {
+    console.log(datosTransformados )
     if (isEditMode.value) {
-      await updateAccount(selectedId.value, { account: datosTransformados })
+     await updateAccount(selectedId.value, datosTransformados)
     } else {
-      await createAccount({ account: datosTransformados })
+      await createAccount(datosTransformados)
     }
     await cargarCuentas()
     resetForm()
@@ -147,18 +149,22 @@ async function guardarCuenta() {
 }
 
 async function editarCuenta(index) {
-  const cuenta = cuentas.value[index]
-  form.value = {
-    nombreCuenta: cuenta.name,
-    banco: cuenta.bank,
-    tipoCuenta: cuenta.type,
-    fechaApertura: cuenta.open_date,
-    saldoInicial: cuenta.initial_balance,
-    cuentaPrincipal: cuenta.main_account,
-    recibirNotificaciones: cuenta.notifications
+  try {
+    const cuenta = cuentas.value[index]
+
+    form.value.nombreCuenta = cuenta.name
+    form.value.banco = cuenta.bank
+    form.value.tipoCuenta = cuenta.type
+    form.value.fechaApertura = cuenta.created_at ? cuenta.created_at.split(' ')[0] : ''
+    form.value.saldoInicial = cuenta.initial_balance
+    form.value.cuentaPrincipal = cuenta.main_account || false
+    form.value.recibirNotificaciones = cuenta.notifications || false
+
+    selectedId.value = cuenta.id
+    isEditMode.value = true
+  } catch (error) {
+    console.error('Error al cargar cuenta para edición:', error)
   }
-  selectedId.value = cuenta.id
-  isEditMode.value = true
 }
 
 async function eliminarCuenta(index) {
@@ -170,9 +176,10 @@ async function eliminarCuenta(index) {
     console.error('Error al eliminar cuenta:', error)
   }
 }
-
+const router = useRouter()
 function cancelar() {
   resetForm()
+  router.push('/home') // redirecciona a /home
 }
 
 function resetForm() {

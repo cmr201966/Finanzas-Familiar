@@ -27,10 +27,10 @@ export async function getAccountById(id) {
 // Crear una nueva cuenta (envía los datos bajo 'account')
 export async function createAccount(accountData) {
   try {
-    const res = await api.post('/', accountData) // accountData ya debe tener forma { account: {...} }
-    return res.data.data.account
+    const res = await api.post('/',accountData)
+    return res.data
   } catch (error) {
-    console.error('Error al crear cuenta:', error)
+    console.error('Error al crear cuenta:', error.response?.data || error)
     throw error
   }
 }
