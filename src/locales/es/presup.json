@@ -1,9 +1,9 @@
 {
-  "app_option": "Definición del presupuesto",
-  "category": "Categoria",
-  "month": "Mes",
+  "app_option": "Presupuesto",
+  "category": "Seleccione una Categoría",
+  "month": "Selecciones el Mes",
   "amount": "Importe",
-  "accept": "Aceptar",
-  "ccancel": "Cancelar"
+  "submit": "Aceptar",
+  "cancel": "Cancelar"
 
 }

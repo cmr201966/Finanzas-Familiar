@@ -6,15 +6,31 @@
                 <img src="../assets/img/Logo/logo.jpg" alt="Finanza Familiar Logo" class="logo" />
                 <h1 class="app-name">{{ $t('login.app_name') }}</h1>
 
-                <!-- Selector de idioma con menu desplegable-->
+                <!-- Texto que indica la opción de idioma -->
                 <p class="idioma-conf">{{ $t('login.Select the language') }}</p>
+
+                <!-- Contenedor del selector de idioma -->
                 <div class="language-switcher">
+
+                    <!-- Menú desplegable -->
                     <v-menu offset-y>
+
+                        <!-- Activador del menú -->
                         <template #activator="{ props }">
-                        <v-btn class="border p-2 rounded-md" icon v-bind="props">
-                            <img :src="currentFlagIcon" class="bandera" />
+
+                            <!-- Botón sin la propiedad 'icon' para que sea rectangular -->
+                            <!-- Usamos 'd-flex' para alinear bandera + texto horizontalmente -->
+                            <v-btn class="d-flex align-center gap-2 border px-3 py-2 rounded-md" v-bind="props">
+
+                                <!-- Bandera a la izquierda -->
+                                <img :src="currentFlagIcon" class="bandera"/>
+
+                                <!-- Texto del idioma (ES o EN) -->
+                                <span>{{ currentLanguageCode }}</span>
                             </v-btn>
                         </template>
+
+                        <!-- Lista de opciones de idioma -->
                         <v-list class="menu-reducido">
                             <v-list-item @click="opcion11">
                                 <v-list-item-title>{{ $t('login.spanish') }}</v-list-item-title>
@@ -80,7 +96,7 @@
 
 // Importamos funcionalidades reactivas y de router
 
-import { ref, watch, onMounted } from 'vue'
+import { ref, watch, onMounted, computed } from 'vue'
 import { useI18n } from 'vue-i18n'
 import { useRouter } from 'vue-router'
 
@@ -94,13 +110,8 @@ const { locale, t } = useI18n()
 const currentLocale = ref(locale.value)
 const currentFlagIcon = ref(getFlagIcon(locale.value))
 
-// Observamos cambios en currentLocale para actualizar idioma y bandera
-watch(currentLocale, (newLocale) => {
-    locale.value = newLocale
-    currentFlagIcon.value = getFlagIcon(newLocale)
-    })
 
-// Función para obtener la ruta de la bandera según idioma
+// Función para obtener la imagen de la bandera según el idioma
 function getFlagIcon(locale) {
     return locale === 'es' ? '/flags/spain.png' : '/flags/uk.png'
     }
@@ -113,6 +124,17 @@ function opcion11() {
 function opcion12() {
     currentLocale.value = 'en'
     }
+// Computed para mostrar 'ES' o 'EN'
+const currentLanguageCode = computed(() => {
+    return locale.value === 'es' ? 'ES' : 'EN'
+})
+
+// Watcher que sincroniza idioma y bandera
+watch(currentLocale, (newLocale) => {
+    locale.value = newLocale
+    currentFlagIcon.value = getFlagIcon(newLocale)
+    })
+
 
 // Variables reactivas para login y control de visibilidad de contraseña
 const username = ref('')
@@ -164,6 +186,8 @@ async function handleLogin(event) {
         alert(err.message || 'Error al iniciar sesión')
     }
 }
+
+
 
 </script>
 
@@ -266,21 +290,21 @@ async function handleLogin(event) {
 }
 
 .btn {
-  display: flex; /* ← clave */
-  align-items: center; /* centra verticalmente */
-  justify-content: center; /* centra horizontalmente */
-  padding: 10px 20px;
-  font-size: 12px;
-  border: none;
-  border-radius: 6px;
-  cursor: pointer;
-  width: 60px;
-  height: 30px;
+    display: flex; /* ← clave */
+    align-items: center; /* centra verticalmente */
+    justify-content: center; /* centra horizontalmente */
+    padding: 10px 20px;
+    font-size: 12px;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    width: 60px;
+    height: 30px;
 }
 
 .btn-aceptar {
-  background-color: #196c2c; /* verde */
-  color: white;
+    background-color: #196c2c; /* verde */
+    color: white;
 }
 /* Imagen de usuario más pequeña */
 .user-icon {
@@ -444,10 +468,10 @@ input::placeholder {
 }
 
 .menu-reducido {
-  width: 100px;
-  padding: 2px 0; /* Ajusta el alto vertical */
-  padding-inline: 7px;
-  min-height: 32px;
+    width: 100px;
+    padding: 2px 0; /* Ajusta el alto vertical */
+    padding-inline: 7px;
+    min-height: 32px;
 }
 
 .custom-input {
@@ -464,8 +488,8 @@ input::placeholder {
     height: 30px;
 }
 .bandera{
-    width: 40px;
-    height: 40px;
+    width: 30px;
+    height: 30px;
 }
 .idioma-conf{
     font-size: 12px;

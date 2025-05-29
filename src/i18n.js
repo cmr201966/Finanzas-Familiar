@@ -3,8 +3,10 @@ import { createI18n } from 'vue-i18n'
 
 import esLogin from './locales/es/login.json'
 import esRegister from './locales/es/register.json'
+import esPresupuesto from './locales/es/presup.json'
 import enLogin from './locales/en/login.json'
 import enRegister from './locales/en/register.json'
+import enPresupuesto from './locales/en/presup.json'
 import esHome from './locales/es/home.json'
 import enHome from './locales/en/home.json'
 
@@ -12,12 +14,14 @@ const messages = {
   es: {
     login: esLogin,
     register: esRegister,
-    home: esHome
+    home: esHome,
+    presup:esPresupuesto
   },
   en: {
     login: enLogin,
     register: enRegister,
-    home: enHome
+    home: enHome,
+    presup:enPresupuesto
   }
 }
 

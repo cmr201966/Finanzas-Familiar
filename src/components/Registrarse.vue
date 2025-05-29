@@ -6,21 +6,37 @@
                 <img src="../assets/img/Logo/logo.jpg" alt="Finanza Familiar Logo" class="logo" />
                 <h1 class="app-name">{{ $t('register.app_name') }}</h1>
 
-                <!-- Selector de idioma -->
-                <p class="idioma-conf">{{ $t('register.Select the language') }}</p>
+                <!-- Texto que indica la opción de idioma -->
+                <p class="idioma-conf">{{ $t('login.Select the language') }}</p>
+
+                <!-- Contenedor del selector de idioma -->
                 <div class="language-switcher">
+
+                    <!-- Menú desplegable -->
                     <v-menu offset-y>
+
+                        <!-- Activador del menú -->
                         <template #activator="{ props }">
-                        <v-btn class="border p-2 rounded-md" icon v-bind="props">
-                            <img :src="currentFlagIcon" class="bandera" />
+
+                            <!-- Botón sin la propiedad 'icon' para que sea rectangular -->
+                            <!-- Usamos 'd-flex' para alinear bandera + texto horizontalmente -->
+                            <v-btn class="d-flex align-center gap-2 border px-3 py-2 rounded-md" v-bind="props">
+
+                                <!-- Bandera a la izquierda -->
+                                <img :src="currentFlagIcon" class="bandera"/>
+
+                                <!-- Texto del idioma (ES o EN) -->
+                                <span>{{ currentLanguageCode }}</span>
                             </v-btn>
                         </template>
-                        <v-list>
+
+                        <!-- Lista de opciones de idioma -->
+                        <v-list class="menu-reducido">
                             <v-list-item @click="opcion11">
-                                <v-list-item-title>{{ $t('register.spanish') }}</v-list-item-title>
+                                <v-list-item-title>{{ $t('login.spanish') }}</v-list-item-title>
                             </v-list-item>
                             <v-list-item @click="opcion12">
-                                <v-list-item-title>{{ $t('register.english') }}</v-list-item-title>
+                                <v-list-item-title>{{ $t('login.english') }}</v-list-item-title>
                             </v-list-item>
                         </v-list>
                     </v-menu>
@@ -97,7 +113,7 @@
 
 <script setup>
 
-import { ref, watch, onMounted  } from 'vue'
+import { ref, watch, onMounted,  computed   } from 'vue'
 import { useI18n } from 'vue-i18n'
 import { useRouter } from 'vue-router'
 import { register } from '@/services/register'
@@ -111,15 +127,12 @@ const { locale, t } = useI18n()
 const currentLocale = ref(locale.value)
 const currentFlagIcon = ref(getFlagIcon(locale.value))
 
-watch(currentLocale, (newLocale) => {
-    locale.value = newLocale
-    currentFlagIcon.value = getFlagIcon(newLocale)
-    })
-
+// Función para obtener la imagen de la bandera según el idioma
 function getFlagIcon(locale) {
     return locale === 'es' ? '/flags/spain.png' : '/flags/uk.png'
     }
 
+// Funciones para cambiar idioma al español o inglés
 function opcion11() {
     currentLocale.value = 'es'
     }
@@ -127,6 +140,16 @@ function opcion11() {
 function opcion12() {
     currentLocale.value = 'en'
     }
+// Computed para mostrar 'ES' o 'EN'
+const currentLanguageCode = computed(() => {
+    return locale.value === 'es' ? 'ES' : 'EN'
+})
+
+// Watcher que sincroniza idioma y bandera
+watch(currentLocale, (newLocale) => {
+    locale.value = newLocale
+    currentFlagIcon.value = getFlagIcon(newLocale)
+    })
 
 // Datos formulario
 const username = ref('')
@@ -383,8 +406,8 @@ input::placeholder {
 }
 
 .bandera{
-    width: 40px;
-    height: 40px;
+    width: 30px;
+    height: 30px;
 }
 
 .white-box {

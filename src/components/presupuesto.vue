@@ -7,7 +7,7 @@
                     <!-- Encabezado con logo y texto -->
                     <div class="header-inline">
                         <img src="../assets/img/tarjetas/presupuesto.png" class="user-icon" alt="Icono opción" />
-                        <h1 class="name-opcion">Presupuesto</h1>
+                        <h1 class="name-opcion">{{ $t('presup.app_option') }}</h1>
                     </div>
 
                     <hr class="divider" />
@@ -23,7 +23,7 @@
                             :items="categorias"
                             item-title="name"
                             item-value="id"
-                            label="  Seleccione una categoría"
+                            :label="$t('presup.category')"
                             :search-input.sync="search"
                             :loading="loading"
                             clearable
@@ -52,7 +52,7 @@
                             <v-text-field
                                 v-model="form.mes"
                                 v-bind="props"
-                                label="Seleccione el mes"
+                                :label="$t('presup.month')"
                                 placeholder="Ej: mayo de 2025"
                                 readonly
                                 required
@@ -87,50 +87,25 @@
                         </v-date-picker>
                     </v-menu>
 
-                        <!-- Importe  -->
+                    <!-- input importe -->
+                    <div class="form-field-horizontal input-with-icon">
+                        <img src="../assets/img/icono/dinero.png" class="input-icon-inside" />
+                        <input type="number" :placeholder="$t('presup.amount')" v-model="form.monto" class="custom-input"/>
+                    </div>
 
-                        <v-text-field
-                            v-model="form.monto"
-                            label="Importe"
-                            type="number"
-                            required
-                            hide-details
-                            density="compact"
-                            color="white"
-                            class="white-input"
-                            dense
-                        >
-                            <template #prepend-inner>
-                                <div class="d-flex align-center justify-center mr-2"
-                                    style="width: 28px; height: 28px; background-color: white !important; border-radius: 4px;"
-                                >
-                                    <img src="../assets/img/icono/dinero.png" alt="ícono importe" style="width: 30px; height: 30px;" />
-                                </div>
-                            </template>
-                        </v-text-field>
 
-                        <hr class="divider" />
+                        <hr class="divider1" />
 
                         <!-- Botones de  Aceptar y cancelar -->
                         <div class="form-buttons">
                             <!-- Botón Aceptar (verde) -->
 
                             <v-btn
-                                @click="submitForm"
-                                :loading="enviando"
-                                class="btn btn-aceptar"
-                                >
-                                Aceptar
-                            </v-btn>
+                                @click="submitForm" :loading="enviando" class="btn btn-aceptar">{{ $t('presup.submit') }}</v-btn>
 
                             <!-- Botón Cancelar (rojo) -->
                             <v-btn
-                                @click="cancelarFormulario"
-                                :disabled="enviando"
-                                class="btn btn-cancelar"
-                                >
-                                Cancelar
-                            </v-btn>
+                                @click="cancelarFormulario" :disabled="enviando" class="btn btn-cancelar">{{ $t('presup.cancel') }}</v-btn>
                         </div>
                     </v-form>
 
@@ -140,7 +115,11 @@
                         :items="presupuestos"
                         item-value="id"
                         class="elevation-1 font-tabla"
-                        >
+                        :items-per-page="-1"
+                        hide-default-footer
+                        hide-default-header
+                        >  <!-- la opcion hide-deful... elimina la paginacion -->
+
                         <template #item.acciones="{ item }">
                             <div class="d-flex align-center">
                                 <v-btn icon class="bg-transparent"  @click="editarPresupuesto(item)">
@@ -159,10 +138,19 @@
     </div>
 </template>
 
+
 <script setup>
-import { ref, watch } from 'vue'
+
+import { ref, watch, onMounted } from 'vue'
 import axios from 'axios'
 import { useRouter } from 'vue-router'
+import { useI18n } from 'vue-i18n'
+import { enviarPresupuesto } from '@/services/presup'
+
+
+// i18n y bandera
+const { locale, t } = useI18n()
+
 
 const router = useRouter()
 
@@ -177,13 +165,6 @@ const goToNextMonth = () => {
     current.setMonth(current.getMonth() + 1)
     pickerMes.value = current.toISOString().slice(0, 10)
 }
-
-const form = ref({
-    monto: '',
-    categoria_id: null,
-    mes: '', // 🟢 Mostrado en el input: "mayo de 2025"
-    mes_guardado: '' // 🟡 Usado para enviar al backend: "2025-05"
-})
 
 const menuMes = ref(false)
 const pickerMes = ref('')
@@ -205,22 +186,21 @@ const selectMes = (val) => {
     menuMes.value = false
     }
 
+
+// Cargando las categorias
+
+
 const categorias = ref([])
 const search = ref('')
 const loading = ref(false)
 const enviando = ref(false)
 
-watch(search, async (val) => {
-    if (val.length < 1) {    // a penas ponga un caracter de debe desplegar la lista
-        categorias.value = []
-        return
-    }
-
+const cargarCategorias = async (query = '') => {
     loading.value = true
-
     try {
 
-    const res = await axios.get(`/api/categories?q=${encodeURIComponent(val)}`)
+        // Si query es vacío, devuelve todas o las primeras categorías
+    const res = await axios.get(`/api/categories?q=${encodeURIComponent(query)}`)
     categorias.value = res.data
 
     } catch (e) {
@@ -228,9 +208,55 @@ watch(search, async (val) => {
 
     } finally {
     loading.value = false
+
     }
+}
+
+onMounted(() => {
+    cargarCategorias('')  // cargar todas al inicio
 })
 
+watch(search, (val) => {
+    cargarCategorias(val)
+})
+
+
+
+const form = ref({
+    monto: '',
+    categoria_id: null,
+    mes: '', // 🟢 Mostrado en el input: "mayo de 2025"
+    mes_guardado: '' // 🟡 Usado para enviar al backend: "2025-05"
+})
+
+function limpiarFormulario() {
+    form.value = {
+        monto: '',
+        categoria_id: null,
+        mes: '',
+        mes_guardado: ''
+    }
+}
+
+function editarPresupuesto(item) {
+    form.value = {
+        ...item,
+
+        mes: item.mes, // ya está formateado
+        mes_guardado: item.mes_guardado || '',
+    }
+
+    if (item.mes_guardado) {
+        pickerMes.value = item.mes_guardado + '-01' // ej: "2025-05-01"
+    }
+}
+
+function eliminarPresupuesto(id) {
+    presupuestos.value = presupuestos.value.filter(p => p.id !== id)
+    if (form.value.id === id) {
+        limpiarFormulario()
+    }
+}
 const submitForm = async () => {
     if (!form.value.monto || !form.value.categoria_id || !form.value.mes) {
         alert('Por favor completa todos los campos.')
@@ -240,7 +266,8 @@ const submitForm = async () => {
     enviando.value = true
 
     try {
-    await axios.post('/api/budgets', form.value)
+    //await axios.post('/api/budgets', form.value)
+    await enviarPresupuesto(form.value)
     alert('Presupuesto guardado correctamente')
     form.value = { monto: '', categoria_id: null, mes: '' }
 
@@ -283,25 +310,42 @@ const presupuestos = ref([
     { categoria: 'Desarrollo', mes: 'Febrero', importe: 12000 },
 ])
 
-function editarPresupuesto(item) {
-    form.value = { ...item }
-}
 
-function eliminarPresupuesto(id) {
-    presupuestos.value = presupuestos.value.filter(p => p.id !== id)
-    if (form.value.id === id) {
-        limpiarFormulario()
-    }
-}
 </script>
 
 <style scoped>
+/* Contenedor general de la página, centrado vertical y horizontal */
+.login-page {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh; /* Altura de toda la pantalla */
+    background-color:transparent; /* O cualquier color de fondo */
+}
 
+/* Caja blanca principal que contiene logo y formulario */
+.login-box {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+}
+
+/* Parte derecha: formulario y fondo */
+.form-container {
+    max-width: 400px;  /* Limita el ancho máximo del formulario */
+    margin: auto;
+    flex: 2;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 10px;
+}
 
 .header-inline {
     display: flex;
     align-items: center;
-    gap: 20px;
+    gap: 5px;
 }
 
 .form-gradient-box {
@@ -322,8 +366,7 @@ function eliminarPresupuesto(id) {
     display: flex;
     flex-direction: column;
     width: 75%;
-    gap: 16px;
-    margin-top: 10px;
+    gap: 8px;
 }
 
 .user-icon {
@@ -339,6 +382,10 @@ function eliminarPresupuesto(id) {
     max-width: 350px;
 }
 
+.divider1 {
+    width: 105%;
+    border: 1px solid black;
+}
 /*Titulo de la opcion*/
 
 .name-opcion {
@@ -411,12 +458,30 @@ function eliminarPresupuesto(id) {
 }
 
 .input-icon-inside {
-    left: 12px;
+    position: absolute;
+    left: 10px;
+    width: 30px;      /* tamaño pequeño del icono */
+    height: 30px;
+    object-fit: contain;
+    pointer-events: none; /* para que no interfiera con el click en el input */
 }
 
 
+.custom-input {
+    padding-left: 40px; /* espacio para la imagen + margen */
+    width: 100%;        /* que ocupe el ancho disponible */
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    height: 35px;
+    font-size: 14px;
+    background-color: white;
+    color: black;
+    outline: none;
+    box-sizing: border-box;
+}
+
 .custom-input:focus {
-    border-color: #2196f3; /* cambia al color azul cuando se enfoca */
+    border-color: #2196f3;
     box-shadow: 0 0 5px rgba(33, 150, 243, 0.5);
 }
 
@@ -444,7 +509,7 @@ function eliminarPresupuesto(id) {
     cursor: pointer;
     width: 65px;
     height: 30px;
-    font-style: popins;
+    font-style: 'popins';
     margin-bottom: 10px;
 }
 
@@ -457,7 +522,8 @@ function eliminarPresupuesto(id) {
     background-color: #dc3545; /* rojo */
     color: white;
 }
- /*para ajustar el font de la tabla*/
+
+/*para ajustar el font de la tabla*/
 .font-tabla {
   font-size: 12px; /* Puedes ajustar a 12px, 16px, etc. */
 }
@@ -468,7 +534,7 @@ function eliminarPresupuesto(id) {
 }
 
 .bg-transparent {
-  background-color: transparent !important;
-  box-shadow: none !important;
+    background-color: transparent !important;
+    box-shadow: none !important;
 }
 </style>

@@ -17,7 +17,7 @@
           <option value="fincimex">FINCIMEX</option>
         </select>
       </div>
-       <img class="img-tipo" src="..\assets\img\icono\TCB.png" alt="">
+      <img class="img-tipo" src="..\assets\img\icono\TCB.png" alt="">
       <div class="entrada-tipo-cuenta">
         <select v-model="form.tipoCuenta">
           <option disabled value="">Seleccione tipo de cuenta</option>
@@ -51,15 +51,15 @@
 
       <div class="botones">
         <v-btn class="save" color="primary" prepend-icon="mdi-plus" @click="guardarCuenta">
-          
+
         </v-btn>
 
         <v-btn class="editar" color="warning" prepend-icon="mdi-pencil" @click="editarCuenta">
-          
+
         </v-btn>
 
         <v-btn class="cancelar" color="error" prepend-icon="mdi-close" @click="cancelar">
-          
+
         </v-btn>
       </div>
     </div>
@@ -314,13 +314,13 @@ export default {
 /* Responsive media queries (solo ajustan tamaños y anchos para móvil y tablet, sin tocar posiciones absolutas) */
 
 @media (max-width: 1024px) {
- 
+
   .entrada-nombre input{
     top: 15%;
     left: 13%;
     width: 75%;
   }
- 
+
   .entrada-banco select{
     top: 23%;
     left: 13%;
