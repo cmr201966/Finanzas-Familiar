@@ -95,17 +95,21 @@ import {
 
 const cuentas = ref([])
 const form = ref({
-  name: '',
-  type: '',
-  bank: '',
-  initial_balance: 0
+  nombreCuenta: '',
+  banco: '',
+  tipoCuenta: '',
+  fechaApertura: '',
+  saldoInicial: 0,
+  cuentaPrincipal: false,
+  recibirNotificaciones: false
 })
 const isEditMode = ref(false)
 const selectedId = ref(null)
 
-// Cargar todas las cuentas al montar la vista
 onMounted(async () => {
+  console.log("1")
   await cargarCuentas()
+  console.log("2")
 })
 
 async function cargarCuentas() {
@@ -116,62 +120,77 @@ async function cargarCuentas() {
   }
 }
 
-// Crear una nueva cuenta
-async function crearCuenta() {
+async function guardarCuenta() {
+  console.log("2")
+  const datosTransformados = {
+    name: form.value.nombreCuenta,
+    bank: form.value.banco,
+    type: form.value.tipoCuenta,
+    open_date: form.value.fechaApertura,
+    initial_balance: form.value.saldoInicial,
+    user_id: 1,
+    main_account: form.value.cuentaPrincipal,
+    notifications: form.value.recibirNotificaciones
+  }
+
   try {
-    await createAccount(form.value)
+    if (isEditMode.value) {
+      await updateAccount(selectedId.value, { account: datosTransformados })
+    } else {
+      await createAccount({ account: datosTransformados })
+    }
     await cargarCuentas()
     resetForm()
   } catch (error) {
-    console.error('Error al crear cuenta:', error)
+    console.error('Error al guardar cuenta:', error)
   }
 }
 
-// Obtener datos de una cuenta y llenar el formulario
-async function editarCuenta(id) {
-  try {
-    const cuenta = await getAccountById(id)
-    form.value = { ...cuenta }
-    selectedId.value = id
-    isEditMode.value = true
-  } catch (error) {
-    console.error('Error al cargar cuenta para edición:', error)
+async function editarCuenta(index) {
+  const cuenta = cuentas.value[index]
+  form.value = {
+    nombreCuenta: cuenta.name,
+    banco: cuenta.bank,
+    tipoCuenta: cuenta.type,
+    fechaApertura: cuenta.open_date,
+    saldoInicial: cuenta.initial_balance,
+    cuentaPrincipal: cuenta.main_account,
+    recibirNotificaciones: cuenta.notifications
   }
+  selectedId.value = cuenta.id
+  isEditMode.value = true
 }
 
-// Guardar cambios de una cuenta existente
-async function guardarCambios() {
+async function eliminarCuenta(index) {
+  const cuenta = cuentas.value[index]
   try {
-    await updateAccount(selectedId.value, form.value)
-    await cargarCuentas()
-    resetForm()
-  } catch (error) {
-    console.error('Error al actualizar cuenta:', error)
-  }
-}
-
-// Eliminar una cuenta
-async function eliminarCuenta(id) {
-  try {
-    await deleteAccount(id)
+    await deleteAccount(cuenta.id)
     await cargarCuentas()
   } catch (error) {
     console.error('Error al eliminar cuenta:', error)
   }
 }
 
-// Limpiar formulario y salir del modo edición
+function cancelar() {
+  resetForm()
+}
+
 function resetForm() {
   form.value = {
-    name: '',
-    type: '',
-    bank: '',
-    initial_balance: 0
+    nombreCuenta: '',
+    banco: '',
+    tipoCuenta: '',
+    fechaApertura: '',
+    saldoInicial: 0,
+    cuentaPrincipal: false,
+    recibirNotificaciones: false
   }
   isEditMode.value = false
   selectedId.value = null
 }
 </script>
+
+
 
 <style scoped>
 .lista-cuentas ul {
