@@ -5,10 +5,13 @@ import Registrarse from "../views/Registrarse.vue";
 import Cuentas from "../views/Cuentas.vue";
 import presupuesto from "../views/presupuesto.vue";
 
+
 const routes = [
   { path: "/home", name: "home", component: Home },
   { path: "/", name: "Login", component: Login },
-  { path: "/register", name: "Registrarse", component: Registrarse },
+  //{ path: "/register", name: "Registrarse", component: Registrarse },
+
+  { path: "/register/:username?", name: "Registrarse", component: Registrarse },
   { path: "/Cuentas", name: "cuentas", component: Cuentas },
   { path: '/presupuesto', name: 'presupuesto', component: presupuesto },
 ];

@@ -1,9 +1,8 @@
 <template>
-  <v-app>
-    <div class="Barra">
-      <div class="logo-titulo">
-        <img class="logo" src="../assets/img/Logo/logo.jpg" />
-        <h1 class="titulo">{{$t('home.titulo')}}</h1>
+  <div class="Barra">
+    <div class="logo-titulo">
+      <img class="logo" src="../assets/img/Logo/logo.jpg" />
+      <h1 class="titulo">{{ $t("home.titulo") }}</h1>
 
         <!-- Aquí agregamos el menú -->
         <v-menu offset-y>
@@ -75,69 +74,77 @@
 </template>
 
 <script setup>
-import { ref, watch } from 'vue'
-import { useI18n } from 'vue-i18n'
+import { ref, watch } from "vue";
+import { useI18n } from "vue-i18n";
+import { useRouter } from 'vue-router';
 
-const { locale, t } = useI18n()
-const currentLocale = ref(locale.value)
-const currentFlagIcon = ref(getFlagIcon(locale.value))
+const router = useRouter();
+const username = ref(localStorage.getItem('username') || 'Usuario')
+console.log(username)
+
+const { locale, t } = useI18n();
+const currentLocale = ref(locale.value);
+const currentFlagIcon = ref(getFlagIcon(locale.value));
 
 watch(currentLocale, (newLocale) => {
-  locale.value = newLocale
-  currentFlagIcon.value = getFlagIcon(newLocale)
-})
+  locale.value = newLocale;
+  currentFlagIcon.value = getFlagIcon(newLocale);
+});
 
 function getFlagIcon(locale) {
-  return locale === 'es' ? '/flags/spain.png' : '/flags/uk.png'
+  return locale === "es" ? "/flags/spain.png" : "/flags/uk.png";
 }
 
 // Métodos
 function opcion1() {
-  alert('Nombre del usuario')
+  alert("Nombre del usuario");
 }
 function opcion2() {
-  alert('Contraseña')
+//  router.push('/register')
+  router.push({ name: 'Registrarse', params: { username: username.value } });
+
+ // alert("Contraseña");
 }
 function opcion3() {
-  alert('Categorias')
+  alert("Categorias");
 }
 function opcion4() {
-  alert('Cuentas')
+  alert("Cuentas");
 }
 function opcion5() {
-  alert('Transacciones')
+  alert("Transacciones");
 }
 function opcion6() {
-  alert('Transferencias')
+  alert("Transferencias");
 }
 function opcion7() {
-  alert('Transferencias')
+  alert("Transferencias");
 }
 function opcion8() {
-  alert('Transferencias')
+  alert("Transferencias");
 }
 function opcion9() {
-  alert('Transferencias')
+  alert("Transferencias");
 }
 function opcion10() {
-  alert('Transferencias')
+  alert("Transferencias");
 }
 function opcion11() {
-  currentLocale.value = 'es'
+  currentLocale.value = "es";
 }
 function opcion12() {
-  currentLocale.value = 'en'
+  currentLocale.value = "en";
 }
 function opcion13() {
-  alert('Transferencias')
+  alert("Transferencias");
 }
 function opcion14() {
-  alert('Transferencias')
+  alert("Transferencias");
 }
 </script>
 
 <style scoped>
-.usuario{
+.usuario {
   width: 2vw !important;
   height: 2vw !important;
   margin-bottom: 1vw;
@@ -145,8 +152,9 @@ function opcion14() {
   color: white;
   margin-left: auto;
 }
-.bandera{
-  width: 35px; height: 35px
+.bandera {
+  width: 35px;
+  height: 35px;
 }
 .puntitos-3 {
   width: 2vw !important;
@@ -166,7 +174,7 @@ function opcion14() {
   color: white;
   /*font-size: 2.5vw;*/
   font-size: 1.5vw;
-  font-family: 'popins';
+  font-family: "popins";
   margin-left: 1vw;
   margin-bottom: 1vw;
 }
@@ -193,39 +201,41 @@ function opcion14() {
 @media (max-width: 720px) {
   .logo {
     border-radius: 100%;
-  width: 3vw;
-  height: 3vw;
-  margin-left: 1vw;
-  margin-bottom: 1vw;
+    width: 3vw;
+    height: 3vw;
+    margin-left: 1vw;
+    margin-bottom: 1vw;
   }
 
   .titulo {
-     color: white;
-  font-size: 2.5vw;
-  font-family: 'Italic';
-  margin-left: 1vw;
-  margin-bottom: 1vw;
+    color: white;
+    font-size: 2.5vw;
+    font-family: "Italic";
+    margin-left: 1vw;
+    margin-bottom: 1vw;
   }
 
   .puntitos-3 {
-  width: 3vw !important;
-  height: 3vw !important;
-  margin-bottom: 1vw;
-  margin-right: 2vw;
-  color: white;
+    width: 3vw !important;
+    height: 3vw !important;
+    margin-bottom: 1vw;
+    margin-right: 2vw;
+    color: white;
   }
 }
-.bandera{
-  width: 30px; height: 30px
+.bandera {
+  width: 30px;
+  height: 30px;
 }
 @media (max-width: 480px) {
   .logo {
     width: 8vw;
     height: 8vw;
   }
-.bandera{
-  width: 20px; height: 20px
-}
+  .bandera {
+    width: 20px;
+    height: 20px;
+  }
   .titulo {
     font-size: 5vw;
   }
@@ -236,14 +246,14 @@ function opcion14() {
     width: 7vw !important;
     height: 7vw !important;
   }
-  .Barra{
+  .Barra {
     background-color: rgb(12, 155, 80);
-  width: 100%;
-  height: auto;
-  position: fixed;
-  top: 0vw;
-  left: 0vw;
-  z-index: 1000;
+    width: 100%;
+    height: auto;
+    position: fixed;
+    top: 0vw;
+    left: 0vw;
+    z-index: 1000;
   }
 }
 </style>

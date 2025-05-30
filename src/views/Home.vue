@@ -12,4 +12,8 @@ import Footer from '../components/Footer.vue'
 import Header from '../components/Header.vue';
 import Catalogos from '../components/Catalogos.vue';
 import Carrusel2 from '../components/Carrusel2.vue';
+
+//ususario autentificado
+const username = localStorage.getItem('username')
+console.log (username)
 </script>
