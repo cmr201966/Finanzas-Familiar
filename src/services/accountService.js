@@ -1,0 +1,60 @@
+// src/services/accountService.js
+import api from './api' // Asegúrate que esto sea un *default export* en api.js
+
+// Obtener todas las cuentas
+export async function getAllAccounts() {
+  try {
+    const res = await api.get('/')
+    console.log(res)
+    return res.data.data.accounts
+  } catch (error) {
+    console.error('Error al obtener cuentas:', error)
+    throw error
+  }
+}
+
+// Obtener una cuenta por ID
+export async function getAccountById(id) {
+  try {
+    const res = await api.get(`/${id}`)
+    return res.data.data.account
+  } catch (error) {
+    console.error(`Error al obtener cuenta con ID ${id}:`, error)
+    throw error
+  }
+}
+
+// Crear una nueva cuenta (envía los datos bajo 'account')
+export async function createAccount(accountData) {
+  try {
+    const res = await api.post('/',accountData)
+    return res.data
+  } catch (error) {
+    console.error('Error al crear cuenta:', error.response?.data || error)
+    throw error
+  }
+}
+
+// Actualizar una cuenta existente
+export async function updateAccount(id, updateData) {
+  try {
+    console.log(updateData)
+    const res = await api.put(`/${id}`, updateData) // updateData también debe tener forma { account: {...} }
+    return res.data.data.changes
+  } catch (error) {
+    console.error(`Error al actualizar cuenta con ID ${id}:`, error)
+    throw error
+  }
+}
+
+// Eliminar una cuenta
+export async function deleteAccount(id) {
+  try {
+    const res = await api.delete(`/${id}`)
+    return res.data.data.changes
+  } catch (error) {
+    console.error(`Error al eliminar cuenta con ID ${id}:`, error)
+    throw error
+  }
+}
+

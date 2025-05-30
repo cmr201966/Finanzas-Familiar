@@ -1,0 +1,11 @@
+{
+    "crear":"Create bank account",
+    "banco":"Select a bank",
+    "placeholderNombreCuenta": "Account name",
+    "tipo-cuenta":"Select account type",
+    "placeholdersaldo":"Initial balance",
+    "cuentaP":"Main account",
+    "notifica":"Notifications",
+    "cuentasG":"Saved accounts:"
+    
+}

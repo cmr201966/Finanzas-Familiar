@@ -37,40 +37,37 @@ const router = useRouter()
 const { t } = useI18n()
 
 const images = ref([
-  { src: CatIngresosgGastos, alt: 'home.catIngresosGastos', id: 1 },
-  { src: Cuentas, alt: 'home.cuentas', id: 2 },
-  { src: presupuesto, alt: 'home.presupuesto', id: 3 },
-  { src: ingresos, alt: 'home.ingresos', id: 4 },
-  { src: gastos, alt: 'home.gastos', id: 5 },
-  { src: transferencia, alt: 'home.transferencias', id: 6 }
+ { src: CatIngresosgGastos, alt: 'home.catIngresosGastos', name: 'categorias' },
+  { src: Cuentas, alt: 'home.cuentas', name: 'cuentas' },
+  { src: presupuesto, alt: 'home.presupuesto', name: 'presupuesto' },
+  { src: ingresos, alt: 'home.ingresos', name: 'ingresos' },
+  { src: gastos, alt: 'home.gastos', name: 'gastos' },
+  { src: transferencia, alt: 'home.transferencias', name: 'transferencias' }
 ])
 
-const currentIndex = ref(0)
-const visibleCount = 6
-const imageWidth = 200
-
-const moveSlide = (direction) => {
-  const maxIndex = images.value.length - visibleCount
-  currentIndex.value += direction
-  if (currentIndex.value < 0) currentIndex.value = 0
-  if (currentIndex.value > maxIndex) currentIndex.value = maxIndex
-}
-
 const handleClick = (image) => {
-
-  switch (image.id) {
-  case 3:
-    // Código si expresion === valor1
-    router.push('/presupuesto')
-    break;
-  case 2:
-    // Código si expresion === valor2
-    router.push('/Cuentas')
-    break;
-  default:
-    // Código si ningún case coincide
-    alert(`Navegación no implementada para: ${t(image.alt)}`)
-}
+  switch (image.name) {
+    case 'categorias':
+      router.push('/Categorias')
+      break;
+      case 'cuentas':
+      router.push('/Cuentas')
+      break;
+    case 'presupuesto':
+      router.push('/Presupuesto')
+      break;
+      case 'ingresos':
+      router.push('/Ingresos')
+      break;
+      case 'gastos':
+      router.push('/Gastos')
+      break;
+      case 'transferencias':
+      router.push('/Transferencias')
+      break;
+    default:
+      alert(`Navegación no implementada para: ${t(image.alt)}`)
+  }
 
 
 }
@@ -143,7 +140,7 @@ const handleClick = (image) => {
   }
 
 .image-label {
-  font-size: 12px;
+  font-size: 0.7vw;
   margin-top: 1%;
   font-weight: bold;
   color: #333;

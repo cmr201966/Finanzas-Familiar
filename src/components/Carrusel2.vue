@@ -28,6 +28,7 @@
 <script setup>
 import { ref } from 'vue'
 import { useI18n } from 'vue-i18n'
+import { useRouter } from 'vue-router'
 
 import Resumen_General from '../assets/img/tarjetas/resumen gral.png'
 import Vista_Trasnferencias from '../assets/img/tarjetas/transf.png'
@@ -37,15 +38,16 @@ import Categorias from '../assets/img/tarjetas/CatIngresosgGastos.png'
 import Anual from '../assets/img/tarjetas/reportes.png'
 import Presupuesto from '../assets/img/tarjetas/presupuesto.png'
 
+const router = useRouter()
 const { t } = useI18n()
 
 const images = ref([
-  { src: Resumen_General, alt: 'home.resumenGeneral', id: 1 },
-  { src: Vista_Trasnferencias, alt: 'home.transferencias', id: 2 },
-  { src: Cuentas, alt: 'home.cuentas', id: 3 },
-  { src: Presupuesto, alt: 'home.presupuesto', id: 4 },
-  { src: Anual, alt: 'home.informeAnual', id: 5 },
-  { src: Categorias, alt: 'home.categorias', id: 6 }
+  { src: Resumen_General, alt: 'home.resumenGeneral', name: 'resumen' },
+  { src: Vista_Trasnferencias, alt: 'home.transferencias', name: 'transferencias' },
+  { src: Cuentas, alt: 'home.cuentas', name: 'cuentas' },
+  { src: Presupuesto, alt: 'home.presupuesto', name: 'presupuesto' },
+  { src: Anual, alt: 'home.informeAnual', name: 'informeAnual' },
+  { src: Categorias, alt: 'home.categorias', name: 'categorias' }
 ])
 
 const currentIndex = ref(0)
@@ -60,7 +62,28 @@ const moveSlide = (direction) => {
 }
 
 const handleClick = (image) => {
-  alert(`Seleccionaste: ${t(image.alt)} (ID: ${image.id})`)
+  switch (image.name) {
+    case 'resumen':
+      router.push('/resumen')
+      break
+    case 'transferencias':
+      router.push('/transferencias')
+      break
+    case 'cuentas':
+      router.push('/cuentas')
+      break
+    case 'presupuesto':
+      router.push('/presupuesto')
+      break
+    case 'informeAnual':
+      router.push('/informe-anual')
+      break
+    case 'categorias':
+      router.push('/categorias')
+      break
+    default:
+      alert(`Navegación no implementada para: ${t(image.alt)}`)
+  }
 }
 </script>
 

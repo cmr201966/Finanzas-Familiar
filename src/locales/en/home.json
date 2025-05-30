@@ -16,7 +16,16 @@
   "informeAnual": "Monthly/Annual Report",
   "categorias": "Income and Expense Category",
   "spanish":"Spanish",
-  "english":"English"
+  "english":"English",
+  "español":"Spanish",
+  "ingles":"English",
+  "uname":"User name",
+  "cpassword":"Change password",
+  "dinero":"Money",
+  "categoriaM":"Category",
+  "cuentasM":"Accounts",
+  "transaccionesM":"Transactions",
+  "transferenciasM":"Transfers"
 
 
 
