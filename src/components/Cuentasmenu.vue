@@ -11,22 +11,19 @@
 
       <img class="img-banco" src="../assets/img/icono/banco.png" alt="">
       <div class="entrada-banco">
-        <select v-model="form.banco">
-          <option disabled value="">{{ $t('cuentas.banco' )}}</option>
-          <option value="metro">Metro</option>
-          <option value="BANDEC">BANDEC</option>
-          <option value="bfi">BFI</option>
-          <option value="fincimex">FINCIMEX</option>
-        </select>
-      </div>
+  <select v-model="form.banco">
+    <option disabled value="">{{ $t('cuentas.banco') }}</option>
+    <option v-for="b in bancos" :key="b.id" :value="b.name">{{ b.name }}</option>
+  </select>
+</div>
        <img class="img-tipo" src="..\assets\img\icono\TCB.png" alt="">
       <div class="entrada-tipo-cuenta">
-        <select v-model="form.tipoCuenta">
-          <option disabled value="">{{ $t('cuentas.tipo-cuenta' )}}</option>
-          <option value="efectivo">efectivo</option>
-          <option value="mlc">MLC</option>
-          <option value="usd">USD</option>
-        </select>
+       <select v-model="form.tipoCuenta">
+  <option disabled value="">{{ $t('cuentas.tipo-cuenta') }}</option>
+  <option v-for="t in tiposFiltrados" :key="t.id" :value="t.name">
+    {{ t.name }}
+  </option>
+</select>
       </div>
 
       <div class="entrada-fecha-apertura">
@@ -85,8 +82,8 @@
 </template>
 
 <script setup>
-import { useRouter } from 'vue-router' // importa el enrutador
-import { ref, onMounted } from 'vue'
+import { useRouter } from 'vue-router'
+import { ref, onMounted, computed, watch, reactive } from 'vue'
 import {
   getAllAccounts,
   getAccountById,
@@ -94,9 +91,16 @@ import {
   updateAccount,
   deleteAccount
 } from '@/services/accountService.js'
+import { getBancos } from '@/services/bancoService.js'
+import { getTiposCuenta } from '@/services/tipodecuentaService.js'
+
+const router = useRouter()
 
 const cuentas = ref([])
-const form = ref({
+const bancos = ref([])
+const tiposCuenta = ref([])
+
+const form = reactive({
   nombreCuenta: '',
   banco: '',
   tipoCuenta: '',
@@ -105,11 +109,14 @@ const form = ref({
   cuentaPrincipal: false,
   recibirNotificaciones: false
 })
+
 const isEditMode = ref(false)
 const selectedId = ref(null)
 
 onMounted(async () => {
   await cargarCuentas()
+  await cargarBancos()
+  await cargarTiposCuenta()
 })
 
 async function cargarCuentas() {
@@ -120,21 +127,53 @@ async function cargarCuentas() {
   }
 }
 
+async function cargarBancos() {
+  try {
+    bancos.value = await getBancos()
+  } catch (error) {
+    console.error('Error al cargar bancos:', error)
+  }
+}
+async function cargarTiposCuenta() {
+  try {
+    tiposCuenta.value = await getTiposCuenta()
+    console.log("llega esto")
+    console.log(tiposCuenta.value)
+  } catch (error) {
+    console.error('Error al cargar tipos de cuenta:', error)
+  }
+}
+const tiposFiltrados = computed(() => {
+  const bancoSeleccionado = form.banco?.toUpperCase() || ''
+
+  if (bancoSeleccionado === 'EFECTIVO') {
+    return tiposCuenta.value.filter(tipo => tipo.name.includes('EFECTIVO'))
+  } else {
+    return tiposCuenta.value.filter(tipo => !tipo.name.includes('EFECTIVO'))
+  }
+})
+watch(() => form.banco, () => {
+  const tipoActual = form.tipoCuenta
+  const valido = tiposFiltrados.value.some(tipo => tipo.name === tipoActual)
+  if (!valido) {
+    form.tipoCuenta = ''
+  }
+})
 async function guardarCuenta() {
   const datosTransformados = {
-    name: form.value.nombreCuenta,
-    bank: form.value.banco,
-    type: form.value.tipoCuenta,
-    created_at: form.value.fechaApertura,
-    initial_balance: form.value.saldoInicial,
-    main_account: form.value.cuentaPrincipal,
-    notifications: form.value.recibirNotificaciones,
+    name: form.nombreCuenta,
+    bank: form.banco,
+    type: form.tipoCuenta,
+    created_at: form.fechaApertura,
+    initial_balance: form.saldoInicial,
+    main_account: form.cuentaPrincipal,
+    notifications: form.recibirNotificaciones,
     user_id: 1
   }
 
   try {
     if (isEditMode.value) {
-     await updateAccount(selectedId.value, datosTransformados)
+      await updateAccount(selectedId.value, datosTransformados)
     } else {
       await createAccount(datosTransformados)
     }
@@ -149,13 +188,13 @@ async function editarCuenta(index) {
   try {
     const cuenta = cuentas.value[index]
 
-    form.value.nombreCuenta = cuenta.name
-    form.value.banco = cuenta.bank
-    form.value.tipoCuenta = cuenta.type
-    form.value.fechaApertura = cuenta.created_at ? cuenta.created_at.split(' ')[0] : ''
-    form.value.saldoInicial = cuenta.initial_balance
-    form.value.cuentaPrincipal = cuenta.main_account || false
-    form.value.recibirNotificaciones = cuenta.notifications || false
+    form.nombreCuenta = cuenta.name
+    form.banco = cuenta.bank
+    form.tipoCuenta = cuenta.type
+    form.fechaApertura = cuenta.created_at ? cuenta.created_at.split(' ')[0] : ''
+    form.saldoInicial = cuenta.initial_balance
+    form.cuentaPrincipal = cuenta.main_account || false
+    form.recibirNotificaciones = cuenta.notifications || false
 
     selectedId.value = cuenta.id
     isEditMode.value = true
@@ -173,22 +212,20 @@ async function eliminarCuenta(index) {
     console.error('Error al eliminar cuenta:', error)
   }
 }
-const router = useRouter()
+
 function cancelar() {
   resetForm()
-  router.push('/home') // redirecciona a /home
+  router.push('/home')
 }
 
 function resetForm() {
-  form.value = {
-    nombreCuenta: '',
-    banco: '',
-    tipoCuenta: '',
-    fechaApertura: '',
-    saldoInicial: 0,
-    cuentaPrincipal: false,
-    recibirNotificaciones: false
-  }
+  form.nombreCuenta = ''
+  form.banco = ''
+  form.tipoCuenta = ''
+  form.fechaApertura = ''
+  form.saldoInicial = 0
+  form.cuentaPrincipal = false
+  form.recibirNotificaciones = false
   isEditMode.value = false
   selectedId.value = null
 }
