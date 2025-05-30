@@ -184,6 +184,7 @@ function opcion14() {
   top: 0vw;
   left: 0vw;
   z-index: 1000;
+
 }
 
 .logo {

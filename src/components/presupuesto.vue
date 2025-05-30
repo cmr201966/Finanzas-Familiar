@@ -110,33 +110,31 @@
                         </div>
                     </v-form>
 
-                    <!-- Tabla de presupuestos -->
+                  <div>
+                    <!-- Tabla de presupuestos por mes -->
+                  <v-data-table
+                    :headers="headers"
+                    :items="presupuestos"
+                    item-value="id"
+                    class="elevation-1 font-tabla"
+                    :items-per-page="-1"
+                    hide-default-footer
+                    style="min-width:300px;"
+                  >
 
-                    <v-data-table
-                        :headers="headers"
-                        :items="presupuestos"
-                        item-value="id"
-                        class="elevation-1 font-tabla"
-                        :items-per-page="-1"
-                        hide-default-footer
-                        hide-default-header
-                    >
-
-                    <!-- la opcion hide-deful... elimina la paginacion -->
-
-                    <template #item.acciones="{ item }">
-
-                        <div class="d-flex align-center">
-                            <v-btn icon class="bg-transparent" @click="editarPresupuesto(item)">
-                                <v-icon size="18">mdi-pencil</v-icon>
-                            </v-btn>
-                            <v-btn icon class="bg-transparent" @click="eliminarPresupuesto(item.id)">
-                                <v-icon size="18" color="red">mdi-delete</v-icon>
-                            </v-btn>
-                        </div>
-                    </template>
-                </v-data-table>
+                  <template #item.acciones="{ item }">
+                    <div class="d-flex align-center">
+                      <v-btn icon class="bg-transparent" @click="editarPresupuesto(item)">
+                        <v-icon size="18">mdi-pencil</v-icon>
+                      </v-btn>
+                      <v-btn icon class="bg-transparent" @click="eliminarPresupuesto(item.id)">
+                        <v-icon size="18" color="red">mdi-delete</v-icon>
+                      </v-btn>
+                    </div>
+                  </template>
+              </v-data-table>
             </div>
+          </div>
         </div>
     </div>
 </div>
@@ -149,13 +147,18 @@ import { useRouter } from "vue-router";
 import { useI18n } from "vue-i18n";
 import { enviarPresupuesto } from "@/services/presup";
 
+
 //ususario autentificado
 const username = localStorage.getItem('username')
 
-// i18n y bandera
+// PARA TODO LO REFERENTE AL IDIOMA
 const { locale, t } = useI18n();
 
 const router = useRouter();
+
+//PARA TODO LO REFERENTE AL MES
+const menuMes = ref(false);
+const pickerMes = ref("");
 
 const goToPreviousMonth = () => {
   const current = new Date(pickerMes.value);
@@ -169,8 +172,12 @@ const goToNextMonth = () => {
   pickerMes.value = current.toISOString().slice(0, 10);
 };
 
-const menuMes = ref(false);
-const pickerMes = ref("");
+const form = ref({
+  monto: "",
+  categoria_id: null,
+  mes: "", // 🟢 Mostrado en el input: "mayo de 2025"
+  mes_guardado: "", // 🟡 Usado para enviar al backend: "2025-05"
+});
 
 // Cuando el usuario elige el mes
 
@@ -188,6 +195,8 @@ const selectMes = (val) => {
   menuMes.value = false;
 };
 
+
+//PARA TODO LO REFERENTE A LA CATEGORIA
 // Cargando las categorias
 
 const categorias = ref([]);
@@ -200,6 +209,7 @@ const cargarCategorias = async (query = "") => {
   try {
     // Si query es vacío, devuelve todas o las primeras categorías
     const res = await axios.get(
+
       `/api/categories?q=${encodeURIComponent(query)}`
     );
     categorias.value = res.data;
@@ -210,7 +220,10 @@ const cargarCategorias = async (query = "") => {
   }
 };
 
+
+//ES PARA CARGAR LA VISTA
 onMounted(() => {
+  cargarPresupuesto();  //cargando el presupuesto
   cargarCategorias(""); // cargar todas al inicio
 });
 
@@ -218,13 +231,8 @@ watch(search, (val) => {
   cargarCategorias(val);
 });
 
-const form = ref({
-  monto: "",
-  categoria_id: null,
-  mes: "", // 🟢 Mostrado en el input: "mayo de 2025"
-  mes_guardado: "", // 🟡 Usado para enviar al backend: "2025-05"
-});
-
+ //PARA LOS COMPONENTES DEL FORMULARIO
+ //limpiar formulario
 function limpiarFormulario() {
   form.value = {
     monto: "",
@@ -234,6 +242,7 @@ function limpiarFormulario() {
   };
 }
 
+//Editar Presupuesto
 function editarPresupuesto(item) {
   form.value = {
     ...item,
@@ -248,6 +257,7 @@ function editarPresupuesto(item) {
   }
 }
 
+//Eliminar Presupuesto
 function eliminarPresupuesto(id) {
   presupuestos.value = presupuestos.value.filter((p) => p.id !== id);
   if (form.value.id === id) {
@@ -274,8 +284,11 @@ const submitForm = async () => {
     enviando.value = false;
   }
 };
-// Para el boton Cancelar
 
+
+//PARA LOS BOTONES DE LA VISTA
+
+// Para el boton Cancelar
 const cancelarFormulario = () => {
   form.value = {
     monto: "",
@@ -288,20 +301,43 @@ const cancelarFormulario = () => {
   router.push("/home"); // ← Redirige al home
 };
 
-// esto es para la tabla de abajo
-const headers = [
-  { text: "ID", value: "id" },
-  { text: "Categoría de Gastos", value: "categoria" },
-  { text: "Mes", value: "mes" },
-  { text: "Importe", value: "importe" },
-  { text: "Acciones", value: "acciones", sortable: false },
-];
+//TRABAJANDO LA TABLA QUE ESTA DEBAJO
 
-const presupuestos = ref([
-  { categoria: "Marketing", mes: "Enero", importe: 5000 },
-  { categoria: "Desarrollo", mes: "Febrero", importe: 12000 },
-]);
+// Esto es para la tabla de abajo
+const headers = [
+ // { title: 'ID', value: 'id' },
+  { title: 'Categoría', value: 'categoria' },
+  { title: 'Mes', value: 'mes' },
+  { title: 'Importe', value: 'importe' },
+]
+
+const presupuesto = ref(null);
+const loadingPresupuesto = ref(false);
+
+const cargarPresupuestos = async () => {
+  loadingPresupuesto.value = true
+  try {
+    const res = await axios.get(`/api/presupuestos/?username=${encodeURIComponent(username)}`)
+    presupuestos.value = res.data.map(p => ({
+      id: p.id,
+      categoria: p.categoria.nombre, // ajusta esto según tu backend
+      mes: formatearMes(p.fecha_inicio), // o p.mes si ya lo tienes
+      importe: p.total, // o el campo que corresponde
+    }))
+
+    // Puedes calcular el total si quieres
+    presupuesto.value = {
+      total: presupuestos.value.reduce((sum, p) => sum + p.importe, 0)
+    }
+  } catch (e) {
+    console.error('Error cargando presupuestos:', e)
+  } finally {
+    loadingPresupuesto.value = false
+  }
+}
 </script>
+
+
 
 <style scoped>
 /* Contenedor general de la página, centrado vertical y horizontal */
