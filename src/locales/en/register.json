@@ -18,6 +18,8 @@
     "invalid_credentials": "Invalid credentials",
     "network_error": "Network or server error",
     "passwordHint": "Must be at least 8 characters",
+    "title_new":"Create user",
+    "title_edit":"Edit profile",
     "errors": {
         "nicknameRequired": "Nickname is required",
         "fullnameRequired": "Full name is required",

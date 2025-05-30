@@ -19,8 +19,7 @@
           <option value="fincimex">FINCIMEX</option>
         </select>
       </div>
-
-      <img class="img-tipo" src="../assets/img/icono/TCB.png" alt="">
+       <img class="img-tipo" src="..\assets\img\icono\TCB.png" alt="">
       <div class="entrada-tipo-cuenta">
         <select v-model="form.tipoCuenta">
           <option disabled value="">{{ $t('cuentas.tipo-cuenta' )}}</option>
@@ -55,9 +54,14 @@
 
       <div class="botones">
         <v-btn class="save" color="primary" prepend-icon="mdi-plus" @click="guardarCuenta">
-          {{ editIndex !== null ? '' : '' }}
+          
+        </v-btn>
+
+        <v-btn class="editar" color="warning" prepend-icon="mdi-pencil" @click="editarCuenta">
+          
         </v-btn>
         <v-btn class="cancelar" color="error" prepend-icon="mdi-close" @click="cancelar">
+          
         </v-btn>
       </div>
       <div class="lista-cuentas">
@@ -426,31 +430,7 @@ position: absolute;
 /* Responsive media queries (solo ajustan tamaños y anchos para móvil y tablet, sin tocar posiciones absolutas) */
 
 @media (max-width: 1024px) {
- .lista-cuentas ul {
-  list-style: none;
-  padding: 0;
-  margin: 0;
-}
-
-.item-cuenta {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding: 0.5vw 0;
-  border-bottom: 1px solid #ccc;
-}
-
-.texto-cuenta {
-  flex: 1;
-  font-size: 1.5vw;
-  padding-right: 1vw;
-  word-break: break-word;
-}
-
-.botones-cuenta {
-  display: flex;
-  gap: 0.5vw;
-}
+ 
   .entrada-nombre input{
     top: 15.3%;
     left: 13%;
@@ -459,7 +439,7 @@ position: absolute;
     font-size: 1vw;
     height: 4.5vh;
   }
- 
+
   .entrada-banco select{
     top: 23.3%;
     left: 13%;

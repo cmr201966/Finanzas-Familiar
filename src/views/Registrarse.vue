@@ -3,5 +3,5 @@
 </template>
 
 <script setup>
-    import Registrarse from '../components/registrarse.vue'
+    import Registrarse from '../components/Registrarse.vue'
 </script>

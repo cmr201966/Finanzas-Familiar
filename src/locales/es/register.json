@@ -18,6 +18,8 @@
     "passwordHint": "Contraseña al menos 8 caracteres",
     "spanish":"Español",
     "english":"Ingles",
+    "title_new":"Crear usuario",
+    "title_edit":"Editar perfil,",
     "errors": {
         "nicknameRequired": "El apodo es obligatorio.",
         "fullnameRequired": "El nombre completo es obligatorio.",
