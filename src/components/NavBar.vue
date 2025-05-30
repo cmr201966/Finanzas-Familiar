@@ -254,3 +254,8 @@ function opcion14() {
   }
 }
 </style>
+<style>
+.v-application__wrap {
+  min-height:0px !important;
+}
+</style>
