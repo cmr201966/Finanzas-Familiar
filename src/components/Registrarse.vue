@@ -164,7 +164,7 @@ const props = defineProps({
 
 
 // Formulario y estados
-//const username = ref('')
+const username = ref('')
 const email = ref('')
 const fullName = ref('')
 const phone = ref('')
@@ -305,7 +305,11 @@ onMounted(async () => {
     // Llamar el endpoint que busca los datos del username1
     console.log("Antes llamar api")
     const data = await getUserByUserName(username1) 
-    console.log(data)
+    console.log(data.data.email)
+    console.log(data.data.username)
+    username.value=data.data.username
+    console.log(data.data.name)
+    console.log(data.data.phone)
   } else {
     isEditing.value = false
     clearForm()
