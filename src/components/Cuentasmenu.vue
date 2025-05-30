@@ -108,9 +108,7 @@ const isEditMode = ref(false)
 const selectedId = ref(null)
 
 onMounted(async () => {
-  console.log("1")
   await cargarCuentas()
-  console.log("2")
 })
 
 async function cargarCuentas() {
@@ -122,7 +120,6 @@ async function cargarCuentas() {
 }
 
 async function guardarCuenta() {
-  console.log("2")
   const datosTransformados = {
     name: form.value.nombreCuenta,
     bank: form.value.banco,
@@ -135,7 +132,6 @@ async function guardarCuenta() {
   }
 
   try {
-    console.log(datosTransformados )
     if (isEditMode.value) {
      await updateAccount(selectedId.value, datosTransformados)
     } else {
