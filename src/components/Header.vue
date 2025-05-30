@@ -26,7 +26,7 @@ body {
 .salidas {
   color: rgb(0, 0, 0);
   position: absolute;
-  top: 46%; /* 30% de la altura de la ventana */
+  top: 42%; /* 30% de la altura de la ventana */
   left: 10%; /* 10% del ancho de la ventana */
   font-family: popins;
   font-size: 100%; /* Tamaño relativo al ancho de la ventana */

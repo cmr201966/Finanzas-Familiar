@@ -7,17 +7,21 @@ import enLogin from './locales/en/login.json'
 import enRegister from './locales/en/register.json'
 import esHome from './locales/es/home.json'
 import enHome from './locales/en/home.json'
+import esCuentas from './locales/es/cuentas.json'
+import enCuentas from './locales/en/cuentas.json'
 
 const messages = {
   es: {
     login: esLogin,
     register: esRegister,
-    home: esHome
+    home: esHome,
+    cuentas: esCuentas
   },
   en: {
     login: enLogin,
     register: enRegister,
-    home: enHome
+    home: enHome,
+    cuentas: enCuentas
   }
 }
 

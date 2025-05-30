@@ -14,10 +14,10 @@
           </template>
           <v-list>
             <v-list-item @click="opcion1">
-              <v-list-item-title>Nombre del usuario</v-list-item-title>
+              <v-list-item-title>{{$t('home.uname')}}</v-list-item-title>
             </v-list-item>
             <v-list-item @click="opcion2">
-              <v-list-item-title>Cambiar contraseña</v-list-item-title>
+              <v-list-item-title>{{$t('home.cpassword')}}</v-list-item-title>
             </v-list-item>
           </v-list>
         </v-menu>
@@ -29,7 +29,7 @@
           </template>
           <v-list>
             <v-list-item @click="opcion7">
-              <v-list-item-title>Dinero</v-list-item-title>
+              <v-list-item-title>{{$t('home.dinero')}}</v-list-item-title>
             </v-list-item>
           </v-list>
         </v-menu>
@@ -41,16 +41,16 @@
           </template>
           <v-list>
             <v-list-item @click="opcion3">
-              <v-list-item-title>Categorias</v-list-item-title>
+              <v-list-item-title>{{$t('home.categoriaM')}}</v-list-item-title>
             </v-list-item>
             <v-list-item @click="opcion4">
-              <v-list-item-title>Cuentas</v-list-item-title>
+              <v-list-item-title>{{$t('home.cuentasM')}}</v-list-item-title>
             </v-list-item>
             <v-list-item @click="opcion5">
-              <v-list-item-title>Transacciones</v-list-item-title>
+              <v-list-item-title>{{$t('home.transaccionesM')}}</v-list-item-title>
             </v-list-item>
             <v-list-item @click="opcion6">
-              <v-list-item-title>Transferencias</v-list-item-title>
+              <v-list-item-title>{{$t('home.transferenciasM')}}</v-list-item-title>
             </v-list-item>
           </v-list>
         </v-menu>
@@ -62,10 +62,10 @@
           </template>
           <v-list>
             <v-list-item @click="opcion11">
-              <v-list-item-title>Español</v-list-item-title>
+              <v-list-item-title>{{$t('home.español')}}</v-list-item-title>
             </v-list-item>
             <v-list-item @click="opcion12">
-              <v-list-item-title>Inglés</v-list-item-title>
+              <v-list-item-title>{{$t('home.ingles')}}</v-list-item-title>
             </v-list-item>
           </v-list>
         </v-menu>
