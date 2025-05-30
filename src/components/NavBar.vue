@@ -81,7 +81,6 @@ import { useRouter } from 'vue-router';
 
 const router = useRouter();
 const username = ref(localStorage.getItem('username') || 'Usuario')
-console.log(username)
 
 const { locale, t } = useI18n();
 const currentLocale = ref(locale.value);
