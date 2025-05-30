@@ -283,11 +283,6 @@ async function handleLogin(event) {
 
 }
 
-.form-gradient-box img{
-    width: 20%;
-    height: 20%;
-    margin-top: 20px;
-}
 
 /* Icono de usuario arriba */
 .form-gradient-box img.user-icon {
@@ -302,7 +297,7 @@ async function handleLogin(event) {
     justify-content: space-between;
 }
 
-.btn {
+.btn-aceptar {
     display: flex; /* ← clave */
     align-items: center; /* centra verticalmente */
     justify-content: center; /* centra horizontalmente */
@@ -313,9 +308,6 @@ async function handleLogin(event) {
     cursor: pointer;
     width: 60px;
     height: 30px;
-}
-
-.btn-aceptar {
     background-color: #196c2c; /* verde */
     color: white;
 }
@@ -436,20 +428,6 @@ input::placeholder {
 
 }
 
-.submit-button {
-    background-color: #196c2c;
-    color: #f6f7f8;
-    border: 2px solid white;
-    border-radius: 20px;
-    padding: 5px 10px;
-    font-weight: bold;
-    cursor: pointer;
-    transition: background 0.3s;
-    width: 30%;
-    height: 20%;
-    margin-bottom: 10px;
-    font-size: 12px;
-}
 .submit-button:hover {
     background-color: rgba(255, 255, 255, 0.9);
 }
@@ -527,6 +505,42 @@ input:-webkit-autofill:active {
     -webkit-text-fill-color: black !important;
     -webkit-background-clip: text;
 }
+
+
+/*
+.submit-button {
+    background-color: #196c2c;
+    color: #f6f7f8;
+    border: 2px solid white;
+    border-radius: 20px;
+    padding: 5px 10px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: background 0.3s;
+    width: 30%;
+    height: 20%;
+    margin-bottom: 10px;
+    font-size: 12px;
+}*/
+/*
+.btn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 10px 20px;
+    font-size: 12px;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    width: 60px;
+    height: 30px;
+}*/
+
+/*.form-gradient-box img{
+    width: 20%;
+    height: 20%;
+    margin-top: 20px;
+}*/
 
 /* =====================================================
         Responsive Styles - Archivo CSS Reutilizable
