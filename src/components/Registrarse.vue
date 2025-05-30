@@ -318,8 +318,8 @@ function cancelarRegistro() {
 
 // Al montar
 onMounted(async () => {
-
   if (username1 && username1.trim() !== '') {
+    console.log("Entre")
     isEditing.value = true
     // Llamar el endpoint que busca los datos del username1
     const data = await getUserByUserName(username1)
@@ -329,6 +329,7 @@ onMounted(async () => {
       phone.value=data.data.phone
 
   } else {
+    console.log("No entro")
     isEditing.value = false
     clearForm()
   }

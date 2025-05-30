@@ -9,19 +9,23 @@ import enRegister from './locales/en/register.json'
 import enPresupuesto from './locales/en/presup.json'
 import esHome from './locales/es/home.json'
 import enHome from './locales/en/home.json'
+import esCuentas from './locales/es/cuentas.json'
+import enCuentas from './locales/en/cuentas.json'
 
 const messages = {
   es: {
     login: esLogin,
     register: esRegister,
     home: esHome,
-    presup:esPresupuesto
+    presup:esPresupuesto,
+    cuentas: esCuentas
   },
   en: {
     login: enLogin,
     register: enRegister,
     home: enHome,
-    presup:enPresupuesto
+    presup:enPresupuesto,
+    cuentas: enCuentas
   }
 }
 
