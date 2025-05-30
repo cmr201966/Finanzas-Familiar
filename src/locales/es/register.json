@@ -9,6 +9,7 @@
     "success": "Registro exitoso!",
     "submit": "Registrar",
     "cancel": "Cancelar",
+    "update": "Actualizar",
     "Select the language":"Seleccione el idioma",
     "Enter the full name":"Entre el nombre completo",
     "complete_fields": "Debes completar todos los campos.",

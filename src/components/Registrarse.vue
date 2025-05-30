@@ -107,12 +107,15 @@
                         <!-- Raya negra -->
                         <hr class="divider" />
 
-                        <!-- Botones de aceptar y cancelar -->
+                        <!-- Botones de aceptar y cancelar
                         <div class="form-buttons">
                             <button class="btn btn-aceptar" @click.prevent="handleRegister" :disabled="loading">{{ $t('register.submit') }} </button>
                             <button class="btn btn-cancelar" @click="cancelarRegistro"> {{ $t('register.cancel') }} </button>
+                        </div> -->
+                        <div class="form-buttons">
+                            <button class="btn btn-aceptar" @click.prevent="handleRegister" :disabled="loading">{{ textoBotonAceptar }}</button>
+                            <button class="btn btn-cancelar" @click="cancelarRegistro"> {{ $t('register.cancel') }}</button>
                         </div>
-
                     </div>
                 </div>
             </div>
@@ -141,6 +144,14 @@ const router = useRouter()
 const { locale, t } = useI18n()
 const currentLocale = ref(locale.value)
 const currentFlagIcon = ref(getFlagIcon(locale.value))
+
+// Variable que indica el modo actual
+const modo = ref('registrar') // o 'actualizar'
+
+// Cambia el texto del botón según el modo
+const textoBotonAceptar = computed(() =>
+  isEditing.value ? t('register.update') : t('register.submit')
+)
 
 function getFlagIcon(locale) {
   return locale === 'es' ? '/flags/spain.png' : '/flags/uk.png'
@@ -195,8 +206,10 @@ function clearForm() {
   successMessage.value = ''
 }
 
+
 // Enviar formulario (registro o actualización)
 const handleRegister = async () => {
+
   errorMessage.value = ''
   successMessage.value = ''
 
@@ -291,25 +304,30 @@ const handleRegister = async () => {
   }
 }
 
-// Cancelar
-const cancelarRegistro = () => {
-  router.push('/') // Ajusta según tu ruta inicial
+function cancelarRegistro() {
+  if (username1 && username1.trim() !== '') {
+    isEditing.value = true
+    // Si hay username1, viene de edición, va al home
+    router.push('/home')
+  } else {
+    // Si no, vuelve al login
+    isEditing.value = false
+    router.push('/')
+  }
 }
 
 // Al montar
 onMounted(async () => {
-  console.log("1")
-  console.log(' username:', username1)
+
   if (username1 && username1.trim() !== '') {
     isEditing.value = true
     // Llamar el endpoint que busca los datos del username1
-    console.log("Antes llamar api")
-    const data = await getUserByUserName(username1) 
-    console.log(data.data.email)
-    console.log(data.data.username)
-    username.value=data.data.username
-    console.log(data.data.name)
-    console.log(data.data.phone)
+    const data = await getUserByUserName(username1)
+      username.value=data.data.username
+      fullName.value=data.data.name
+      email.value=data.data.email
+      phone.value=data.data.phone
+
   } else {
     isEditing.value = false
     clearForm()
