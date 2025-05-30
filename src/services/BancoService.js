@@ -3,5 +3,6 @@ import api from './api'
 
 export async function getBancos() {
   const response = await api.get('/bancos')
-  return response.data
+  console.log(response)
+  return response.data.data.bancos
 }
