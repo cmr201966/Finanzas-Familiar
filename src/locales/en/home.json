@@ -25,7 +25,9 @@
   "categoriaM":"Category",
   "cuentasM":"Accounts",
   "transaccionesM":"Transactions",
-  "transferenciasM":"Transfers"
+  "transferenciasM":"Transfers",
+  "footer":"© Family Finances 2025. All Rights Reserved.",
+  "perfilEdit":"Profile edit"
 
 
 

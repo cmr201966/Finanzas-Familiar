@@ -1,6 +1,6 @@
 <template>
   <footer>
-    <p>© Finanza Familiar 2025. Todos los Derechos Reservados.</p>
+    <p>{{$t('home.footer')}}</p>
   </footer>
 </template>
 
