@@ -298,12 +298,15 @@ const cancelarRegistro = () => {
 
 // Al montar
 onMounted(async () => {
+  console.log(username1)
   if (username1 && username1.trim() !== '') {
+    console.log("Entre")
     isEditing.value = true
     // Llamar el endpoint que busca los datos del username1
     const data = await getUserByUserName(username1) 
     username.value=data.data.username
   } else {
+    console.log("No entro")
     isEditing.value = false
     clearForm()
   }
