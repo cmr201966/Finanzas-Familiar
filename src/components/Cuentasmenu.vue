@@ -57,9 +57,6 @@
           
         </v-btn>
 
-        <v-btn class="editar" color="warning" prepend-icon="mdi-pencil" @click="editarCuenta">
-          
-        </v-btn>
         <v-btn class="cancelar" color="error" prepend-icon="mdi-close" @click="cancelar">
           
         </v-btn>

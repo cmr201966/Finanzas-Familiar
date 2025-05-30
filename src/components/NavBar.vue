@@ -1,4 +1,5 @@
 <template>
+  <v-app>
   <div class="Barra">
     <div class="logo-titulo">
       <img class="logo" src="../assets/img/Logo/logo.jpg" />
@@ -13,12 +14,12 @@
           </template>
           <v-list>
             <v-list-item @click="opcion1">
-              <v-list-item-title>{{$t('home.uname')}}</v-list-item-title>
-            </v-list-item>
-            <v-list-item @click="opcion2">
-              <v-list-item-title>{{$t('home.cpassword')}}</v-list-item-title>
-            </v-list-item>
-          </v-list>
+            <v-list-item-title>{{ username }}</v-list-item-title>
+          </v-list-item>
+          <v-list-item @click="opcion2">
+            <router-link to="/register">{{$t('home.perfilEdit')}}</router-link>
+          </v-list-item>
+        </v-list>
         </v-menu>
         <v-menu offset-y>
           <template #activator="{ props }">
@@ -96,9 +97,6 @@ function getFlagIcon(locale) {
 }
 
 // Métodos
-function opcion1() {
-  alert("Nombre del usuario");
-}
 function opcion2() {
 //  router.push('/register')
   router.push({ name: 'Registrarse', params: { username: username.value } });
