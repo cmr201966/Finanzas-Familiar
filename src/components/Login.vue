@@ -82,7 +82,10 @@
 
                             <div class="register-link">
                                 {{ $t('login.no_account') }}
-                                <router-link to="/register">{{ $t('login.sign_up') }}</router-link>
+                                <!--<router-link to="/register">{{ $t('login.sign_up') }}</router-link>-->
+                                <router-link :to="{ name: 'Registrarse', params: { username: username } }">
+                                     {{ $t('login.sign_up') }}
+                                </router-link>
                             </div>
 
                     </form>

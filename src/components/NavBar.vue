@@ -80,7 +80,9 @@
 <script setup>
 import { ref, watch } from "vue";
 import { useI18n } from "vue-i18n";
+import { useRouter } from 'vue-router';
 
+const router = useRouter();
 const username = ref(localStorage.getItem('username') || 'Usuario')
 console.log(username)
 
@@ -101,10 +103,12 @@ function getFlagIcon(locale) {
 function opcion1() {
   alert("Nombre del usuario");
 }
-//function opcion2() {
+function opcion2() {
+//  router.push('/register')
+  router.push({ name: 'Registrarse', params: { username: username.value } });
 
  // alert("Contraseña");
-//}
+}
 function opcion3() {
   alert("Categorias");
 }

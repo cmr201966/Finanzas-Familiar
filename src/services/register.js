@@ -1,6 +1,7 @@
 import axios from 'axios'
 
 const API_URL = 'http://localhost:3000/api/auth'
+const API_URL_USERS = 'http://localhost:3000/api/users'
 
 // Registrar nuevo usuario
 export const register = async (param) => {
@@ -20,10 +21,9 @@ export const register = async (param) => {
   }
 }
 
-// Obtener usuario por ID (para editar)
-export const getUserById = async (id) => {
+export const getUsers = async () => {
   try {
-    const response = await axios.get(`${API_URL}/users/${id}`, {
+    const response = await axios.get(`${API_URL_USERS}/search/}`, {
       headers: {
         Authorization: `Bearer ${localStorage.getItem('token')}`
       }
@@ -33,6 +33,36 @@ export const getUserById = async (id) => {
     throw error.response?.data || { message: 'Error obteniendo usuario' }
   }
 }
+
+// Obtener usuario por ID (para editar)
+export const getUserById = async (id) => {
+  try {
+    console.log(`${API_URL_USERS}/search/${id}`)
+    const response = await axios.get(`${API_URL_USERS}/search/${id}`, {
+      headers: {
+        Authorization: `Bearer ${localStorage.getItem('token')}`
+      }
+    })
+    return response.data
+  } catch (error) {
+    throw error.response?.data || { message: 'Error obteniendo usuario' }
+  }
+}
+
+export const getUserByUserName = async (username) => {
+  try {
+    console.log(`${API_URL_USERS}/search/?username=${username}`)
+    const response = await axios.get(`${API_URL_USERS}/search/?username=${username}`, {
+      headers: {
+        Authorization: `Bearer ${localStorage.getItem('token')}`
+      }
+    })
+    return response.data
+  } catch (error) {
+    throw error.response?.data || { message: 'Error obteniendo usuario' }
+  }
+}
+
 
 // Actualizar usuario
 export const updateUser = async (id, param) => {

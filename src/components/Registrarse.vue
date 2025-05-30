@@ -129,7 +129,12 @@ import { useRouter } from 'vue-router'
 import { defineProps } from 'vue'
 import axios from 'axios'
 
-import { register, getUserById, updateUser } from '@/services/register'
+import { register, getUserByUserName, updateUser } from '@/services/register'
+
+import { useRoute } from "vue-router";
+
+const route = useRoute();
+const username1 = route.params.username
 
 // Router e internacionalización
 const router = useRouter()
@@ -153,13 +158,13 @@ watch(currentLocale, (newLocale) => {
 
 // Props
 const props = defineProps({
-  username: { type: String, default: null },
+//  username: { type: String, default: null },
   userId: { type: [String, Number], default: null }
 })
 
 
 // Formulario y estados
-const username = ref('')
+//const username = ref('')
 const email = ref('')
 const fullName = ref('')
 const phone = ref('')
@@ -188,25 +193,6 @@ function clearForm() {
   confirmPassword.value = ''
   errorMessage.value = ''
   successMessage.value = ''
-}
-
-// Cargar datos de usuario si está en modo edición
-const loadUserData = async (usernameParam) => {
-  loading.value = true
-  errorMessage.value = ''
-  try {
-    const data = await getUserByUsername(usernameParam) // O getUserById según tu API
-    username.value = data.username || ''
-    email.value = data.email || ''
-    fullName.value = data.fullName || data.name || ''
-    phone.value = data.phone || ''
-    password.value = ''
-    confirmPassword.value = ''
-  } catch (error) {
-    errorMessage.value = 'Error loading user data'
-  } finally {
-    loading.value = false
-  }
 }
 
 // Enviar formulario (registro o actualización)
@@ -311,12 +297,15 @@ const cancelarRegistro = () => {
 }
 
 // Al montar
-onMounted(() => {
+onMounted(async () => {
   console.log("1")
-  console.log(' username:', username)
-  if (props.username && props.username.trim() !== '') {
+  console.log(' username:', username1)
+  if (username1 && username1.trim() !== '') {
     isEditing.value = true
-    loadUserData(props.username)
+    // Llamar el endpoint que busca los datos del username1
+    console.log("Antes llamar api")
+    const data = await getUserByUserName(username1) 
+    console.log(data)
   } else {
     isEditing.value = false
     clearForm()
