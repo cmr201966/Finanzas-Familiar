@@ -1,7 +1,9 @@
 {
   "app_option": "Budget",
-  "category": "Select category",
-  "month": "Select the month",
+  "select_category": "Select category",
+  "select_month": "Select the month",
+  "category": "Category",
+  "month":"Month",
   "amount": "Amount",
   "submit": "Accept",
   "cancel": "Cancel"

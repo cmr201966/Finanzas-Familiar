@@ -536,11 +536,11 @@ input:-webkit-autofill:active {
     height: 30px;
 }*/
 
-/*.form-gradient-box img{
+.form-gradient-box img{
     width: 20%;
     height: 20%;
     margin-top: 20px;
-}*/
+}
 
 /* =====================================================
         Responsive Styles - Archivo CSS Reutilizable
