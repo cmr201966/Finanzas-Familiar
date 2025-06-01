@@ -1,5 +1,4 @@
-// src/services/accountService.js
-import api from './api' // Asegúrate que esto sea un *default export* en api.js
+import api from './api' 
 
 // Obtener todas las cuentas
 export async function getAllAccounts() {

@@ -145,7 +145,8 @@ import { ref, watch, onMounted } from "vue";
 import axios from "axios";
 import { useRouter } from "vue-router";
 import { useI18n } from "vue-i18n";
-import { enviarPresupuesto } from "@/services/presup";
+import { getPresupuestosByUserName } from "@/services/presupuestos";
+import { getCategoriasByType } from "@/services/categorias";
 
 
 //ususario autentificado
@@ -207,32 +208,18 @@ const categorias = ref([]);
 const search = ref("");
 const loading = ref(false);
 
-const cargarCategorias = async (query = "") => {
-  loading.value = true;
-  try {
-    // Si query es vacío, devuelve todas o las primeras categorías
-    const res = await axios.get(
-
-      `/api/categories?q=${encodeURIComponent(query)}`
-    );
-    categorias.value = res.data;
-  } catch (e) {
-    console.error("Error cargando categorías", e);
-  } finally {
-    loading.value = false;
-  }
-};
 
 
 //ES PARA CARGAR LA VISTA
 onMounted(() => {
-  cargarPresupuestos();  //cargando el presupuesto
-  cargarCategorias(""); // cargar todas al inicio
+  console.log("Llamar a services")
+  getCategoriasByType('gasto', username);
+  getPresupuestosByUserName(username); 
 });
 
-watch(search, (val) => {
-  cargarCategorias(val);
-});
+//watch(search, (val) => {
+//  cargarCategorias(val);
+//});
 
 //PARA EL BOTON ACEPTAR
 // Estado para controlar si se está enviando el formulario (usado para el botón loading)
@@ -240,9 +227,10 @@ const enviando = ref(false)
 
 // Aquí defines tu modelo de formulario (ajusta los campos según tu necesidad real)
 const nuevoPresupuesto = ref({
-    categoria: '',
+    categoria_id: '',
     mes: '',
-    importe:'',
+    monto_limite:'',
+    usuario_id: ''
   // Agrega otros campos si los tienes
 })
 
@@ -286,7 +274,15 @@ const submitForm = async () => {
   enviando.value = true;
 
   try {
-    const response = await axios.post('/api/presupuestos', nuevoPresupuesto.value);
+    nuevoPresupuesto.value = {
+      categoria_id: form.categoria.value,
+      mes: form.mes.value,
+      monto_limite: form.importe.value,
+      usuario_id: username
+    };
+
+    // Llamar desde /servives no desde la vista
+    crearPresupuesto(nuevoPresupuesto.value)
 
     presupuestos.value.push({
       id: response.data.id,
@@ -295,11 +291,6 @@ const submitForm = async () => {
       importe: response.data.total
     });
 
-    nuevoPresupuesto.value = {
-      categoria: '',
-      mes: '',
-      importe:''
-    };
 
   } catch (error) {
     console.error('Error al enviar el formulario:', error);
@@ -336,11 +327,16 @@ const headers = [
 const presupuesto = ref(null);
 const loadingPresupuesto = ref(false);
 
+
+
 const cargarPresupuestos = async () => {
   loadingPresupuesto.value = true
   try {
-    const res = await axios.get(`/api/presupuestos/?username=${encodeURIComponent(username)}`)
-    presupuestos.value = res.data.map(p => ({
+    const response = await presupuesto({
+        username: username.value,
+        })
+
+    presupuestos.value = response.data.map(p => ({
       id: p.id,
       categoria: p.categoria.nombre, // ajusta esto según tu backend
       mes: formatearMes(p.fecha_inicio), // o p.mes si ya lo tienes

@@ -140,6 +140,12 @@ function opcion14() {
 }
 </script>
 
+<style>
+.v-application__wrap{
+   min-height: 0px !important;
+}
+</style>
+
 <style scoped>
 .usuario {
   width: 2vw !important;
