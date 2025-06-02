@@ -123,7 +123,7 @@
                         >
                           <template #item.acciones="{ item }">
                             <div class="d-flex align-center">
-                              <v-btn icon class="bg-transparent" @click="editarPresupuesto(item)">
+                              <v-btn icon class="bg-transparent" @click="editarPresupuestoVista(item)">
                                 <v-icon size="18">mdi-pencil</v-icon>
                               </v-btn>
                               <v-btn icon class="bg-transparent" @click="eliminarPresupuesto(item.id)">
@@ -208,6 +208,7 @@ const formatearMes = (fechaStr) => {
 // Cargando las categorias
 
 const categorias = ref([]);
+const editarsn = ref(false);
 const search = ref("");
 const loading = ref(false);
 
@@ -217,8 +218,8 @@ const loading = ref(false);
 
 onMounted(async () => {
   categorias.value = await getCategoriasByType('gasto', username);
-
   presupuestos.value= await getPresupuestosByUserName(username);
+  console.log(presupuestos.value)
 
 });
 
@@ -249,24 +250,26 @@ function limpiarFormulario() {
     mes_guardado: "",
   };
 }
- const editando = ref(false)
 
 //Editar Presupuesto
-//function editarPresupuesto(item) {
+function editarPresupuestoVista(item) {
+  console.log (item)
 
-
-  //form.value = {
-  //  ...item,
-  //  categoria_id: item.categoria,
-  //  monto: item.importe,
-  //  mes: item.mes, // ya está formateado
-  //  mes_guardado: item.mes_guardado || "",
-  //};
+  editarsn.value=true;
+  form.value = {
+    ...item,
+    categoria_id: item.categoria_id,
+    categoria: item.categoria,
+    monto: item.importe,
+    mes: "2025-06",
+//    mes: item.mes,
+    mes_guardado: item.mes_guardado || "",
+  };
 
   //if (item.mes_guardado) {
   //  pickerMes.value = item.mes_guardado + "-01"; // ej: "2025-05-01"
  // }
-//}
+}
 
 //Eliminar Presupuesto
 function eliminarPresupuesto(id) {
@@ -315,9 +318,14 @@ const submitForm = async () => {
 
     const fecha = form.value.mes_guardado || form.value.mes; // usa mes_guardado si existe, sino mes
     const partes = fecha.split("-");
-
+    console.log(fecha)
+    console.log(partes)
+    
     // Construye el objeto con los datos comunes
+    form.value.categoria=0;
+    console.log(form.value.id)
     const nuevo = {
+      id: form.value.id,
       categoria_id: form.value.categoria_id,
       mes: Number(partes[1]),
       monto_limite: form.value.importe,
@@ -325,12 +333,10 @@ const submitForm = async () => {
     };
 
     let response;
-
-    if (form.value.id) {
+    if (editarsn.value==true) {
 
       // Si existe id, significa que editamos un registro
-      console.log ("el id", form.value.id)
-      response = await editarPresupuesto({ id: form.value.id, ...nuevo });
+      response = await editarPresupuesto(nuevo);
       
     } else {
 
@@ -339,7 +345,7 @@ const submitForm = async () => {
     }
 
     presupuestos.value = await getPresupuestosByUserName(username);
-
+    editarsn.value=false
     limpiarFormulario();
 
   } catch (error) {
