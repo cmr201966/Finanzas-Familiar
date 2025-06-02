@@ -3,8 +3,9 @@ import api from './api'
 // Obtener todas las categorías
 export async function getAllExpenses() {
   try {
-    const res = await api.get('/categorias/search/{type}/{iduser}')
-    return res.data.data.expense
+    const res = await api.get('/categorias')
+    console.log(res.data.data)
+    return res.data.data
   } catch (error) {
     console.error('Error al obtener categorías:', error)
     throw error
@@ -25,7 +26,7 @@ export async function getExpenseById(id) {
 // Crear una nueva categoría
 export async function createExpense(expenseData) {
   try {
-    const res = await api.post('/categorias/search/{type}/{iduser}', expenseData)
+    const res = await api.post('/categorias', expenseData)
     return res.data
   } catch (error) {
     console.error('Error al crear categoría:', error.response?.data || error)

@@ -50,19 +50,18 @@
         <div class="lista-categoria">
       <h3>{{ $t('categorias.categoriaG') }}</h3>
       <ul>
-        <li v-for="(categoria, index) in categoria" :key="index" class="item-categoria">
-          <span class="texto-categoria">
-            {{ categoria.nombreCategoria }} - {{ categoria.descripcion }} - {{ categoria.ingreso ? 'Ingreso' : 'Gasto' }}
-          </span>
-          <span class="botones-categoria">
-            <v-btn small icon color="blue" @click="editarCategoria(index)">
-              <v-icon>mdi-pencil</v-icon>
-            </v-btn>
-            <v-btn small icon color="red" @click="eliminarCategoria(index)">
-              <v-icon>mdi-delete</v-icon>
-            </v-btn>
-          </span>
-        </li>
+       <li v-for="(cat, index) in categoria" :key="index">
+       {{ cat.name }} - {{ cat.type }}
+      <span class="texto-categoria">{{ categoria.name }} - {{ categoria.type }}</span>
+      <span class="botones-categoria">
+        <v-btn small icon color="blue" @click="editarCategoria(index)">
+          <v-icon>mdi-pencil</v-icon>
+        </v-btn>
+        <v-btn small icon color="red" @click="eliminarCategoria(index)">
+          <v-icon>mdi-delete</v-icon>
+        </v-btn>
+      </span>
+    </li>
       </ul>
     </div>
   </div>
@@ -82,34 +81,38 @@ const categoria = ref([])
 const modoEdicion = ref(false)
 const indiceEditando = ref(null)
 const router = useRouter()
+const fechaActual = new Date().toISOString().split('T')[0]
 
 onMounted(async () => {
   await cargarCategoria()
 })
+
 async function cargarCategoria() {
   try {
     categoria.value = await getAllExpenses()
+    console.log('Categorías cargadas:', categoria.value)
   } catch (error) {
     console.error('Error al cargar gastos:', error)
   }
 }
 
 async function guardarCategoria() {
-  try {
-    const datos = {
-      name: form.nombre,
-      description: form.descripcion,
-      type: form.ingreso,
-      user_id: 1 // o el ID correcto según tu lógica
-    }
+  const datos = {
+    name: form.nombreCategoria,
+    type: form.tipo,
+    user_id: 1,
+    created_at: new Date().toISOString().split('T')[0]
+  }
 
-    const respuesta = await createExpense(datos)
-    console.log('Categoría creada con éxito:', respuesta)
-    resetForm()
+  console.log('Datos a enviar:', datos)
+
+  try {
+    await createExpense(datos)
   } catch (error) {
-    console.error('Error al guardar la categoría:', error)
+    console.error('Error al crear categoría:', error.response?.data || error)
   }
 }
+
 
 function editarCategoria(index) {
   form.value = { ...categoria.value[index] }
