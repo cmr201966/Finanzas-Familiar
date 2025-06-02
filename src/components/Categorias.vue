@@ -23,11 +23,19 @@
     </div>
     <p class="categoria-ingreso">{{ $t('categorias.ingreso' )}}</p>
      <div class="entrada-ingreso-check">
-        <input type="checkbox" v-model="form.ingreso" />
+        <input
+      type="checkbox"
+      :checked="form.ingreso"
+      @change="form.ingreso = true"
+    />
       </div>
       <p class="categoria-gastos">{{ $t('categorias.gastos' )}}</p>
      <div class="entrada-gastos-check">
-        <input type="checkbox" v-model="form.gastos" />
+        <input
+      type="checkbox"
+      :checked="!form.ingreso"
+      @change="form.ingreso = false"
+    />
       </div>
       <hr class="mi-barra2" />
       <div class="botones">
@@ -61,31 +69,46 @@
 </template>
 
 <script setup>
-import { ref } from 'vue'
 import { useRouter } from 'vue-router'
-
+import { ref, onMounted, reactive } from 'vue'
+import { getAllExpenses, getExpenseById, createExpense } from '@/services/expensesService.js' // Ajusta la ruta si es necesario
 const form = ref({
   nombreCategoria: '',
   descripcion: '',
-  ingreso:false,
+  ingreso:true,
   gastos:false
 })
 const categoria = ref([])
 const modoEdicion = ref(false)
 const indiceEditando = ref(null)
 const router = useRouter()
-function guardarCategoria() {
-  if (!form.value.nombreCategoria) return
 
-  if (modoEdicion.value) {
-    categoria.value[indiceEditando.value] = { ...form.value }
-    modoEdicion.value = false
-    indiceEditando.value = null
-  } else {
-    categoria.value.push({ ...form.value })
+onMounted(async () => {
+  await cargarCategoria()
+})
+async function cargarCategoria() {
+  try {
+    categoria.value = await getAllExpenses()
+  } catch (error) {
+    console.error('Error al cargar gastos:', error)
   }
+}
 
-  resetForm()
+async function guardarCategoria() {
+  try {
+    const datos = {
+      name: form.nombre,
+      description: form.descripcion,
+      type: form.ingreso,
+      user_id: 1 // o el ID correcto según tu lógica
+    }
+
+    const respuesta = await createExpense(datos)
+    console.log('Categoría creada con éxito:', respuesta)
+    resetForm()
+  } catch (error) {
+    console.error('Error al guardar la categoría:', error)
+  }
 }
 
 function editarCategoria(index) {
