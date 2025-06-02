@@ -50,12 +50,12 @@
       <hr class="mi-barra2" />
 
       <div class="botones">
-        <v-btn class="save" color="primary" prepend-icon="mdi-plus" @click="guardarCuenta">
-          
+        <v-btn class="save" color="primary" @click="guardarCuenta">
+          Guardar
         </v-btn>
 
-        <v-btn class="cancelar" color="error" prepend-icon="mdi-close" @click="cancelar">
-          
+        <v-btn class="cancelar" color="error" @click="cancelar">
+          Cancelar
         </v-btn>
       </div>
       <div class="lista-cuentas">
@@ -83,7 +83,7 @@
 
 <script setup>
 import { useRouter } from 'vue-router'
-import { ref, onMounted, computed, watch, reactive } from 'vue'
+import { reactive, ref, onMounted, computed, watch } from 'vue'
 import {
   getAllAccounts,
   getAccountById,
@@ -170,7 +170,7 @@ async function guardarCuenta() {
     notifications: form.recibirNotificaciones,
     user_id: 1
   }
-
+console.log('Datos enviados:', datosTransformados)
   try {
     if (isEditMode.value) {
       await updateAccount(selectedId.value, datosTransformados)
@@ -329,23 +329,21 @@ position: absolute;
 .botones {
   position: absolute;
   top: 60%;
-  left: 65%;
+  left: 56%;
   display: flex;
   gap: 1vw;
   min-width: 0.5vw;
 }
 .save{
- width: 3vw !important;
-  height: 5vh !important;
-}
-.editar{
- width: 3vw !important;
-  height: 5vh !important;
+    width: 7vw !important;
+    height: 5vh !important;
+    font-size: 1vw;
 }
 
 .cancelar{
- width: 3vw !important;
-  height: 5vh !important;
+    width: 7vw !important;
+    height: 5vh !important;
+    font-size: 1vw;
 }
 
 .entrada-nombre input{
