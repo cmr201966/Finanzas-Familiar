@@ -1,5 +1,6 @@
 <template>
   <div class="fondo">
+    <img class="img-nombre" src="../assets/img/tarjetas/CatIngresosgGastos.png" alt="">
     <h2 class="titulo-categoria">{{ $t('categorias.titulo-categoria' )}}</h2>
     <hr class="mi-barra" />
     <div class="entrada-categoria">
@@ -126,6 +127,11 @@ function resetForm() {
   padding-bottom: 2vw; /* Añade espacio inferior para la lista */
   overflow-y: auto; /* Habilita scroll si se excede mucho */
 }
+.img-nombre{
+    position: absolute; left: 4%; top: 4%;
+    width: 15%;
+    height: 18%;
+}
 .titulo-categoria{
     font-family: Arial, sans-serif;
     font-size: 1.7vw;
@@ -237,14 +243,22 @@ function resetForm() {
   .texto-categoria {
     font-size: 1.5vw;
   }
-  .botones-categoria {
-    flex: 1 1 100%;
-    margin-top: 1vw;
+  .botones {
+    position: absolute; left: 24%;
   }
-   .entrada-categoria input,
+  .entrada-categoria input,
   .entrada-descripcion input {
     width: 80%;
-    font-size: 3vw;
+    font-size: 1.5vw;
+  }
+  .entrada-gastos-check{
+    position: absolute; left: 85%;
+  }
+  .entrada-ingreso-check{
+   position: absolute; left: 45%;
+  }
+  .img-nombre{
+    height: 13%;
   }
 }
 @media (max-width: 480px) {
@@ -266,8 +280,10 @@ function resetForm() {
   }
 
   .save, .cancelar {
-    font-size: 3vw !important;
-    width: 25vw !important;
+    font-size: 1.5vw !important;
+    width: 2rem !important;
+    height: 1.3rem !important;
+    position: fixed; left: 70%;
   }
 
   .botones-categoria {
