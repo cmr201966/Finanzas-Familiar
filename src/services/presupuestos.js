@@ -30,7 +30,7 @@ export const getPresupuestosById = async (id) => {
 
 export const getPresupuestosByUserName = async (username) => {
   try {
-      console.log(`${API_URL}/username/${username}`)
+     // console.log(`${API_URL}/username/${username}`)
       const response = await axios.get(`${API_URL}/username/${username}`, {
       headers: {
         Authorization: `Bearer ${localStorage.getItem('token')}`
@@ -44,9 +44,22 @@ export const getPresupuestosByUserName = async (username) => {
 
 export const crearPresupuesto  = async (param) => {
     try {
-      console.log("services")
-      console.log(param)
+
     const response = await axios.post(`${API_URL}/`, param)
+
+    return response.data
+  } catch (error) {
+    throw error.response?.data || { message: 'Error inesperado' }
+  }
+}
+
+
+export const editarPresupuesto  = async (param) => {
+  console.log ("param:",param)
+    try {
+
+    console.log(param)
+    const response = await axios.put(`${API_URL}/`, param)
 
     return response.data
   } catch (error) {

@@ -36,7 +36,7 @@ export const getUsers = async () => {
 // Obtener usuario por ID (para editar)
 export const getUserById = async (id) => {
   try {
-    console.log(`${API_URL_USERS}/search/${id}`)
+    //console.log(`${API_URL_USERS}/search/${id}`)
     const response = await axios.get(`${API_URL_USERS}/search/${id}`, {
       headers: {
         Authorization: `Bearer ${localStorage.getItem('token')}`
@@ -50,7 +50,7 @@ export const getUserById = async (id) => {
 
 export const getUserByUserName = async (username) => {
   try {
-    console.log(`${API_URL_USERS}/search/?username=${username}`)
+   //console.log(`${API_URL_USERS}/search/?username=${username}`)
     const response = await axios.get(`${API_URL_USERS}/search/?username=${username}`, {
       headers: {
         Authorization: `Bearer ${localStorage.getItem('token')}`

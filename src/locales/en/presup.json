@@ -6,6 +6,7 @@
   "month":"Month",
   "amount": "Amount",
   "submit": "Accept",
-  "cancel": "Cancel"
+  "cancel": "Cancel",
+  "actions":"Actions"
 
 }

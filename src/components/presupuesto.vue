@@ -1,5 +1,5 @@
 <template>
-submitForm    <div class="login-page">
+  <div class="login-page">
         <div class="login-box">
             <div class="form-container">
                 <div class="form-gradient-box">
@@ -110,32 +110,31 @@ submitForm    <div class="login-page">
                         </div>
                     </v-form>
 
-                  <div>
                     <!-- Tabla de presupuestos por mes -->
-                  <v-data-table
-                    :headers="headers"
-                    :items="presupuestos"
-                    item-value="id"
-                    class="elevation-1 font-tabla"
-                    :items-per-page="-1"
-                    hide-default-footer
-                    style="min-width:300px;"
-                  >
-
-                  <template #item.acciones="{ item }">
-                    <div class="d-flex align-center">
-                      <v-btn icon class="bg-transparent" @click="editarPresupuesto(item)">
-                        <v-icon size="18">mdi-pencil</v-icon>
-                      </v-btn>
-                      <v-btn icon class="bg-transparent" @click="eliminarPresupuesto(item.id)">
-                        <v-icon size="18" color="red">mdi-delete</v-icon>
-                      </v-btn>
+                    <div style="max-height: 400px; overflow-y: auto;">
+                        <v-data-table
+                          :headers="headers"
+                          :items="presupuestos"
+                          item-value="id"
+                          class="elevation-1 font-tabla"
+                          :items-per-page="-1"
+                          hide-default-footer
+                          style="min-width:300px;"
+                        >
+                          <template #item.acciones="{ item }">
+                            <div class="d-flex align-center">
+                              <v-btn icon class="bg-transparent" @click="editarPresupuesto(item)">
+                                <v-icon size="18">mdi-pencil</v-icon>
+                              </v-btn>
+                              <v-btn icon class="bg-transparent" @click="eliminarPresupuesto(item.id)">
+                                <v-icon size="18" color="red">mdi-delete</v-icon>
+                              </v-btn>
+                            </div>
+                          </template>
+                        </v-data-table>
                     </div>
-                  </template>
-              </v-data-table>
-            </div>
-          </div>
-        </div>
+                  </div>
+                </div>
     </div>
 </div>
 </template>
@@ -149,6 +148,7 @@ import { getPresupuestosByUserName } from "@/services/presupuestos";
 import { getCategoriasByType } from "@/services/categorias";
 import { crearPresupuesto } from '@/services/presupuestos';
 import { getUserByUserName } from '@/services/register';
+import { editarPresupuesto } from '@/services/presupuestos';
 
 
 
@@ -249,24 +249,29 @@ function limpiarFormulario() {
     mes_guardado: "",
   };
 }
+ const editando = ref(false)
 
 //Editar Presupuesto
-function editarPresupuesto(item) {
-  form.value = {
-    ...item,
-    categoria_id: item.categoria,
-    monto: item.importe,
-    mes: item.mes, // ya está formateado
-    mes_guardado: item.mes_guardado || "",
-  };
+//function editarPresupuesto(item) {
 
-  if (item.mes_guardado) {
-    pickerMes.value = item.mes_guardado + "-01"; // ej: "2025-05-01"
-  }
-}
+
+  //form.value = {
+  //  ...item,
+  //  categoria_id: item.categoria,
+  //  monto: item.importe,
+  //  mes: item.mes, // ya está formateado
+  //  mes_guardado: item.mes_guardado || "",
+  //};
+
+  //if (item.mes_guardado) {
+  //  pickerMes.value = item.mes_guardado + "-01"; // ej: "2025-05-01"
+ // }
+//}
 
 //Eliminar Presupuesto
 function eliminarPresupuesto(id) {
+  console.log (id)
+  console.log(presupuestos.value)
   presupuestos.value = presupuestos.value.filter((p) => p.id !== id);
   if (form.value.id === id) {
     limpiarFormulario();
@@ -274,26 +279,68 @@ function eliminarPresupuesto(id) {
 }
 
 
+//const submitForm = async () => {
+ // enviando.value = true;
+
+ // try {
+  //  const user= await getUserByUserName(username)
+
+  //  const fecha = form.value.mes_guardado;
+  //  const partes = fecha.split("-");
+ //   const nuevo = {
+ //     categoria_id: form.value.categoria_id,
+ //     mes: Number(partes[1]),
+  //    monto_limite: form.value.importe,
+ //     usuario_id: user.data.id,
+ //   };
+    // Llamar desde /servives no desde la vista
+ //   const response = await crearPresupuesto(nuevo); // ✅ espera la respuesta
+
+  //  presupuestos.value= await getPresupuestosByUserName(username);
+
+  //  limpiarFormulario(); // ✅ limpiar después de enviar
+
+ // } catch (error) {
+ //   console.error('Error al enviar el formulario:', error);
+ // } finally {
+ //   enviando.value = false;
+//  }
+//};
+
 const submitForm = async () => {
   enviando.value = true;
 
   try {
-    const user= await getUserByUserName(username)
-    
-    const fecha = form.value.mes_guardado; 
+    const user = await getUserByUserName(username);
+
+    const fecha = form.value.mes_guardado || form.value.mes; // usa mes_guardado si existe, sino mes
     const partes = fecha.split("-");
+
+    // Construye el objeto con los datos comunes
     const nuevo = {
       categoria_id: form.value.categoria_id,
       mes: Number(partes[1]),
       monto_limite: form.value.importe,
       usuario_id: user.data.id,
     };
-    // Llamar desde /servives no desde la vista
-    const response = await crearPresupuesto(nuevo); // ✅ espera la respuesta
-    
-    presupuestos.value= await getPresupuestosByUserName(username);
 
-    limpiarFormulario(); // ✅ limpiar después de enviar
+    let response;
+
+    if (form.value.id) {
+
+      // Si existe id, significa que editamos un registro
+      console.log ("el id", form.value.id)
+      response = await editarPresupuesto({ id: form.value.id, ...nuevo });
+      
+    } else {
+
+      // Sino, creamos uno nuevo
+      response = await crearPresupuesto(nuevo);
+    }
+
+    presupuestos.value = await getPresupuestosByUserName(username);
+
+    limpiarFormulario();
 
   } catch (error) {
     console.error('Error al enviar el formulario:', error);

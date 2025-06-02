@@ -6,6 +6,7 @@
   "month":"Mes",
   "amount": "Importe",
   "submit": "Aceptar",
-  "cancel": "Cancelar"
+  "cancel": "Cancelar",
+  "actions":"Acciones"
 
 }
