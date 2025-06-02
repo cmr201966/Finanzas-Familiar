@@ -44,6 +44,8 @@ export const getPresupuestosByUserName = async (username) => {
 
 export const crearPresupuesto  = async (param) => {
     try {
+      console.log("services")
+      console.log(param)
     const response = await axios.post(`${API_URL}/`, param)
 
     return response.data

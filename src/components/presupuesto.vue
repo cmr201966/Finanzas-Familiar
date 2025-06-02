@@ -148,6 +148,8 @@ import { useI18n } from "vue-i18n";
 import { getPresupuestosByUserName } from "@/services/presupuestos";
 import { getCategoriasByType } from "@/services/categorias";
 import { crearPresupuesto } from '@/services/presupuestos';
+import { getUserByUserName } from '@/services/register';
+
 
 
 //usuario autentificado
@@ -218,7 +220,6 @@ onMounted(async () => {
 
   presupuestos.value= await getPresupuestosByUserName(username);
 
-
 });
 
 //PARA EL BOTON ACEPTAR
@@ -277,28 +278,21 @@ const submitForm = async () => {
   enviando.value = true;
 
   try {
+    const user= await getUserByUserName(username)
+    
+    const fecha = form.value.mes_guardado; 
+    const partes = fecha.split("-");
     const nuevo = {
       categoria_id: form.value.categoria_id,
-      mes: form.value.mes_guardado,
+      mes: Number(partes[1]),
       monto_limite: form.value.importe,
-      usuario_id: username,
+      usuario_id: user.data.id,
     };
-
     // Llamar desde /servives no desde la vista
     const response = await crearPresupuesto(nuevo); // ✅ espera la respuesta
+    
+    presupuestos.value= await getPresupuestosByUserName(username);
 
-console.log ("antes de presupuesto.push")
-
-    presupuestos.value.push({
-      id: response.data.id,
-      categoria: categorias.value.find(c => c.id === nuevo.categoria_id)?.name || '',
-      mes: formatearMes(response.data.fecha_inicio),
-      importe: response.data.monto_limite,
-    });
-
-
-
-console.log ("antes de limpiar")
     limpiarFormulario(); // ✅ limpiar después de enviar
 
   } catch (error) {

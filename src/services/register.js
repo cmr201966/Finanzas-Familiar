@@ -6,7 +6,6 @@ const API_URL_USERS = 'http://localhost:3000/api/users'
 // Registrar nuevo usuario
 export const register = async (param) => {
   try {
-    console.log(`${API_URL}/register`)
     const response = await axios.post(`${API_URL}/register`, param)
 
     // Si el registro fue exitoso, guarda el token (si lo devuelve)
@@ -62,7 +61,6 @@ export const getUserByUserName = async (username) => {
     throw error.response?.data || { message: 'Error obteniendo usuario' }
   }
 }
-
 
 // Actualizar usuario
 export const updateUser = async (id, param) => {

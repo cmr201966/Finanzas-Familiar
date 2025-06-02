@@ -184,8 +184,6 @@ async function handleLogin(event) {
         password: password.value
         })
         console.log('Login correcto. Token guardado:', response.data.token)
-
-
         // Guarda el token en localStorage
         localStorage.setItem('token', response.data.token)
 
