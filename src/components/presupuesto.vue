@@ -1,5 +1,5 @@
 <template>
-    <div class="login-page">
+submitForm    <div class="login-page">
         <div class="login-box">
             <div class="form-container">
                 <div class="form-gradient-box">
@@ -147,6 +147,7 @@ import { useRouter } from "vue-router";
 import { useI18n } from "vue-i18n";
 import { getPresupuestosByUserName } from "@/services/presupuestos";
 import { getCategoriasByType } from "@/services/categorias";
+import { crearPresupuesto } from '@/services/presupuestos';
 
 
 //usuario autentificado
@@ -174,8 +175,8 @@ const goToNextMonth = () => {
 };
 
 const form = ref({
-  monto: "",
-  categoria_id: null,
+  importe: "",
+  categoria: null,
   mes: "", // 🟢 Mostrado en el input: "mayo de 2025"
   mes_guardado: "", // 🟡 Usado para enviar al backend: "2025-05"
 });
@@ -214,19 +215,15 @@ const loading = ref(false);
 
 onMounted(async () => {
   categorias.value = await getCategoriasByType('gasto', username);
-  console.log(categorias.value)
-  
+
   presupuestos.value= await getPresupuestosByUserName(username);
-  console.log(presupuestos.value)
+
 
 });
 
-//watch(search, (val) => {
-//  cargarCategorias(val);
-//});
-
 //PARA EL BOTON ACEPTAR
 // Estado para controlar si se está enviando el formulario (usado para el botón loading)
+
 const enviando = ref(false)
 
 // Aquí defines tu modelo de formulario (ajusta los campos según tu necesidad real)
@@ -274,27 +271,35 @@ function eliminarPresupuesto(id) {
     limpiarFormulario();
   }
 }
+
+
 const submitForm = async () => {
   enviando.value = true;
 
   try {
-    nuevoPresupuesto.value = {
-      categoria_id: form.categoria.value,
-      mes: form.mes.value,
-      monto_limite: form.importe.value,
-      usuario_id: username
+    const nuevo = {
+      categoria_id: form.value.categoria_id,
+      mes: form.value.mes_guardado,
+      monto_limite: form.value.importe,
+      usuario_id: username,
     };
 
     // Llamar desde /servives no desde la vista
-    crearPresupuesto(nuevoPresupuesto.value)
+    const response = await crearPresupuesto(nuevo); // ✅ espera la respuesta
+
+console.log ("antes de presupuesto.push")
 
     presupuestos.value.push({
       id: response.data.id,
-      categoria: response.data.categoria.nombre,
+      categoria: categorias.value.find(c => c.id === nuevo.categoria_id)?.name || '',
       mes: formatearMes(response.data.fecha_inicio),
-      importe: response.data.total
+      importe: response.data.monto_limite,
     });
 
+
+
+console.log ("antes de limpiar")
+    limpiarFormulario(); // ✅ limpiar después de enviar
 
   } catch (error) {
     console.error('Error al enviar el formulario:', error);
@@ -326,6 +331,7 @@ const headers = [
   { title:  t('presup.category'), value: 'categoria' },
   { title: t('presup.month'), value: 'mes' },
   { title: t('presup.amount'), value: 'importe' },
+  { title: t('presup.actions'), value: 'acciones', sortable: false },
 ]
 
 const presupuesto = ref(null);
@@ -577,5 +583,14 @@ const cargarPresupuestos = async () => {
 .bg-transparent {
   background-color: transparent !important;
   box-shadow: none !important;
+}
+
+::v-deep(.custom-white-input .v-field__append-inner) {
+  background-color: white !important;
+}
+
+::v-deep(.custom-white-input .v-field__field) {
+  background-color: white !important;
+ /* color: black;  texto negro si lo prefieres */
 }
 </style>
