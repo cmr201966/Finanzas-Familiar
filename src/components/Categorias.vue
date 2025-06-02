@@ -191,12 +191,12 @@ function resetForm() {
   min-width: 0.5vw;
 }
 .save{
-    width: 4.5rem !important;
+    width: 6rem !important;
     height: 2rem !important;
     font-size: 1vw !important;
 }
 .cancelar{
-    width: 4.5rem !important;
+    width: 6rem !important;
     height: 2rem !important;
     font-size: 1vw !important;
 }
