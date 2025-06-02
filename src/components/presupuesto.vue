@@ -212,13 +212,12 @@ const loading = ref(false);
 
 //ES PARA CARGAR LA VISTA
 
-onMounted(() => {
-  console.log("Llamar a services")
-
-  getCategoriasByType('gasto', username);
+onMounted(async () => {
+  categorias.value = await getCategoriasByType('gasto', username);
+  console.log(categorias.value)
   
-
-  getPresupuestosByUserName(username);
+  presupuestos.value= await getPresupuestosByUserName(username);
+  console.log(presupuestos.value)
 
 });
 

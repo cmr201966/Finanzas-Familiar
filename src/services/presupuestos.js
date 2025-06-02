@@ -4,7 +4,7 @@ const API_URL = 'http://localhost:3000/api/presupuestos'
 
 export const getPresupuestos = async () => {
   try {
-    const response = await axios.get(`${API_URL}/search/}`, {
+    const response = await axios.get(`${API_URL}/}`, {
       headers: {
         Authorization: `Bearer ${localStorage.getItem('token')}`
       }
@@ -17,7 +17,7 @@ export const getPresupuestos = async () => {
 
 export const getPresupuestosById = async (id) => {
   try {
-      const response = await axios.get(`${API_URL}/search/${id}`, {
+      const response = await axios.get(`${API_URL}/id/${id}`, {
       headers: {
         Authorization: `Bearer ${localStorage.getItem('token')}`
       }
@@ -30,7 +30,8 @@ export const getPresupuestosById = async (id) => {
 
 export const getPresupuestosByUserName = async (username) => {
   try {
-      const response = await axios.get(`${API_URL}/search/${username}`, {
+      console.log(`${API_URL}/username/${username}`)
+      const response = await axios.get(`${API_URL}/username/${username}`, {
       headers: {
         Authorization: `Bearer ${localStorage.getItem('token')}`
       }
