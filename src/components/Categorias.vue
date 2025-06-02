@@ -3,6 +3,7 @@
     <img class="img-nombre" src="../assets/img/tarjetas/CatIngresosgGastos.png" alt="">
     <h2 class="titulo-categoria">{{ $t('categorias.titulo-categoria' )}}</h2>
     <hr class="mi-barra" />
+    <img class="img-nombre2" src="../assets/img/icono/DCIngGast.png" alt="">
     <div class="entrada-categoria">
       <input
         class="in-categoria"
@@ -11,6 +12,7 @@
         :placeholder="$t('categorias.placeholdercategoria')"
       />
     </div>
+    <img class="img-nombre3" src="../assets/img/icono/NCIngGast.png" alt="">
     <div class="entrada-descripcion">
       <input
         class="in-descripcion"
@@ -131,6 +133,18 @@ function resetForm() {
     position: absolute; left: 4%; top: 4%;
     width: 15%;
     height: 18%;
+}
+.img-nombre2{
+    position: absolute; left: 15%; top: 28%;
+    width: 8%;
+    height: 8%;
+    z-index:1000;
+}
+.img-nombre3{
+    position: absolute; left: 15%; top: 37%;
+    width: 8%;
+    height: 8%;
+    z-index:999;
 }
 .titulo-categoria{
     font-family: Arial, sans-serif;
