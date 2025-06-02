@@ -65,7 +65,7 @@
                             <!-- Contenido del menú (picker de mes personalizado) -->
 
                             <v-date-picker
-                                -model="pickerMes"
+                                v-model="pickerMes"
                                 @update:model-value="selectMes"
                                 color="primary"
                                 show-adjacent-months
@@ -110,33 +110,31 @@
                         </div>
                     </v-form>
 
-                    <!-- Tabla de presupuestos -->
+                  <div>
+                    <!-- Tabla de presupuestos por mes -->
+                  <v-data-table
+                    :headers="headers"
+                    :items="presupuestos"
+                    item-value="id"
+                    class="elevation-1 font-tabla"
+                    :items-per-page="-1"
+                    hide-default-footer
+                    style="min-width:300px;"
+                  >
 
-                    <v-data-table
-                        :headers="headers"
-                        :items="presupuestos"
-                        item-value="id"
-                        class="elevation-1 font-tabla"
-                        :items-per-page="-1"
-                        hide-default-footer
-                        hide-default-header
-                    >
-
-                    <!-- la opcion hide-deful... elimina la paginacion -->
-
-                    <template #item.acciones="{ item }">
-
-                        <div class="d-flex align-center">
-                            <v-btn icon class="bg-transparent" @click="editarPresupuesto(item)">
-                                <v-icon size="18">mdi-pencil</v-icon>
-                            </v-btn>
-                            <v-btn icon class="bg-transparent" @click="eliminarPresupuesto(item.id)">
-                                <v-icon size="18" color="red">mdi-delete</v-icon>
-                            </v-btn>
-                        </div>
-                    </template>
-                </v-data-table>
+                  <template #item.acciones="{ item }">
+                    <div class="d-flex align-center">
+                      <v-btn icon class="bg-transparent" @click="editarPresupuesto(item)">
+                        <v-icon size="18">mdi-pencil</v-icon>
+                      </v-btn>
+                      <v-btn icon class="bg-transparent" @click="eliminarPresupuesto(item.id)">
+                        <v-icon size="18" color="red">mdi-delete</v-icon>
+                      </v-btn>
+                    </div>
+                  </template>
+              </v-data-table>
             </div>
+          </div>
         </div>
     </div>
 </div>
@@ -147,15 +145,21 @@ import { ref, watch, onMounted } from "vue";
 import axios from "axios";
 import { useRouter } from "vue-router";
 import { useI18n } from "vue-i18n";
-import { enviarPresupuesto } from "@/services/presup";
+import { getPresupuestosByUserName } from "@/services/presupuestos";
+import { getCategoriasByType } from "@/services/categorias";
 
-//ususario autentificado
+
+//usuario autentificado
 const username = localStorage.getItem('username')
 
-// i18n y bandera
+// PARA TODO LO REFERENTE AL IDIOMA
 const { locale, t } = useI18n();
 
 const router = useRouter();
+
+//PARA TODO LO REFERENTE AL MES
+const menuMes = ref(false);
+const pickerMes = ref("");
 
 const goToPreviousMonth = () => {
   const current = new Date(pickerMes.value);
@@ -169,8 +173,12 @@ const goToNextMonth = () => {
   pickerMes.value = current.toISOString().slice(0, 10);
 };
 
-const menuMes = ref(false);
-const pickerMes = ref("");
+const form = ref({
+  monto: "",
+  categoria_id: null,
+  mes: "", // 🟢 Mostrado en el input: "mayo de 2025"
+  mes_guardado: "", // 🟡 Usado para enviar al backend: "2025-05"
+});
 
 // Cuando el usuario elige el mes
 
@@ -188,43 +196,54 @@ const selectMes = (val) => {
   menuMes.value = false;
 };
 
+const formatearMes = (fechaStr) => {
+  const date = new Date(fechaStr);
+  return date.toLocaleDateString("es-ES", { year: "numeric", month: "long" });
+};
+
+//PARA TODO LO REFERENTE A LA CATEGORIA
 // Cargando las categorias
 
 const categorias = ref([]);
 const search = ref("");
 const loading = ref(false);
-const enviando = ref(false);
 
-const cargarCategorias = async (query = "") => {
-  loading.value = true;
-  try {
-    // Si query es vacío, devuelve todas o las primeras categorías
-    const res = await axios.get(
-      `/api/categories?q=${encodeURIComponent(query)}`
-    );
-    categorias.value = res.data;
-  } catch (e) {
-    console.error("Error cargando categorías", e);
-  } finally {
-    loading.value = false;
-  }
-};
+
+
+//ES PARA CARGAR LA VISTA
 
 onMounted(() => {
-  cargarCategorias(""); // cargar todas al inicio
+  console.log("Llamar a services")
+
+  getCategoriasByType('gasto', username);
+  
+
+  getPresupuestosByUserName(username);
+
 });
 
-watch(search, (val) => {
-  cargarCategorias(val);
-});
+//watch(search, (val) => {
+//  cargarCategorias(val);
+//});
 
-const form = ref({
-  monto: "",
-  categoria_id: null,
-  mes: "", // 🟢 Mostrado en el input: "mayo de 2025"
-  mes_guardado: "", // 🟡 Usado para enviar al backend: "2025-05"
-});
+//PARA EL BOTON ACEPTAR
+// Estado para controlar si se está enviando el formulario (usado para el botón loading)
+const enviando = ref(false)
 
+// Aquí defines tu modelo de formulario (ajusta los campos según tu necesidad real)
+const nuevoPresupuesto = ref({
+    categoria_id: '',
+    mes: '',
+    monto_limite:'',
+    usuario_id: ''
+  // Agrega otros campos si los tienes
+})
+
+// Este array contendrá todos los presupuestos mostrados en la tabla
+const presupuestos = ref([])
+
+ //PARA LOS COMPONENTES DEL FORMULARIO
+ //limpiar formulario
 function limpiarFormulario() {
   form.value = {
     monto: "",
@@ -234,6 +253,7 @@ function limpiarFormulario() {
   };
 }
 
+//Editar Presupuesto
 function editarPresupuesto(item) {
   form.value = {
     ...item,
@@ -248,6 +268,7 @@ function editarPresupuesto(item) {
   }
 }
 
+//Eliminar Presupuesto
 function eliminarPresupuesto(id) {
   presupuestos.value = presupuestos.value.filter((p) => p.id !== id);
   if (form.value.id === id) {
@@ -255,27 +276,37 @@ function eliminarPresupuesto(id) {
   }
 }
 const submitForm = async () => {
-  if (!form.value.monto || !form.value.categoria_id || !form.value.mes) {
-    alert("Por favor completa todos los campos.");
-    return;
-  }
-
   enviando.value = true;
 
   try {
-    //await axios.post('/api/budgets', form.value)
-    await enviarPresupuesto(form.value);
-    alert("Presupuesto guardado correctamente");
-    form.value = { monto: "", categoria_id: null, mes: "" };
-  } catch (err) {
-    console.error("Error al guardar", err);
-    alert("Hubo un error al guardar el presupuesto");
+    nuevoPresupuesto.value = {
+      categoria_id: form.categoria.value,
+      mes: form.mes.value,
+      monto_limite: form.importe.value,
+      usuario_id: username
+    };
+
+    // Llamar desde /servives no desde la vista
+    crearPresupuesto(nuevoPresupuesto.value)
+
+    presupuestos.value.push({
+      id: response.data.id,
+      categoria: response.data.categoria.nombre,
+      mes: formatearMes(response.data.fecha_inicio),
+      importe: response.data.total
+    });
+
+
+  } catch (error) {
+    console.error('Error al enviar el formulario:', error);
   } finally {
     enviando.value = false;
   }
 };
-// Para el boton Cancelar
 
+//PARA LOS BOTONES DE LA VISTA
+
+// Para el boton Cancelar
 const cancelarFormulario = () => {
   form.value = {
     monto: "",
@@ -288,23 +319,53 @@ const cancelarFormulario = () => {
   router.push("/home"); // ← Redirige al home
 };
 
-// esto es para la tabla de abajo
-const headers = [
-  { text: "ID", value: "id" },
-  { text: "Categoría de Gastos", value: "categoria" },
-  { text: "Mes", value: "mes" },
-  { text: "Importe", value: "importe" },
-  { text: "Acciones", value: "acciones", sortable: false },
-];
+//TRABAJANDO LA TABLA QUE ESTA DEBAJO
 
-const presupuestos = ref([
-  { categoria: "Marketing", mes: "Enero", importe: 5000 },
-  { categoria: "Desarrollo", mes: "Febrero", importe: 12000 },
-]);
+// Esto es para la tabla de abajo
+const headers = [
+ // { title: 'ID', value: 'id' },
+  { title:  t('presup.category'), value: 'categoria' },
+  { title: t('presup.month'), value: 'mes' },
+  { title: t('presup.amount'), value: 'importe' },
+]
+
+const presupuesto = ref(null);
+const loadingPresupuesto = ref(false);
+
+
+
+const cargarPresupuestos = async () => {
+  loadingPresupuesto.value = true
+  try {
+    const response = await presupuesto({
+        username: username.value,
+        })
+
+    presupuestos.value = response.data.map(p => ({
+      id: p.id,
+      categoria: p.categoria.nombre, // ajusta esto según tu backend
+      mes: formatearMes(p.fecha_inicio), // o p.mes si ya lo tienes
+      importe: p.total, // o el campo que corresponde
+    }))
+
+    // Puedes calcular el total si quieres
+    presupuesto.value = {
+      total: presupuestos.value.reduce((sum, p) => sum + p.importe, 0)
+    }
+  } catch (e) {
+    console.error('Error cargando presupuestos:', e)
+  } finally {
+    loadingPresupuesto.value = false
+  }
+}
 </script>
 
+
+
 <style scoped>
+
 /* Contenedor general de la página, centrado vertical y horizontal */
+
 .login-page {
   display: flex;
   justify-content: center;

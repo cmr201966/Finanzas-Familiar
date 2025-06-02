@@ -1,7 +1,9 @@
 {
   "app_option": "Presupuesto",
-  "category": "Seleccione una Categoría",
-  "month": "Selecciones el Mes",
+  "select_category": "Seleccione una Categoría",
+  "select_month": "Selecciones el Mes",
+  "category": "Categorias",
+  "month":"Mes",
   "amount": "Importe",
   "submit": "Aceptar",
   "cancel": "Cancelar"

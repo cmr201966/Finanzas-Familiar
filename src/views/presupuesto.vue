@@ -1,5 +1,5 @@
 <template>
-     <NavBar />
+    <NavBar />
     <Footer />
     <presupuesto />
 </template>
