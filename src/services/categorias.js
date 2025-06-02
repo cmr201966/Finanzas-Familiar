@@ -15,8 +15,10 @@
           throw error.response?.data || { message: 'Error obteniendo categorias' }
         }
       }
-      
+
       export const getCategoriasByType = async (type, iduser) => {
+        console.log (type)
+      console.log (iduser)
         try {
             const response = await axios.get(`${API_URL}/search/${type}/${iduser}`, {
             headers: {
@@ -28,4 +30,3 @@
           throw error.response?.data || { message: 'Error obteniendo categorias segun tipo' }
         }
       }
-      

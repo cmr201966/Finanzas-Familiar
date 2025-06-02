@@ -149,7 +149,7 @@ import { getPresupuestosByUserName } from "@/services/presupuestos";
 import { getCategoriasByType } from "@/services/categorias";
 
 
-//ususario autentificado
+//usuario autentificado
 const username = localStorage.getItem('username')
 
 // PARA TODO LO REFERENTE AL IDIOMA
@@ -211,10 +211,15 @@ const loading = ref(false);
 
 
 //ES PARA CARGAR LA VISTA
+
 onMounted(() => {
   console.log("Llamar a services")
+
   getCategoriasByType('gasto', username);
-  getPresupuestosByUserName(username); 
+  
+
+  getPresupuestosByUserName(username);
+
 });
 
 //watch(search, (val) => {
