@@ -77,13 +77,15 @@
                         <div class="form-buttons">
                             <button class="btn btn-aceptar" @click.prevent="handleLogin" :disabled="loading">{{ $t('login.login') }} </button>
                         </div>
-                        <!--      <button class="submit-button" @click.prevent="handlelogin">{{ $t('login.login') }}</button>-->
+
                             <!--   Boton login-->
 
                             <div class="register-link">
+
                                 {{ $t('login.no_account') }}
                                 <!--<router-link to="/register">{{ $t('login.sign_up') }}</router-link>-->
-                                <router-link :to="{ name: 'Registrarse', params: { username: username } }">
+
+                                <router-link :to="{ name: 'Registrarse', params: { username: '' } }">
                                     {{ $t('login.sign_up') }}
                                 </router-link>
                             </div>
@@ -116,8 +118,7 @@ const currentFlagIcon = ref(getFlagIcon(locale.value))
 
 
 // Función para obtener la imagen de la bandera según el idioma
-function getFlagIcon(locale)
- {
+function getFlagIcon(locale){
     return locale === 'es' ? '/flags/spain.png' : '/flags/uk.png'
     }
 
@@ -319,10 +320,12 @@ async function handleLogin(event) {
 
 /* Línea divisoria */
 .divider {
-    width: 80%;
-    border: 1px solid black;
-    margin-bottom: 20px;
-    max-width: 350px;
+    height: 2px;
+    background-color: #010000;
+    border: none;
+    margin: 1rem auto;
+    width: 80%; /* o 100%, o un valor fijo como 300px */
+    display: block;
 }
 
 /* Ícono del ojo bien posicionado */

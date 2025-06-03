@@ -61,3 +61,16 @@ export const editarPresupuesto  = async (param) => {
     throw error.response?.data || { message: 'Error inesperado' }
   }
 }
+
+export const eliminarPresupuesto = async (id) => {
+  try {
+    const response = await axios.delete(`${API_URL}/${id}`, {
+      headers: {
+        Authorization: `Bearer ${localStorage.getItem('token')}`
+      }
+    })
+    return response.data
+  } catch (error) {
+    throw error.response?.data || { message: 'Error eliminando el presupuesto' }
+  }
+}

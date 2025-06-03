@@ -15,27 +15,34 @@
 
                     <v-form @submit.prevent="submitForm" class="form-content">
 
-                    <!--Input para seleccionar la categoria -->
+                        <!--Input para seleccionar la categoria  :placeholder="$t('presup.category')" :label="$t('presup.category')"-->
 
                         <v-autocomplete
                             v-model="form.categoria_id"
                             :items="categorias"
                             item-title="name"
                             item-value="id"
-                            :label="$t('presup.category')"
+                            :label="form.categoria_id ? '' : $t('presup.category')"
                             :search-input.sync="search"
                             :loading="loading"
-                            clearable
                             hide-no-data
                             hide-selected
                             required
                             hide-details
                             density="compact"
                             class="custom-white-input"
+                            :clearable="false"
+                            style="background-color: white"
+                            prepend-inner-icon="mdi-format-list-bulleted"
+                            border-radios="4px"
                         />
 
-                        <!--Input para seleccionar el mes -->
+                        <!-- Slot para personalizar cómo se muestra la categoría seleccionada -->
+                        <template #selection="{ item, index }">
+                            <span v-if="item && typeof item === 'object'">{{ item.name }}</span>
+                        </template>
 
+                        <!--Input para seleccionar el mes -->
                         <v-menu
                             v-model="menuMes"
                             :close-on-content-click="false"
@@ -68,6 +75,7 @@
                                 v-model="pickerMes"
                                 @update:model-value="selectMes"
                                 color="primary"
+                                type="month"
                                 show-adjacent-months
                                 hide-header
                                 view-mode="month"
@@ -133,6 +141,16 @@
                           </template>
                         </v-data-table>
                     </div>
+                    <v-dialog v-model="mostrarDialogoEliminar" max-width="400">
+                      <v-card>
+                        <v-card-title class="text-h6">¿Estás seguro?</v-card-title>
+                            <v-card-text>¿Deseas eliminar este presupuesto? Esta acción no se puede deshacer.</v-card-text>
+                              <v-card-actions>
+                                <v-btn text @click="mostrarDialogoEliminar = false">Cancelar</v-btn>
+                                  <v-btn color="red" text @click="confirmarEliminacion">Eliminar</v-btn>
+                              </v-card-actions>
+                      </v-card>
+                    </v-dialog>
                   </div>
                 </div>
     </div>
@@ -149,7 +167,7 @@ import { getCategoriasByType } from "@/services/categorias";
 import { crearPresupuesto } from '@/services/presupuestos';
 import { getUserByUserName } from '@/services/register';
 import { editarPresupuesto } from '@/services/presupuestos';
-
+import { eliminarPresupuesto } from '@/services/presupuestos' ;
 
 
 //usuario autentificado
@@ -219,8 +237,6 @@ const loading = ref(false);
 onMounted(async () => {
   categorias.value = await getCategoriasByType('gasto', username);
   presupuestos.value= await getPresupuestosByUserName(username);
-  console.log(presupuestos.value)
-
 });
 
 //PARA EL BOTON ACEPTAR
@@ -253,7 +269,6 @@ function limpiarFormulario() {
 
 //Editar Presupuesto
 function editarPresupuestoVista(item) {
-  console.log (item)
 
   editarsn.value=true;
   form.value = {
@@ -265,50 +280,45 @@ function editarPresupuestoVista(item) {
 //    mes: item.mes,
     mes_guardado: item.mes_guardado || "",
   };
-
-  //if (item.mes_guardado) {
-  //  pickerMes.value = item.mes_guardado + "-01"; // ej: "2025-05-01"
- // }
 }
 
 //Eliminar Presupuesto
-function eliminarPresupuesto(id) {
-  console.log (id)
-  console.log(presupuestos.value)
-  presupuestos.value = presupuestos.value.filter((p) => p.id !== id);
-  if (form.value.id === id) {
-    limpiarFormulario();
-  }
+
+const mostrarDialogoEliminar = ref(false)
+const idParaEliminar = ref(null);
+
+function eliminarPresupuestoVista(id) {
+
+  idParaEliminar.value = id;
+  mostrarDialogoEliminar.value = true;
 }
 
+async function confirmarEliminacion() {
 
-//const submitForm = async () => {
- // enviando.value = true;
+  if (!idParaEliminar.value) return;
 
- // try {
-  //  const user= await getUserByUserName(username)
+  try {
+    enviando.value = true;
 
-  //  const fecha = form.value.mes_guardado;
-  //  const partes = fecha.split("-");
- //   const nuevo = {
- //     categoria_id: form.value.categoria_id,
- //     mes: Number(partes[1]),
-  //    monto_limite: form.value.importe,
- //     usuario_id: user.data.id,
- //   };
-    // Llamar desde /servives no desde la vista
- //   const response = await crearPresupuesto(nuevo); // ✅ espera la respuesta
+    // Aquí se hace la petición para eliminar el registro desde la base de datos
 
-  //  presupuestos.value= await getPresupuestosByUserName(username);
+    await eliminarPresupuesto(idParaEliminar.value);
 
-  //  limpiarFormulario(); // ✅ limpiar después de enviar
+  // Recargando la tabla de presupuestos
+    presupuestos.value = await getPresupuestosByUserName(username);
 
- // } catch (error) {
- //   console.error('Error al enviar el formulario:', error);
- // } finally {
- //   enviando.value = false;
-//  }
-//};
+   // Cerrar el diálogo
+
+    mostrarDialogoEliminar.value = false;
+    idParaEliminar.value = null;
+
+  } catch (error) {
+    console.error("Error eliminando presupuesto:", error);
+    // Aquí mostrar mensaje de error si quieres
+  } finally {
+    enviando.value = false;
+  }
+}
 
 const submitForm = async () => {
   enviando.value = true;
@@ -318,9 +328,7 @@ const submitForm = async () => {
 
     const fecha = form.value.mes_guardado || form.value.mes; // usa mes_guardado si existe, sino mes
     const partes = fecha.split("-");
-    console.log(fecha)
-    console.log(partes)
-    
+
     // Construye el objeto con los datos comunes
     form.value.categoria=0;
     console.log(form.value.id)
@@ -337,7 +345,7 @@ const submitForm = async () => {
 
       // Si existe id, significa que editamos un registro
       response = await editarPresupuesto(nuevo);
-      
+
     } else {
 
       // Sino, creamos uno nuevo
@@ -416,6 +424,14 @@ const cargarPresupuestos = async () => {
 
 <style scoped>
 
+/* Estilo para el menú desplegable del v-autocomplete */
+.v-overlay__content.v-autocomplete__content {
+  background-color: white !important; /* fondo claro */
+  box-shadow: none !important;        /* sin sombra */
+  border: 1px solid #ccc;             /* borde opcional */
+  border-radius: 4px;                 /* bordes redondeados opcionales */
+}
+
 /* Contenedor general de la página, centrado vertical y horizontal */
 
 .login-page {
@@ -489,6 +505,7 @@ const cargarPresupuestos = async () => {
   width: 105%;
   border: 1px solid black;
 }
+
 /*Titulo de la opcion*/
 
 .name-opcion {
@@ -511,26 +528,23 @@ const cargarPresupuestos = async () => {
 .white-input :deep(.v-field__field),
 .white-input :deep(.v-field__input),
 .white-input :deep(input) {
-  background-color: #ffffff !important;
-  color: #000000 !important;
-  border-radius: 8px;
-  border: 1px solid #ccc !important;
-  box-shadow: none !important;
+  background-color: #ffffff !important;      /* Fondo blanco */
+  color: #000000 !important;                 /* Texto negro */
+  border-radius: 8px;                         /* Bordes redondeados */
+  box-shadow: none !important;                          /* Sin sombra */
 }
 
-/* Inputs blancos para contrastar sobre el fondo de color */
-.white-input :deep(input),
-.white-input :deep(.v-input__control) {
-  color: white !important;
-  background-color: rgba(255, 255, 255, 0.2) !important;
-  border-radius: 8px;
+/* Oculta el recuadro negro flotante del label */
+.custom-white-input :deep(.v-field__label) {
+  display: none !important;
 }
 
-.custom-white-input :deep(.v-label),
-.white-input :deep(.v-label) {
-  color: #000000 !important;
-  font-weight: 500;
+/* Corrige el padding si quieres más limpieza */
+.custom-white-input :deep(.v-input__control) {
+  padding-top: 4px !important;
+  padding-bottom: 4px !important;
 }
+
 
 /* Botón claro sobre fondo oscuro */
 .submit-btn {
