@@ -126,7 +126,7 @@
                               <v-btn icon class="bg-transparent" @click="editarPresupuestoVista(item)">
                                 <v-icon size="18">mdi-pencil</v-icon>
                               </v-btn>
-                              <v-btn icon class="bg-transparent" @click="eliminarPresupuesto(item.id)">
+                              <v-btn icon class="bg-transparent" @click="eliminarPresupuestoVista(item.id)">
                                 <v-icon size="18" color="red">mdi-delete</v-icon>
                               </v-btn>
                             </div>
