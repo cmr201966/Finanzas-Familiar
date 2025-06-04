@@ -1,6 +1,6 @@
     import axios from 'axios'
 
-    const API_URL = 'http://localhost:3000/api/categorias'
+    const API_URL = 'http://192.168.1.103:3000/api/categorias'
 
     // Invocar el endpoint desde /services no desde la vista
     export const getCategorias = async () => {

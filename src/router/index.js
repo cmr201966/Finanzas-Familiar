@@ -4,6 +4,7 @@ import Home from "../views/Home.vue";
 import Registrarse from "../views/Registrarse.vue";
 import Cuentas from "../views/Cuentas.vue";
 import presupuesto from "../views/presupuesto.vue";
+import categoriaBanco from "../views/categoriaBanco.vue";
 
 
 const routes = [
@@ -14,6 +15,7 @@ const routes = [
   { path: "/register/:username?", name: "Registrarse", component: Registrarse },
   { path: "/Cuentas", name: "cuentas", component: Cuentas },
   { path: '/presupuesto', name: 'presupuesto', component: presupuesto },
+  { path: '/categoriaBanco', name: 'categoriaBanco', component: categoriaBanco},
 ];
 
 const router = createRouter({
