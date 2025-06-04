@@ -11,6 +11,8 @@ import esHome from './locales/es/home.json'
 import enHome from './locales/en/home.json'
 import esCuentas from './locales/es/cuentas.json'
 import enCuentas from './locales/en/cuentas.json'
+import enCategorias from './locales/en/categorias.json'
+import esCategorias from './locales/es/categorias.json'
 
 const messages = {
   es: {
@@ -18,14 +20,16 @@ const messages = {
     register: esRegister,
     home: esHome,
     presup:esPresupuesto,
-    cuentas: esCuentas
+    cuentas: esCuentas,
+    categorias: esCategorias,
   },
   en: {
     login: enLogin,
     register: enRegister,
     home: enHome,
     presup:enPresupuesto,
-    cuentas: enCuentas
+    cuentas: enCuentas,
+    categorias: enCategorias,
   }
 }
 
