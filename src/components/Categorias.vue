@@ -98,8 +98,9 @@ async function cargarCategoria() {
 
 async function guardarCategoria() {
   const datos = {
-    name: form.nombreCategoria,
-    type: form.tipo,
+    name: form.value.nombreCategoria,
+    type: form.value.ingreso ? 'income' : 'expense',
+    description: form.value.descripcion,
     user_id: 1,
     created_at: new Date().toISOString().split('T')[0]
   }
@@ -108,6 +109,8 @@ async function guardarCategoria() {
 
   try {
     await createExpense(datos)
+    await cargarCategoria()
+    resetForm()
   } catch (error) {
     console.error('Error al crear categoría:', error.response?.data || error)
   }
