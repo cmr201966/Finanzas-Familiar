@@ -51,8 +51,7 @@
       <h3>{{ $t('categorias.categoriaG') }}</h3>
       <ul>
        <li v-for="(cat, index) in categoria" :key="index">
-       {{ cat.name }} - {{ cat.type }}
-      <span class="texto-categoria">{{ categoria.name }} - {{ categoria.type }}</span>
+      <span class="texto-categoria">{{ cat.name }} - {{ cat.type }} - {{ cat.description }}</span>
       <span class="botones-categoria">
         <v-btn small icon color="blue" @click="editarCategoria(index)">
           <v-icon>mdi-pencil</v-icon>
@@ -70,7 +69,7 @@
 <script setup>
 import { useRouter } from 'vue-router'
 import { ref, onMounted, reactive } from 'vue'
-import { getAllExpenses, getExpenseById, createExpense } from '@/services/expensesService.js' // Ajusta la ruta si es necesario
+import { getAllExpenses, getExpenseById, createExpense,updateCategoria } from '@/services/expensesService.js' // Ajusta la ruta si es necesario
 const form = ref({
   nombreCategoria: '',
   descripcion: '',
@@ -78,7 +77,8 @@ const form = ref({
   gastos:false
 })
 const categoria = ref([])
-const modoEdicion = ref(false)
+const isEditMode = ref(false)
+const selectedId = ref(null)
 const indiceEditando = ref(null)
 const router = useRouter()
 const fechaActual = new Date().toISOString().split('T')[0]
@@ -99,7 +99,7 @@ async function cargarCategoria() {
 async function guardarCategoria() {
   const datos = {
     name: form.value.nombreCategoria,
-    type: form.value.ingreso ? 'income' : 'expense',
+    type: form.value.ingreso ? 'ingreso' : 'gasto',
     description: form.value.descripcion,
     user_id: 1,
     created_at: new Date().toISOString().split('T')[0]
@@ -108,19 +108,32 @@ async function guardarCategoria() {
   console.log('Datos a enviar:', datos)
 
   try {
+    if (isEditMode.value) {
+      await updateCategoria(selectedId.value, datos)
+    } else {
     await createExpense(datos)
     await cargarCategoria()
     resetForm()
-  } catch (error) {
+  } 
+}  catch (error) {
     console.error('Error al crear categoría:', error.response?.data || error)
   }
 }
+   
+async function editarCategoria(index) {
+  try {
+    const cat = categoria.value[index]
 
+    form.value.nombreCategoria = cat.name || ''
+    form.value.descripcion = cat.description || ''
+    form.value.ingreso = cat.type === 'income'
+    // Si tienes otro campo que controlar, asigna aquí...
 
-function editarCategoria(index) {
-  form.value = { ...categoria.value[index] }
-  modoEdicion.value = true
-  indiceEditando.value = index
+    selectedId.value = cat.id  // si tienes un campo para id de categoría
+    isEditMode.value = true
+  } catch (error) {
+    console.error('Error al cargar categoría para edición:', error)
+  }
 }
 
 function eliminarCategoria(index) {
