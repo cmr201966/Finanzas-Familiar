@@ -51,7 +51,7 @@
       <h3>{{ $t('categorias.categoriaG') }}</h3>
       <ul>
        <li v-for="(cat, index) in categoria" :key="index">
-      <span class="texto-categoria">{{ cat.name }} - {{ cat.type }} - {{ cat.description }}</span>
+      <span class="texto-categoria">{{ cat.name }} - {{ cat.description }} - {{ cat.type }} </span>
       <span class="botones-categoria">
         <v-btn small icon color="blue" @click="editarCategoria(index)">
           <v-icon>mdi-pencil</v-icon>
@@ -69,7 +69,7 @@
 <script setup>
 import { useRouter } from 'vue-router'
 import { ref, onMounted, reactive } from 'vue'
-import { getAllExpenses, getExpenseById, createExpense,updateCategoria } from '@/services/expensesService.js' // Ajusta la ruta si es necesario
+import { getAllExpenses, getExpenseById, createExpense, updateCategoria, deleteCategoria } from '@/services/expensesService.js' // Ajusta la ruta si es necesario
 const form = ref({
   nombreCategoria: '',
   descripcion: '',
@@ -112,9 +112,10 @@ async function guardarCategoria() {
       await updateCategoria(selectedId.value, datos)
     } else {
     await createExpense(datos)
-    await cargarCategoria()
-    resetForm()
   } 
+  await cargarCategoria()
+    resetForm()
+    isEditMode.value= false
 }  catch (error) {
     console.error('Error al crear categoría:', error.response?.data || error)
   }
@@ -136,11 +137,13 @@ async function editarCategoria(index) {
   }
 }
 
-function eliminarCategoria(index) {
-  categoria.value.splice(index, 1)
-  if (modoEdicion.value && indiceEditando.value === index) {
-    resetForm()
-    modoEdicion.value = false
+async function eliminarCategoria(index) {
+  const cat = categoria.value[index]
+  try {
+    await deleteCategoria(cat.id)
+    await cargarCategoria() // vuelve a cargar la lista actualizada desde el backend
+  } catch (error) {
+    console.error('Error al eliminar categoría:', error)
   }
 }
 function cancelar() {
@@ -252,15 +255,15 @@ function resetForm() {
   gap: 1vw;
   min-width: 0.5vw;
 }
-.save{
-    width: 6rem !important;
-    height: 2rem !important;
-    font-size: 1vw !important;
-}
-.cancelar{
-    width: 6rem !important;
-    height: 2rem !important;
-    font-size: 1vw !important;
+.save, .cancelar {
+  min-width: 6rem;
+  padding: 0.4em 1em;
+  height: 2.5rem;
+  font-size: 1rem;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  box-sizing: border-box;
 }
 .botones-categoria{
   display: flex;
@@ -270,7 +273,20 @@ function resetForm() {
   font-size: 5vw;
 }
 
-.lista-categoria{
+.lista-categoria ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+.lista-categoria ul li {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0.5vw 1vw;
+  border-bottom: 1px solid #ccc;
+  word-break: break-word;
+}
+.lista-categoria {
     position: absolute;
     top: 69%;
     left: 0%;
@@ -281,11 +297,17 @@ function resetForm() {
     border: 1px solid black;
     font-size: 1vw;
     height: auto;
+    overflow-y: auto; /* por si crece mucho */
 }
-.texto-categoria{
- flex: 1;
+.texto-categoria {
+  flex: 1;               /* ocupa todo el espacio posible */
   font-size: 1vw;
-  word-break: break-word;
+  margin-right: 1rem;    /* espacio a la derecha para los botones */
+}
+.botones-categoria {
+  display: flex;
+  gap: 0.5rem;
+  flex-shrink: 0;        /* evita que los botones se encojan */
 }
 .item-categoria {
   display: flex;

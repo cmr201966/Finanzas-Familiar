@@ -35,10 +35,10 @@ export async function createExpense(expenseData) {
 }
 
 // Actualizar una categoría existente
-export async function updateCategoria(id, updateData) {
+export async function updateCategoria(id, categoria) {
   try {
-    const res = await api.put(`/categorias/${id}`, updateData)
-    return res.data.data.changes
+    const res = await api.put(`/categorias/${id}`, categoria)
+    return res.data
   } catch (error) {
     console.error(`Error al actualizar categoría con ID ${id}:`, error)
     throw error
