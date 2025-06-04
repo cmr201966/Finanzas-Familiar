@@ -131,9 +131,7 @@ import { useI18n } from 'vue-i18n'
 import { useRouter } from 'vue-router'
 import { defineProps } from 'vue'
 import axios from 'axios'
-
 import { register, getUserByUserName, updateUser } from '@/services/register'
-
 import { useRoute } from "vue-router";
 
 const route = useRoute();
@@ -147,6 +145,9 @@ const currentFlagIcon = ref(getFlagIcon(locale.value))
 
 // Variable que indica el modo actual
 const modo = ref('registrar') // o 'actualizar'
+
+console.log ('dddddd')
+console.log ('modo:', modo)
 
 // Cambia el texto del botón según el modo
 const textoBotonAceptar = computed(() =>
@@ -343,11 +344,7 @@ const eyeOffIcon = new URL('../assets/img/icono/ojo-cerrado.png', import.meta.ur
 const showPassword = ref(false)
 const showConfirm = ref(false)
 
-
-
 </script>
-
-
 
 
 <style scoped>

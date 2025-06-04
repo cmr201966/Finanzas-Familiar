@@ -1,5 +1,5 @@
 <template>
-    <div class="login-page">
+  <div class="login-page">
         <div class="login-box">
             <div class="form-container">
                 <div class="form-gradient-box">
@@ -15,27 +15,34 @@
 
                     <v-form @submit.prevent="submitForm" class="form-content">
 
-                    <!--Input para seleccionar la categoria -->
+                        <!--Input para seleccionar la categoria  :placeholder="$t('presup.category')" :label="$t('presup.category')"-->
 
                         <v-autocomplete
                             v-model="form.categoria_id"
                             :items="categorias"
                             item-title="name"
                             item-value="id"
-                            :label="$t('presup.category')"
+                            :label="form.categoria_id ? '' : $t('presup.category')"
                             :search-input.sync="search"
                             :loading="loading"
-                            clearable
                             hide-no-data
                             hide-selected
                             required
                             hide-details
                             density="compact"
                             class="custom-white-input"
+                            :clearable="false"
+                            style="background-color: white"
+                            prepend-inner-icon="mdi-format-list-bulleted"
+                            border-radios="4px"
                         />
 
-                        <!--Input para seleccionar el mes -->
+                        <!-- Slot para personalizar cómo se muestra la categoría seleccionada -->
+                        <template #selection="{ item, index }">
+                            <span v-if="item && typeof item === 'object'">{{ item.name }}</span>
+                        </template>
 
+                        <!--Input para seleccionar el mes -->
                         <v-menu
                             v-model="menuMes"
                             :close-on-content-click="false"
@@ -68,6 +75,7 @@
                                 v-model="pickerMes"
                                 @update:model-value="selectMes"
                                 color="primary"
+                                type="month"
                                 show-adjacent-months
                                 hide-header
                                 view-mode="month"
@@ -110,32 +118,41 @@
                         </div>
                     </v-form>
 
-                  <div>
                     <!-- Tabla de presupuestos por mes -->
-                  <v-data-table
-                    :headers="headers"
-                    :items="presupuestos"
-                    item-value="id"
-                    class="elevation-1 font-tabla"
-                    :items-per-page="-1"
-                    hide-default-footer
-                    style="min-width:300px;"
-                  >
-
-                  <template #item.acciones="{ item }">
-                    <div class="d-flex align-center">
-                      <v-btn icon class="bg-transparent" @click="editarPresupuesto(item)">
-                        <v-icon size="18">mdi-pencil</v-icon>
-                      </v-btn>
-                      <v-btn icon class="bg-transparent" @click="eliminarPresupuesto(item.id)">
-                        <v-icon size="18" color="red">mdi-delete</v-icon>
-                      </v-btn>
+                    <div style="max-height: 400px; overflow-y: auto;">
+                        <v-data-table
+                          :headers="headers"
+                          :items="presupuestos"
+                          item-value="id"
+                          class="elevation-1 font-tabla"
+                          :items-per-page="-1"
+                          hide-default-footer
+                          style="min-width:300px;"
+                        >
+                          <template #item.acciones="{ item }">
+                            <div class="d-flex align-center">
+                              <v-btn icon class="bg-transparent" @click="editarPresupuestoVista(item)">
+                                <v-icon size="18">mdi-pencil</v-icon>
+                              </v-btn>
+                              <v-btn icon class="bg-transparent" @click="eliminarPresupuestoVista(item.id)">
+                                <v-icon size="18" color="red">mdi-delete</v-icon>
+                              </v-btn>
+                            </div>
+                          </template>
+                        </v-data-table>
                     </div>
-                  </template>
-              </v-data-table>
-            </div>
-          </div>
-        </div>
+                    <v-dialog v-model="mostrarDialogoEliminar" max-width="400">
+                      <v-card>
+                        <v-card-title class="text-h6">¿Estás seguro?</v-card-title>
+                            <v-card-text>¿Deseas eliminar este presupuesto? Esta acción no se puede deshacer.</v-card-text>
+                              <v-card-actions>
+                                <v-btn text @click="mostrarDialogoEliminar = false">Cancelar</v-btn>
+                                  <v-btn color="red" text @click="confirmarEliminacion">Eliminar</v-btn>
+                              </v-card-actions>
+                      </v-card>
+                    </v-dialog>
+                  </div>
+                </div>
     </div>
 </div>
 </template>
@@ -147,6 +164,10 @@ import { useRouter } from "vue-router";
 import { useI18n } from "vue-i18n";
 import { getPresupuestosByUserName } from "@/services/presupuestos";
 import { getCategoriasByType } from "@/services/categorias";
+import { crearPresupuesto } from '@/services/presupuestos';
+import { getUserByUserName } from '@/services/register';
+import { editarPresupuesto } from '@/services/presupuestos';
+import { eliminarPresupuesto } from '@/services/presupuestos' ;
 
 
 //usuario autentificado
@@ -174,8 +195,8 @@ const goToNextMonth = () => {
 };
 
 const form = ref({
-  monto: "",
-  categoria_id: null,
+  importe: "",
+  categoria: null,
   mes: "", // 🟢 Mostrado en el input: "mayo de 2025"
   mes_guardado: "", // 🟡 Usado para enviar al backend: "2025-05"
 });
@@ -205,6 +226,7 @@ const formatearMes = (fechaStr) => {
 // Cargando las categorias
 
 const categorias = ref([]);
+const editarsn = ref(false);
 const search = ref("");
 const loading = ref(false);
 
@@ -212,22 +234,14 @@ const loading = ref(false);
 
 //ES PARA CARGAR LA VISTA
 
-onMounted(() => {
-  console.log("Llamar a services")
-
-  getCategoriasByType('gasto', username);
-  
-
-  getPresupuestosByUserName(username);
-
+onMounted(async () => {
+  categorias.value = await getCategoriasByType('gasto', username);
+  presupuestos.value= await getPresupuestosByUserName(username);
 });
-
-//watch(search, (val) => {
-//  cargarCategorias(val);
-//});
 
 //PARA EL BOTON ACEPTAR
 // Estado para controlar si se está enviando el formulario (usado para el botón loading)
+
 const enviando = ref(false)
 
 // Aquí defines tu modelo de formulario (ajusta los campos según tu necesidad real)
@@ -254,48 +268,93 @@ function limpiarFormulario() {
 }
 
 //Editar Presupuesto
-function editarPresupuesto(item) {
+function editarPresupuestoVista(item) {
+
+  editarsn.value=true;
   form.value = {
     ...item,
-    categoria_id: item.categoria,
+    categoria_id: item.categoria_id,
+    categoria: item.categoria,
     monto: item.importe,
-    mes: item.mes, // ya está formateado
+    mes: "2025-06",
+//    mes: item.mes,
     mes_guardado: item.mes_guardado || "",
   };
-
-  if (item.mes_guardado) {
-    pickerMes.value = item.mes_guardado + "-01"; // ej: "2025-05-01"
-  }
 }
 
 //Eliminar Presupuesto
-function eliminarPresupuesto(id) {
-  presupuestos.value = presupuestos.value.filter((p) => p.id !== id);
-  if (form.value.id === id) {
-    limpiarFormulario();
+
+const mostrarDialogoEliminar = ref(false)
+const idParaEliminar = ref(null);
+
+function eliminarPresupuestoVista(id) {
+
+  idParaEliminar.value = id;
+  mostrarDialogoEliminar.value = true;
+}
+
+async function confirmarEliminacion() {
+
+  if (!idParaEliminar.value) return;
+
+  try {
+    enviando.value = true;
+
+    // Aquí se hace la petición para eliminar el registro desde la base de datos
+
+    await eliminarPresupuesto(idParaEliminar.value);
+
+  // Recargando la tabla de presupuestos
+    presupuestos.value = await getPresupuestosByUserName(username);
+
+   // Cerrar el diálogo
+
+    mostrarDialogoEliminar.value = false;
+    idParaEliminar.value = null;
+
+  } catch (error) {
+    console.error("Error eliminando presupuesto:", error);
+    // Aquí mostrar mensaje de error si quieres
+  } finally {
+    enviando.value = false;
   }
 }
+
 const submitForm = async () => {
   enviando.value = true;
 
   try {
-    nuevoPresupuesto.value = {
-      categoria_id: form.categoria.value,
-      mes: form.mes.value,
-      monto_limite: form.importe.value,
-      usuario_id: username
+    const user = await getUserByUserName(username);
+
+    const fecha = form.value.mes_guardado || form.value.mes; // usa mes_guardado si existe, sino mes
+    const partes = fecha.split("-");
+
+    // Construye el objeto con los datos comunes
+    form.value.categoria=0;
+    console.log(form.value.id)
+    const nuevo = {
+      id: form.value.id,
+      categoria_id: form.value.categoria_id,
+      mes: Number(partes[1]),
+      monto_limite: form.value.importe,
+      usuario_id: user.data.id,
     };
 
-    // Llamar desde /servives no desde la vista
-    crearPresupuesto(nuevoPresupuesto.value)
+    let response;
+    if (editarsn.value==true) {
 
-    presupuestos.value.push({
-      id: response.data.id,
-      categoria: response.data.categoria.nombre,
-      mes: formatearMes(response.data.fecha_inicio),
-      importe: response.data.total
-    });
+      // Si existe id, significa que editamos un registro
+      response = await editarPresupuesto(nuevo);
 
+    } else {
+
+      // Sino, creamos uno nuevo
+      response = await crearPresupuesto(nuevo);
+    }
+
+    presupuestos.value = await getPresupuestosByUserName(username);
+    editarsn.value=false
+    limpiarFormulario();
 
   } catch (error) {
     console.error('Error al enviar el formulario:', error);
@@ -327,6 +386,7 @@ const headers = [
   { title:  t('presup.category'), value: 'categoria' },
   { title: t('presup.month'), value: 'mes' },
   { title: t('presup.amount'), value: 'importe' },
+  { title: t('presup.actions'), value: 'acciones', sortable: false },
 ]
 
 const presupuesto = ref(null);
@@ -363,6 +423,14 @@ const cargarPresupuestos = async () => {
 
 
 <style scoped>
+
+/* Estilo para el menú desplegable del v-autocomplete */
+.v-overlay__content.v-autocomplete__content {
+  background-color: white !important; /* fondo claro */
+  box-shadow: none !important;        /* sin sombra */
+  border: 1px solid #ccc;             /* borde opcional */
+  border-radius: 4px;                 /* bordes redondeados opcionales */
+}
 
 /* Contenedor general de la página, centrado vertical y horizontal */
 
@@ -437,6 +505,7 @@ const cargarPresupuestos = async () => {
   width: 105%;
   border: 1px solid black;
 }
+
 /*Titulo de la opcion*/
 
 .name-opcion {
@@ -459,26 +528,23 @@ const cargarPresupuestos = async () => {
 .white-input :deep(.v-field__field),
 .white-input :deep(.v-field__input),
 .white-input :deep(input) {
-  background-color: #ffffff !important;
-  color: #000000 !important;
-  border-radius: 8px;
-  border: 1px solid #ccc !important;
-  box-shadow: none !important;
+  background-color: #ffffff !important;      /* Fondo blanco */
+  color: #000000 !important;                 /* Texto negro */
+  border-radius: 8px;                         /* Bordes redondeados */
+  box-shadow: none !important;                          /* Sin sombra */
 }
 
-/* Inputs blancos para contrastar sobre el fondo de color */
-.white-input :deep(input),
-.white-input :deep(.v-input__control) {
-  color: white !important;
-  background-color: rgba(255, 255, 255, 0.2) !important;
-  border-radius: 8px;
+/* Oculta el recuadro negro flotante del label */
+.custom-white-input :deep(.v-field__label) {
+  display: none !important;
 }
 
-.custom-white-input :deep(.v-label),
-.white-input :deep(.v-label) {
-  color: #000000 !important;
-  font-weight: 500;
+/* Corrige el padding si quieres más limpieza */
+.custom-white-input :deep(.v-input__control) {
+  padding-top: 4px !important;
+  padding-bottom: 4px !important;
 }
+
 
 /* Botón claro sobre fondo oscuro */
 .submit-btn {
@@ -578,5 +644,14 @@ const cargarPresupuestos = async () => {
 .bg-transparent {
   background-color: transparent !important;
   box-shadow: none !important;
+}
+
+::v-deep(.custom-white-input .v-field__append-inner) {
+  background-color: white !important;
+}
+
+::v-deep(.custom-white-input .v-field__field) {
+  background-color: white !important;
+ /* color: black;  texto negro si lo prefieres */
 }
 </style>
