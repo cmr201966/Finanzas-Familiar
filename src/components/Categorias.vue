@@ -317,12 +317,40 @@ function resetForm() {
   border-bottom: 1px solid #ccc;
   width: 100%;
 }
-@media (max-width: 768px) {
+@media (max-width: 1115px) {
   .texto-categoria {
     font-size: 1.5vw;
   }
   .botones {
     position: absolute; left: 24%;
+  }
+  .entrada-categoria input,
+  .entrada-descripcion input {
+    width: 80%;
+    font-size: 1.5vw;
+  }
+  .entrada-gastos-check{
+    position: absolute; left: 85%;
+  }
+  .entrada-ingreso-check{
+   position: absolute; left: 45%;
+  }
+  .img-nombre{
+    height: 13%;
+  }
+}
+@media (max-width: 900px) {
+  .texto-categoria {
+    font-size: 1.5vw;
+  }
+  .botones {
+    position: absolute; left: 24%;
+  }
+    .save, .cancelar {
+    font-size: 1.5vw !important;
+    width: 12vw !important;
+    height: 5vh !important;
+    position: fixed; left: -10%;
   }
   .entrada-categoria input,
   .entrada-descripcion input {
