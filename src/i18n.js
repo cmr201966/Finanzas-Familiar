@@ -13,8 +13,6 @@ import esCuentas from './locales/es/cuentas.json'
 import enCuentas from './locales/en/cuentas.json'
 import esCategoriaBanco from './locales/es/categoriaBanco.json'
 import enCategoriaBanco from './locales/en/categoriaBanco.json'
-import enCategorias from './locales/en/categorias.json'
-import esCategorias from './locales/es/categorias.json'
 
 const messages = {
   es: {
@@ -22,14 +20,16 @@ const messages = {
     register: esRegister,
     home: esHome,
     presup:esPresupuesto,
-    cuentas: esCuentas
+    cuentas: esCuentas,
+    categoriaBanco:esCategoriaBanco
   },
   en: {
     login: enLogin,
     register: enRegister,
     home: enHome,
     presup:enPresupuesto,
-    cuentas: enCuentas
+    cuentas: enCuentas,
+    categoriaBanco:enCategoriaBanco
   }
 }
 
