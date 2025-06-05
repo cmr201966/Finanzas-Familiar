@@ -19,6 +19,7 @@
                             <input  type="text"
                                     :placeholder="$t('categoriaBanco.bank')"
                                     v-model="banconame"
+                                    required
                                     name="banco"
                                     autocomplete="off"
                                     class="custom-input"
@@ -36,7 +37,7 @@
                         <div class="form-buttons">
 
                             <!-- Botón Aceptar (verde) -->
-                            <v-btn @click="submitForm" :loading="enviando" class="btn btn-aceptar">{{ $t("categoriaBanco.submit") }}</v-btn>
+                            <v-btn @click="submitForm" :disabled="enviando || !banconame.trim()" :loading="enviando" class="btn btn-aceptar">{{ $t("categoriaBanco.submit") }}</v-btn>
 
                             <!-- Botón Cancelar (rojo) -->
                             <v-btn @click="cancelarFormulario" :disabled="enviando" class="btn btn-cancelar"> {{ $t("categoriaBanco.cancel") }}</v-btn>
@@ -59,7 +60,7 @@
                                 <v-btn icon class="bg-transparent" @click="editarBancoVista(item)">
                                     <v-icon size="18">mdi-pencil</v-icon>
                                 </v-btn>
-                                <v-btn icon class="bg-transparent" @click="eliminarPresupuestoVista(item.id)">
+                                <v-btn icon class="bg-transparent" @click="eliminarBancoVista(item.id)">
                                     <v-icon size="18" color="red">mdi-delete</v-icon>
                                 </v-btn>
                             </div>
@@ -90,7 +91,9 @@ import { ref, watch, onMounted, computed } from 'vue'
 import { useI18n } from 'vue-i18n'
 import { useRouter } from 'vue-router'
 import { getBancos } from "@/services/BancoService";
-
+import { eliminarBanco } from "@/services/BancoService";
+import { crearBanco } from "@/services/BancoService";
+import { editarBanco } from "@/services/BancoService";
 
 // Inicializamos router para navegación
 
@@ -120,8 +123,8 @@ const headers = [
 
 const editando = ref(false)
 const bancoSeleccionado = ref(null)
-const inputNombreBanco = ref('')
-
+const banconame = ref('');
+const enviando = ref(false);
 
 //Editar Banco
 function editarBancoVista(item) {
@@ -131,26 +134,83 @@ function editarBancoVista(item) {
     bancoSeleccionado.value = item; // Guardamos cuál banco se está editando (si lo necesitas luego)
 }
 
+// Boton Aceptar - Guardar en al Base de datos
 async function submitForm() {
-    enviando.value = true;
+    if (!banconame.value.trim()) {
+        alert("El nombre del banco no puede estar vacío");
+        return;
+    }
 
     try {
+        enviando.value = true;
+
         if (editando.value && bancoSeleccionado.value) {
-            // Editar banco existente
-            await updateBanco(bancoSeleccionado.value.id, { name: banconame.value });
+
+            // Actualizar banco existente
+            await editarBanco(bancoSeleccionado.value.id, { name: banconame.value });
         } else {
+
             // Crear nuevo banco
-            await createBanco({ name: banconame.value });
+            await crearBanco({ name: banconame.value });
         }
 
-        bancos.value = await getBancos(); // Refrescar tabla
-        cancelarFormulario(); // Resetear formulario
+            bancos.value = await getBancos(); // Refrescar la lista
+            cancelarFormulario(); // Limpiar formulario y salir de modo edición
+
     } catch (error) {
-        console.error("Error al guardar banco:", error);
+        console.error("Error guardando banco:", error);
+        //alert("Ocurrió un error al guardar el banco");
+        alert("Ocurrió un error al guardar el banco: " + (error.message || JSON.stringify(error)));
     } finally {
         enviando.value = false;
     }
 }
+
+//Eliminar Un banco
+
+const mostrarDialogoEliminar = ref(false)
+const bancoAEliminarId = ref(null);
+
+function eliminarBancoVista(id) {
+
+    bancoAEliminarId.value = id;
+    mostrarDialogoEliminar.value = true;
+}
+
+async function confirmarEliminacion() {
+
+    if (!bancoAEliminarId.value) return;
+
+    try {
+    enviando.value = true;
+
+    // Aquí se hace la petición para eliminar el registro desde la base de datos
+
+    await eliminarBanco(bancoAEliminarId.value);
+
+  // Recargando la tabla de presupuestos
+    bancos.value= await getBancos();
+
+   // Cerrar el diálogo
+
+    mostrarDialogoEliminar.value = false;
+    bancoAEliminarId.value = null;
+
+    } catch (error) {
+        console.error("Error eliminando banco:", error);
+    // Aquí mostrar mensaje de error si quieres
+    } finally {
+    enviando.value = false;
+    }
+}
+
+// Para el boton Cancelar
+function cancelarFormulario() {
+    banconame.value = '';
+    editando.value = false;
+    bancoSeleccionado.value = null;
+    router.push("/home");
+};
 
 
 
