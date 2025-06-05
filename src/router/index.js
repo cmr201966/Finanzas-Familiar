@@ -4,7 +4,6 @@ import Home from "../views/Home.vue";
 import Registrarse from "../views/Registrarse.vue";
 import Cuentas from "../views/Cuentas.vue";
 import presupuesto from "../views/presupuesto.vue";
-import categoriaBanco from "../views/categoriaBanco.vue";
 import Categorias from "../views/Categorias.vue";
 
 
@@ -16,6 +15,7 @@ const routes = [
   { path: "/register/:username?", name: "Registrarse", component: Registrarse },
   { path: "/Cuentas", name: "cuentas", component: Cuentas },
   { path: '/presupuesto', name: 'presupuesto', component: presupuesto },
+  { path: '/Categorias', name: 'categorias', component: Categorias },
 ];
 
 const router = createRouter({
