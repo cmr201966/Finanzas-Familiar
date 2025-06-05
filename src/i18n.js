@@ -21,6 +21,7 @@ const messages = {
     home: esHome,
     presup:esPresupuesto,
     cuentas: esCuentas,
+    categorias: esCategorias,
     categoriaBanco:esCategoriaBanco
   },
   en: {
@@ -29,6 +30,7 @@ const messages = {
     home: enHome,
     presup:enPresupuesto,
     cuentas: enCuentas,
+    categorias: enCategorias,
     categoriaBanco:enCategoriaBanco
   }
 }
