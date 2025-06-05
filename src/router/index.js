@@ -17,6 +17,8 @@ const routes = [
   { path: "/Cuentas", name: "cuentas", component: Cuentas },
   { path: '/presupuesto', name: 'presupuesto', component: presupuesto },
   { path: '/Categorias', name: 'categorias', component: Categorias },
+  { path: '/categoriaBanco', name: 'categoriaBanco', component: categoriaBanco},
+
 ];
 
 const router = createRouter({
