@@ -29,6 +29,8 @@ import { useI18n } from 'vue-i18n'
 import CatIngresosgGastos from '../assets/img/tarjetas/CatIngresosgGastos.png'
 import presupuesto from '../assets/img/tarjetas/presupuesto.png'
 import Cuentas from '../assets/img/tarjetas/cuentas.png'
+import Bancos from '../assets/img/tarjetas/banco.png'
+import TipoCuenta from '../assets/img/tarjetas/TCB.png'
 import ingresos from '../assets/img/tarjetas/ingresos.png'
 import gastos from '../assets/img/tarjetas/Gastos.png'
 import transferencia from '../assets/img/tarjetas/transf.png'
@@ -39,6 +41,8 @@ const { t } = useI18n()
 const images = ref([
  { src: CatIngresosgGastos, alt: 'home.catIngresosGastos', name: 'categorias' },
   { src: Cuentas, alt: 'home.cuentas', name: 'cuentas' },
+  { src: Bancos, alt: 'home.Bancos', name: 'Bancos' },
+  { src: TipoCuenta, alt: 'home.TipoCuenta', name: 'TipoCuenta' },
   { src: presupuesto, alt: 'home.presupuesto', name: 'presupuesto' },
   { src: ingresos, alt: 'home.ingresos', name: 'ingresos' },
   { src: gastos, alt: 'home.gastos', name: 'gastos' },
@@ -50,19 +54,25 @@ const handleClick = (image) => {
     case 'categorias':
       router.push('/Categorias')
       break;
-      case 'cuentas':
+    case 'cuentas':
       router.push('/Cuentas')
       break;
-    case 'presupuesto':
-      router.push('/categoriabanco')
+    case 'Bancos':
+      router.push('/categoriaBanco')
       break;
-      case 'ingresos':
+    case 'TipoCuenta':
+      router.push('/categoriaTipoCuentas')
+      break;
+    case 'presupuesto':
+      router.push('/presupuesto')
+      break;
+    case 'ingresos':
       router.push('/Ingresos')
       break;
-      case 'gastos':
+    case 'gastos':
       router.push('/Gastos')
       break;
-      case 'transferencias':
+    case 'transferencias':
       router.push('/Transferencias')
       break;
     default:

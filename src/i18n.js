@@ -15,6 +15,8 @@ import enCategorias from './locales/en/categorias.json'
 import esCategorias from './locales/es/categorias.json'
 import esCategoriaBanco from './locales/es/categoriaBanco.json'
 import enCategoriaBanco from './locales/en/categoriaBanco.json'
+import esCategoriaTipoCuenta from './locales/es/categoriaTipoCuenta.json'
+import enCategoriaTipoCuenta from './locales/en/categoriaTipoCuenta.json'
 
 const messages = {
   es: {
@@ -24,7 +26,8 @@ const messages = {
     presup:esPresupuesto,
     cuentas: esCuentas,
     categorias: esCategorias,
-    categoriaBanco:esCategoriaBanco
+    categoriaBanco:esCategoriaBanco,
+    categoriaTipoCuenta:esCategoriaTipoCuenta
   },
   en: {
     login: enLogin,
@@ -33,7 +36,8 @@ const messages = {
     presup:enPresupuesto,
     cuentas: enCuentas,
     categorias: enCategorias,
-    categoriaBanco:enCategoriaBanco
+    categoriaBanco:enCategoriaBanco,
+    categoriaTipoCuenta:enCategoriaTipoCuenta
   }
 }
 
