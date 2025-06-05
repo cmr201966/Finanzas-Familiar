@@ -1,4 +1,6 @@
 <template>
+    <NavBar />
+    <Footer />
     <div class="login-page">
         <div class="login-box">
 
@@ -86,6 +88,9 @@
 </template>
 
 <script setup>
+
+import NavBar from '../components/NavBar.vue'
+import Footer from '../components/Footer.vue'
 
 // Importamos funcionalidades reactivas y de router
 
