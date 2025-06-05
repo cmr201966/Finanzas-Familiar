@@ -5,6 +5,7 @@ import Registrarse from "../views/Registrarse.vue";
 import Cuentas from "../views/Cuentas.vue";
 import presupuesto from "../views/presupuesto.vue";
 import Categorias from "../views/Categorias.vue";
+import categoriaBanco from "../views/categoriaBanco.vue";
 
 
 const routes = [
