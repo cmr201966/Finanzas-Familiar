@@ -54,7 +54,7 @@ const handleClick = (image) => {
       router.push('/Cuentas')
       break;
     case 'presupuesto':
-      router.push('/Presupuesto')
+      router.push('/categoriabanco')
       break;
       case 'ingresos':
       router.push('/Ingresos')
