@@ -112,6 +112,7 @@ const bancos = ref([])
 
 onMounted(async () => {
     bancos.value= await getBancos();
+    //console.log(bancos.value)
 });
 
 // Esto es para la tabla de abajo
@@ -122,7 +123,7 @@ const headers = [
 ]
 
 const editando = ref(false)
-const bancoSeleccionado = ref(null)
+const bancoSeleccionado = ref('')
 const banconame = ref('');
 const enviando = ref(false);
 
@@ -147,7 +148,7 @@ async function submitForm() {
         if (editando.value && bancoSeleccionado.value) {
 
             // Actualizar banco existente
-            await editarBanco(bancoSeleccionado.value.id, { name: banconame.value });
+            await editarBanco( { name: banconame.value }, bancoSeleccionado.value.id);
         } else {
 
             // Crear nuevo banco
@@ -187,6 +188,7 @@ async function confirmarEliminacion() {
     // Aquí se hace la petición para eliminar el registro desde la base de datos
 
     await eliminarBanco(bancoAEliminarId.value);
+    console.log("1")
 
   // Recargando la tabla de presupuestos
     bancos.value= await getBancos();
@@ -197,6 +199,7 @@ async function confirmarEliminacion() {
     bancoAEliminarId.value = null;
 
     } catch (error) {
+        console.log("2")
         console.error("Error eliminando banco:", error);
     // Aquí mostrar mensaje de error si quieres
     } finally {

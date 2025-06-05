@@ -1,5 +1,7 @@
 // src/services/bancoService.js
 import api from './api'
+const API_URL = 'http://192.168.1.103:3000/api/Bancos'
+import axios from 'axios'
 
 export async function getBancos() {
   const response = await api.get('/bancos')
@@ -17,9 +19,9 @@ export const crearBanco  = async (param) => {
 }
 
 
-export const editarBanco  = async (param) => {
+export const editarBanco  = async (param, id) => {
     try {
-    const response = await axios.put(`${API_URL}/`, param)
+      const response = await axios.put(`${API_URL}/${id}`, param)
 
     return response.data
   } catch (error) {
