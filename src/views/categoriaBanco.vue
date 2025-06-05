@@ -54,6 +54,8 @@
                             :items-per-page="-1"
                             hide-default-footer
                             style="min-width:230px;"
+                            fixed-header
+                            height="200"
                         >
                         <template #item.acciones="{ item }">
                             <div class="d-flex align-center">
@@ -69,11 +71,11 @@
                     </div>
                     <v-dialog v-model="mostrarDialogoEliminar" max-width="400">
                         <v-card>
-                            <v-card-title class="text-h6">¿Estás seguro?</v-card-title>
-                                <v-card-text>¿Deseas eliminar este banco? Esta acción no se puede deshacer.</v-card-text>
+                            <v-card-title class="text-h6">{{ $t("categoriaBanco.message-kill1") }}</v-card-title>
+                                <v-card-text>{{ $t("categoriaBanco.message-kill2") }}</v-card-text>
                                 <v-card-actions>
-                                    <v-btn text @click="mostrarDialogoEliminar = false">Cancelar</v-btn>
-                                    <v-btn color="red" text @click="confirmarEliminacion">Eliminar</v-btn>
+                                    <v-btn text @click="mostrarDialogoEliminar = false">{{ $t("categoriaBanco.cancel") }}</v-btn>
+                                    <v-btn color="red" text @click="confirmarEliminacion">{{ $t("categoriaBanco.delete") }}</v-btn>
                                 </v-card-actions>
                         </v-card>
                     </v-dialog>
@@ -156,7 +158,7 @@ async function submitForm() {
         }
 
             bancos.value = await getBancos(); // Refrescar la lista
-            cancelarFormulario(); // Limpiar formulario y salir de modo edición
+            banconame.value='';
 
     } catch (error) {
         console.error("Error guardando banco:", error);
@@ -215,10 +217,7 @@ function cancelarFormulario() {
     router.push("/home");
 };
 
-
-
 </script>
-
 
 <style scoped>
 /* Fondo general de la página */
@@ -288,6 +287,11 @@ function cancelarFormulario() {
     padding: 10px;
 }
 
+
+.bg-transparent {
+    background-color: transparent !important;
+    box-shadow: none !important;
+}
 
 /* Recuadro con gradiente */
 
@@ -440,7 +444,7 @@ function cancelarFormulario() {
 }
 
 input::placeholder {
-    font-size: 10px; /* tamaño de letra del placeholder */
+    font-size: 14px; /* tamaño de letra del placeholder */
     margin-left: 10px;
 
 }
@@ -523,13 +527,24 @@ input:-webkit-autofill:active {
 }
 
 .font-tabla {
-  font-size: 12px; /* Puedes ajustar a 12px, 16px, etc. */
+    font-size: 12px; /* Puedes ajustar a 12px, 16px, etc. */
 }
 
 .font-tabla .v-data-table__td {
   padding: 2px 4px; /* Ajusta vertical y horizontalmente */
 }
 
+/* Disminuir alto del header de la tabla */
+.v-data-table thead th {
+    height: 26px;
+    padding-top: 0px;
+    padding-bottom: 2px;
+}
+
+/* Disminuir el alto de las filas (tr) */
+.v-data-table tbody tr {
+    height: 20px; /* o el alto que quieras */
+}
 
 /* =====================================================
         Responsive Styles - Archivo CSS Reutilizable
