@@ -96,10 +96,10 @@ const handleClick = (image) => {
   position: absolute;
   top: 48.1%;                /* posición original */
   left: 5%;               /* posición original */
+  height: 30%;
 
-  color: white;
   box-sizing: border-box;
-  background-color: white;
+  background-color: transparent;
   transition: width 0.3s ease, left 0.3s ease, top 0.3s ease;
 }
 
@@ -111,6 +111,7 @@ const handleClick = (image) => {
 .carousel-slide2 {
   display: flex;
   transition: transform 0.5s ease;
+  background-color: transparent;
 }
 .nav-button2 {
   background-color: transparent;
@@ -125,7 +126,7 @@ const handleClick = (image) => {
   cursor: pointer;
   text-align: center;
   margin-right: 2.5vw;
-  width: 100px;  /* ancho fijo para consistencia */
+  width: 10%;  /* ancho fijo para consistencia */
   margin-left: 2%;
 }
 
@@ -144,7 +145,7 @@ const handleClick = (image) => {
   width: 8vw;
   height: 25vh;
   border-radius: 1vw;
-  background: transparent;
+  background: rgb(255, 255, 255);
   transition: transform 0.3s, border-color 0.3s;
   box-sizing: border-box;
 }
