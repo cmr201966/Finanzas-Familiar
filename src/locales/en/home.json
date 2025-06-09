@@ -26,7 +26,9 @@
   "transaccionesM":"Transactions",
   "transferenciasM":"Transfers",
   "footer":"© Family Finances 2025. All Rights Reserved.",
-  "perfilEdit":"Profile edit"
+  "perfilEdit":"Profile edit",
+  "Bancos":"Banks",
+  "TipoCuenta":"Account Type"
 
 
 

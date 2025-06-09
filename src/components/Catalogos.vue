@@ -87,7 +87,7 @@ const handleClick = (image) => {
 .carousel-container {
   display: flex;
   align-items: center;
-  width: 75.1%;              /* tamaño original */
+  width: 100.1%;              /* tamaño original */
   overflow: hidden;
   position: absolute;
   top: 20.5%;                /* posición original */
@@ -114,7 +114,7 @@ const handleClick = (image) => {
   cursor: pointer;
   text-align: center;
   width: 10%;            /* ancho fijo para mantener proporción */
-  margin-right: 6.5%;
+  margin-right: 0%;
 }
 
 .carousel-item img {
