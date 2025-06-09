@@ -21,7 +21,7 @@
     "passwordHint": "Must be at least 8 characters",
     "title_new":"Create user",
     "title_edit":"Edit profile",
-    "errors": {
+
         "nicknameRequired": "Nickname is required",
         "fullnameRequired": "Full name is required",
         "passwordMin": "The password must be at least 8 characters long",
@@ -30,5 +30,5 @@
         "phoneRequired": "Phone number is required",
         "phoneInvalid": "The phone number must be between 7 and 15 digits",
         "connection_error": "Connection error. Please try again later."
-        }
+        
     }

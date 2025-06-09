@@ -7,7 +7,12 @@
   "sign_up": "Sign up",
   "spanish":"Spanish",
   "english":"English",
-  "Enter username, email or mobile":"Enter username, email, or mobile"
+  "complete_fields": "Please fill in all fields",
+  "Enter username, email or mobile":"Enter username, email, or mobile",
+  "passwordMin": "The password must be at least 8 characters long",
+  "passwordMatch": "Passwords do not match.",
+  "connection_error": "Connection error. Please try again later."
+
 }
 
 

@@ -21,14 +21,13 @@
     "english":"Ingles",
     "title_new":"Crear usuario",
     "title_edit":"Editar perfil,",
-    "errors": {
+
         "nicknameRequired": "El apodo es obligatorio.",
         "fullnameRequired": "El nombre completo es obligatorio.",
-        "passwordMin": "La contraseña debe tener al menos 6 caracteres.",
+        "passwordMin": "La contraseña debe tener al menos 8 caracteres.",
         "passwordMatch": "Las contraseñas no coinciden.",
         "emailInvalid": "Correo electrónico inválido.",
         "phoneRequired": "El teléfono es obligatorio.",
         "phoneInvalid": "El teléfono debe tener entre 7 y 15 dígitos",
         "connection_error": "Error de conexión. Por favor, inténtelo más tarde."
     }
-}

@@ -73,7 +73,7 @@
                     </div>
                     <v-dialog v-model="mostrarDialogoEliminar" max-width="400">
                         <v-card>
-                            <v-card-title class="text-h6">{{ $t("categoriaTipoCuenta..message-kill1") }}</v-card-title>
+                            <v-card-title class="text-h6">{{ $t("categoriaTipoCuenta.message-kill1") }}</v-card-title>
                                 <v-card-text>{{ $t("categoriaTipoCuenta.message-kill2") }}</v-card-text>
                                 <v-card-actions>
                                     <v-btn text @click="mostrarDialogoEliminar = false">{{ $t("categoriaTipoCuenta.cancel") }}</v-btn>
@@ -120,38 +120,38 @@ const enviando = ref(false)
 
 // Cargar datos al montar el componente
 onMounted(async () => {
-  tiposCuenta.value = await getTiposCuenta()
+    tiposCuenta.value = await getTiposCuenta()
 })
 
 // Columnas para tabla
 const headers = [
-  { title: t('categoriaTipoCuenta.descripction_tipocuenta'), value: 'name' },
-  { title: t('categoriaTipoCuenta.actions'), value: 'acciones', sortable: false },
+    { title: t('categoriaTipoCuenta.descripction_tipocuenta'), value: 'name' },
+    { title: t('categoriaTipoCuenta.actions'), value: 'acciones', sortable: false },
 ]
 
 // Función para cargar formulario en modo edición
 function editarTipoCuentaVista(item) {
-  editando.value = true
-  tipocuentaname.value = item.name
-  tcuentaSeleccionado.value = item
+    editando.value = true
+    tipocuentaname.value = item.name
+    tcuentaSeleccionado.value = item
 }
 
 // Función para guardar (crear o actualizar)
 async function submitForm() {
-  if (!tipocuentaname.value.trim()) {
-    alert("El tipo de cuenta no puede estar vacío")
-    return
-  }
+    if (!tipocuentaname.value.trim()) {
+        alert("El tipo de cuenta no puede estar vacío")
+        return
+    }
 
-  try {
-    enviando.value = true
+    try {
+        enviando.value = true
 
-    if (editando.value && tcuentaSeleccionado.value) {
-      // Actualizar tipo de cuenta existente
-      await editarTipoCuenta({ name: tipocuentaname.value }, tcuentaSeleccionado.value.id)
-    } else {
+        if (editando.value && tcuentaSeleccionado.value) {
+        // Actualizar tipo de cuenta existente
+        await editarTipoCuenta({ name: tipocuentaname.value }, tcuentaSeleccionado.value.id)
+        } else {
       // Crear nuevo tipo de cuenta
-      await crearTipoCuenta({ name: tipocuentaname.value })
+        await crearTipoCuenta({ name: tipocuentaname.value })
     }
 
     // Refrescar lista
@@ -160,12 +160,12 @@ async function submitForm() {
     editando.value = false
     tcuentaSeleccionado.value = null
 
-  } catch (error) {
-    console.error("Error guardando tipo de cuenta:", error)
-    alert("Ocurrió un error al guardar el tipo de cuenta: " + (error.message || JSON.stringify(error)))
-  } finally {
-    enviando.value = false
-  }
+    } catch (error) {
+        console.error("Error guardando tipo de cuenta:", error)
+        alert("Ocurrió un error al guardar el tipo de cuenta: " + (error.message || JSON.stringify(error)))
+    } finally {
+        enviando.value = false
+    }
 }
 
 // Variables y funciones para eliminar
@@ -173,40 +173,42 @@ const mostrarDialogoEliminar = ref(false)
 const tipoCuentaAEliminarId = ref(null)
 
 function eliminarTipoCuentaVista(id) {
-  tipoCuentaAEliminarId.value = id
-  mostrarDialogoEliminar.value = true
+    tipoCuentaAEliminarId.value = id
+    mostrarDialogoEliminar.value = true
 }
 
 async function confirmarEliminacion() {
-  if (!tipoCuentaAEliminarId.value) return
+    if (!tipoCuentaAEliminarId.value) return
 
-  try {
-    enviando.value = true
+    try {
+        enviando.value = true
 
-    await eliminarTipoCuenta(tipoCuentaAEliminarId.value)
+        await eliminarTipoCuenta(tipoCuentaAEliminarId.value)
 
-    // Refrescar lista
-    tiposCuenta.value = await getTiposCuenta()
+        // Refrescar lista
+        tiposCuenta.value = await getTiposCuenta()
 
-    // Cerrar diálogo y limpiar id
-    mostrarDialogoEliminar.value = false
-    tipoCuentaAEliminarId.value = null
+        // Cerrar diálogo y limpiar id
+        mostrarDialogoEliminar.value = false
+        tipoCuentaAEliminarId.value = null
 
-  } catch (error) {
-    console.error("Error eliminando tipo de cuenta:", error)
-  } finally {
-    enviando.value = false
-  }
+    } catch (error) {
+        console.error("Error eliminando tipo de cuenta:", error)
+    } finally {
+        enviando.value = false
+    }
 }
 
 // Función para cancelar formulario y navegación
 function cancelarFormulario() {
-  tipocuentaname.value = ''
-  editando.value = false
-  tcuentaSeleccionado.value = null
-  router.push("/home")
-}
+    tipocuentaname.value = ''
+    editando.value = false
+    tcuentaSeleccionado.value = null
+    router.push("/home")
+    }
 </script>
+
+
 <style scoped>
 /* Fondo general de la página */
 

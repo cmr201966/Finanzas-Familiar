@@ -13,5 +13,10 @@
   "Select the language":"Seleccione el idioma",
   "spanish":"Español",
   "english":"Ingles",
-  "Enter username, email or mobile":"Entre el usuario, correo o movil"
+  "Enter username, email or mobile":"Entre el usuario, correo o movil",
+  "passwordMin": "La contraseña debe tener al menos 8 caracteres.",
+  "passwordMatch": "Las contraseñas no coinciden.",
+  "connection_error": "Error de conexión. Por favor, inténtelo más tarde."
+
+
 }

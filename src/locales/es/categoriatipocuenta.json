@@ -7,7 +7,7 @@
   "actions":"Acciones",
   "delete":"Eliminar",
   "message-kill1":"Estas seguro",
-  "message-kill2" :"¿Deseas eliminar este banco? Esta acción no se puede deshacer"
+  "message-kill2" :"¿Deseas eliminar este tipo de cuenta? Esta acción no se puede deshacer"
 }
 
 

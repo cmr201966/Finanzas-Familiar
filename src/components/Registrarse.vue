@@ -220,7 +220,7 @@ const handleRegister = async () => {
     return
   }
 
-  if (props.userId === null) {
+ if  (props.userId === null) {
     if (!password.value || !confirmPassword.value) {
       errorMessage.value = t('register.complete_fields')
       return
@@ -230,17 +230,17 @@ const handleRegister = async () => {
       return
     }
     if (password.value.length < 8) {
-      errorMessage.value = t('register.passwordMin')
+      errorMessage.value = t('register.password_length')
       return
     }
   } else {
     if (password.value || confirmPassword.value) {
       if (password.value !== confirmPassword.value) {
-        errorMessage.value = t('register.passwordMatch')
+        errorMessage.value = t('register.error.passwordMatch')
         return
       }
       if (password.value.length < 8) {
-        errorMessage.value = t('register.passwordMin')
+        errorMessage.value = t('register.password_length')
         return
       }
     }
