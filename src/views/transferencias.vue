@@ -44,8 +44,8 @@
                             <template #selection="{ item, index }">
                                 <span v-if="item && typeof item === 'object'">{{ item.name }}</span>
                             </template>
-                       
-                            
+
+
                             <!--Input para seleccionar la cuenta destino -->
 
                             <v-autocomplete
@@ -67,35 +67,35 @@
                                 prepend-inner-icon="mdi-format-list-bulleted"
                                 border-radios="4px"
                             />
-                              
-                        <div class="importe-mes">    
+
+                        <div class="importe-mes">
                             <!-- input importe -->
                             <div class="form-field-horizontal input-with-icon">
                                 <img src="../assets/img/icono/dinero.png" class="input-icon-inside" />
                                 <input type="number" :placeholder="$t('transferencias.amount')" v-model="form.importe" class="custom-input" />
                             </div>
-                            
+
                             <!--Input para seleccionar el mes -->
                             <v-menu
-                               v-model="menuMes"
-                               :close-on-content-click="false"
-                               transition="scale-transition"
-                               offset-y
-                               max-width="90px"
-                               min-width="auto"
+                                v-model="menuFecha"
+                                :close-on-content-click="false"
+                                transition="scale-transition"
+                                offset-y
+                                max-width="90px"
+                                min-width="auto"
                                 >
 
                                 <!-- Activador: el input que abre el menú -->
 
                                 <template #activator="{ props }">
                                 <v-text-field
-                                    v-model="form.mes"
+                                    v-model="form.fecha"
                                     v-bind="props"
-                                    :label="$t('presup.month')"
-                                    placeholder="Ej: mayo de 2025"
+                                    :label="form.fecha ? '' : $t('transferencias.date')"
+                                    placeholder="form.fecha ? '' : 'Ej: 10/06/2025'"
                                     readonly
                                     required
-                                    hide-details
+
                                     density="compact"
                                     class="custom-white-input input-mes-corto largo-reducida ancho-reducido"
                                     prepend-inner-icon="mdi-calendar-month"
@@ -106,12 +106,11 @@
 
                                 <v-date-picker
                                     v-model="pickerMes"
-                                    @update:model-value="selectMes"
+                                    @update:model-value="selectFecha"
                                     color="primary"
-                                    type="month"
                                     show-adjacent-months
                                     hide-header
-                                    view-mode="month"
+
                                     >
 
                                     <!-- Header de navegación -->
@@ -128,7 +127,13 @@
                                     </template>
                                 </v-date-picker>
                             </v-menu>
-                        </div>    
+                        </div>
+
+                        <div>
+                            <img src="../assets/img/icono/descripcion.png" class="input-icon-descripcion" />
+                            <input type="text" :placeholder="$t('transferencias.description')" v-model="form.descripcion" class="input-descripcion" />
+                        </div>
+
                             <!-- Raya de división -->
                             <hr class="divider" />
 
@@ -142,7 +147,7 @@
                                 <!-- Botón Cancelar (rojo) -->
                                 <v-btn @click="cancelarFormulario" :disabled="enviando" class="btn btn-cancelar"> {{ $t("categoriaTipoCuenta.cancel") }}</v-btn>
                             </div>
-                       
+
                         </v-form>
 
 
@@ -196,10 +201,16 @@ import { ref, watch, onMounted } from "vue";
 import axios from "axios";
 import { useRouter } from "vue-router";
 import { useI18n } from "vue-i18n";
+import { getUserByUserName } from '@/services/register';
+import { getAccountById } from "@/services/accountService";
+import { getAllAccounts } from "@/services/accountService"
 
 
 //usuario autentificado
 const username = localStorage.getItem('username')
+
+const user_id = ref([]);
+
 
 // PARA TODO LO REFERENTE AL IDIOMA
 const { locale, t } = useI18n();
@@ -213,16 +224,41 @@ const categorias = ref([]);
 const editarsn = ref(false);
 const search = ref("");
 const loading = ref(false);
+const cuentaOrigen = ref([]);
+const cuentaDestino = ref([]);
+const menuFecha = ref(false);
+const pickerMes = ref(null);
+
 
 const form = ref({
-    categoria_id: '',
+  cuentaOrigen: '',
+  cuentaDestino: '',
+  importe: '',
+  descripcion: '',
+  fecha: '',
 })
 
 //ES PARA CARGAR LA VISTA
 
 onMounted(async () => {
-  categorias.value = await getCategoriasByType('gasto', username);
+
+  const user_id = await getUserByUserName(username)
+  console.log ("user_id:", user_id.data.id)
+
+  cuentaOrigen.value = await getAccountById(user_id.data.id);
+
+  cuentaDestino.value = await getAllAccounts();
 });
+
+const selectFecha = (fecha) => {
+  const d = new Date(fecha);
+  const dia = d.getDate().toString().padStart(2, '0');
+  const mes = (d.getMonth() + 1).toString().padStart(2, '0');
+  const anio = d.getFullYear();
+  form.value.fecha = `${dia}/${mes}/${anio}`;  // formato completo
+  menuFecha.value = false;
+};
+
 
 //PARA EL BOTON ACEPTAR
 // Estado para controlar si se está enviando el formulario (usado para el botón loading)
@@ -235,46 +271,8 @@ const nuevaTransferencia = ref({
 })
 
 const submitForm = async () => {
+
   enviando.value = true;
-
- // try {
-//    const user = await getUserByUserName(username);
-
- //   const fecha = form.value.mes_guardado || form.value.mes; // usa mes_guardado si existe, sino mes
- //   const partes = fecha.split("-");
-
-    // Construye el objeto con los datos comunes
-  //  form.value.categoria=0;
-  //  console.log(form.value.id)
-  //  const nuevo = {
-  //    id: form.value.id,
-  //    categoria_id: form.value.categoria_id,
-     // monto_limite: form.value.importe,
-  //    usuario_id: user.data.id,
-  //  };
-
-   // let response;
-   // if (editarsn.value==true) {
-
-      // Si existe id, significa que editamos un registro
-   //   response = await editarPresupuesto(nuevo);
-
-  //  } else {
-
-      // Sino, creamos uno nuevo
-  ///    response = await crearPresupuesto(nuevo);
-  //  }
-
-  //  presupuestos.value = await getPresupuestosByUserName(username);
-  //  editarsn.value=false
-  ///  limpiarFormulario();
-
- // } catch (error) {
- //   console.error('Error al enviar el formulario:', error);
- // } finally {
-  //  enviando.value = false;
- // }
-
 };
 
 
@@ -283,12 +281,14 @@ const submitForm = async () => {
 // Para el boton Cancelar
 const cancelarFormulario = () => {
   form.value = {
-   // monto: "",
-    categoria_id: null,
-   // mes: "",
-   // mes_guardado: "",
+    cuentaOrigen: '',
+    cuentaDestino: '',
+    importe: '',
+    descripcion: '',
+    fecha: ''
   };
- // menuMes.value = false;
+
+  menuFecha.value = false;
   search.value = "";
   router.push("/home"); // ← Redirige al home
 };
@@ -439,6 +439,14 @@ const cancelarFormulario = () => {
   pointer-events: none; /* para que no interfiera con el click en el input */
 }
 
+.input-icon-descripcion{
+  position: absolute;
+  margin-left: 10px;
+  width: 30px; /* tamaño pequeño del icono */
+  height: 30px;
+
+  pointer-events: none; /* para que no interfiera con el click en el input */
+}
 .custom-input {
   padding-left: 40px; /* espacio para la imagen + margen */
   width: 100%; /* que ocupe el ancho disponible */
@@ -497,5 +505,19 @@ const cancelarFormulario = () => {
 .importe-mes{
     display: flex;
     gap: 6px;
+}
+
+.input-descripcion{
+  padding-left: 40px; /* espacio para la imagen + margen */
+  width: 270px; /* que ocupe el ancho disponible */
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  height: 32px;
+  font-size: 14px;
+  background-color: white;
+  color: black;
+  outline: none;
+  box-sizing: border-box;
+
 }
 </style>

@@ -170,46 +170,16 @@ import { login } from '@/services/auth'
 async function handleLogin(event) {
   event.preventDefault() // evita que el formulario recargue la página
 
-
-
     if (!username.value || !password.value) {
        // alert(t('login.complete_fields'))
         errorMessage.value = t('login.complete_fields')
         return
         }
 
-   if (password.value.length < 8) {
-      alert(t('login.password_length'))
-       return
-      }
-
-    //if  (props.userId === null) {
-     //   if (!password.value || !confirmPassword.value) {
-     //       errorMessage.value = t('login.complete_fields')
-     //       return
-     //   }
-     //   if (password.value !== confirmPassword.value) {
-     //       errorMessage.value = t('login.passwordMatch')
-     //       return
-     //   }
-     //   if (password.value.length < 8) {
-    //        errorMessage.value = t('login."password_length"')
-     //       return
-    //    }
-    //} else {
-
-    //    if (password.value || confirmPassword.value) {
-     //       if (password.value !== confirmPassword.value) {
-     //           errorMessage.value = t('login.passwordMatch')
-     //           return
-     //       }
-
-     //       if (password.value.length < 8) {
-     //           errorMessage.value = t('login.passwordMin')
-     //           return
-    //        }
-    //    }
-   // }
+    if (password.value.length < 8) {
+        alert(t('login.password_length'))
+        return
+        }
 
     try {
     const response = await login({

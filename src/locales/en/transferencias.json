@@ -3,6 +3,8 @@
     "select_category": "Select category",
     "source_account" :"Source account",
     "destination_account": "Destination account",
+    "description":"Transfer Description",
+    "date":"Descripción",
     "amount": "Amount",
     "submit": "Accept",
     "cancel": "Cancel",

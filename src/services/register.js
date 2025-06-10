@@ -38,6 +38,7 @@ export const getUsers = async () => {
 // Obtener usuario por ID (para editar)
 export const getUserById = async (id) => {
   try {
+    console.log(id)
     //console.log(`${API_URL_USERS}/search/${id}`)
     const response = await axios.get(`${API_URL_USERS}/search/${id}`, {
       headers: {

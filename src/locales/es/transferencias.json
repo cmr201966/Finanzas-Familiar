@@ -3,9 +3,12 @@
     "select_category": "Selecciones una categoría",
     "source_account" :"Cuenta de origen",
     "destination_account": "Cuenta destino",
+    "description":"Descripción de la transferencia",
+    "date":"Fecha",
     "amount": "Importe",
     "submit": "Aceptar",
     "cancel": "Cancelar",
     "actions":"Acciones"
+
 
 }
