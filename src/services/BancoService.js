@@ -1,6 +1,6 @@
 // src/services/bancoService.js
 import api from './api'
-const API_URL = 'http://192.168.1.103:3000/api/Bancos'
+const API_URL = 'http://localhost:3000/api/Bancos'
 import axios from 'axios'
 
 export async function getBancos() {
