@@ -243,10 +243,7 @@ const form = ref({
 onMounted(async () => {
 
   const user_id = await getUserByUserName(username)
-  console.log ("user_id:", user_id.data.id)
-
   cuentaOrigen.value = await getAccountById(user_id.data.id);
-
   cuentaDestino.value = await getAllAccounts();
 });
 

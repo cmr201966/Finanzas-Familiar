@@ -1,14 +1,14 @@
-//import api from './api'
+import api from './api'
 
 import axios from 'axios'
+
 const API_URL = 'http://192.168.1.103:3000/api/accounts'
 
 // Obtener todas las cuentas
 export async function getAllAccounts() {
   try {
-    const res = await api.get('/accounts')
-    console.log(res)
-    return res.data.data.accounts
+    const response = await api.get('/accounts')
+    return response.data.data.accounts
   } catch (error) {
     console.error('Error al obtener cuentas:', error)
     throw error
@@ -17,11 +17,10 @@ export async function getAllAccounts() {
 
 // Obtener una cuenta por ID
 export async function getAccountById(id) {
-  console.log ("id", id)
   try {
-    const res = await api.get(`/accounts/${id}`)
-    console.log (res)
-    return res.data.data.account
+    const response = await axios.get(`${API_URL}/${id}`);
+    //const res = await api.get(`/accounts/${id}`)
+    return response.data.data.account
   } catch (error) {
     console.error(`Error al obtener cuenta con ID ${id}:`, error)
     throw error
