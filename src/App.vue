@@ -4,6 +4,10 @@
 
 <style>
 
+body {
+  background-color: rgb(184, 209, 236) !important; /* Cambia el color aquí */
+  margin:0;
+}
 </style>
 
 <style scoped>

@@ -1,5 +1,6 @@
 <template>
   <div class="carousel-container">
+    <button @click="moveSlide(-1)" class="nav-button2">❮</button>
     <div class="carousel-track">
       <div
         class="carousel-slide"
@@ -18,6 +19,7 @@
         </div>
       </div>
     </div>
+    <button @click="moveSlide(1)" class="nav-button2">❯</button>
   </div>
 </template>
 
@@ -48,7 +50,16 @@ const images = ref([
   { src: gastos, alt: 'home.gastos', name: 'gastos' },
   { src: transferencia, alt: 'home.transferencias', name: 'transferencias' }
 ])
+const currentIndex = ref(0)
+const visibleCount = 5
+const imageWidth = 200
 
+const moveSlide = (direction) => {
+  const maxIndex = images.value.length - visibleCount
+  currentIndex.value += direction
+  if (currentIndex.value < 0) currentIndex.value = 0
+  if (currentIndex.value > maxIndex) currentIndex.value = maxIndex
+}
 const handleClick = (image) => {
   switch (image.name) {
     case 'categorias':
@@ -87,14 +98,14 @@ const handleClick = (image) => {
 .carousel-container {
   display: flex;
   align-items: center;
-  width: 75.1%;              /* tamaño original */
+  width: 85.1%;              /* tamaño original */
   overflow: hidden;
   position: absolute;
-  top: 20.5%;                /* posición original */
-  left: 9%;               /* posición original */
+  top: 15.5%;                /* posición original */
+  left: 4.3%;               /* posición original */
   box-sizing: border-box;
-  background-color: white;
-  height: 20%;
+  background-color: transparent;
+  height: 30%;
   transition: width 0.3s ease, left 0.3s ease, top 0.3s ease;
 }
 
@@ -106,6 +117,16 @@ const handleClick = (image) => {
 .carousel-slide {
   display: flex;
   transition: transform 0.5s ease;
+  background-color: transparent;
+}
+
+.nav-button2 {
+  background-color: transparent;
+  color: rgb(0, 0, 0);
+  border: none;
+  font-size: 2vw;
+  cursor: pointer;
+  transition: color 0.3s ease;
 }
 
 .carousel-item {
@@ -114,12 +135,12 @@ const handleClick = (image) => {
   cursor: pointer;
   text-align: center;
   width: 10%;            /* ancho fijo para mantener proporción */
-  margin-right: 1.5%;
+  margin-right: 4%;
 }
 
 .carousel-item img {
   width: 100%;
-  border-radius: 1%;
+  border-radius: 1vw;
   transition: transform 0.2s;
 }
 
@@ -128,12 +149,12 @@ const handleClick = (image) => {
 }
 
 .image-wrapper {
-  width: 7vw;
-  height: 9vw;
-  border-radius: 10%;
-  border: 2px solid #0056b3;
-  background: transparent;
+  width: 8vw;
+  height: 25vh;
+  border-radius: 1vw;
+  background: rgb(255, 255, 255);
   transition: transform 0.3s, border-color 0.3s;
+  box-sizing: border-box;
 }
 
 .image-wrapper:hover {
@@ -150,7 +171,7 @@ const handleClick = (image) => {
   }
 
 .image-label {
-  font-size: 0.7vw;
+  font-size: 0.9vw;
   margin-top: 1%;
   font-weight: bold;
   color: #333;
