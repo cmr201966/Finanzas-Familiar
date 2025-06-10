@@ -130,8 +130,11 @@
                         </div>
 
                         <div>
-                            <img src="../assets/img/icono/descripcion.png" class="input-icon-descripcion" />
-                            <input type="text" :placeholder="$t('transferencias.description')" v-model="form.descripcion" class="input-descripcion" />
+                          <img src="../assets/img/icono/descripcion.png" class="input-icon-descripcion" />
+                          <input  type="text"
+                                  :placeholder="$t('transferencias.description')"
+                                  v-model="form.descripcion"
+                                  class="input-descripcion" />
                         </div>
 
                             <!-- Raya de división -->
@@ -142,50 +145,50 @@
                             <div class="form-buttons">
 
                                 <!-- Botón Aceptar (verde) -->
-                                <v-btn @click="submitForm" :disabled="enviando " :loading="enviando" class="btn btn-aceptar">{{ $t("categoriaTipoCuenta.submit") }}</v-btn>
+                                <v-btn @click="submitForm" :disabled="enviando " :loading="enviando" class="btn btn-aceptar">{{ $t("transferencias.submit") }}</v-btn>
 
                                 <!-- Botón Cancelar (rojo) -->
-                                <v-btn @click="cancelarFormulario" :disabled="enviando" class="btn btn-cancelar"> {{ $t("categoriaTipoCuenta.cancel") }}</v-btn>
+                                <v-btn @click="cancelarFormulario" :disabled="enviando" class="btn btn-cancelar"> {{ $t("transferencias.cancel") }}</v-btn>
                             </div>
 
                         </v-form>
 
 
-                    <!-- Tabla de bancos
+                    <!-- Tabla de transferencias-->
                     <div style="max-height: 400px; overflow-y: auto;">
                         <v-data-table
-                            :headers="headers"
-                            :items="tiposCuenta"
-                            item-value="id"
-                            class="elevation-1 font-tabla"
-                            :items-per-page="-1"
-                            hide-default-footer
-                            style="min-width:230px;"
-                            fixed-header
-                            height="200"
+                          :headers="headers"
+                          :items="tiposCuenta"
+                          item-value="id"
+                          class="elevation-1 font-tabla"
+                          :items-per-page="-1"
+                          hide-default-footer
+                          style="min-width:300px;"
+                          fixed-header
+                          height="100"
                         >
-                            <template #item.acciones="{ item }">
-                                <div class="d-flex align-center">
-                                    <v-btn icon class="bg-transparent" @click="editarTransferencia(item)">
-                                        <v-icon size="18">mdi-pencil</v-icon>
-                                    </v-btn>
-                                    <v-btn icon class="bg-transparent" @click="eliminarTransferencia(item.id)">
-                                        <v-icon size="18" color="red">mdi-delete</v-icon>
-                                    </v-btn>
+                          <template #item.acciones="{ item }">
+                            <div class="d-flex align-center">
+                              <v-btn icon class="bg-transparent" @click="editarTransferencia(item)">
+                                <v-icon size="18">mdi-pencil</v-icon>
+                              </v-btn>
+                              <v-btn icon class="bg-transparent" @click="eliminarTransferencia(item.id)">
+                                <v-icon size="18" color="red">mdi-delete</v-icon>
+                              </v-btn>
                                 </div>
-                            </template>
+                          </template>
                         </v-data-table>
                     </div>
                     <v-dialog v-model="mostrarDialogoEliminar" max-width="400">
                         <v-card>
-                            <v-card-title class="text-h6">{{ $t("transferencias.message-kill1") }}</v-card-title>
-                                <v-card-text>{{ $t("transferencias.message-kill2") }}</v-card-text>
-                                <v-card-actions>
-                                    <v-btn text @click="mostrarDialogoEliminar = false">{{ $t("transferencias.cancel") }}</v-btn>
-                                    <v-btn color="red" text @click="confirmarEliminacion">{{ $t("transferencias.delete") }}</v-btn>
-                                </v-card-actions>
+                          <v-card-title class="text-h6">{{ $t("transferencias.message-kill1") }}</v-card-title>
+                            <v-card-text>{{ $t("transferencias.message-kill2") }}</v-card-text>
+                              <v-card-actions>
+                                <v-btn text @click="mostrarDialogoEliminar = false">{{ $t("transferencias.cancel") }}</v-btn>
+                                <v-btn color="red" text @click="confirmarEliminacion">{{ $t("transferencias.delete") }}</v-btn>
+                              </v-card-actions>
                         </v-card>
-                    </v-dialog>-->
+                    </v-dialog>
                 </div>
             </div>
         </div>
@@ -220,8 +223,7 @@ const router = useRouter();
 //PARA TODO LO REFERENTE A LA CATEGORIA
 // Cargando las categorias
 
-const categorias = ref([]);
-const editarsn = ref(false);
+const editando = ref(false);
 const search = ref("");
 const loading = ref(false);
 const cuentaOrigen = ref([]);
@@ -256,20 +258,75 @@ const selectFecha = (fecha) => {
   menuFecha.value = false;
 };
 
+const transferencias = ref([]);
+
+// Columnas para tabla
+const headers = [
+  { title: t('transferencias.date'), value: 'fecha' },
+  { title: t('transferencias.source'), value: 'cuentaOrigen' },
+  { title: t('transferencias.destination'), value: 'cuentaDestino' },
+  { title: t('transferencias.amount'), value: 'importe' },
+  { title: t('transferencias.actions'), value: 'acciones', sortable: false },
+]
 
 //PARA EL BOTON ACEPTAR
 // Estado para controlar si se está enviando el formulario (usado para el botón loading)
 
 const enviando = ref(false)
 
-// Aquí defines tu modelo de formulario (ajusta los campos según tu necesidad real)
-const nuevaTransferencia = ref({
-    categoria_id: '',
-})
+
 
 const submitForm = async () => {
+  const origen = form.value.cuentaOrigen;
+  const destino = form.value.cuentaDestino;
+  const importe = form.value.importe;
+  const fecha = form.value.fecha;
 
-  enviando.value = true;
+  if (!origen) {
+    alert("La cuenta de origen no puede estar vacía");
+    return;
+  }
+  if (!destino) {
+    alert("La cuenta de destino no puede estar vacía");
+    return;
+  }
+  if (!importe) {
+    alert("El importe no puede estar vacío");
+    return;
+  }
+  if (!fecha) {
+    alert("La fecha no puede estar vacía");
+    return;
+  }
+
+  try {
+    enviando.value = true;
+
+    const nuevaTransferencia = {
+      cuentaOrigen: origen,
+      cuentaDestino: destino,
+      importe: importe,
+      fecha: fecha,
+    };
+
+    // Guardar en la BD (ajusta según tu servicio real)
+    response = await guardarTransferencia(nuevaTransferencia);
+
+    // Agregar a la tabla
+    transferencias.value.push(nuevaTransferencia);
+
+    limpiarFormulario();
+
+    menuFecha.value = false;
+
+    } catch (error) {
+    console.error("Error guardando la transferencia:", error);
+    alert("Ocurrió un error al guardar la transferencia.");
+
+  } finally {
+
+    enviando.value = false;
+  }
 };
 
 
@@ -292,13 +349,15 @@ const cancelarFormulario = () => {
 
 //PARA LOS COMPONENTES DEL FORMULARIO
  //limpiar formulario
- function limpiarFormulario() {
+
+function limpiarFormulario() {
   form.value = {
-   // monto: "",
-    categoria_id: null,
-   // mes: "",
-   // mes_guardado: "",
-  };
+      cuentaOrigen: '',
+      cuentaDestino: '',
+      importe: '',
+      descripcion: '',
+      fecha: '',
+    };
 }
 
 </script>
@@ -329,6 +388,12 @@ const cancelarFormulario = () => {
   border: 2px solid blue;
   width: 500px;
   margin: auto;
+}
+
+
+.bg-transparent {
+    background-color: transparent !important;
+    box-shadow: none !important;
 }
 
 .header-inline {
@@ -389,7 +454,7 @@ const cancelarFormulario = () => {
 .form-buttons {
   display: flex;
   justify-content: center;
-  gap: 5px; /* espacio entre botones */
+  gap: 10px; /* espacio entre botones */
   margin-left: 150px;
 }
 
@@ -397,12 +462,12 @@ const cancelarFormulario = () => {
   display: flex; /* ← clave */
   align-items: center; /* centra verticalmente */
   justify-content: center; /* centra horizontalmente */
-  padding: 10px 20px;
-  font-size: 10px;
+  padding: 10px 30px;
+  font-size: 12px;
   border: none;
   border-radius: 6px;
   cursor: pointer;
-  width: 65px;
+  width: 75px;
   height: 30px;
   font-style: "popins";
   margin-bottom: 10px;
@@ -482,7 +547,7 @@ const cancelarFormulario = () => {
 
 .ancho-reducido {
   height: 30px; /* reduce la altura del contenedor externo */
-  font-size: 13px;
+  font-size: 12px;
   max-width: 150px; /* opcional: para controlar también el ancho */
 }
 /* Apunta al input interno con :deep() */
@@ -496,7 +561,7 @@ const cancelarFormulario = () => {
 
 /* Opcional: ajusta también el icono si se desalineara */
 .ancho-reducido :deep(.v-icon) {
-  font-size: 18px !important;
+  font-size: 12px !important;
 }
 
 .importe-mes{
@@ -506,15 +571,36 @@ const cancelarFormulario = () => {
 
 .input-descripcion{
   padding-left: 40px; /* espacio para la imagen + margen */
-  width: 270px; /* que ocupe el ancho disponible */
+  width: 100%; /* que ocupe el ancho disponible */
   border: 1px solid #ccc;
   border-radius: 8px;
-  height: 32px;
-  font-size: 14px;
+  height: 35px;
+  font-size: 12px;
   background-color: white;
   color: black;
   outline: none;
   box-sizing: border-box;
 
 }
+
+font-tabla {
+    font-size: 12px; /* Puedes ajustar a 12px, 16px, etc. */
+}
+
+.font-tabla .v-data-table__td {
+  padding: 2px 4px; /* Ajusta vertical y horizontalmente */
+}
+
+/* Disminuir alto del header de la tabla */
+.v-data-table thead th {
+    height: 26px;
+    padding-top: 0px;
+    padding-bottom: 2px;
+}
+
+/* Disminuir el alto de las filas (tr) */
+.v-data-table tbody tr {
+    height: 10px; /* o el alto que quieras */
+}
+
 </style>

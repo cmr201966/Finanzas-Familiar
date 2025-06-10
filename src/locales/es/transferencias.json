@@ -1,14 +1,17 @@
 {
     "app_option": "Transferencias bancarias",
-    "select_category": "Selecciones una categoría",
-    "source_account" :"Cuenta de origen",
-    "destination_account": "Cuenta destino",
+    "source_account" :"Cuenta Origen",
+    "destination_account": "Cuenta Destino",
+    "source":"Origen",
+    "destination":"Destino",
     "description":"Descripción de la transferencia",
     "date":"Fecha",
     "amount": "Importe",
     "submit": "Aceptar",
     "cancel": "Cancelar",
-    "actions":"Acciones"
+    "actions":"Acciones",
+    "message-kill1":"¿Estas seguro?",
+    "message-kill2" :"¿Deseas eliminar esta transferencia? Esta acción no se puede deshacer"
 
 
 }
