@@ -15,8 +15,11 @@ import enCategorias from './locales/en/categorias.json'
 import esCategorias from './locales/es/categorias.json'
 import esCategoriaBanco from './locales/es/categoriaBanco.json'
 import enCategoriaBanco from './locales/en/categoriaBanco.json'
-import esCategoriaTipoCuenta from './locales/es/categoriaTipoCuenta.json'
-import enCategoriaTipoCuenta from './locales/en/categoriaTipoCuenta.json'
+import esCategoriaTipoCuenta from './locales/es/categoriatipoCuenta.json'
+import enCategoriaTipoCuenta from './locales/en/categoriatipoCuenta.json'
+import esTransferencias from './locales/es/transferencias.json'
+import enTransferencias from './locales/en/transferencias.json'
+
 
 const messages = {
   es: {
@@ -27,7 +30,9 @@ const messages = {
     cuentas: esCuentas,
     categorias: esCategorias,
     categoriaBanco:esCategoriaBanco,
-    categoriaTipoCuenta:esCategoriaTipoCuenta
+    categoriaTipoCuenta:esCategoriaTipoCuenta,
+    transferencias:esTransferencias
+
   },
   en: {
     login: enLogin,
@@ -37,7 +42,8 @@ const messages = {
     cuentas: enCuentas,
     categorias: enCategorias,
     categoriaBanco:enCategoriaBanco,
-    categoriaTipoCuenta:enCategoriaTipoCuenta
+    categoriaTipoCuenta:enCategoriaTipoCuenta,
+    transferencias:enTransferencias
   }
 }
 

@@ -1,0 +1,11 @@
+{
+    "app_option": "Bank transfers",
+    "select_category": "Select category",
+    "source_account" :"Source account",
+    "destination_account": "Destination account",
+    "amount": "Amount",
+    "submit": "Accept",
+    "cancel": "Cancel",
+    "actions":"Actions"
+
+}

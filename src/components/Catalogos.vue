@@ -73,7 +73,7 @@ const handleClick = (image) => {
       router.push('/Gastos')
       break;
     case 'transferencias':
-      router.push('/Transferencias')
+      router.push('/transferencias')
       break;
     default:
       alert(`Navegación no implementada para: ${t(image.alt)}`)
@@ -114,7 +114,7 @@ const handleClick = (image) => {
   cursor: pointer;
   text-align: center;
   width: 10%;            /* ancho fijo para mantener proporción */
-  margin-right: 6.5%;
+  margin-right: 1.5%;
 }
 
 .carousel-item img {

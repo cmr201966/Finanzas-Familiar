@@ -31,9 +31,9 @@ import { useI18n } from 'vue-i18n'
 import { useRouter } from 'vue-router'
 
 import Resumen_General from '../assets/img/tarjetas/resumen gral.png'
-import Vista_Trasnferencias from '../assets/img/tarjetas/transf.png'
+import Trasnferencias from '../assets/img/tarjetas/transf.png'
 import Cuentas from '../assets/img/tarjetas/cuentas.png'
-//import Vista_Transacciones from '../assets/img/Vista_Transacciones.jpg'
+//import Vista_Transacciones from '../assets/img/tarjetas/transf.png'
 import Categorias from '../assets/img/tarjetas/CatIngresosgGastos.png'
 import Anual from '../assets/img/tarjetas/reportes.png'
 import Presupuesto from '../assets/img/tarjetas/presupuesto.png'
@@ -43,7 +43,7 @@ const { t } = useI18n()
 
 const images = ref([
   { src: Resumen_General, alt: 'home.resumenGeneral', name: 'resumen' },
-  { src: Vista_Trasnferencias, alt: 'home.transferencias', name: 'transferencias' },
+  { src: Trasnferencias, alt: 'home.transferencias', name: 'transferencias' },
   { src: Cuentas, alt: 'home.cuentas', name: 'cuentas' },
   { src: Presupuesto, alt: 'home.presupuesto', name: 'presupuesto' },
   { src: Anual, alt: 'home.informeAnual', name: 'informeAnual' },

@@ -7,6 +7,7 @@ import presupuesto from "../views/presupuesto.vue";
 import Categorias from "../views/Categorias.vue";
 import categoriaBanco from "../views/categoriaBanco.vue";
 import categoriaTipoCuentas from "../views/categoriaTipoCuentas.vue";
+import transferencias from "../views/transferencias.vue";
 
 
 const routes = [
@@ -20,7 +21,7 @@ const routes = [
   { path: '/Categorias', name: 'categorias', component: Categorias },
   { path: '/categoriaBanco', name: 'categoriaBanco', component: categoriaBanco},
   { path: '/categoriaTipoCuentas', name: 'categoriaTipoCuentas', component: categoriaTipoCuentas},
-
+  { path: '/transferencias', name: 'transferencias', component: transferencias},
 ];
 
 const router = createRouter({

@@ -1,0 +1,11 @@
+{
+    "app_option": "Transferencias bancarias",
+    "select_category": "Selecciones una categoría",
+    "source_account" :"Cuenta de origen",
+    "destination_account": "Cuenta destino",
+    "amount": "Importe",
+    "submit": "Aceptar",
+    "cancel": "Cancelar",
+    "actions":"Acciones"
+
+}
