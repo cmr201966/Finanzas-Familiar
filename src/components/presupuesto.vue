@@ -331,8 +331,7 @@ const submitForm = async () => {
 
     // Construye el objeto con los datos comunes
     form.value.categoria=0;
-    console.log(form.value.id)
-    const nuevo = {
+      const nuevo = {
       id: form.value.id,
       categoria_id: form.value.categoria_id,
       mes: Number(partes[1]),

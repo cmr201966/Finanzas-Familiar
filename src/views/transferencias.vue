@@ -234,7 +234,7 @@ const cuentaDestino = ref([]);
 const menuFecha = ref(false);
 const pickerMes = ref(null);
 const user_id_tmp=ref('');
-
+const transferencias = ref([]);
 
 const form = ref({
   cuentaOrigen: '',
@@ -254,7 +254,6 @@ onMounted(async () => {
   cuentaOrigen.value = await getAccountById(user_id.data.id);
   cuentaDestino.value = await getAllAccounts();
   transferencias.value= await getTransferenciasById(user_id_tmp.value);
-  console.log(transferencias.value)
 });
 
 const selectFecha = (fecha) => {
@@ -266,7 +265,6 @@ const selectFecha = (fecha) => {
   menuFecha.value = false;
 };
 
-const transferencias = ref([]);
 
 // Columnas para tabla
 import { computed } from 'vue';
@@ -326,7 +324,8 @@ const submitForm = async () => {
     await guardarTransferencia(nuevaTransferencia);
 
     // Agregar a la tabla
-    transferencias.value.push(nuevaTransferencia);
+   // transferencias.value.push(nuevaTransferencia);
+   transferencias.value = await  getTransferenciasById(user_id_tmp.value);
 
     limpiarFormulario();
 
