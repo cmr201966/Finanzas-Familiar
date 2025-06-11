@@ -165,7 +165,7 @@
                           hide-default-footer
                           style="min-width:300px;"
                           fixed-header
-                          height="100"
+                          height="150"
                         >
                           <template #item.acciones="{ item }">
                             <div class="d-flex align-center">
@@ -231,6 +231,7 @@ const search = ref("");
 const loading = ref(false);
 const cuentaOrigen = ref([]);
 const cuentaDestino = ref([]);
+const transferencias = ref([]);
 const menuFecha = ref(false);
 const pickerMes = ref(null);
 const user_id_tmp=ref('');
@@ -265,15 +266,14 @@ const selectFecha = (fecha) => {
   menuFecha.value = false;
 };
 
-
 // Columnas para tabla
 import { computed } from 'vue';
 
 const headers = computed(() => [
-  { title: t('transferencias.date'), value: 'fecha' },
-  { title: t('transferencias.source'), value: 'cuentaOrigen' },
-  { title: t('transferencias.destination'), value: 'cuentaDestino' },
-  { title: t('transferencias.amount'), value: 'importe' },
+  { title: t('transferencias.date'), value: 'date' },
+  { title: t('transferencias.source'), value: 'from_account_id' },
+  { title: t('transferencias.destination'), value: 'to_account_id' },
+  { title: t('transferencias.amount'), value: 'amount' },
   { title: t('transferencias.actions'), value: 'acciones', sortable: false },
 ]);
 
@@ -282,8 +282,13 @@ const headers = computed(() => [
 
 const enviando = ref(false)
 
+const editarTransferencia=(item)=>{
 
+}
 
+const eliminarTransferencia=(item)=>{
+
+}
 const submitForm = async () => {
   const origen = form.value.cuentaOrigen;
   const destino = form.value.cuentaDestino;
