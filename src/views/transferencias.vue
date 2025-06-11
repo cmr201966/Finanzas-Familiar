@@ -208,7 +208,7 @@ import { getUserByUserName } from '@/services/register';
 import { getAccountById } from "@/services/accountService";
 import { getAllAccounts } from "@/services/accountService"
 import { guardarTransferencia } from '@/services/transferencias';
-import { getTransferenciasByUserName } from "@/services/transferencias";
+import { getTransferenciasById } from "@/services/transferencias";
 
 
 
@@ -233,6 +233,7 @@ const cuentaOrigen = ref([]);
 const cuentaDestino = ref([]);
 const menuFecha = ref(false);
 const pickerMes = ref(null);
+const user_id_tmp=ref('');
 
 
 const form = ref({
@@ -246,11 +247,11 @@ const form = ref({
 //ES PARA CARGAR LA VISTA
 
 onMounted(async () => {
-
   const user_id = await getUserByUserName(username)
+  user_id_tmp.value=user_id.data.id
   cuentaOrigen.value = await getAccountById(user_id.data.id);
   cuentaDestino.value = await getAllAccounts();
-  transferencias.value= await getTransferenciasByUserName(username);
+  transferencias.value= await getTransferenciasById(user_id.data.id);
 });
 
 const selectFecha = (fecha) => {
@@ -308,13 +309,13 @@ const submitForm = async () => {
 
   try {
     enviando.value = true;
-
     const nuevaTransferencia = {
-      cuentaOrigen: origen,
-      cuentaDestino: destino,
-      importe: importe,
-      fecha: fecha,
-      descripcion: form.value.descripcion,
+      from_account_id: origen,
+      to_account_id: destino,
+      amount: importe,
+      date: fecha,
+      description: form.value.descripcion,
+      user_id: user_id_tmp.value
 
     };
 
