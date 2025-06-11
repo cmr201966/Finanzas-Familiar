@@ -7,24 +7,25 @@
     <hr class="mi-barra-transaccion" />
     <div class="entrada-transacciones">
   <select
-    class="in-transacciones"
-    v-model="form.nombreCategoria"
+  class="in-transacciones"
+  v-model="form.categoria_id"
+>
+  <option disabled value="">{{ $t('transacciones.placeholdertransaccion') }}</option>
+  <option
+    v-for="cat in categoria"
+    :key="cat.id"
+    :value="cat.id"
   >
-    <option disabled value="">{{ $t('transacciones.placeholdertransaccion') }}</option>
-    <option
-      v-for="opcion in opcionesCategorias"
-      :key="opcion.value"
-      :value="opcion.value"
-    >
-      {{ opcion.label }}
-    </option>
-  </select>
+    {{ cat.name }}
+  </option>
+</select>
 </div>
     <div class="entrada-importe">
       <input
         class="in-descripcion"
-        type="text"
-        v-model="form.descripcion"
+        type="number"
+        min="0"
+        v-model="form.importe"
         :placeholder="$t('transacciones.placeholderimporte')"
       />
     </div>
@@ -33,18 +34,18 @@
       </div>
       <div class="selecciona-cuentas">
   <select
-    class="in-transacciones"
-    v-model="form.nombreCategoria"
+  class="in-transacciones"
+  v-model="form.cuentas"
+>
+  <option disabled value="">{{ $t('transacciones.seleccion-cuenta') }}</option>
+  <option
+    v-for="cuenta in cuentas"
+    :key="cuenta.id"
+    :value="cuenta.id"
   >
-    <option disabled value="">{{ $t('transacciones.seleccion-cuenta') }}</option>
-    <option
-      v-for="opcion in opcionesCategorias"
-      :key="opcion.value"
-      :value="opcion.value"
-    >
-      {{ opcion.label }}
-    </option>
-  </select>
+    {{ cuenta.name }}
+  </option>
+</select>
 </div>
     <p class="transaccion-ingreso">{{ $t('categorias.ingreso' )}}</p>
      <div class="entrada-ingresoT-check">
@@ -72,7 +73,7 @@
     </div>
       <hr class="mi-barra2-transaccion" />
       <div class="botones-transaccion">
-        <v-btn class="save" color="primary" @click="guardarCategoria">
+        <v-btn class="save" color="primary" @click="guardarTransaccion">
           Guardar
         </v-btn>
 
@@ -83,13 +84,15 @@
         <div class="lista-categoria">
       <h3>{{ $t('transacciones.transaccionesG') }}</h3>
       <ul>
-       <li v-for="(cat, index) in categoria" :key="index">
-      <span class="texto-categoria">{{ cat.name }} - {{ cat.description }} - {{ cat.type }} </span>
+       <li v-for="(trans, index) in transacciones" :key="index">
+      <span class="texto-categoria">{{ trans.date }}-{{ trans.type }}-{{ getCategoryName(trans.category_id) || 'Sin categoría' }}-
+        {{ getAccountName(trans.account_id) || 'Sin cuenta' }}-{{ trans.amount }}
+      </span>
       <span class="botones-categoria">
-        <v-btn small icon color="blue" @click="editarCategoria(index)">
+        <v-btn small icon color="blue" @click="editarTransaccion(index)">
           <v-icon>mdi-pencil</v-icon>
         </v-btn>
-        <v-btn small icon color="red" @click="eliminarCategoria(index)">
+        <v-btn small icon color="red" @click="eliminarTransaccion(index)">
           <v-icon>mdi-delete</v-icon>
         </v-btn>
       </span>
@@ -104,14 +107,22 @@ import NavBar from '../components/NavBar.vue'
 import Footer from '../components/Footer.vue'
 import { useRouter } from 'vue-router'
 import { ref, onMounted, reactive } from 'vue'
-import { getAllExpenses, getExpenseById, createExpense, updateCategoria, deleteCategoria } from '@/services/expensesService.js' // Ajusta la ruta si es necesario
+import { getAllExpenses } from '@/services/expensesService.js' // Ajusta la ruta si es necesario
+import { getAllAccounts } from '@/services/accountService.js'
+import { getAllTransactions, createTransaction, deleteTransaction, updateTransaction } from '@/services/transaccionesService.js'
 const form = ref({
-  nombreCategoria: '',
+  categoria_id: '',
+  importe: '',
+  fechaApertura: '',
   descripcion: '',
-  ingreso:true,
-  gastos:false
+  ingreso: true,
+  gastos:false,
+  cuentas: '',
+  nombreCuenta: '',
 })
 const categoria = ref([])
+const cuentas = ref ([])
+const transacciones = ref ([])
 const isEditMode = ref(false)
 const selectedId = ref(null)
 const indiceEditando = ref(null)
@@ -120,65 +131,108 @@ const fechaActual = new Date().toISOString().split('T')[0]
 
 onMounted(async () => {
   await cargarCategoria()
+  await cargarCuentas()
+  await cargarTransacciones()
 })
 
 async function cargarCategoria() {
   try {
-    categoria.value = await getAllExpenses()
+    const data = await getAllExpenses()
+    categoria.value = data
     console.log('Categorías cargadas:', categoria.value)
   } catch (error) {
     console.error('Error al cargar gastos:', error)
   }
 }
 
-async function guardarCategoria() {
-  const datos = {
-    name: form.value.nombreCategoria,
-    type: form.value.ingreso ? 'ingreso' : 'gasto',
-    description: form.value.descripcion,
-    user_id: 1,
-    created_at: new Date().toISOString().split('T')[0]
+async function cargarCuentas() {
+  try {
+    const data = await getAllAccounts()
+    cuentas.value = data
+    console.log('Cuentas cargadas:', cuentas.value)
+  } catch (error) {
+    console.error('Error al cargar cuentas:', error)
   }
+}
+
+async function cargarTransacciones() {
+  try {
+    const data = await getAllTransactions()
+    transacciones.value = data.transacciones
+    console.log('transacciones cargadas:', transacciones.value)
+  } catch (error) {
+    console.error('Error al cargar transacciones:', error)
+  }
+}
+
+function getCategoryName(category_id) {
+  const cat = categoria.value.find(c => c.id === category_id)
+  return cat ? cat.name : null
+}
+
+function getAccountName(account_id) {
+  const acc = cuentas.value.find(c => c.id === account_id)
+  return acc ? acc.name : null
+}
+
+async function guardarTransaccion() {
+  if (Number(form.value.importe) <= 0 || isNaN(Number(form.value.importe))) {
+    alert('El importe debe ser un número positivo')
+    return
+  }
+
+  const datos = {
+  amount: form.value.importe,
+  type: form.value.ingreso ? 'ingreso' : 'gasto',
+  description: form.value.descripcion,
+  date: form.value.fechaApertura,
+  category_id: form.value.categoria_id,
+  account_id: form.value.cuentas,   // <--- IMPORTANTE
+  user_id: form.value.cuentas,        // <--- IMPORTANTE
+  created_at: new Date().toISOString().split('T')[0]  // 'YYYY-MM-DD'
+}
 
   console.log('Datos a enviar:', datos)
 
   try {
     if (isEditMode.value) {
-      await updateCategoria(selectedId.value, datos)
+      await updateTransaction(selectedId.value, datos)
     } else {
-    await createExpense(datos)
-  } 
-  await cargarCategoria()
+      await createTransaction(datos)
+    }
+    await cargarTransacciones()
     resetForm()
-    isEditMode.value= false
-}  catch (error) {
-    console.error('Error al crear categoría:', error.response?.data || error)
+    isEditMode.value = false
+  } catch (error) {
+    console.error('Error al crear transaccion:', error.response?.data || error)
   }
 }
    
-async function editarCategoria(index) {
+async function editarTransaccion(index) {
   try {
-    const cat = categoria.value[index]
+    const trans = transacciones.value[index]
 
-    form.value.nombreCategoria = cat.name || ''
-    form.value.descripcion = cat.description || ''
-    form.value.ingreso = cat.type === 'income'
-    // Si tienes otro campo que controlar, asigna aquí...
+    form.value.categoria_id = trans.category_id || ''
+    form.value.importe = trans.amount || ''
+    form.value.fechaApertura = trans.date || ''
+    form.value.descripcion = trans.description || ''
+    form.value.ingreso = trans.type === 'ingreso'  // true si es ingreso, false si gasto
+    form.value.cuentas = trans.account_id || ''
 
-    selectedId.value = cat.id  // si tienes un campo para id de categoría
+    selectedId.value = trans.id  // guardamos el id de la transacción para editarla
     isEditMode.value = true
   } catch (error) {
-    console.error('Error al cargar categoría para edición:', error)
+    console.error('Error al cargar transacción para edición:', error)
   }
 }
 
-async function eliminarCategoria(index) {
-  const cat = categoria.value[index]
+async function eliminarTransaccion(index) {
+  const trans = transacciones.value[index]
   try {
-    await deleteCategoria(cat.id)
-    await cargarCategoria() // vuelve a cargar la lista actualizada desde el backend
+    await deleteTransaction(trans.id)
+    await cargarTransacciones() // vuelve a cargar la lista actualizada desde el backend
   } catch (error) {
-    console.error('Error al eliminar categoría:', error)
+    console.error('Error al eliminar transaccion:', error)
   }
 }
 function cancelar() {
@@ -188,10 +242,12 @@ function cancelar() {
 
 function resetForm() {
   form.value = {
-  nombreCategoria: '',
-  descripcion: '',
-  ingreso:false,
-  gastos:false
+    categoria_id: '',
+    importe: '',
+    fechaApertura: '',
+    descripcion: '',
+    ingreso: true,
+    cuentas: ''
   }
 }
 </script>
@@ -384,8 +440,8 @@ function resetForm() {
   .texto-categoria {
     font-size: 1.5vw;
   }
-  .botones {
-    position: absolute; left: 24%;
+  .botones-transaccion {
+    position: absolute; left: 25%;
   }
   .entrada-categoria input,
   .entrada-descripcion input {
