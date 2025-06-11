@@ -2,10 +2,10 @@
   "app_option": "Bancos",
   "bank": "Banco",
   "banks": "Bancos",
-  "descripction_bank": "Descripción",
+  "description_bank": "Descripción",
   "submit": "Aceptar",
   "cancel": "Cancelar",
-  "actions":"Acciones",
+  "actions":"Acción",
   "delete":"Eliminar",
   "message-kill1":"Estas seguro",
   "message-kill2" :"¿Deseas eliminar este banco? Esta acción no se puede deshacer"

@@ -158,7 +158,7 @@
                     <div style="max-height: 400px; overflow-y: auto;">
                         <v-data-table
                           :headers="headers"
-                          :items="tiposCuenta"
+                          :items="transferencias"
                           item-value="id"
                           class="elevation-1 font-tabla"
                           :items-per-page="-1"
@@ -207,6 +207,9 @@ import { useI18n } from "vue-i18n";
 import { getUserByUserName } from '@/services/register';
 import { getAccountById } from "@/services/accountService";
 import { getAllAccounts } from "@/services/accountService"
+import { guardarTransferencia } from '@/services/transferencias';
+import { getTransferenciasByUserName } from "@/services/transferencias";
+
 
 
 //usuario autentificado
@@ -247,6 +250,7 @@ onMounted(async () => {
   const user_id = await getUserByUserName(username)
   cuentaOrigen.value = await getAccountById(user_id.data.id);
   cuentaDestino.value = await getAllAccounts();
+  transferencias.value= await getTransferenciasByUserName(username);
 });
 
 const selectFecha = (fecha) => {
@@ -261,13 +265,15 @@ const selectFecha = (fecha) => {
 const transferencias = ref([]);
 
 // Columnas para tabla
-const headers = [
+import { computed } from 'vue';
+
+const headers = computed(() => [
   { title: t('transferencias.date'), value: 'fecha' },
   { title: t('transferencias.source'), value: 'cuentaOrigen' },
   { title: t('transferencias.destination'), value: 'cuentaDestino' },
   { title: t('transferencias.amount'), value: 'importe' },
   { title: t('transferencias.actions'), value: 'acciones', sortable: false },
-]
+]);
 
 //PARA EL BOTON ACEPTAR
 // Estado para controlar si se está enviando el formulario (usado para el botón loading)
@@ -281,6 +287,7 @@ const submitForm = async () => {
   const destino = form.value.cuentaDestino;
   const importe = form.value.importe;
   const fecha = form.value.fecha;
+
 
   if (!origen) {
     alert("La cuenta de origen no puede estar vacía");
@@ -307,10 +314,12 @@ const submitForm = async () => {
       cuentaDestino: destino,
       importe: importe,
       fecha: fecha,
+      descripcion: form.value.descripcion,
+
     };
 
     // Guardar en la BD (ajusta según tu servicio real)
-    response = await guardarTransferencia(nuevaTransferencia);
+    await guardarTransferencia(nuevaTransferencia);
 
     // Agregar a la tabla
     transferencias.value.push(nuevaTransferencia);

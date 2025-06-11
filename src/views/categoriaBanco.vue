@@ -123,11 +123,12 @@ onMounted(async () => {
 });
 
 // Esto es para la tabla de abajo
-const headers = [
+
+const headers = computed(() => [
  // { title: 'ID', value: 'id' },
-    { title: t('categoriaBanco.descripction_bank'), value: 'name' },
+    { title: t('categoriaBanco.description_bank'), value: 'name' },
     { title: t('categoriaBanco.actions'), value: 'acciones', sortable: false },
-]
+])
 
 const editando = ref(false)
 const bancoSeleccionado = ref('')

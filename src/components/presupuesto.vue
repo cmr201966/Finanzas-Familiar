@@ -381,13 +381,15 @@ const cancelarFormulario = () => {
 //TRABAJANDO LA TABLA QUE ESTA DEBAJO
 
 // Esto es para la tabla de abajo
-const headers = [
+import { computed } from 'vue';
+
+const headers = computed(() => [
  // { title: 'ID', value: 'id' },
   { title:  t('presup.category'), value: 'categoria' },
   { title: t('presup.month'), value: 'mes' },
   { title: t('presup.amount'), value: 'importe' },
   { title: t('presup.actions'), value: 'acciones', sortable: false },
-]
+])
 
 const presupuesto = ref(null);
 const loadingPresupuesto = ref(false);

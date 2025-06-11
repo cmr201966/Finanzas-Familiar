@@ -94,12 +94,7 @@ import { ref, onMounted } from 'vue'
 import { useI18n } from 'vue-i18n'
 import { useRouter } from 'vue-router'
 
-import {
-  getTiposCuenta,
-  eliminarTipoCuenta,
-  crearTipoCuenta,
-  editarTipoCuenta
-} from "@/services/tipodecuentaService";
+import { getTiposCuenta, eliminarTipoCuenta, crearTipoCuenta,editarTipoCuenta} from "@/services/tipodecuentaService";
 
 // Router para navegación
 const router = useRouter()
@@ -124,10 +119,12 @@ onMounted(async () => {
 })
 
 // Columnas para tabla
-const headers = [
+import { computed } from 'vue';
+
+const headers = computed(() => [
     { title: t('categoriaTipoCuenta.descripction_tipocuenta'), value: 'name' },
     { title: t('categoriaTipoCuenta.actions'), value: 'acciones', sortable: false },
-]
+])
 
 // Función para cargar formulario en modo edición
 function editarTipoCuentaVista(item) {
