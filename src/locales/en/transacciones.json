@@ -1,0 +1,8 @@
+{
+    "titulo-transacciones":"Transactions",
+    "placeholdertransaccion":"Select a category...",
+    "placeholderimporte":"Amount...",
+    "seleccion-cuenta":"Select associated account",
+    "descripcionT":"Transaction description...",
+    "transaccionesG":"Saved transactions"
+}
