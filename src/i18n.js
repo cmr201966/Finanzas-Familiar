@@ -19,7 +19,6 @@ import esCategoriaTipoCuenta from './locales/es/categoriatipoCuenta.json'
 import enCategoriaTipoCuenta from './locales/en/categoriatipoCuenta.json'
 import esTransferencias from './locales/es/transferencias.json'
 import enTransferencias from './locales/en/transferencias.json'
-
 import esTransacciones from './locales/es/transacciones.json'
 import enTransacciones from './locales/en/transacciones.json'
 
