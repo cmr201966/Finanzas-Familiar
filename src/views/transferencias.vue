@@ -235,7 +235,6 @@ const transferencias = ref([]);
 const menuFecha = ref(false);
 const pickerMes = ref(null);
 const user_id_tmp=ref('');
-const transferencias = ref([]);
 
 const form = ref({
   cuentaOrigen: '',
@@ -329,8 +328,8 @@ const submitForm = async () => {
     await guardarTransferencia(nuevaTransferencia);
 
     // Agregar a la tabla
-   // transferencias.value.push(nuevaTransferencia);
-   transferencias.value = await  getTransferenciasById(user_id_tmp.value);
+   //transferencias.value.push(nuevaTransferencia);
+    transferencias.value = await  getTransferenciasById(user_id_tmp.value);
 
     limpiarFormulario();
 

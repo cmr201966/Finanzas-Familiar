@@ -36,6 +36,8 @@ import TipoCuenta from '../assets/img/tarjetas/TCB.png'
 import ingresos from '../assets/img/tarjetas/ingresos.png'
 import gastos from '../assets/img/tarjetas/Gastos.png'
 import transferencia from '../assets/img/tarjetas/transf.png'
+import transacciones from '../assets/img/tarjetas/transacciones.png'
+
 
 const router = useRouter()
 const { t } = useI18n()
@@ -48,7 +50,8 @@ const images = ref([
   { src: presupuesto, alt: 'home.presupuesto', name: 'presupuesto' },
   { src: ingresos, alt: 'home.ingresos', name: 'ingresos' },
   { src: gastos, alt: 'home.gastos', name: 'gastos' },
-  { src: transferencia, alt: 'home.transferencias', name: 'transferencias' }
+  { src: transferencia, alt: 'home.transferencias', name: 'transferencias' },
+  { src: transacciones, alt: 'home.transacciones', name: 'transacciones' }
 ])
 const currentIndex = ref(0)
 const visibleCount = 5
@@ -85,6 +88,9 @@ const handleClick = (image) => {
       break;
     case 'transferencias':
       router.push('/transferencias')
+      break;
+      case 'transacciones':
+      router.push('/Transacciones')
       break;
     default:
       alert(`Navegación no implementada para: ${t(image.alt)}`)
