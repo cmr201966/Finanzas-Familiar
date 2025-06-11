@@ -247,11 +247,14 @@ const form = ref({
 //ES PARA CARGAR LA VISTA
 
 onMounted(async () => {
+
   const user_id = await getUserByUserName(username)
   user_id_tmp.value=user_id.data.id
+
   cuentaOrigen.value = await getAccountById(user_id.data.id);
   cuentaDestino.value = await getAllAccounts();
-  transferencias.value= await getTransferenciasById(user_id.data.id);
+  transferencias.value= await getTransferenciasById(user_id_tmp.value);
+  console.log(transferencias.value)
 });
 
 const selectFecha = (fecha) => {
