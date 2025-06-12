@@ -1,17 +1,13 @@
-import axios from 'axios'
-
-//const API_URL = 'http://localhost:3000/api/auth'
-const API_URL = 'http://192.168.1.103:3000/api/auth'
+import api from './api'
 
 export const login = async (param) => {
-//  export const login = async (form) => {
     try {
-    //const res = await api.get('/accounts')
-    const response = await axios.post(`${API_URL}/login`, param)
+      // el /api
+      const response = await api.post('/auth/login', param)
 
     // Si el login fue exitoso, guarda el token
-    const token = response.data.data.token
-    localStorage.setItem('token', token)
+      const token = response.data.data.token
+      localStorage.setItem('token', token)
 
     return response.data
   } catch (error) {
