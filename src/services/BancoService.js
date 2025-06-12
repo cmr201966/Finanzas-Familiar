@@ -1,4 +1,3 @@
-// src/services/bancoService.js
 import api from './api'
 
 export async function getBancos() {

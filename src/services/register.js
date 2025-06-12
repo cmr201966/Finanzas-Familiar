@@ -1,14 +1,9 @@
-import axios from 'axios'
-
-const API_URL = 'http://localhost:3000/api/auth'
-const API_URL_USERS = 'http://localhost:3000/api/users'
-//const API_URL = 'http://192.168.1.103:3000/api/auth'
-//const API_URL_USERS = 'http://192.168.1.103:3000/api/users'
+import api from './api'
 
 // Registrar nuevo usuario
 export const register = async (param) => {
   try {
-    const response = await axios.post(`${API_URL}/register`, param)
+    const response = await api.post('/auth/register', param)
 
     // Si el registro fue exitoso, guarda el token (si lo devuelve)
     const token = response.data.data?.token
@@ -24,7 +19,7 @@ export const register = async (param) => {
 
 export const getUsers = async () => {
   try {
-    const response = await axios.get(`${API_URL_USERS}/search/}`, {
+    const response = await api.get('/users/search/', {
       headers: {
         Authorization: `Bearer ${localStorage.getItem('token')}`
       }
@@ -40,7 +35,7 @@ export const getUserById = async (id) => {
   try {
     console.log(id)
     //console.log(`${API_URL_USERS}/search/${id}`)
-    const response = await axios.get(`${API_URL_USERS}/search/${id}`, {
+    const response = await api.get(`${'/users/search/'}${id}`, {
       headers: {
         Authorization: `Bearer ${localStorage.getItem('token')}`
       }
@@ -53,8 +48,7 @@ export const getUserById = async (id) => {
 
 export const getUserByUserName = async (username) => {
   try {
-   //console.log(`${API_URL_USERS}/search/?username=${username}`)
-    const response = await axios.get(`${API_URL_USERS}/search/?username=${username}`, {
+    const response = await api.get(`${'/users/search/?username='}${username}`, {
       headers: {
         Authorization: `Bearer ${localStorage.getItem('token')}`
       }
@@ -68,7 +62,7 @@ export const getUserByUserName = async (username) => {
 // Actualizar usuario
 export const updateUser = async (id, param) => {
   try {
-    const response = await axios.put(`${API_URL}/users/${id}`, param, {
+    const response = await api.put(`${'/users/'}${id}`, param, {
       headers: {
         Authorization: `Bearer ${localStorage.getItem('token')}`
       }
