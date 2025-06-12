@@ -226,7 +226,8 @@ const router = useRouter();
 //PARA TODO LO REFERENTE A LA CATEGORIA
 // Cargando las categorias
 
-const editando = ref(false);
+const editarsn = ref(false);
+
 const search = ref("");
 const loading = ref(false);
 const cuentaOrigen = ref([]);
@@ -236,12 +237,14 @@ const menuFecha = ref(false);
 const pickerMes = ref(null);
 const user_id_tmp=ref('');
 
+
+// Para que el Formulario sea reactivo
 const form = ref({
-  cuentaOrigen: '',
-  cuentaDestino: '',
-  importe: '',
-  descripcion: '',
-  fecha: '',
+  from_account_id: '',
+  to_account_id: '',
+  amount: 0,
+  date: '',
+  description: '',
 })
 
 //ES PARA CARGAR LA VISTA
@@ -281,8 +284,21 @@ const headers = computed(() => [
 
 const enviando = ref(false)
 
-const editarTransferencia=(item)=>{
+const editarTransferencia = (item) => {
 
+  console.log(item)
+
+  editarsn.value = true
+
+  form.value = {
+    from_account_id: item.from_account_id,
+    to_account_id: item.to_account_id,
+    amount: item.amount,
+    date: item.date,
+    description: item.description,
+  }
+
+  console.log('Editando transferencia:', form.value)
 }
 
 const eliminarTransferencia=(item)=>{
