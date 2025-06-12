@@ -1,7 +1,4 @@
-// src/services/bancoService.js
 import api from './api'
-const API_URL = 'http://localhost:3000/api/Bancos'
-import axios from 'axios'
 
 export async function getBancos() {
   const response = await api.get('/bancos')
@@ -11,17 +8,16 @@ export async function getBancos() {
 
 export const crearBanco  = async (param) => {
     try {
-      const response = await axios.post(`${API_URL}/`, param)
+      const response = await api.post('/bancos', param)
       return response.data
   } catch (error) {
     throw error.response?.data || { message: 'Error inesperado' }
   }
 }
 
-
 export const editarBanco  = async (param, id) => {
     try {
-      const response = await axios.put(`${API_URL}/${id}`, param)
+      const response = await api.put(`${'/bancos'}/${id}`, param)
 
     return response.data
   } catch (error) {
@@ -31,7 +27,7 @@ export const editarBanco  = async (param, id) => {
 
 export const eliminarBanco = async (id) => {
   try {
-    const response = await axios.delete(`${API_URL}/${id}`, {
+    const response = await api.delete(`${'/bancos'}/${id}`, {
       headers: {
         Authorization: `Bearer ${localStorage.getItem('token')}`
       }

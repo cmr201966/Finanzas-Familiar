@@ -2,6 +2,7 @@ import api from './api'
 
 export const login = async (param) => {
     try {
+      // el /api
       // el /api ya esta en api.js en este caso queda /api/auth/login
       const response = await api.post('/auth/login', param)
 

@@ -1,10 +1,10 @@
-import axios from 'axios'
+import api from './api'
 
 const API_URL = 'http://192.168.1.103:3000/api/presupuestos'
 
 export const getPresupuestos = async () => {
   try {
-    const response = await axios.get(`${API_URL}/}`, {
+    const response = await api.get('/presupuestos', {
       headers: {
         Authorization: `Bearer ${localStorage.getItem('token')}`
       }
@@ -17,7 +17,7 @@ export const getPresupuestos = async () => {
 
 export const getPresupuestosById = async (id) => {
   try {
-      const response = await axios.get(`${API_URL}/id/${id}`, {
+      const response = await api.get(`${'/presupuestos'}/id/${id}`, {
       headers: {
         Authorization: `Bearer ${localStorage.getItem('token')}`
       }
@@ -31,7 +31,7 @@ export const getPresupuestosById = async (id) => {
 export const getPresupuestosByUserName = async (username) => {
   try {
      // console.log(`${API_URL}/username/${username}`)
-      const response = await axios.get(`${API_URL}/username/${username}`, {
+      const response = await api.get(`${'/presupuestos'}/username/${username}`, {
       headers: {
         Authorization: `Bearer ${localStorage.getItem('token')}`
       }
@@ -44,7 +44,7 @@ export const getPresupuestosByUserName = async (username) => {
 
 export const crearPresupuesto  = async (param) => {
     try {
-      const response = await axios.post(`${API_URL}/`, param)
+      const response = await api.post('/presupuestos', param)
       return response.data
   } catch (error) {
     throw error.response?.data || { message: 'Error inesperado' }
@@ -54,7 +54,7 @@ export const crearPresupuesto  = async (param) => {
 
 export const editarPresupuesto  = async (param) => {
     try {
-    const response = await axios.put(`${API_URL}/`, param)
+    const response = await api.put('/presupuestos', param)
 
     return response.data
   } catch (error) {
@@ -64,7 +64,7 @@ export const editarPresupuesto  = async (param) => {
 
 export const eliminarPresupuesto = async (id) => {
   try {
-    const response = await axios.delete(`${API_URL}/${id}`, {
+    const response = await api.delete(`${'/presupuestos'}/${id}`, {
       headers: {
         Authorization: `Bearer ${localStorage.getItem('token')}`
       }
