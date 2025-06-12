@@ -4,7 +4,6 @@ import api from './api'
 export async function getAllAccounts() {
   try {
     const res = await api.get('/accounts')
-    console.log(res)
     return res.data.data.accounts
   } catch (error) {
     console.error('Error al obtener cuentas:', error)
