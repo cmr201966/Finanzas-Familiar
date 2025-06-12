@@ -7,8 +7,8 @@ const API_URL = 'http://192.168.1.103:3000/api/accounts'
 // Obtener todas las cuentas
 export async function getAllAccounts() {
   try {
-    const response = await api.get('/accounts')
-    return response.data.data.accounts
+    const res = await api.get('/accounts')
+    return res.data.data.accounts
   } catch (error) {
     console.error('Error al obtener cuentas:', error)
     throw error
