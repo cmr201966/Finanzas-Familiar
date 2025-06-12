@@ -14,7 +14,7 @@ export async function getAllAccounts() {
 // Obtener una cuenta por ID
 export async function getAccountById(id) {
   try {
-    const response = await api.get(`${API_URL}/${id}`);
+    const response = await api.get(`/accounts/${id}`);
     //const res = await api.get(`/accounts/${id}`)
     return response.data.data.account
   } catch (error) {

@@ -3,7 +3,7 @@
     // Invocar el endpoint desde /services no desde la vista
     export const getCategorias = async () => {
         try {
-          const response = await api.get(`${API_URL}/search/`, {
+          const response = await api.get(`/accounts/search/`, {
             headers: {
               Authorization: `Bearer ${localStorage.getItem('token')}`
             }
@@ -16,8 +16,7 @@
 
       export const getCategoriasByType = async (type, iduser) => {
         try {
-            console.log(`${API_URL}/search/typeiduser/${type}/${iduser}`)
-            const response = await api.get(`${API_URL}/search/typeiduser/${type}/${iduser}`, {
+            const response = await api.get(`/accounts/search/typeiduser/${type}/${iduser}`, {
             headers: {
               Authorization: `Bearer ${localStorage.getItem('token')}`
             }
