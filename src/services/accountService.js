@@ -1,9 +1,5 @@
 import api from './api'
 
-import axios from 'axios'
-
-const API_URL = 'http://192.168.1.103:3000/api/accounts'
-
 // Obtener todas las cuentas
 export async function getAllAccounts() {
   try {
@@ -18,7 +14,7 @@ export async function getAllAccounts() {
 // Obtener una cuenta por ID
 export async function getAccountById(id) {
   try {
-    const response = await axios.get(`${API_URL}/${id}`);
+    const response = await api.get(`${API_URL}/${id}`);
     //const res = await api.get(`/accounts/${id}`)
     return response.data.data.account
   } catch (error) {
