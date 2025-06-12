@@ -16,7 +16,6 @@
 
       export const getCategoriasByType = async (type, iduser) => {
         try {
-            console.log(`${API_URL}/search/typeiduser/${type}/${iduser}`)
             const response = await api.get(`/accounts/search/typeiduser/${type}/${iduser}`, {
             headers: {
               Authorization: `Bearer ${localStorage.getItem('token')}`
