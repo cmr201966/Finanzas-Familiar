@@ -17,7 +17,16 @@
                         <hr class="divider" />
 
                         <!-- Banco -->
-                        <div class="form-field-horizontal input-with-icon">
+                        <v-col cols="12" md="12">
+                            <v-text-field
+                                v-model="banconame"
+                                :placeholder="$t('categoriaBanco.bank')"
+                                dense
+                                outlined
+                            />
+                        </v-col>
+
+                        <!-- <div class="form-field-horizontal input-with-icon">
                             <input  type="text"
                                     :placeholder="$t('categoriaBanco.bank')"
                                     v-model="banconame"
@@ -29,7 +38,7 @@
                                     prepend-inner-icon="mdi-calendar-month"
                                     ref="bankInput"
                             />
-                        </div>
+                        </div>-->
 
                         <!-- Raya de división -->
                         <hr class="divider" />

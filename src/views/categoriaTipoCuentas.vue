@@ -17,7 +17,16 @@
                         <hr class="divider" />
 
                         <!-- Input tipo de cuenta -->
-                        <div class="form-field-horizontal input-with-icon">
+
+                        <v-col cols="12" md="12">
+                            <v-text-field
+                                v-model="tipocuentaname"
+                                :placeholder="$t('categoriaTipoCuenta.account_type')"
+                                dense
+                                outlined
+                            />
+                        </v-col>
+                        <!--<div class="form-field-horizontal input-with-icon">
                             <input  type="text"
                                     :placeholder="$t('categoriaTipoCuenta.account_type')"
                                     v-model="tipocuentaname"
@@ -29,7 +38,7 @@
                                     prepend-inner-icon="mdi-calendar-month"
                                     ref="tipocuentaInput"
                             />
-                        </div>
+                        </div>-->
 
                         <!-- Raya de división -->
                         <hr class="divider" />

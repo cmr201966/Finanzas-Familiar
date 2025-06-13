@@ -37,7 +37,6 @@
                                 class="mb-3 custom-height white-rounded"
                                 dense
                                 outlined
-                                clearable
                               />
                             </v-col>
                             <!-- Cuenta Destino -->
@@ -51,7 +50,6 @@
                                 class="mb-3 custom-height"
                                 dense
                                 outlined
-                                clearable
                               />
                             </v-col>
                           </v-row>
@@ -67,7 +65,6 @@
                                     type="number"
                                     dense
                                     outlined
-                                    clearable
                                   />
                                 </v-col>
                                   <!-- Fecha con Calendario -->
@@ -104,7 +101,6 @@
                                     :placeholder="$t('transferencias.description')"
                                     dense
                                     outlined
-                                    clearable
                                   />
                                 </v-col>
                               </v-row>
@@ -230,7 +226,7 @@ const transferencias = ref([]);
 const form = ref({
   from_account_id: '',
   to_account_id: '',
-  amount: 0,
+  amount: '',
   date: '',
   description: '',
 })
@@ -313,7 +309,7 @@ console.log('Descripción original:', item.description);
 form.value = {
   from_account_id: item.from_account_id || '',
   to_account_id: item.to_account_id || '',
-  amount: item.amount || 0,
+  amount: item.amount || '',
   fecha: fechaFormateada,  // usar el campo correcto
   description: item.description || '',  // si tu input usa form.descripcion
 
@@ -447,7 +443,7 @@ function limpiarFormulario() {
   form.value = {
     from_account_id: '',
     to_account_id: '',
-    amount: 0,
+    amount: '',
     date: '',
     description: '',
   };
@@ -602,20 +598,21 @@ function limpiarFormulario() {
   display: flex; /* ← clave */
   align-items: center; /* centra verticalmente */
   justify-content: center; /* centra horizontalmente */
-  padding: 10px 30px;
-  font-size: 12px;
+  padding: 10px 20px;
+  font-size: 10px;
   border: none;
   border-radius: 6px;
   cursor: pointer;
   width: 75px;
-  height: 30px;
+  height: 40px;
   font-style: "popins";
-  margin-bottom: 10px;
+  margin-left: 40px;
 }
 
 .btn-aceptar {
   background-color: #196c2c; /* verde */
   color: white;
+
 }
 
 .btn-cancelar {
