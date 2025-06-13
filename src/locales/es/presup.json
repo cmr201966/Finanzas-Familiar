@@ -7,6 +7,8 @@
   "amount": "Importe",
   "submit": "Aceptar",
   "cancel": "Cancelar",
+  "delete":"Delete",
+
   "actions":"Acciones"
 
 }

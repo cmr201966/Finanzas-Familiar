@@ -24,3 +24,28 @@ export const guardarTransferencia = async (param) => {
         throw error.response?.data || { message: 'Error inesperado' }
     }
 }
+
+
+export async function updateTransferencia(id, transferencia) {
+    try {
+        const res = await api.put(`/transferenciass/${id}`, transferencia)
+        return res.data
+    } catch (error) {
+    console.error(`Error al actualizar transferencia con ID ${id}:`, error)
+    throw error
+    }
+}
+
+
+export const eliminarTransferencia = async (id) => {
+    try {
+        const response = await api.delete(`${'/transferencias'}/${id}`, {
+        headers: {
+        Authorization: `Bearer ${localStorage.getItem('token')}`
+        }
+    })
+    return response.data
+    } catch (error) {
+    throw error.response?.data || { message: 'Error eliminando la transferencia' }
+    }
+}

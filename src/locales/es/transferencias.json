@@ -10,6 +10,7 @@
     "submit": "Aceptar",
     "cancel": "Cancelar",
     "actions":"Acción",
+    "delete":"Eliminar",
     "message-kill1":"¿Estas seguro?",
     "message-kill2" :"¿Deseas eliminar esta transferencia? Esta acción no se puede deshacer"
 
