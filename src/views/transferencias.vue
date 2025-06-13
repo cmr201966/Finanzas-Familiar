@@ -80,7 +80,7 @@
                                     >
                                       <template #activator="{ props }">
                                         <v-text-field
-                                          v-model="form.date"
+                                          v-model="form.fecha"
                                           :label="$t('transferencias.date')"
                                           readonly
                                           v-bind="props"
@@ -89,8 +89,7 @@
                                       </template>
 
                                       <v-date-picker
-                                        v-model="form.date"
-                                        @update:model-value="menuFecha = false"
+                                        @update:model-value="selectFecha"
                                         color="primary"
                                       />
                                     </v-menu>
@@ -110,15 +109,15 @@
                                 </v-col>
                               </v-row>
 
-                            <!-- Botones -->
+                            <!-- Botones de  Aceptar y cancelar -->
+
                             <div class="form-buttons">
-                              <v-btn  color= #196c2c
-                                      :loading="enviando" type="submit" >
-                                {{ $t("transferencias.submit") }}
-                              </v-btn>
-                              <v-btn color=#dc3545 @click="cancelarFormulario">
-                                {{ $t("transferencias.cancel") }}
-                              </v-btn>
+
+                                <!-- Botón Aceptar (verde) -->
+                                <v-btn @click="submitForm" :disabled="enviando " :loading="enviando" class="btn btn-aceptar">{{ $t("transferencias.submit") }}</v-btn>
+
+                                <!-- Botón Cancelar (rojo) -->
+                                <v-btn @click="cancelarFormulario" :disabled="enviando" class="btn btn-cancelar"> {{ $t("transferencias.cancel") }}</v-btn>
                             </div>
                           </form>
 
@@ -301,26 +300,40 @@ const enviando = ref(false)
 
 function editarTransferenciaVista(item) {
   editando.value = true;
+// Formatea la fecha si viene como ISO (yyyy-mm-dd) u objeto Date
+const fecha = new Date(item.date);
+const dia = fecha.getDate().toString().padStart(2, '0');
+const mes = (fecha.getMonth() + 1).toString().padStart(2, '0');
+const anio = fecha.getFullYear();
+const fechaFormateada = `${dia}/${mes}/${anio}`;
 
-  form.value = {
-    from_account_id: item.from_account_id || '',
-    to_account_id: item.to_account_id || '',
-    amount: item.amount || 0,
-    date: item.date || '',
-    description: item.description || '',
-  }
+console.log('Descripción original:', item.description);
 
+
+form.value = {
+  from_account_id: item.from_account_id || '',
+  to_account_id: item.to_account_id || '',
+  amount: item.amount || 0,
+  fecha: fechaFormateada,  // usar el campo correcto
+  description: item.description || '',  // si tu input usa form.descripcion
+
+
+
+}
   transferenciaSeleccionado.value = item;
+  console.log('Formulario resultante:', form.value)
 }
 
 const mostrarDialogoEliminar = ref(false)
 const transferenciaAEliminarId = ref(null);
+
 
 function eliminarTransferenciaVista(id) {
 
     transferenciaAEliminarId .value = id;
     mostrarDialogoEliminar.value = true;
 }
+
 
 async function confirmarEliminacion() {
 
@@ -333,8 +346,8 @@ async function confirmarEliminacion() {
 
     await eliminarTransferencia(transferenciaAEliminarId.value);
 
-  // Recargando la tabla de presupuestos
-    transferencias.value= await getTransferenciasById();
+  // Recargando la tabla de transferencias
+    transferencias.value= await getTransferenciasById(user_id_tmp.value);
 
    // Cerrar el diálogo
 
@@ -354,7 +367,7 @@ const submitForm = async () => {
 const origen = form.value.from_account_id;
 const destino = form.value.to_account_id;
 const importe = form.value.amount;
-const fecha = form.value.date;
+const fecha = form.value.fecha;
 
 
 
@@ -381,14 +394,14 @@ const fecha = form.value.date;
       from_account_id: origen,
       to_account_id: destino,
       amount: importe,
-      //date: fecha,
-      date:form.value.fecha,
-      description: form.value.descripcion,
+      date: fecha,
+      description: form.value.description,
       user_id: user_id_tmp.value
 
     };
 
     // Guardar en la BD (ajusta según tu servicio real)
+
     await guardarTransferencia(nuevaTransferencia);
 
     // Agregar a la tabla
@@ -454,7 +467,6 @@ function limpiarFormulario() {
   text-overflow: ellipsis; /* Agrega "..." si no cabe el texto */
 }
 
-
 .custom-height {
   height: 40px; /* o el valor que uses en los inputs normales */
   font-size: 12px;
@@ -515,6 +527,7 @@ function limpiarFormulario() {
   border: 2px solid blue;
   width: 500px;
   margin: auto;
+
 }
 
 

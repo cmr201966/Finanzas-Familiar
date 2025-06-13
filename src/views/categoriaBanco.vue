@@ -196,7 +196,6 @@ async function confirmarEliminacion() {
     // Aquí se hace la petición para eliminar el registro desde la base de datos
 
     await eliminarBanco(bancoAEliminarId.value);
-    console.log("1")
 
   // Recargando la tabla de presupuestos
     bancos.value= await getBancos();
