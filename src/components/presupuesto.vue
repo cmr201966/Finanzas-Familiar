@@ -12,95 +12,77 @@
                     <hr class="divider" />
 
                     <!-- Formulario directamente sobre fondo de gradiente -->
-
-                    <v-form @submit.prevent="submitForm" class="form-content">
+                    <div class="presupuesto-container"></div>
+                      <v-form @submit.prevent="submitForm">
 
                         <!--Input para seleccionar la categoria  :placeholder="$t('presup.category')" :label="$t('presup.category')"-->
 
-                        <v-autocomplete
-                            v-model="form.categoria_id"
-                            :items="categorias"
-                            item-title="name"
-                            item-value="id"
-                            :label="form.categoria_id ? '' : $t('presup.category')"
-                            :search-input.sync="search"
-                            :loading="loading"
-                            hide-no-data
-                            hide-selected
-                            required
-                            hide-details
-                            density="compact"
-                            class="custom-white-input"
-                            :clearable="false"
-                            style="background-color: white"
-                            prepend-inner-icon="mdi-format-list-bulleted"
-                            border-radios="4px"
-                        />
+                        <v-row>
+                            <v-col cols="12" md="12">
+                              <v-autocomplete
+                                v-model="form.categoria_id"
+                                :items="categorias"
+                                item-title="name"
+                                item-value="id"
+                                :label="form.categoria_id ? '' : $t('presup.category')"
+                                class="mb-3 custom-height"
+                                :loading="loading"
+                                density="compact"
+                                dense
+                                outlined
+                              />
+                            </v-col>
+                          </v-row>
 
-                        <!-- Slot para personalizar cómo se muestra la categoría seleccionada -->
+                        <!-- Slot para personalizar cómo se muestra la categoría seleccionada-->
                         <template #selection="{ item, index }">
                             <span v-if="item && typeof item === 'object'">{{ item.name }}</span>
                         </template>
 
-                        <!--Input para seleccionar el mes -->
-                        <v-menu
-                            v-model="menuMes"
-                            :close-on-content-click="false"
-                            transition="scale-transition"
-                            offset-y
-                            max-width="290px"
-                            min-width="auto"
-                        >
+                        <!-- Importe y Fecha (alineados horizontalmente)-->
 
-                            <!-- Activador: el input que abre el menú -->
-
-                            <template #activator="{ props }">
-                                <v-text-field
-                                    v-model="form.mes"
-                                    v-bind="props"
-                                    :label="$t('presup.month')"
-                                    placeholder="Ej: mayo de 2025"
-                                    readonly
-                                    required
-                                    hide-details
+                            <v-row>
+                                  <!-- Importe -->
+                                <v-col cols="12" md="6">
+                                    <v-text-field
+                                    v-model="form.amount"
+                                    :label="$t('presup.amount')"
+                                    type="number"
+                                    dense
+                                    outlined
                                     density="compact"
-                                    class="custom-white-input"
-                                    prepend-inner-icon="mdi-calendar-month"
-                                    />
-                            </template>
 
-                            <!-- Contenido del menú (picker de mes personalizado) -->
+                                  />
+                                </v-col>
+                                <!--Input para seleccionar el mes -->
 
-                            <v-date-picker
-                                v-model="pickerMes"
-                                @update:model-value="selectMes"
-                                color="primary"
-                                type="month"
-                                show-adjacent-months
-                                hide-header
-                                view-mode="month"
-                                >
+                                    <v-col cols="12" md="6">
+                                      <v-menu
+                                        v-model="menuMes"
+                                        :close-on-content-click="false"
+                                        transition="scale-transition"
+                                        offset-y
+                                      >
+                                      <template #activator="{ props }">
+                                        <v-text-field
+                                          v-model="form.mes"
+                                          :label="$t('presup.month')"
+                                          density="compact"
+                                          readonly
+                                          v-bind="props"
+                                          class="custom-heigt white-rounded "
+                                        />
+                                      </template>
 
-                                <!-- Header de navegación -->
+                                      <v-date-picker
+                                          @update:model-value="selectMes"
+                                          color="primary"
+                                      />
+                                    </v-menu>
+                                  </v-col>
+                            </v-row>
 
-                                <template #header="{ togglePreviousMonth, toggleNextMonth }">
-                                    <div class="d-flex justify-space-between pa-2">
-                                        <v-btn icon @click="goToPreviousMonth">
-                                            <v-icon>mdi-chevron-left</v-icon>
-                                        </v-btn>
-                                        <v-btn icon @click="goToNextMonth">
-                                            <v-icon>mdi-chevron-right</v-icon>
-                                        </v-btn>
-                                    </div>
-                                </template>
-                            </v-date-picker>
-                        </v-menu>
 
-                        <!-- input importe -->
-                        <div class="form-field-horizontal input-with-icon">
-                            <img src="../assets/img/icono/dinero.png" class="input-icon-inside" />
-                            <input type="number" :placeholder="$t('presup.amount')" v-model="form.importe" class="custom-input" />
-                        </div>
 
                         <hr class="divider1" />
 
@@ -116,10 +98,10 @@
 
                             <v-btn @click="cancelarFormulario" :disabled="enviando" class="btn btn-cancelar"> {{ $t("presup.cancel") }}</v-btn>
                         </div>
-                    </v-form>
+                      </v-form>
 
-                    <!-- Tabla de presupuestos por mes -->
-                    <div style="max-height: 400px; overflow-y: auto;">
+                      <!-- Tabla de presupuestos por mes -->
+                      <div style="max-height: 400px; overflow-y: auto;">
                         <v-data-table
                           :headers="headers"
                           :items="presupuestos"
@@ -140,8 +122,8 @@
                             </div>
                           </template>
                         </v-data-table>
-                    </div>
-                    <v-dialog v-model="mostrarDialogoEliminar" max-width="400">
+                      </div>
+                      <v-dialog v-model="mostrarDialogoEliminar" max-width="400">
                       <v-card>
                         <v-card-title class="text-h6">¿Estás seguro?</v-card-title>
                             <v-card-text>¿Deseas eliminar este presupuesto? Esta acción no se puede deshacer.</v-card-text>
@@ -150,9 +132,9 @@
                                   <v-btn color="red" text @click="confirmarEliminacion">Eliminar</v-btn>
                               </v-card-actions>
                       </v-card>
-                    </v-dialog>
+                      </v-dialog>
+                    </div>
                   </div>
-                </div>
     </div>
 </div>
 </template>
@@ -235,8 +217,11 @@ const loading = ref(false);
 //ES PARA CARGAR LA VISTA
 
 onMounted(async () => {
+
   categorias.value = await getCategoriasByType('gasto', username);
+
   presupuestos.value= await getPresupuestosByUserName(username);
+
 });
 
 //PARA EL BOTON ACEPTAR
@@ -433,6 +418,14 @@ const cargarPresupuestos = async () => {
   border-radius: 4px;                 /* bordes redondeados opcionales */
 }
 
+.mb-3 {
+  margin-bottom: 16px;
+}
+.custom-height {
+  height: 40px; /* o el valor que uses en los inputs normales */
+  font-size: 12px;
+}
+
 /* Contenedor general de la página, centrado vertical y horizontal */
 
 .login-page {
@@ -482,13 +475,6 @@ const cargarPresupuestos = async () => {
   margin: auto;
 }
 
-.form-content {
-  display: flex;
-  flex-direction: column;
-  width: 75%;
-  gap: 8px;
-}
-
 .user-icon {
   width: 50px;
   height: 50px;
@@ -496,15 +482,27 @@ const cargarPresupuestos = async () => {
 }
 
 .divider {
-  width: 80%;
-  border: 1px solid black;
-  margin: 10px 0;
-  max-width: 350px;
+  height: 2px;
+    background-color: #010000;
+    border: none;
+    margin: 1rem auto;
+    width: 100%; /* o 100%, o un valor fijo como 300px */
+    display: block;
 }
 
 .divider1 {
-  width: 105%;
-  border: 1px solid black;
+  height: 2px;
+    background-color: #010000;
+    border: none;
+    margin: 1rem auto;
+    width: 100%; /* o 100%, o un valor fijo como 300px */
+    display: block;
+}
+
+.presupuesto-container {
+  max-width: 600px;
+  margin: auto;
+  padding: 10px;
 }
 
 /*Titulo de la opcion*/
@@ -620,6 +618,7 @@ const cargarPresupuestos = async () => {
   height: 30px;
   font-style: "popins";
   margin-bottom: 10px;
+  margin-top: 10px;
 }
 
 .btn-aceptar {

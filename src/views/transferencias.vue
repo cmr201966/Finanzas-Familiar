@@ -37,6 +37,7 @@
                                 class="mb-3 custom-height white-rounded"
                                 dense
                                 outlined
+                                density="compact"
                               />
                             </v-col>
                             <!-- Cuenta Destino -->
@@ -50,6 +51,7 @@
                                 class="mb-3 custom-height"
                                 dense
                                 outlined
+                                density="compact"
                               />
                             </v-col>
                           </v-row>
@@ -65,6 +67,7 @@
                                     type="number"
                                     dense
                                     outlined
+                                    density="compact"
                                   />
                                 </v-col>
                                   <!-- Fecha con Calendario -->
@@ -81,6 +84,7 @@
                                           :label="$t('transferencias.date')"
                                           readonly
                                           v-bind="props"
+                                          density="compact"
                                           class="custom-heigt white-rounded"
                                         />
                                       </template>
@@ -101,9 +105,12 @@
                                     :placeholder="$t('transferencias.description')"
                                     dense
                                     outlined
+                                    density="compact"
                                   />
                                 </v-col>
                               </v-row>
+
+                            <hr class="divider" />
 
                             <!-- Botones de  Aceptar y cancelar -->
 
@@ -131,6 +138,7 @@
                               fixed-header
                               height="150"
                               dense
+
                             >
                               <template #item.acciones="{ item }">
                                 <div class="d-flex align-center">
@@ -549,13 +557,6 @@ function limpiarFormulario() {
   border: 1px solid black;
   margin: 10px 0;
   max-width: 350px;
-}
-
-.form-content {
-  display: flex;
-  flex-direction: column;
-  width: 75%;
-  gap: 8px;
 }
 
 /* Fondo blanco y texto oscuro para inputs */

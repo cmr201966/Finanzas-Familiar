@@ -55,19 +55,56 @@
                     <hr class="divider" />
 
                     <form autocomplete="off">
-                        <!-- Usuario -->
+                        <!-- Usuario
                         <div class="form-field-horizontal input-with-icon">
                             <img src="../assets/img/icono/username.png" class="input-icon-inside" alt="usuario" />
                             <input type="text" :placeholder="$t('login.Enter username, email or mobile')" v-model="username"
                             name="username" autocomplete="off" class="custom-input"  id="new-user" ref="usernameInput"/>
+                        </div>-->
+                        <div class="login-container">
+                            <form @submit.prevent="submitForm">
+                                <v-row>
+                                    <v-col cols="12" md="12" class="py-1">
+                                        <v-text-field
+                                            v-model="username"
+                                            :placeholder="$t('login.Enter username, email or mobile')"
+                                            :type="text"
+                                            prepend-inner-icon="mdi-account"
+                                            name="username"
+                                            id="new-user"
+                                            ref="usernameInput"
+                                            dense
+                                            outlined
+                                            class="custom-small-input"
+                                            density="compact"
+                                        />
+                                    </v-col>
+                                    <v-col cols="12" md="12" class="py-1">
+                                        <v-text-field
+                                        v-model="password"
+                                        :placeholder="$t('login.password')"
+                                        :type="showPassword ? 'text' : 'password'"
+                                        prepend-inner-icon="mdi-lock"
+                                        :append-inner-icon="showPassword ? 'mdi-eye-off' : 'mdi-eye'"
+                                        @click:append-inner="toggleShowPassword"
+                                        name="password"
+                                        id="new-user"
+                                        dense
+                                        outlined
+                                        class="custom-small-input"
+                                        autocomplete="password"
+                                        density="compact"
+                                        />
+                                    </v-col>
+                                </v-row>
+                            </form>
                         </div>
-
-                        <!-- Contraseña -->
+                        <!-- Contraseña
                         <div class="form-field-horizontal input-with-icon">
                         <img src="../assets/img/icono/pwd.png" class="input-icon-inside" alt="contraseña" />
                         <input :type="showPassword ? 'text' : 'password'" :placeholder="$t('login.password')" v-model="password" autocomplete="password" class="custom-input" />
                         <img class="icono-ojo" :src="showPassword ? eyeIcon : eyeOffIcon" @click="showPassword = !showPassword" />
-                        </div>
+                        </div> -->
 
                         <!-- Raya de división -->
                         <hr class="divider" />
@@ -80,13 +117,15 @@
 
                             <!--   Boton login-->
 
-                            <div class="register-link">
+                            <div class="register-link text-center mt-2">
 
                                 {{ $t('login.no_account') }}
                                 <!--<router-link to="/register">{{ $t('login.sign_up') }}</router-link>-->
 
-                                <router-link :to="{ name: 'Registrarse', params: { username: '' } }">
-                                    {{ $t('login.sign_up') }}
+                                <router-link
+                                        :to="{ name: 'Registrarse',
+                                        params: { username: '' } }">
+                                        {{ $t('login.sign_up') }}
                                 </router-link>
                             </div>
 
@@ -161,7 +200,9 @@ const showPassword = ref(false)
 const eyeIcon = new URL('../assets/img/icono/ojo.png', import.meta.url).href
 const eyeOffIcon = new URL('../assets/img/icono/ojo-cerrado.png', import.meta.url).href
 
-
+function toggleShowPassword() {
+    showPassword.value = !showPassword.value
+}
 
 // Función para manejar login (comentario: función asíncrona de login)
 
@@ -208,6 +249,13 @@ async function handleLogin(event) {
 
 
 <style scoped>
+
+.login-container {
+    max-width: 600px;
+    margin: auto;
+    padding: 10px;
+}
+
 /* Fondo general de la página */
 
 /* Contenedor general de la página, centrado vertical y horizontal */
@@ -323,11 +371,11 @@ async function handleLogin(event) {
 
 /* Línea divisoria */
 .divider {
-    height: 2px;
+     height: 2px;
     background-color: #010000;
     border: none;
     margin: 1rem auto;
-    width: 80%; /* o 100%, o un valor fijo como 300px */
+    width: 100%; /* o 100%, o un valor fijo como 300px */
     display: block;
 }
 
@@ -467,6 +515,10 @@ input::placeholder {
     padding: 2px 0; /* Ajusta el alto vertical */
     padding-inline: 7px;
     min-height: 32px;
+}
+
+.custom-small-input input {
+    font-size: 12px !important;
 }
 
 .custom-input {
