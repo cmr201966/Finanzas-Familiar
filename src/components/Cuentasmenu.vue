@@ -4,7 +4,7 @@
       <p class="crear">{{ $t('cuentas.crear' )}}</p>
       <hr class="mi-barra" />
 
-      <img class="img-nombre" src="../assets/img/icono/cuenta.png" alt="">
+      <img class="img-nombre-c" src="../assets/img/icono/cuenta.png" alt="">
       <div class="entrada-nombre">
         <input class="in-nombre" type="text" v-model="form.nombreCuenta" :placeholder="$t('cuentas.placeholderNombreCuenta')" />
       </div>
@@ -271,36 +271,36 @@ position: absolute;
   font-size: 1vw;
   height: auto;
 }
-.img-nombre{
+.img-nombre-c{
   position: absolute;
-  top: 14.4% ;
-  left: 13%;
-  width: 8%;
-  height: 8%;
+  top: 15.2% ;
+  left: 14%;
+  width: 6%;
+  height: 6%;
   z-index: 1000;
 }
 .img-banco{
   position: absolute;
-  top: 22.4% ;
-  left: 13%;
-  width: 8%;
-  height: 8%;
+  top: 23.2% ;
+  left: 14%;
+  width: 6%;
+  height: 6%;
   z-index: 1000;
 }
 .img-tipo{
   position: absolute;
-  top: 30.4% ;
-  left: 13%;
-  width: 8%;
-  height: 8%;
+  top: 31.2% ;
+  left: 14%;
+  width: 6%;
+  height: 6%;
   z-index: 1000;
 }
 .img-cuentaP{
   position: absolute;
   top: 46.4% ;
   left: 13%;
-  width: 8%;
-  height: 8%;
+  width: 6%;
+  height: 6%;
   z-index: 1000;
 }
 .img-notificaciones{
@@ -313,10 +313,10 @@ position: absolute;
 }
 .img-saldo{
   position: absolute;
-  top: 38.4% ;
-  left: 53%;
-  width: 8%;
-  height: 8%;
+  top: 39.2% ;
+  left: 54%;
+  width: 6%;
+  height: 6%;
   z-index: 1000;
 }
 .logo-cuentas {
@@ -523,17 +523,12 @@ position: absolute;
   gap: 1vw;
 }
  .save{
-  width: 5vw !important;
-  height: 5vh !important;
-  min-width: 1vw;
-}
-.editar{
- width: 5vw !important;
+  width: 6vw !important;
   height: 5vh !important;
   min-width: 1vw;
 }
 .cancelar{
- width: 5vw !important;
+ width: 6vw !important;
   height: 5vh !important;
   min-width: 1vw;
 }
@@ -577,7 +572,7 @@ position: absolute;
 }
 }
 
-@media (max-width: 500px) {
+@media (max-width: 480px) {
   .entrada-nombre input{
   font-size: 1.5vw;
     width: 75% !important;}
@@ -608,23 +603,17 @@ position: absolute;
   }
 
 .botones {
-  top: 76%;
-  left: 40%;
-  flex-direction: column;
+  top: 60%;
+  left: -10%;
   gap: 1vw;
 }
  .save{
-  width: 2vw !important;
-  height: 4.5vh !important;
-  min-width: 1vw;
-}
-.editar{
- width: 2vw !important;
+  width: 10vw !important;
   height: 4.5vh !important;
   min-width: 1vw;
 }
 .cancelar{
-  width: 2vw !important;
+  width: 10vw !important;
   height: 4.5vh !important;
   min-width: 1vw;
 }
