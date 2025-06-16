@@ -15,12 +15,13 @@
 
                         <!-- Raya de división -->
                         <hr class="divider" />
-
+                        
                         <!-- Banco -->
                         <v-col cols="12" md="12">
                             <v-text-field
                                 v-model="banconame"
                                 :placeholder="$t('categoriaBanco.bank')"
+                                class="mb-3 custom-height"
                                 dense
                                 outlined
                             />
@@ -386,9 +387,18 @@ function cancelarFormulario() {
     height: 2px;
     background-color: #010000;
     border: none;
-    margin: 1rem auto;
+    margin: 10px;
     width: 80%; /* o 100%, o un valor fijo como 300px */
     display: block;
+}
+
+
+.mb-3 {
+  margin-bottom: 14px;
+}
+.custom-height {
+  height: 30px; /* o el valor que uses en los inputs normales */
+  font-size: 12px;
 }
 
 

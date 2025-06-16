@@ -8,6 +8,10 @@
   "submit": "Accept",
   "cancel": "Cancel",
   "delete":"Delete",
-  "actions":"Actions"
+  "actions":"Actions",
+  "required": "This field is required",
+  "only_numbers":  "Only valid numbers are allowed",
+  "no_negative": "Negative numbers are not allowed"
+
 
 }

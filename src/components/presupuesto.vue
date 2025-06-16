@@ -44,10 +44,18 @@
                             <v-row>
                                   <!-- Importe -->
                                 <v-col cols="12" md="6">
-                                    <v-text-field
-                                    v-model="form.amount"
+                                  <v-text-field
+                                    v-model.number="form.monto"
                                     :label="$t('presup.amount')"
                                     type="number"
+                                    min="0"
+                                    step="0.01"
+                                    @keypress="soloNumerosDecimal"
+                                    :rules="[
+                                      v => v !== null && v !== '' || $t('presup.required'),
+                                      v => !isNaN(v) || $t('presup.only_numbers'),
+                                      v => parseFloat(v) >= 0 || $t('presup.no_negative')
+                                    ]"
                                     dense
                                     outlined
                                     density="compact"
@@ -75,7 +83,9 @@
                                       </template>
 
                                       <v-date-picker
+                                          type="month"
                                           @update:model-value="selectMes"
+                                          :min="fechaMinima"
                                           color="primary"
                                       />
                                     </v-menu>
@@ -92,11 +102,18 @@
 
                             <!-- Botón Aceptar (verde) -->
 
-                            <v-btn @click="submitForm" :loading="enviando" class="btn btn-aceptar">{{ $t("presup.submit") }}</v-btn>
+                            <v-btn
+                                @click="submitForm"
+                                :loading="enviando"
+                                :disabled="!formValido"
+                                class="btn btn-aceptar">{{ $t("presup.submit") }}</v-btn>
 
                             <!-- Botón Cancelar (rojo) -->
 
-                            <v-btn @click="cancelarFormulario" :disabled="enviando" class="btn btn-cancelar"> {{ $t("presup.cancel") }}</v-btn>
+                            <v-btn
+                                @click="cancelarFormulario"
+                                :disabled="enviando"
+                                class="btn btn-cancelar"> {{ $t("presup.cancel") }}</v-btn>
                         </div>
                       </v-form>
 
@@ -113,10 +130,14 @@
                         >
                           <template #item.acciones="{ item }">
                             <div class="d-flex align-center">
-                              <v-btn icon class="bg-transparent" @click="editarPresupuestoVista(item)">
+                              <v-btn  icon
+                                      class="bg-transparent"
+                                      @click="editarPresupuestoVista(item)">
                                 <v-icon size="18">mdi-pencil</v-icon>
                               </v-btn>
-                              <v-btn icon class="bg-transparent" @click="eliminarPresupuestoVista(item.id)">
+                              <v-btn  icon
+                                      class="bg-transparent"
+                                      @click="eliminarPresupuestoVista(item.id)">
                                 <v-icon size="18" color="red">mdi-delete</v-icon>
                               </v-btn>
                             </div>
@@ -152,36 +173,32 @@ import { editarPresupuesto } from '@/services/presupuestos';
 import { eliminarPresupuesto } from '@/services/presupuestos' ;
 
 
-//usuario autentificado
-const username = localStorage.getItem('username')
 
-// PARA TODO LO REFERENTE AL IDIOMA
-const { locale, t } = useI18n();
-
+const username = localStorage.getItem('username') //usuario autentificado
 const router = useRouter();
+const { locale, t } = useI18n();                // PARA TODO LO REFERENTE AL IDIOMA
+
 
 //PARA TODO LO REFERENTE AL MES
 const menuMes = ref(false);
 const pickerMes = ref("");
+const hoy = new Date();
+const año = hoy.getFullYear();
+const mes = String(hoy.getMonth() + 1).padStart(2, '0');
+const fechaMinima = `${año}-${mes}`;
+
 
 const goToPreviousMonth = () => {
-  const current = new Date(pickerMes.value);
-  current.setMonth(current.getMonth() - 1);
-  pickerMes.value = current.toISOString().slice(0, 10);
+    const current = new Date(pickerMes.value);
+    current.setMonth(current.getMonth() - 1);
+    pickerMes.value = current.toISOString().slice(0, 10);
 };
 
 const goToNextMonth = () => {
-  const current = new Date(pickerMes.value);
-  current.setMonth(current.getMonth() + 1);
-  pickerMes.value = current.toISOString().slice(0, 10);
+    const current = new Date(pickerMes.value);
+    current.setMonth(current.getMonth() + 1);
+    pickerMes.value = current.toISOString().slice(0, 10);
 };
-
-const form = ref({
-  importe: "",
-  categoria: null,
-  mes: "", // 🟢 Mostrado en el input: "mayo de 2025"
-  mes_guardado: "", // 🟡 Usado para enviar al backend: "2025-05"
-});
 
 // Cuando el usuario elige el mes
 
@@ -189,20 +206,33 @@ const selectMes = (val) => {
   const date = new Date(val);
 
   if (!isNaN(date)) {
-    form.value.mes_guardado = date.toISOString().slice(0, 7); // "YYYY-MM"
-    form.value.mes = date.toLocaleDateString("es-ES", {
-      year: "numeric",
-      month: "long",
-    });
+    // Fecha mínima: primer día del mes actual
+    const hoy = new Date();
+    const inicioMesActual = new Date(hoy.getFullYear(), hoy.getMonth(), 1);
+
+    if (date >= inicioMesActual) {
+      form.value.mes_guardado = date.toISOString().slice(0, 7); // "YYYY-MM"
+      form.value.mes = date.toLocaleDateString("es-ES", {
+        year: "numeric",
+        month: "long",
+      });
+      menuMes.value = false;
+    } else {
+      // Opcional: mensaje de error o simplemente ignorar
+      alert("No puede seleccionar meses anteriores al actual.");
+    }
   }
-
-  menuMes.value = false;
 };
 
-const formatearMes = (fechaStr) => {
-  const date = new Date(fechaStr);
-  return date.toLocaleDateString("es-ES", { year: "numeric", month: "long" });
-};
+
+
+const form = ref({
+    monto: "",
+    categoria: null,
+    mes: "", // 🟢 Mostrado en el input: "mayo de 2025"
+    mes_guardado: "", // 🟡 Usado para enviar al backend: "2025-05"
+});
+
 
 //PARA TODO LO REFERENTE A LA CATEGORIA
 // Cargando las categorias
@@ -213,14 +243,12 @@ const search = ref("");
 const loading = ref(false);
 
 
-
 //ES PARA CARGAR LA VISTA
 
 onMounted(async () => {
 
-  categorias.value = await getCategoriasByType('gasto', username);
-
-  presupuestos.value= await getPresupuestosByUserName(username);
+    categorias.value = await getCategoriasByType('gasto', username);
+    presupuestos.value= await getPresupuestosByUserName(username);
 
 });
 
@@ -252,6 +280,34 @@ function limpiarFormulario() {
   };
 }
 
+const formValido = computed(() => {
+  return (
+    form.value.monto !== '' && form.value.monto !== null && Number(form.value.monto) >= 0 &&
+    form.value.categoria_id !== null && form.value.categoria_id !== '' &&
+    form.value.mes !== '' && form.value.mes !== null
+  );
+});
+
+function soloNumerosDecimal(e) {
+    const key = e.key;
+    const valor = e.target.value;
+
+    // Permitir números del 0 al 9
+    if (/[0-9]/.test(key)) return;
+
+    // Permitir solo un punto decimal
+    if (key === '.' && !valor.includes('.')) return;
+
+    // Bloquear todo lo demás
+    e.preventDefault();
+}
+
+watch(() => form.value.monto, (val) => {
+    if (val < 0 || isNaN(val)) {
+      form.value.monto = 0;
+    }
+});
+
 //Editar Presupuesto
 function editarPresupuestoVista(item) {
 
@@ -261,9 +317,12 @@ function editarPresupuestoVista(item) {
     categoria_id: item.categoria_id,
     categoria: item.categoria,
     monto: item.importe,
+
     mes: "2025-06",
 //    mes: item.mes,
     mes_guardado: item.mes_guardado || "",
+
+
   };
 }
 
@@ -291,6 +350,7 @@ async function confirmarEliminacion() {
 
   // Recargando la tabla de presupuestos
     presupuestos.value = await getPresupuestosByUserName(username);
+
 
    // Cerrar el diálogo
 
@@ -320,12 +380,13 @@ const submitForm = async () => {
       id: form.value.id,
       categoria_id: form.value.categoria_id,
       mes: Number(partes[1]),
-      monto_limite: form.value.importe,
+      monto_limite: form.value.monto,
       usuario_id: user.data.id,
     };
 
     let response;
     if (editarsn.value==true) {
+      console.log("nuevo:", nuevo)
 
       // Si existe id, significa que editamos un registro
       response = await editarPresupuesto(nuevo);
@@ -346,6 +407,8 @@ const submitForm = async () => {
     enviando.value = false;
   }
 };
+
+
 
 //PARA LOS BOTONES DE LA VISTA
 

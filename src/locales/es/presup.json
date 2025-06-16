@@ -8,7 +8,9 @@
   "submit": "Aceptar",
   "cancel": "Cancelar",
   "delete":"Delete",
-
-  "actions":"Acciones"
+  "actions":"Acciones",
+  "required": "Este campo es obligatorio",
+  "only_numbers": "Solo se permiten números válidos",
+  "no_negative": "No se permiten números negativos"
 
 }
