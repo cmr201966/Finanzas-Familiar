@@ -3,10 +3,11 @@
     <div class="fondo">
       <p class="crear">{{ $t('cuentas.crear' )}}</p>
       <hr class="mi-barra" />
-
-      <img class="img-nombre-c" src="../assets/img/icono/cuenta.png" alt="">
+    <img class="img-nombre-c" src="../assets/img/icono/cuenta.png" alt="">
       <div class="entrada-nombre">
-        <input class="in-nombre" type="text" v-model="form.nombreCuenta" :placeholder="$t('cuentas.placeholderNombreCuenta')" />
+        <input class="in-nombre" 
+        type="text" v-model="form.nombreCuenta" 
+        :placeholder="$t('cuentas.placeholderNombreCuenta')" />
       </div>
 
       <img class="img-banco" src="../assets/img/icono/banco.png" alt="">
@@ -32,7 +33,10 @@
 
       <img class="img-saldo" src="../assets/img/icono/dinero.png" alt="">
       <div class="entrada-saldo">
-        <input type="number" v-model="form.saldoInicial" :placeholder="$t('cuentas.placeholdersaldo')" />
+        <input type="number"
+        min="0"
+        v-model="form.saldoInicial" 
+        :placeholder="$t('cuentas.placeholdersaldo')" />
       </div>
 
       <div class="contenedor-p">
