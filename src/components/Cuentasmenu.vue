@@ -353,16 +353,20 @@ position: absolute;
     height: 5vh !important;
     font-size: 1vw;
 }
-
-.entrada-nombre input{
+.entrada-nombre {
   position: absolute;
   top: 15%;
   left: 13%;
+  width: 75%;
+}
+
+.entrada-nombre input {
+  width: 100%;
   background-color: white;
   border-radius: 1vw;
   border: 2px solid #000000;
-  width: 75%;
   padding-left: 8vw;
+  height: 5vh;
 }
 .entrada-banco select{
   position: absolute;
