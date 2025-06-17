@@ -1,11 +1,6 @@
 <template>
     <NavBar />
-    <Footer />
-    <div class="login-page">
-        <div class="login-box">
 
-            <!-- Parte derecha con fondo degradado -->
-            <div class="form-container">
                 <div class="form-gradient-box">
 
                         <div class="header-inline">
@@ -34,7 +29,7 @@
                                 item-title="name"
                                 item-value="id"
                                 :label="form.from_account_id ? '' : $t('transferencias.source_account')"
-                                class="mb-3 custom-height white-rounded"
+                                class="custom-height white-rounded"
                                 dense
                                 outlined
                                 density="compact"
@@ -48,7 +43,7 @@
                                 item-title="name"
                                 item-value="id"
                                 :label= "$t('transferencias.destination_account')"
-                                class="mb-3 custom-height"
+                                class="custom-height"
                                 dense
                                 outlined
                                 density="compact"
@@ -126,33 +121,36 @@
 
 
                           <!-- Tabla de transferencias -->
-                          <div class="mt-6" style="max-height: 300px; max-width: 400px; overflow-y: auto;">
+                          <v-card
+                            class="mx-auto mt-4 pa-2"
+                            elevation="8"
+                            style="max-width: 600px; border-radius: 16px; background-color: #f9f9f9;"
+                          >
                             <v-data-table
                               :headers="headers"
                               :items="transferencias"
                               item-value="id"
-                              class="elevation-1 font-tabla"
+                              class="tabla-transferencias"
                               :items-per-page="-1"
                               hide-default-footer
-                              style="min-width:300px;"
                               fixed-header
                               height="150"
                               dense
-
                             >
+                              <!-- Acciones -->
                               <template #item.acciones="{ item }">
-                                <div class="d-flex align-center">
-                                  <v-btn icon class="bg-transparent" @click="editarTransferenciaVista(item)">
+                                <div class="d-flex align-center justify-start" style="gap: 8px">
+                                  <v-btn icon variant="text" color="primary" @click="editarTransferenciaVista(item)">
                                     <v-icon size="18">mdi-pencil</v-icon>
                                   </v-btn>
-                                  <v-btn icon class="bg-transparent" @click="eliminarTransferenciaVista(item.id)">
-                                    <v-icon size="18" color="red">mdi-delete</v-icon>
+                                  <v-btn icon variant="text" color="error" @click="eliminarTransferenciaVista(item.id)">
+                                    <v-icon size="18">mdi-delete</v-icon>
                                   </v-btn>
                                 </div>
                               </template>
                             </v-data-table>
-                          </div>
-
+                          </v-card>
+                          
                           <!-- Diálogo de confirmación para eliminar -->
                           <v-dialog v-model="mostrarDialogoEliminar" max-width="400">
                             <v-card>
@@ -175,9 +173,8 @@
                         </div>
 
                 </div>
-            </div>
-        </div>
-    </div>
+
+  <Footer />
 </template>
 
 
@@ -462,6 +459,32 @@ function limpiarFormulario() {
 
 <style scoped>
 
+.font-tabla {
+  font-size: 0.85rem;
+  font-family: 'Roboto', sans-serif;
+}
+
+.tabla-transferencias .v-data-table-header th {
+  background-color: #e3f2fd; /* azul claro */
+  color: #0d47a1;
+  font-weight: 600;
+  font-size: 0.9rem;
+}
+
+.tabla-transferencias .v-data-table__td {
+  font-size: 0.85rem;
+  color: #333;
+  border-bottom: 1px solid #ccc;
+}
+
+.tabla-transferencias .v-data-table__wrapper {
+  border-radius: 10px;
+}
+
+.tabla-transferencias .v-data-table {
+  border-radius: 12px;
+}
+
 .v-data-table th,
 .v-data-table td {
   padding: 0px 2px;     /* Reduce padding */
@@ -476,18 +499,7 @@ function limpiarFormulario() {
   font-size: 12px;
 }
 
-.mb-3 {
-  margin-bottom: 16px;
-}
 
-.mb3-fecha{
-  margin-bottom: 16px;
-  background-color: #ffffff;
-  border-radius: 10px;
-  height: 40px;
-  margin-top: 15px;
-
-}
 
 .white-rounded .v-field {
   background-color: white;
@@ -508,16 +520,17 @@ function limpiarFormulario() {
   margin: auto;
   padding: 10px;
 }
-/* Parte derecha: formulario y fondo */
+/* Parte derecha: formulario y fondo
 .form-container {
-  max-width: 600px; /* Limita el ancho máximo del formulario */
+  max-width: 600px;
+  max-height: 400px;
   margin: auto;
   flex: 2;
   display: flex;
   align-items: center;
   justify-content: center;
-  padding: 10px;
-}
+  padding: 5px;
+}*/
 
 .form-gradient-box {
   border-radius: 10px;
@@ -529,7 +542,7 @@ function limpiarFormulario() {
   box-sizing: border-box;
   color: white;
   border: 2px solid blue;
-  width: 500px;
+  margin-top: 50px;
   margin: auto;
 
 }
@@ -624,7 +637,6 @@ function limpiarFormulario() {
 .name-opcion {
   font-family: "Poppins", sans-serif;
   font-size: 20px;
-  font-weight: 700;
   color: #070606;
   text-align: center;
   left: 8px;

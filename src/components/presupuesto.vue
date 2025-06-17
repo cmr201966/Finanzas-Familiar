@@ -335,6 +335,7 @@ function eliminarPresupuestoVista(id) {
 
   idParaEliminar.value = id;
   mostrarDialogoEliminar.value = true;
+  limpiarFormulario
 }
 
 async function confirmarEliminacion() {

@@ -65,43 +65,122 @@
                         <img src="../assets/img/icono/user.png" class="user-icon" alt="Icono usuario" />
                         <hr class="divider" />
 
-                        <!-- Nick Usuario -->
-                        <div class="form-field-horizontal input-with-icon">
-                            <img src="../assets/img/icono/username.png" class="input-icon-inside" />
-                            <input type="text" :placeholder="$t('register.nickname')" v-model="username" class="custom-input" />
-                        </div>
+                        <div class="registrarse-container">
+                          <form @submit.prevent="submitForm">
+                            <v-row>
 
+                              <!-- Nick Usuario -->
+                              <v-col cols="12" md="12">
+                                <v-text-field
+                                      v-model="username"
+                                      :placeholder="$t('register.nickname')"
+                                      :type="text"
+                                      prepend-inner-icon="mdi-account"
+                                      name="username"
+                                      id="new-user"
+                                      dense
+                                      outlined
+                                      class="custom-height mb-3 "
+                                      density="compact"
+                                      ref="usernameInput"
+                                      @keydown.enter="focusNext('inputFullName')"
+                                />
+                              </v-col>
 
-                        <!-- Nombre completo Usuario -->
-                        <div class="form-field-horizontal input-with-icon">
-                            <img src="../assets/img/icono/username.png" class="input-icon-inside" />
-                            <input type="text" :placeholder="$t('register.Enter the full name')" v-model="fullName" class="custom-input" />
-                        </div>
+                              <!-- Nombre completo Usuario -->
+                              <v-col cols="12" md="12">
+                                <v-text-field
+                                      v-model="fullName"
+                                      :placeholder="$t('register.Enter the full name')"
+                                      :type="text"
+                                      prepend-inner-icon="mdi-account"
+                                      name="fullname"
+                                      id="new-user"
+                                      dense
+                                      outlined
+                                      class="custom-height mb-3 "
+                                      density="compact"
+                                      ref="inputFullName"
+                                      @keydown.enter="focusNext('inputPassword')"
+                                />
+                              </v-col>
 
-                        <!-- Contraseña -->
-                        <div class="form-field-horizontal input-with-icon">
-                            <img src="../assets/img/icono/pwd.png" class="input-icon-inside" />
-                            <input :type="showPassword ? 'text' : 'password'" :placeholder="$t('register.passwordHint')" v-model="password" class="custom-input" />
-                            <img :src="showPassword ? eyeIcon : eyeOffIcon" class="icono-ojo" @click="showPassword = !showPassword" />
-                        </div>
+                              <!-- Contraseña -->
+                              <v-col cols="12" md="12">
+                                <v-text-field
+                                      v-model="password"
+                                      :placeholder="$t('register.password')"
+                                      :type="showPassword ? 'text' : 'password'"
+                                      prepend-inner-icon="mdi-lock"
+                                      :append-inner-icon="showPassword ? 'mdi-eye-off' : 'mdi-eye'"
+                                      @click:append-inner="toggleShowPassword"
+                                      name="username"
+                                      id="new-user"
+                                      dense
+                                      outlined
+                                      class="custom-height mb-3 "
+                                      density="compact"
+                                      ref="inputPassword"
+                                      @keydown.enter="focusNext('inputConfirmPassword')"
+                                />
+                              </v-col>
 
-                        <!-- Confirmar Contraseña -->
-                        <div class="form-field-horizontal input-with-icon">
-                            <img src="../assets/img/icono/rpwd.png" class="input-icon-inside" />
-                            <input :type="showConfirm ? 'text' : 'password'" :placeholder="$t('register.confirm')" v-model="confirmPassword" class="custom-input" />
-                            <img :src="showConfirm ? eyeIcon : eyeOffIcon" class="icono-ojo" @click="showConfirm = !showConfirm" />
-                        </div>
+                              <!-- Confirmar Contraseña -->
+                              <v-col cols="12" md="12">
+                                <v-text-field
+                                      v-model="confirmPassword"
+                                      :placeholder="$t('register.confirm')"
+                                      :type="showConfirm ? 'text' : 'password'"
+                                      prepend-inner-icon="mdi-lock"
+                                      :append-inner-icon="showPassword ? 'mdi-eye-off' : 'mdi-eye'"
+                                      @click:append-inner="toggleShowPassword"
+                                      name="username"
+                                      id="new-user"
+                                      dense
+                                      outlined
+                                      class="custom-height mb-3 "
+                                      density="compact"
+                                      ref="inputConfirmPassword"
+                                      @keydown.enter="focusNext('inputEmail')"
+                                />
+                              </v-col>
 
-                        <!-- Email -->
-                        <div class="form-field-horizontal input-with-icon">
-                            <img src="../assets/img/icono/email.png" class="input-icon-inside" />
-                            <input type="email" :placeholder="$t('register.email')" v-model="email" class="custom-input" />
-                        </div>
+                              <!-- Email -->
+                              <v-col cols="12" md="12">
+                                <v-text-field
+                                      v-model="email"
+                                      :placeholder="$t('register.email')"
+                                      :type="email"
+                                      name="username"
+                                      id="new-user"
+                                      dense
+                                      outlined
+                                      class="custom-height mb-3 "
+                                      density="compact"
+                                      ref="inputEmail"
+                                      @keydown.enter="focusNext('inputPhone')"
+                                />
+                              </v-col>
 
-                        <!-- Teléfono -->
-                        <div class="form-field-horizontal input-with-icon">
-                            <img src="../assets/img/icono/phone.png" class="input-icon-inside" />
-                            <input type="tel" :placeholder="$t('register.phone')" v-model="phone" class="custom-input" />
+                              <!-- Teléfono -->
+                              <v-col cols="12" md="12">
+                                <v-text-field
+                                      v-model="phone"
+                                      :placeholder="$t('register.phone')"
+                                      :type="phone"
+                                      name="username"
+                                      dense
+                                      outlined
+                                      class="custom-height mb-3 "
+                                      density="compact"
+                                      ref="inputPhone"
+                                      @keydown.enter="focusSubmit"
+                                />
+                              </v-col>
+                            </v-row>
+
+                          </form>
+
                         </div>
 
                         <!-- Raya negra -->
@@ -113,8 +192,18 @@
                             <button class="btn btn-cancelar" @click="cancelarRegistro"> {{ $t('register.cancel') }} </button>
                         </div> -->
                         <div class="form-buttons">
-                            <button class="btn btn-aceptar" @click.prevent="handleRegister" :disabled="loading">{{ textoBotonAceptar }}</button>
-                            <button class="btn btn-cancelar" @click="cancelarRegistro"> {{ $t('register.cancel') }}</button>
+                            <button class="btn btn-aceptar"
+                                    @click.prevent="handleRegister"
+                                    :disabled="loading"
+                                    ref="btnSubmit"
+                                    >
+                                    {{ textoBotonAceptar }}
+                            </button>
+                            <button class="btn btn-cancelar"
+                                    @click="cancelarRegistro"
+                                    >
+                                    {{ $t('register.cancel') }}
+                            </button>
                         </div>
                     </div>
                 </div>
@@ -146,8 +235,45 @@ const currentFlagIcon = ref(getFlagIcon(locale.value))
 // Variable que indica el modo actual
 const modo = ref('registrar') // o 'actualizar'
 
-console.log ('dddddd')
-console.log ('modo:', modo)
+// Referencias a inputs y botón
+const inputUsername = ref(null)
+const inputFullName = ref(null)
+const inputPassword = ref(null)
+const inputConfirmPassword = ref(null)
+const inputEmail = ref(null)
+const inputPhone = ref(null)
+const btnSubmit = ref(null) // referencia al botón de enviar
+
+const refsMap = {
+  inputUsername,
+  inputFullName,
+  inputPassword,
+  inputConfirmPassword,
+  inputEmail,
+  inputPhone,
+  btnSubmit,
+}
+
+function focusNext(refName) {
+  if (refName && eval(refName)?.value) {
+    eval(refName).value.focus()
+  }
+}
+
+function focusSubmit() {
+  if (btnSubmit.value) {
+    btnSubmit.value.focus()
+  }
+}
+
+
+function toggleShowPassword() {
+    showPassword.value = !showPassword.value
+}
+
+function toggleShowConfirm() {
+  showConfirm.value = !showConfirm.value
+}
 
 // Cambia el texto del botón según el modo
 const textoBotonAceptar = computed(() =>
@@ -194,6 +320,7 @@ const form = ref({
   email: '',
   fullName: ''
 })
+
 
 // Función para limpiar formulario (opcional)
 function clearForm() {
@@ -273,7 +400,8 @@ const handleRegister = async () => {
 
       if (response) {
         successMessage.value = t('register.success')
-        setTimeout(() => router.push({ name: 'Login' }), 2000)
+        //setTimeout(() => router.push({ name: 'Login' }), 2000)
+        setTimeout(() => router.push('/home'), 2000)
       } else {
         errorMessage.value = response?.data?.message || t('register.error')
       }
@@ -348,6 +476,14 @@ const showConfirm = ref(false)
 
 
 <style scoped>
+
+.registrarse-container {
+    max-width: 600px;
+    margin: auto;
+    padding: 10px;
+}
+
+
 /* Reset básico para anular estilos del navegador */
 * {
   margin: 0;
@@ -361,8 +497,9 @@ html, body {
   background: #f5f5f5;
   color: #000;
 }
-
-
+.mb-3 {
+  margin-bottom: 16px;
+}
 /* Estructura */
 
 .login-page {
@@ -513,6 +650,11 @@ input::placeholder {
   color: black;
 }
 
+.custom-height {
+  height: 40px; /* o el valor que uses en los inputs normales */
+  font-size: 12px;
+   width: 100%;
+}
 .custom-input {
   padding-left: 40px; /* espacio para el ícono */
   width: 100%;
@@ -520,11 +662,31 @@ input::placeholder {
   border-radius: 20px;
   height: 40px;
   font-size: 12px;
-  background-color: white;
   color: black;
   outline: none;
   box-sizing: border-box;
   height: 30px;
+}
+
+
+.custom-small-input input {
+    font-size: 12px !important;
+}
+
+.custom-small-input .v-input__control {
+    background-color: transparent !important;
+}
+
+.custom-small-input .v-field__field {
+    background-color: transparent !important;
+}
+
+.custom-small-input .v-field {
+    background-color:  transparent !important; /* o el fondo de tu contenedor */
+    border-radius: 8px;
+}
+.custom-small-input .v-field--focused {
+  background-color: #e0e0e0 !important;
 }
 
 .custom-input:focus {

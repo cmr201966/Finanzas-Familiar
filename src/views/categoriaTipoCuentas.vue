@@ -1,10 +1,6 @@
 <template>
     <NavBar />
     <Footer />
-    <div class="login-page">
-        <div class="login-box">
-
-            <!-- Parte derecha con fondo degradado -->
             <div class="form-container">
                 <div class="form-gradient-box">
 
@@ -24,21 +20,11 @@
                                 :placeholder="$t('categoriaTipoCuenta.account_type')"
                                 dense
                                 outlined
+                                @keydown.enter="submitForm"
+                                color="primary"
+                                density="compact"
                             />
                         </v-col>
-                        <!--<div class="form-field-horizontal input-with-icon">
-                            <input  type="text"
-                                    :placeholder="$t('categoriaTipoCuenta.account_type')"
-                                    v-model="tipocuentaname"
-                                    required
-                                    name="tipocuenta"
-                                    autocomplete="off"
-                                    class="custom-input"
-                                    id="new-tipocuenta"
-                                    prepend-inner-icon="mdi-calendar-month"
-                                    ref="tipocuentaInput"
-                            />
-                        </div>-->
 
                         <!-- Raya de división -->
                         <hr class="divider" />
@@ -48,14 +34,22 @@
                         <div class="form-buttons">
 
                             <!-- Botón Aceptar (verde) -->
-                            <v-btn @click="submitForm" :disabled="enviando || !tipocuentaname.trim()" :loading="enviando" class="btn btn-aceptar">{{ $t("categoriaTipoCuenta.submit") }}</v-btn>
+                            <v-btn  @click="submitForm"
+                                    :disabled="enviando || !tipocuentaname.trim()"
+                                    :loading="enviando"
+                                    class="btn btn-aceptar">{{ $t("categoriaTipoCuenta.submit") }}
+                            </v-btn>
 
                             <!-- Botón Cancelar (rojo) -->
                             <v-btn @click="cancelarFormulario" :disabled="enviando" class="btn btn-cancelar"> {{ $t("categoriaTipoCuenta.cancel") }}</v-btn>
                         </div>
 
-
-                    <!-- Tabla de bancos-->
+                    <!-- Tabla de tipo de cuentas-->
+                    <v-card
+                            class="mx-auto pa-2"
+                            elevation="8"
+                            style="max-width: 450px; border-radius: 16px; background-color: #f9f9f9;"
+                    >
                     <div style="max-height: 400px; overflow-y: auto;">
                         <v-data-table
                             :headers="headers"
@@ -64,7 +58,7 @@
                             class="elevation-1 font-tabla"
                             :items-per-page="-1"
                             hide-default-footer
-                            style="min-width:230px;"
+                            style="min-width:200px;"
                             fixed-header
                             height="200"
                         >
@@ -80,6 +74,7 @@
                         </template>
                         </v-data-table>
                     </div>
+                    </v-card>
                     <v-dialog v-model="mostrarDialogoEliminar" max-width="400">
                         <v-card>
                             <v-card-title class="text-h6">{{ $t("categoriaTipoCuenta.message-kill1") }}</v-card-title>
@@ -92,8 +87,6 @@
                     </v-dialog>
                 </div>
             </div>
-        </div>
-    </div>
 </template>
 
 <script setup>
@@ -369,11 +362,10 @@ function cancelarFormulario() {
     height: 2px;
     background-color: #010000;
     border: none;
-    margin: 1rem auto;
-    width: 80%; /* o 100%, o un valor fijo como 300px */
+    margin: 10px;
+    width: 90%; /* o 100%, o un valor fijo como 300px */
     display: block;
 }
-
 
 /* ======================== */
 /* Inputs con iconos dentro */

@@ -1,9 +1,6 @@
 <template>
     <NavBar />
     <Footer />
-    <div class="login-page">
-        <div class="login-box">
-
             <!-- Parte derecha con fondo degradado -->
             <div class="form-container">
                 <div class="form-gradient-box">
@@ -15,31 +12,20 @@
 
                         <!-- Raya de división -->
                         <hr class="divider" />
-                        
+
                         <!-- Banco -->
                         <v-col cols="12" md="12">
                             <v-text-field
                                 v-model="banconame"
                                 :placeholder="$t('categoriaBanco.bank')"
-                                class="mb-3 custom-height"
+                                class="custom-height"
                                 dense
                                 outlined
+                                @keydown.enter="submitForm"
+                                density="compact"
+                                color="primary"
                             />
                         </v-col>
-
-                        <!-- <div class="form-field-horizontal input-with-icon">
-                            <input  type="text"
-                                    :placeholder="$t('categoriaBanco.bank')"
-                                    v-model="banconame"
-                                    required
-                                    name="banco"
-                                    autocomplete="off"
-                                    class="custom-input"
-                                    id="new-bank"
-                                    prepend-inner-icon="mdi-calendar-month"
-                                    ref="bankInput"
-                            />
-                        </div>-->
 
                         <!-- Raya de división -->
                         <hr class="divider" />
@@ -49,7 +35,12 @@
                         <div class="form-buttons">
 
                             <!-- Botón Aceptar (verde) -->
-                            <v-btn @click="submitForm" :disabled="enviando || !banconame.trim()" :loading="enviando" class="btn btn-aceptar">{{ $t("categoriaBanco.submit") }}</v-btn>
+                            <v-btn  @click="submitForm"
+                                    :disabled="enviando || !banconame.trim()"
+                                    :loading="enviando"
+                                    class="btn btn-aceptar"
+                                    >{{ $t("categoriaBanco.submit") }}
+                            </v-btn>
 
                             <!-- Botón Cancelar (rojo) -->
                             <v-btn @click="cancelarFormulario" :disabled="enviando" class="btn btn-cancelar"> {{ $t("categoriaBanco.cancel") }}</v-btn>
@@ -57,17 +48,23 @@
 
 
                     <!-- Tabla de bancos-->
+                    <v-card
+                            class="mx-auto pa-2"
+                            elevation="8"
+                            style="max-width: 450px; border-radius: 16px; background-color: #f9f9f9;"
+                    >
                     <div style="max-height: 400px; overflow-y: auto;">
                         <v-data-table
                             :headers="headers"
                             :items="bancos"
                             item-value="id"
-                            class="elevation-1 font-tabla"
+                            class="tabla-bancos"
                             :items-per-page="-1"
                             hide-default-footer
-                            style="min-width:230px;"
+                            style="min-width:200px;"
                             fixed-header
                             height="200"
+
                         >
                         <template #item.acciones="{ item }">
                             <div class="d-flex align-center">
@@ -81,6 +78,7 @@
                         </template>
                         </v-data-table>
                     </div>
+                    </v-card>
                     <v-dialog v-model="mostrarDialogoEliminar" max-width="400">
                         <v-card>
                             <v-card-title class="text-h6">{{ $t("categoriaBanco.message-kill1") }}</v-card-title>
@@ -93,8 +91,6 @@
                     </v-dialog>
                 </div>
             </div>
-        </div>
-    </div>
 </template>
 
 <script setup>
@@ -126,6 +122,7 @@ const username = localStorage.getItem('username')
 
 // Este array contendrá todos los bancos mostrados en la tabla
 const bancos = ref([])
+
 
 onMounted(async () => {
     bancos.value= await getBancos();
@@ -320,7 +317,7 @@ function cancelarFormulario() {
     box-sizing: border-box;
     color: white;
     border: 2px solid blue;
-    width: 300px;
+    width: 350px;
     margin: auto;
 }
 
@@ -388,17 +385,34 @@ function cancelarFormulario() {
     background-color: #010000;
     border: none;
     margin: 10px;
-    width: 80%; /* o 100%, o un valor fijo como 300px */
+    width: 90%; /* o 100%, o un valor fijo como 300px */
     display: block;
 }
 
-
-.mb-3 {
-  margin-bottom: 14px;
-}
 .custom-height {
   height: 30px; /* o el valor que uses en los inputs normales */
   font-size: 12px;
+}
+
+.tabla-bancos .v-data-table-header th {
+  background-color: #e3f2fd; /* azul claro */
+  color: #0d47a1;
+  font-weight: 600;
+  font-size: 0.9rem;
+}
+
+.tabla-bancos .v-data-table__td {
+  font-size: 0.85rem;
+  color: #333;
+  border-bottom: 1px solid #ccc;
+}
+
+.tabla-bancos .v-data-table__wrapper {
+  border-radius: 10px;
+}
+
+.tabla-bancos .v-data-table {
+  border-radius: 12px;
 }
 
 
