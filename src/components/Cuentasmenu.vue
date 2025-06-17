@@ -368,25 +368,33 @@ position: absolute;
   padding-left: 8vw;
   height: 5vh;
 }
-.entrada-banco select{
+.entrada-banco{
   position: absolute;
   top: 23%;
   left: 13%;
+  width: 75%;
+}
+.entrada-banco select{
+  width: 100%;
   background-color: white;
   border-radius: 1vw;
   border: 2px solid #000000;
-  width: 75%;
   padding-left: 7.5vw;
+  height: 5vh;
 }
-.entrada-tipo-cuenta select{
+.entrada-tipo-cuenta{
   position: absolute;
   top: 31%;
   left: 13%;
+  width: 75%;
+}
+.entrada-tipo-cuenta select{
+  width: 100%;
   background-color: white;
   border-radius: 1vw;
   border: 2px solid #000000;
-  width: 75%;
   padding-left: 6.5vw;
+  height: 5vh;
 }
 .entrada-fecha-apertura input{
   position: absolute;
@@ -398,14 +406,17 @@ position: absolute;
   width: 35%;
   padding-left: 3vw;
 }
-.entrada-saldo input{
+.entrada-saldo{
   position: absolute;
   top: 39%;
-  left: 53%;
+  left: 33.2%;
+  width: 75%;
+}
+.entrada-saldo input{
+  width: 46%;
   background-color: white;
   border-radius: 1vw;
   border: 2px solid #000000;
-  width: 35%;
   padding-left: 3vw;
 }
 .entrada-cuenta-principal input{
