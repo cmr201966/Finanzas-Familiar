@@ -107,7 +107,7 @@
 import NavBar from '../components/NavBar.vue'
 import Footer from '../components/Footer.vue'
 import { useRouter } from 'vue-router'
-import { ref, onMounted, reactive } from 'vue'
+import { ref, onMounted, reactive, watch } from 'vue'
 import { getAllExpenses } from '@/services/expensesService.js' // Ajusta la ruta si es necesario
 import { getAllAccounts } from '@/services/accountService.js'
 import { getAllTransactions, createTransaction, deleteTransaction, updateTransaction } from '@/services/transaccionesService.js'
@@ -134,6 +134,13 @@ onMounted(async () => {
   await cargarCategoria()
   await cargarCuentas()
   await cargarTransacciones()
+})
+
+watch(() => form.value.categoria_id, (nuevoId) => {
+  const catSeleccionada = categoria.value.find(cat => cat.id === nuevoId)
+  if (catSeleccionada) {
+    form.value.ingreso = catSeleccionada.type === 'ingreso'
+  }
 })
 
 async function cargarCategoria() {
