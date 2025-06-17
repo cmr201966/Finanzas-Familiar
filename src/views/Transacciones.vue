@@ -47,22 +47,23 @@
   </option>
 </select>
 </div>
-    <p class="transaccion-ingreso">{{ $t('categorias.ingreso' )}}</p>
-     <div class="entrada-ingresoT-check">
-        <input
-      type="checkbox"
-      :checked="form.ingreso"
-      @change="form.ingreso = true"
-    />
-      </div>
-      <p class="transaccion-gastos">{{ $t('categorias.gastos' )}}</p>
-     <div class="entrada-gastosT-check">
-        <input
-      type="checkbox"
-      :checked="!form.ingreso"
-      @change="form.ingreso = false"
-    />
-      </div>
+    <p class="transaccion-ingreso">{{ $t('categorias.ingreso') }}</p>
+<div class="entrada-ingresoT-check">
+  <input
+    type="checkbox"
+    :checked="form.ingreso"
+    disabled
+  />
+</div>
+
+<p class="transaccion-gastos">{{ $t('categorias.gastos') }}</p>
+<div class="entrada-gastosT-check">
+  <input
+    type="checkbox"
+    :checked="!form.ingreso"
+    disabled
+  />
+</div>
       <div class="entrada-descripcionT">
       <input
         class="in-descripcion"
