@@ -3,10 +3,11 @@
     <div class="fondo">
       <p class="crear">{{ $t('cuentas.crear' )}}</p>
       <hr class="mi-barra" />
-
-      <img class="img-nombre-c" src="../assets/img/icono/cuenta.png" alt="">
+    <img class="img-nombre-c" src="../assets/img/icono/cuenta.png" alt="">
       <div class="entrada-nombre">
-        <input class="in-nombre" type="text" v-model="form.nombreCuenta" :placeholder="$t('cuentas.placeholderNombreCuenta')" />
+        <input class="in-nombre" 
+        type="text" v-model="form.nombreCuenta" 
+        :placeholder="$t('cuentas.placeholderNombreCuenta')" />
       </div>
 
       <img class="img-banco" src="../assets/img/icono/banco.png" alt="">
@@ -32,7 +33,10 @@
 
       <img class="img-saldo" src="../assets/img/icono/dinero.png" alt="">
       <div class="entrada-saldo">
-        <input type="number" v-model="form.saldoInicial" :placeholder="$t('cuentas.placeholdersaldo')" />
+        <input type="number"
+        min="0"
+        v-model="form.saldoInicial" 
+        :placeholder="$t('cuentas.placeholdersaldo')" />
       </div>
 
       <div class="contenedor-p">
@@ -273,27 +277,30 @@ position: absolute;
 }
 .img-nombre-c{
   position: absolute;
-  top: 15.2% ;
+  top: 18.2% ;
   left: 14%;
   width: 6%;
   height: 6%;
   z-index: 1000;
+  transform: translateY(-50%);
 }
 .img-banco{
   position: absolute;
-  top: 23.2% ;
+  top: 26.2% ;
   left: 14%;
   width: 6%;
   height: 6%;
   z-index: 1000;
+  transform: translateY(-50%);
 }
 .img-tipo{
   position: absolute;
-  top: 31.2% ;
+  top: 34.2% ;
   left: 14%;
   width: 6%;
   height: 6%;
   z-index: 1000;
+  transform: translateY(-50%);
 }
 .img-cuentaP{
   position: absolute;
@@ -305,11 +312,12 @@ position: absolute;
 }
 .img-notificaciones{
   position: absolute;
-  top: 46.4% ;
+  top: 49.4% ;
   left: 53%;
   width: 8%;
   height: 8%;
   z-index: 1000;
+  transform: translateY(-50%);
 }
 .img-saldo{
   position: absolute;
@@ -345,36 +353,48 @@ position: absolute;
     height: 5vh !important;
     font-size: 1vw;
 }
-
-.entrada-nombre input{
+.entrada-nombre {
   position: absolute;
   top: 15%;
   left: 13%;
+  width: 75%;
+}
+
+.entrada-nombre input {
+  width: 100%;
   background-color: white;
   border-radius: 1vw;
   border: 2px solid #000000;
-  width: 75%;
   padding-left: 8vw;
+  height: 5vh;
 }
-.entrada-banco select{
+.entrada-banco{
   position: absolute;
   top: 23%;
   left: 13%;
+  width: 75%;
+}
+.entrada-banco select{
+  width: 100%;
   background-color: white;
   border-radius: 1vw;
   border: 2px solid #000000;
-  width: 75%;
   padding-left: 7.5vw;
+  height: 5vh;
 }
-.entrada-tipo-cuenta select{
+.entrada-tipo-cuenta{
   position: absolute;
   top: 31%;
   left: 13%;
+  width: 75%;
+}
+.entrada-tipo-cuenta select{
+  width: 100%;
   background-color: white;
   border-radius: 1vw;
   border: 2px solid #000000;
-  width: 75%;
   padding-left: 6.5vw;
+  height: 5vh;
 }
 .entrada-fecha-apertura input{
   position: absolute;
@@ -385,16 +405,21 @@ position: absolute;
   border: 2px solid #000000;
   width: 35%;
   padding-left: 3vw;
+  height: 5vh;
 }
-.entrada-saldo input{
+.entrada-saldo{
   position: absolute;
   top: 39%;
-  left: 53%;
+  left: 33.2%;
+  width: 75%;
+}
+.entrada-saldo input{
+  width: 46%;
   background-color: white;
   border-radius: 1vw;
   border: 2px solid #000000;
-  width: 35%;
   padding-left: 3vw;
+  height: 5vh;
 }
 .entrada-cuenta-principal input{
   position: absolute;

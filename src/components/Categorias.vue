@@ -21,22 +21,23 @@
         :placeholder="$t('categorias.placeholderdescripcion')"
       />
     </div>
-    <p class="categoria-ingreso">{{ $t('categorias.ingreso' )}}</p>
-     <div class="entrada-ingreso-check">
-        <input
-      type="checkbox"
-      :checked="form.ingreso"
-      @change="form.ingreso = true"
-    />
-      </div>
-      <p class="categoria-gastos">{{ $t('categorias.gastos' )}}</p>
-     <div class="entrada-gastos-check">
-        <input
-      type="checkbox"
-      :checked="!form.ingreso"
-      @change="form.ingreso = false"
-    />
-      </div>
+    <p class="categoria-ingreso">{{ $t('categorias.ingreso') }}</p>
+<div class="entrada-ingreso-check">
+  <input
+    type="checkbox"
+    :checked="form.ingreso"
+    @change="setIngreso(true)"
+  />
+</div>
+
+<p class="categoria-gastos">{{ $t('categorias.gastos') }}</p>
+<div class="entrada-gastos-check">
+  <input
+    type="checkbox"
+    :checked="!form.ingreso"
+    @change="setIngreso(false)"
+  />
+</div>
       <hr class="mi-barra2" />
       <div class="botones">
         <v-btn class="save" color="primary" @click="guardarCategoria">
@@ -96,6 +97,10 @@ async function cargarCategoria() {
   }
 }
 
+function setIngreso(valor) {
+  form.value.ingreso = valor
+}
+
 async function guardarCategoria() {
   const datos = {
     name: form.value.nombreCategoria,
@@ -127,7 +132,7 @@ async function editarCategoria(index) {
 
     form.value.nombreCategoria = cat.name || ''
     form.value.descripcion = cat.description || ''
-    form.value.ingreso = cat.type === 'income'
+    form.value.ingreso = cat.type === 'ingreso'
     // Si tienes otro campo que controlar, asigna aquí...
 
     selectedId.value = cat.id  // si tienes un campo para id de categoría
