@@ -405,6 +405,7 @@ position: absolute;
   border: 2px solid #000000;
   width: 35%;
   padding-left: 3vw;
+  height: 5vh;
 }
 .entrada-saldo{
   position: absolute;
@@ -418,6 +419,7 @@ position: absolute;
   border-radius: 1vw;
   border: 2px solid #000000;
   padding-left: 3vw;
+  height: 5vh;
 }
 .entrada-cuenta-principal input{
   position: absolute;
