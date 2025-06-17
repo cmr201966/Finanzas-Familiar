@@ -277,27 +277,30 @@ position: absolute;
 }
 .img-nombre-c{
   position: absolute;
-  top: 15.2% ;
+  top: 18.2% ;
   left: 14%;
   width: 6%;
   height: 6%;
   z-index: 1000;
+  transform: translateY(-50%);
 }
 .img-banco{
   position: absolute;
-  top: 23.2% ;
+  top: 26.2% ;
   left: 14%;
   width: 6%;
   height: 6%;
   z-index: 1000;
+  transform: translateY(-50%);
 }
 .img-tipo{
   position: absolute;
-  top: 31.2% ;
+  top: 34.2% ;
   left: 14%;
   width: 6%;
   height: 6%;
   z-index: 1000;
+  transform: translateY(-50%);
 }
 .img-cuentaP{
   position: absolute;
@@ -309,11 +312,12 @@ position: absolute;
 }
 .img-notificaciones{
   position: absolute;
-  top: 46.4% ;
+  top: 49.4% ;
   left: 53%;
   width: 8%;
   height: 8%;
   z-index: 1000;
+  transform: translateY(-50%);
 }
 .img-saldo{
   position: absolute;
