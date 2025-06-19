@@ -30,6 +30,7 @@
                                 density="compact"
                                 dense
                                 outlined
+                                prepend-inner-icon="mdi-tag-multiple"
                               />
                             </v-col>
                           </v-row>
@@ -59,6 +60,7 @@
                                     dense
                                     outlined
                                     density="compact"
+                                    prepend-inner-icon="mdi-currency-usd"
 
                                   />
                                 </v-col>
@@ -70,6 +72,7 @@
                                         :close-on-content-click="false"
                                         transition="scale-transition"
                                         offset-y
+
                                       >
                                       <template #activator="{ props }">
                                         <v-text-field
@@ -79,6 +82,7 @@
                                           readonly
                                           v-bind="props"
                                           class="custom-heigt white-rounded "
+                                          prepend-inner-icon="mdi-calendar-month"
                                         />
                                       </template>
 
@@ -351,7 +355,7 @@ async function confirmarEliminacion() {
 
   // Recargando la tabla de presupuestos
     presupuestos.value = await getPresupuestosByUserName(username);
-
+    limpiarFormulario();
 
    // Cerrar el diálogo
 
@@ -387,7 +391,6 @@ const submitForm = async () => {
 
     let response;
     if (editarsn.value==true) {
-      console.log("nuevo:", nuevo)
 
       // Si existe id, significa que editamos un registro
       response = await editarPresupuesto(nuevo);
@@ -510,13 +513,13 @@ const cargarPresupuestos = async () => {
 
 /* Parte derecha: formulario y fondo */
 .form-container {
-  max-width: 400px; /* Limita el ancho máximo del formulario */
-  margin: auto;
-  flex: 2;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  padding: 10px;
+    max-width: 400px; /* Limita el ancho máximo del formulario */
+    margin: auto;
+    flex: 2;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 10px;
 }
 
 .header-inline {
@@ -527,16 +530,16 @@ const cargarPresupuestos = async () => {
 
 .form-gradient-box {
   border-radius: 10px;
-  background: linear-gradient(135deg, #4caf50, #2196f3);
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  padding: 20px 15px;
-  box-sizing: border-box;
-  color: white;
-  border: 2px solid blue;
-  width: 400px;
-  margin: auto;
+    background: linear-gradient(135deg, #4caf50, #2196f3);
+
+    flex-direction: column;
+    align-items: center;
+    padding: 20px 15px;
+    box-sizing: border-box;
+    color: white;
+    border: 2px solid blue;
+
+    margin: auto;
 }
 
 .user-icon {
@@ -555,7 +558,7 @@ const cargarPresupuestos = async () => {
 }
 
 .divider1 {
-  height: 2px;
+    height: 2px;
     background-color: #010000;
     border: none;
     margin: 1rem auto;
@@ -566,7 +569,7 @@ const cargarPresupuestos = async () => {
 .presupuesto-container {
   max-width: 600px;
   margin: auto;
-  padding: 10px;
+
 }
 
 /*Titulo de la opcion*/
@@ -664,8 +667,8 @@ const cargarPresupuestos = async () => {
 
 .form-buttons {
   display: flex;
-  justify-content: center;
-  gap: 5px; /* espacio entre botones */
+  justify-content: flex-end;
+  gap: 10px; /* espacio entre botones */
   margin-left: 150px;
 }
 

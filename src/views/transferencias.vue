@@ -14,7 +14,7 @@
                         </div>
 
                         <!-- Raya de división -->
-                        <hr class="divider" />
+                        <hr class="divider " />
 
                         <div class="transferencias-container">
 
@@ -33,6 +33,7 @@
                                 dense
                                 outlined
                                 density="compact"
+                                prepend-inner-icon="mdi-arrow-up-bold-circle"
                               />
                             </v-col>
                             <!-- Cuenta Destino -->
@@ -47,50 +48,53 @@
                                 dense
                                 outlined
                                 density="compact"
+                                prepend-inner-icon="mdi-arrow-down-bold-circle"
                               />
                             </v-col>
                           </v-row>
 
-                            <!-- Importe y Fecha (alineados horizontalmente)
-                            <div class="d-flex flex-row" style="gap: 16px;">-->
-                            <v-row>
-                                  <!-- Importe -->
-                                <v-col cols="12" md="6">
+                          <!-- Importe y Fecha (alineados horizontalmente)
+                          <div class="d-flex flex-row" style="gap: 16px;">-->
+                          <v-row>
+                            <!-- Importe -->
+                            <v-col cols="12" md="6">
+                              <v-text-field
+                                v-model="form.amount"
+                                :label="$t('transferencias.amount')"
+                                type="number"
+                                dense
+                                outlined
+                                density="compact"
+                                class="custom-height"
+                                prepend-inner-icon="mdi-currency-usd"
+                              />
+                              </v-col>
+                              <!-- Fecha con Calendario -->
+                              <v-col cols="12" md="6">
+                                <v-menu
+                                  v-model="menuFecha"
+                                  :close-on-content-click="false"
+                                  transition="scale-transition"
+                                  offset-y
+                                >
+                                  <template #activator="{ props }">
                                     <v-text-field
-                                    v-model="form.amount"
-                                    :label="$t('transferencias.amount')"
-                                    type="number"
-                                    dense
-                                    outlined
-                                    density="compact"
-                                  />
-                                </v-col>
-                                  <!-- Fecha con Calendario -->
-                                  <v-col cols="12" md="6">
-                                    <v-menu
-                                      v-model="menuFecha"
-                                      :close-on-content-click="false"
-                                      transition="scale-transition"
-                                      offset-y
-                                    >
-                                      <template #activator="{ props }">
-                                        <v-text-field
-                                          v-model="form.fecha"
-                                          :label="$t('transferencias.date')"
-                                          readonly
-                                          v-bind="props"
-                                          density="compact"
-                                          class="custom-heigt white-rounded"
-                                        />
-                                      </template>
+                                      v-model="form.fecha"
+                                      :label="$t('transferencias.date')"
+                                      readonly
+                                      v-bind="props"
+                                      density="compact"
+                                      class="custom-heigt white-rounded"
+                                      prepend-inner-icon="mdi-calendar-month"
+                                    />
+                                  </template>
 
-                                      <v-date-picker
-                                        @update:model-value="selectFecha"
-                                        color="primary"
-                                      />
-                                    </v-menu>
-                                  </v-col>
-
+                                    <v-date-picker
+                                      @update:model-value="selectFecha"
+                                      color="primary"
+                                    />
+                                </v-menu>
+                              </v-col>
 
                               <!-- Descripción -->
 
@@ -101,9 +105,10 @@
                                     dense
                                     outlined
                                     density="compact"
+                                    prepend-inner-icon="mdi-note-outline"
                                   />
                                 </v-col>
-                              </v-row>
+                            </v-row>
 
                             <hr class="divider" />
 
@@ -112,17 +117,24 @@
                             <div class="form-buttons">
 
                                 <!-- Botón Aceptar (verde) -->
-                                <v-btn @click="submitForm" :disabled="enviando " :loading="enviando" class="btn btn-aceptar">{{ $t("transferencias.submit") }}</v-btn>
+                                <v-btn  @click="submitForm"
+                                        :disabled="enviando "
+                                        :loading="enviando"
+                                        class="btn btn-aceptar">{{ $t("transferencias.submit") }}
+                                </v-btn>
 
                                 <!-- Botón Cancelar (rojo) -->
-                                <v-btn @click="cancelarFormulario" :disabled="enviando" class="btn btn-cancelar"> {{ $t("transferencias.cancel") }}</v-btn>
+                                <v-btn  @click="cancelarFormulario"
+                                        :disabled="enviando"
+                                        class="btn btn-cancelar"> {{ $t("transferencias.cancel") }}
+                                </v-btn>
                             </div>
                           </form>
 
 
                           <!-- Tabla de transferencias -->
                           <v-card
-                            class="mx-auto mt-4 pa-2"
+                            class="mx-auto pa-2"
                             elevation="8"
                             style="max-width: 600px; border-radius: 16px; background-color: #f9f9f9;"
                           >
@@ -150,7 +162,7 @@
                               </template>
                             </v-data-table>
                           </v-card>
-                          
+
                           <!-- Diálogo de confirmación para eliminar -->
                           <v-dialog v-model="mostrarDialogoEliminar" max-width="400">
                             <v-card>
@@ -511,42 +523,31 @@ function limpiarFormulario() {
 .v-field__input {
   color: black !important;
 }
+
+
 .custom-height .v-field__input {
   padding-top: 6px !important;
   padding-bottom: 6px !important;
 }
+
 .transferencias-container {
   max-width: 600px;
   margin: auto;
   padding: 10px;
 }
-/* Parte derecha: formulario y fondo
-.form-container {
-  max-width: 600px;
-  max-height: 400px;
-  margin: auto;
-  flex: 2;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  padding: 5px;
-}*/
 
 .form-gradient-box {
   border-radius: 10px;
-  background: linear-gradient(135deg, #4caf50, #2196f3);
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  padding: 20px 15px;
-  box-sizing: border-box;
-  color: white;
-  border: 2px solid blue;
-  margin-top: 50px;
-  margin: auto;
+    background: linear-gradient(135deg, #4caf50, #2196f3);
+    flex-direction: column;
+    align-items: center;
+    padding: 20px 15px;
+    box-sizing: border-box;
+    color: white;
+    border: 2px solid blue;
+    margin: auto;
 
 }
-
 
 .bg-transparent {
     background-color: transparent !important;
@@ -566,10 +567,9 @@ function limpiarFormulario() {
 }
 
 .divider {
-  width: 90%;
   border: 1px solid black;
-  margin: 10px 0;
-  max-width: 350px;
+  margin: 5px 0;
+  width: 100%;
 }
 
 /* Fondo blanco y texto oscuro para inputs */
@@ -603,7 +603,7 @@ function limpiarFormulario() {
 
 .form-buttons {
   display: flex;
-  justify-content: center;
+  justify-content: flex-end;
   gap: 10px; /* espacio entre botones */
   margin-left: 150px;
 }
@@ -618,15 +618,15 @@ function limpiarFormulario() {
   border-radius: 6px;
   cursor: pointer;
   width: 75px;
-  height: 40px;
+  height: 30px;
   font-style: "popins";
-  margin-left: 40px;
+  margin-bottom: 10px;
+  margin-top: 10px;
 }
 
 .btn-aceptar {
   background-color: #196c2c; /* verde */
   color: white;
-
 }
 
 .btn-cancelar {
@@ -640,96 +640,6 @@ function limpiarFormulario() {
   color: #070606;
   text-align: center;
   left: 8px;
-}
-
-.input-icon-inside {
-  position: absolute;
-  left: 10px;
-  width: 30px; /* tamaño pequeño del icono */
-  height: 30px;
-  object-fit: contain;
-  pointer-events: none; /* para que no interfiera con el click en el input */
-}
-
-.input-icon-descripcion{
-  position: absolute;
-  margin-left: 10px;
-  width: 30px; /* tamaño pequeño del icono */
-  height: 30px;
-
-  pointer-events: none; /* para que no interfiera con el click en el input */
-}
-
-.input-descripcion {
-  padding: 6px 10px;
-  font-size: 14px;
-  width: 100%;
-  background: #ffffff;
-  border: 1px solid #ccc;
-  border-radius: 4px;
-  height: 40px;
-  border-radius: 10px;
-  color:black
-}
-
-.custom-input {
-  padding: 6px 10px;
-  font-size: 14px;
-  width: 50%;
-  border: 1px solid #ccc;
-  border-radius: 4px;
-  height: 40px;
-  background-color: #ffffff;
-  border-radius: 10px;
-  margin-top: 15px;
-  color:black
-}
-
-.form-field-horizontal {
-  position: relative;
-  margin-bottom: 16px;
-}
-
-.input-with-icon {
-  position: relative;
-  display: flex;
-  align-items: center;
-  width: 50%;
-  margin-bottom: 16px;
-}
-
-.input-mes-corto {
-  max-width: 100px; /* Ajusta según necesites, por ejemplo 140px o 120px */
-  max-height: 50px;
-}
-
-.largo-reducida :deep(.v-field) {
-  min-height: 25px !important;  /* altura reducida */
-  height: 25px !important;
-}
-
-.ancho-reducido {
-  height: 30px; /* reduce la altura del contenedor externo */
-  font-size: 12px;
-  max-width: 150px; /* opcional: para controlar también el ancho */
-}
-/* Apunta al input interno con :deep() */
-.ancho-reducido :deep(.v-field__input) {
-  padding-top: 2px !important;
-  padding-bottom: 2px !important;
-  min-height: 24px !important;
-  font-size: 12px !important;
-  line-height: 16px !important;
-}
-
-/* Opcional: ajusta también el icono si se desalineara */
-.ancho-reducido :deep(.v-icon) {
-  font-size: 12px !important;
-}
-
-.importe-mes{
-    display: flex;
-    gap: 6px;
 }
 
 .font-tabla {
@@ -750,6 +660,148 @@ function limpiarFormulario() {
 /* Disminuir el alto de las filas (tr) */
 .v-data-table tbody tr {
     height: 10px; /* o el alto que quieras */
+}
+
+/* RESPONSIVE DESIGN */
+
+/* Tablets (max-width: 991.98px) */
+@media (max-width: 991.98px) {
+  .transferencias-container {
+    max-width: 100%;
+    padding: 15px 10px;
+  }
+
+  .form-buttons {
+    justify-content: center !important;
+    margin-left: 0 !important;
+    gap: 10px;
+    flex-wrap: wrap;
+  }
+
+  .btn {
+    width: 90px;
+    height: 30px;
+    font-size: 12px;
+  }
+
+  .name-opcion {
+    font-size: 18px;
+  }
+
+  .form-gradient-box {
+    width: 100%;
+    padding: 20px 10px;
+  }
+
+  /* Tabla: permitir que ocupe todo el ancho */
+  .tabla-transferencias .v-data-table,
+  .tabla-transferencias .v-data-table__wrapper {
+    width: 100% !important;
+    overflow-x: auto;
+  }
+
+  .v-data-table th,
+  .v-data-table td {
+    max-width: 80px;
+    white-space: nowrap;
+  }
+}
+
+/* Móviles grandes (max-width: 767.98px) */
+@media (max-width: 767.98px) {
+  .transferencias-container {
+    padding: 10px 5px;
+  }
+
+  .form-buttons {
+    flex-direction: column;
+    align-items: center;
+    margin-left: 0 !important;
+    gap: 12px;
+  }
+
+  .btn {
+    width: 100%;
+    max-width: 160px;
+    height: 35px;
+    font-size: 13px;
+  }
+
+  .name-opcion {
+    font-size: 16px;
+  }
+
+  .form-gradient-box {
+    padding: 15px 10px;
+  }
+
+  /* Tabla: reducir padding y fuente para mejor ajuste */
+  .tabla-transferencias .v-data-table__td {
+    font-size: 0.75rem;
+    padding: 1px 3px;
+  }
+
+  .v-data-table thead th {
+    font-size: 0.8rem;
+    height: 24px;
+    padding: 0 4px;
+  }
+
+  .v-data-table tbody tr {
+    height: 18px;
+  }
+}
+
+/* Móviles pequeños (max-width: 575.98px) */
+@media (max-width: 575.98px) {
+  .transferencias-container {
+    padding: 8px 3px;
+  }
+
+  .form-buttons {
+    flex-direction: column;
+    align-items: center;
+    margin-left: 0 !important;
+    gap: 10px;
+  }
+
+  .btn {
+    width: 100%;
+    max-width: 140px;
+    height: 35px;
+    font-size: 11px;
+  }
+
+  .name-opcion {
+    font-size: 14px;
+  }
+
+  .form-gradient-box {
+    padding: 12px 8px;
+  }
+
+  /* Tabla: permitir scroll horizontal */
+  .tabla-transferencias .v-data-table,
+  .tabla-transferencias .v-data-table__wrapper {
+    width: 100% !important;
+    overflow-x: auto;
+  }
+
+  .v-data-table th,
+  .v-data-table td {
+    max-width: 70px;
+    font-size: 0.7rem;
+    white-space: nowrap;
+  }
+
+  .v-data-table thead th {
+    height: 20px;
+    padding: 0 3px;
+  }
+
+  .v-data-table tbody tr {
+    height: 16px;
+  }
 }
 
 </style>

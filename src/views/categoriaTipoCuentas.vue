@@ -23,6 +23,7 @@
                                 @keydown.enter="submitForm"
                                 color="primary"
                                 density="compact"
+                                prepend-inner-icon="mdi-wallet"
                             />
                         </v-col>
 
@@ -50,7 +51,7 @@
                             elevation="8"
                             style="max-width: 450px; border-radius: 16px; background-color: #f9f9f9;"
                     >
-                    <div style="max-height: 400px; overflow-y: auto;">
+                    <div style="max-height: 400px; ">
                         <v-data-table
                             :headers="headers"
                             :items="tiposCuenta"
@@ -212,57 +213,10 @@ function cancelarFormulario() {
 <style scoped>
 /* Fondo general de la página */
 
-/* Contenedor general de la página, centrado vertical y horizontal */
-.login-page {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    min-height: 100vh; /* Altura de toda la pantalla */
-    background-color: transparent; /* O cualquier color de fondo */
-}
-
-/* Caja blanca principal que contiene logo y formulario */
-.login-box {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    width: 100%;
-}
-
-/* Parte izquierda: logo y texto */
-.logo-section {
-    flex: 1;
-    background-color: white;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    border-right: 1px solid #ddd;
-    padding: 20px;
-}
-
-/* Logo */
-.logo {
-    width: 200px;
-    height: 200px;
-    object-fit: contain;
-    margin-bottom: 10px;
-}
-
-
 .header-inline {
     display: flex;
     align-items: center;
     gap: 5px;
-}
-
-/* Nombre app */
-.app-name {
-    font-family: 'Poppins', sans-serif;
-    font-size: 20px;
-    font-weight: 700;
-    color: #333;
-    text-align: center;
 }
 
 /* Parte derecha: formulario y fondo */
@@ -288,14 +242,11 @@ function cancelarFormulario() {
 .form-gradient-box {
     border-radius: 10px;
     background: linear-gradient(135deg, #4caf50, #2196f3);
-    display: flex;
     flex-direction: column;
     align-items: center;
-    padding: 20px 15px;
     box-sizing: border-box;
     color: white;
     border: 2px solid blue;
-    width: 300px;
     margin: auto;
 }
 
@@ -367,133 +318,9 @@ function cancelarFormulario() {
     display: block;
 }
 
-/* ======================== */
-/* Inputs con iconos dentro */
-/* ======================== */
-
-/* Contenedor flex para alinear icono e input horizontalmente */
-
-.form-field-horizontal {
-    display: flex;
-    align-items: center;
-    gap: 4px;
-    margin-bottom: 12px;
-    width: 40%;
-    margin-bottom: 8px; /* antes era 12px */
-}
-
-.form-field-horizontal label {
-    color: white;
-    min-width: 90px;
-    font-weight: 500;
-}
-
-.form-field-horizontal input {
-    height: 30px;
-    padding: 10px 10px;
-    border-radius: 5px;
-    border: none;
-    outline: none;
-    font-size: 14px;
-    max-width: 250px;
-}
-
-.form-field-horizontal .icono-ojo {
-    position: absolute;
-    right: 15px;
-    width: 15px;
-    height: 15px;
-    top:-5px;
-}
-
-.form-field-horizontal img.input-icon {
-    width: 26px;
-    height: 26px;
-    transform: -2px; /* Sube un poco el icono */
-}
-
-/* Input personalizado con espacio para icono a la izquierda */
-.input-with-icon {
-    position: relative;
-    display: flex;
-    align-items: center;
-    width: 90%;
-    margin-bottom: 16px;
-}
-
-.input-with-icon input {
-    width: 90%;
-    padding: 10px 12px 10px 44px; /* espacio izquierdo para la imagen */
-    border: 2px solid gray;
-    border-radius: 20px;
-    outline: none;
-    box-sizing: border-box;
-    background-color: white; /* O blanco implícito */
-    margin-left: 8px;
-}
-
-input::placeholder {
-    font-size: 14px; /* tamaño de letra del placeholder */
-    margin-left: 10px;
-
-}
-
-.input-icon-inside {
-    position: absolute;
-    left: 25px;
-    top: -15px;
-    width: 20px;
-    height: 20px;
-    border-radius: 5px;
-
-}
-
-.input-with-icon .input-icon-inside {
-    position: absolute;
-    left: 18px;
-    width: 20px;
-    height: 20px;
-
-}
-
-.submit-button:hover {
-    background-color: rgba(255, 255, 255, 0.9);
-}
-
-.menu-reducido {
-    width: 100px;
-    padding: 2px 0; /* Ajusta el alto vertical */
-    padding-inline: 7px;
-    min-height: 32px;
-}
-
-.custom-input {
-    padding-left: 40px; /* deja espacio para el icono */
-    width: 70%;
-    border: 1px solid #ccc;
-    border-radius: 20px;
-    height: 40px;
-    font-size: 12px;
-    background-color: white;
-    color: black;
-    outline: none;
-    box-sizing: border-box;
-    height: 30px;
-}
 .bandera{
     width: 30px;
     height: 30px;
-}
-.idioma-conf{
-    font-size: 12px;
-}
-
-.user-info {
-    font-size: 11px;
-    color: #fbfafa;
-    margin-top: -14px;
-    margin-left: 9px; /* o lo necesario para alinear bien debajo del input */
-    margin-bottom: 10px;
 }
 
 /* Esto es para obligar al navegador a que ponga el color q tenia el input*/
@@ -540,169 +367,139 @@ input:-webkit-autofill:active {
         Puedes incluir este archivo en todas tus vistas.
     ===================================================== */
 
-    /* ============ TELÉFONOS GRANDES (576px a 767px) ============ */
-@media (max-width: 768px) {
-    .login-box {
-        flex-direction: column;
-        width: 90vw;
-        min-height: auto;
-        border-radius: 8px;
-        }
+/* RESPONSIVE DESIGN */
 
-    .logo-section {
-        border-right: none;
-        border-bottom: 1px solid #ddd;
-        padding: 15px;
-        flex: none;
-        width: 100%;
-        }
+/* Tablets (hasta 991.98px) */
+@media (max-width: 991.98px) {
+  .form-container {
+    max-width: 100%;
+    padding: 15px;
+    flex-direction: column;
+  }
 
-    .logo {
-        width: 120px;
-        height: 120px;
-        margin-bottom: 5px;
-    }
+  .form-buttons {
+    justify-content: center !important;
+    margin-left: 0 !important;
+    gap: 10px;
+    flex-wrap: wrap;
+  }
 
-    .app-name {
-        font-size: 18px;
-    }
+  .btn {
+    width: 80px;
+    height: 30px;
+    font-size: 12px;
+  }
 
-    .form-container {
-        flex: none;
-        width: 100%;
-        max-width: 100%;
-        padding: 15px;
-        margin: 0;
-    }
+  .form-gradient-box {
+    width: 100%;
+    padding: 20px 10px;
+  }
 
-    .form-gradient-box {
-        max-width: 100%;
-        padding: 15px 10px;
-        border-radius: 8px;
-    }
+  .name-opcion {
+    font-size: 18px;
+    text-align: center;
+  }
 
-    .form-gradient-box img.user-icon {
-        width: 40px;
-        height: 40px;
-        margin-top: 5px;
-    }
-
-    .input-with-icon input {
-        width: 100%;
-        padding-left: 40px;
-    }
-
-    .submit-button {
-        width: 100%;
-        height: 40px;
-        margin-bottom: 15px;
-    }
-
-    .language-switcher {
-        top: 0;
-        right: 0;
-        margin-bottom: 10px;
-    }
-
-    .bandera {
-        width: 30px;
-        height: 30px;
-    }
+  .form-gradient-box img.user-icon {
+    width: 40px;
+    height: 40px;
+    margin-top: 15px;
+  }
 }
 
-/* ============ TABLETS (768px a 991px) ============ */
+/* Móviles grandes (hasta 767.98px) */
+@media (max-width: 767.98px) {
+  .form-container {
+    padding: 10px;
+    flex-direction: column;
+  }
 
-@media (min-width: 768px) and (max-width: 991.98px) {
-    .login-box {
-        width: 80%;
-    }
+  .form-buttons {
+    flex-direction: column;
+    align-items: center;
+    margin-left: 0 !important;
+    gap: 12px;
+  }
 
-    .form-gradient-box {
-        padding: 30px;
-    }
+  .btn {
+    width: 100%;
+    max-width: 180px;
+    height: 35px;
+    font-size: 13px;
+  }
 
-    .logo {
-        width: 100px;
-        height: 100px;
-    }
+  .form-gradient-box {
+    padding: 15px 10px;
+  }
 
-    .app-name {
-        font-size: 20px;
-    }
+  .name-opcion {
+    font-size: 16px;
+  }
 
-    .submit-button {
-        height: 42px;
-        font-size: 16px;
-    }
-    }
+  .form-gradient-box img.user-icon {
+    width: 50px;
+    height: 50px;
+  }
 
-/* ============ MÓVILES PEQUEÑOS (Teléfonos < 576px) ============ */
+  .divider {
+    margin: 8px auto;
+    width: 90%;
+  }
 
+  .bandera {
+    width: 25px;
+    height: 25px;
+  }
+}
+
+/* Móviles pequeños (hasta 575.98px) */
 @media (max-width: 575.98px) {
+  .form-container {
+    padding: 10px;
+    flex-direction: column;
+  }
 
-    /* Contenedor principal */
+  .form-buttons {
+    flex-direction: column;
+    align-items: center;
+    margin-left: 0 !important;
+    gap: 10px;
+  }
 
-    .login-box {
-        width: 100%;
-        margin: 0;
-        border-radius: 0;
-    }
+  .btn {
+    width: 100%;
+    max-width: 160px;
+    height: 35px;
+    font-size: 11px;
+  }
 
-    .form-gradient-box {
-        padding: 20px;
-    }
+  .form-gradient-box {
+    padding: 12px 10px;
+  }
 
-    .form-container {
-        padding: 10px;
-    }
+  .form-gradient-box img.user-icon {
+    width: 40px;
+    height: 40px;
+    margin-top: 10px;
+  }
 
-    .logo {
-        width: 80px;
-        height: 80px;
-    }
+  .name-opcion {
+    font-size: 14px;
+  }
 
-    .app-name {
-        font-size: 16px;
-    }
+  .divider {
+    margin: 6px auto;
+    width: 100%;
+  }
 
-    .submit-button {
-        height: 36px;
-        font-size: 14px;
-    }
+  .bandera {
+    width: 24px;
+    height: 24px;
+  }
 
-    .footer {
-        font-size: 12px;
-    }
+  input::placeholder {
+    font-size: 12px;
+  }
 }
-
-/* ============ LAPTOPS (992px a 1199px) ============ */
-
-@media (min-width: 992px) and (max-width: 1199.98px) {
-
-    .login-box {
-        width: 60%;
-    }
-
-    .form-gradient-box {
-        padding: 35px;
-    }
-
-    .logo {
-        width: 120px;
-        height: 120px;
-    }
-
-    .app-name {
-        font-size: 22px;
-    }
-
-    .submit-button {
-        height: 46px;
-        font-size: 17px;
-    }
-    }
-
-
-
 
 </style>

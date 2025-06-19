@@ -251,8 +251,6 @@ async function handleLogin(event) {
     }
 }
 
-
-
 </script>
 
 
@@ -471,361 +469,106 @@ async function handleLogin(event) {
     text-decoration: underline;
 }
 
-
-
-
-
-
-/* Ícono del ojo bien posicionado
-.icono-ojo {
-    position: absolute;
-    right: 10px;
-    width: 15px;
-    height: 15px;
-    cursor: pointer;
-    transform: translateY(-50%);
-
-}
-
-/* ======================== */
-/* Inputs con iconos dentro */
-/* ======================== */
-
-/* Contenedor flex para alinear icono e input horizontalmente
-
-.form-field-horizontal {
-    display: flex;
-    align-items: center;
-    gap: 4px;
-    margin-bottom: 12px;
-    width: 80%;
-    margin-bottom: 8px; /* antes era 12px
-}
-
-.form-field-horizontal label {
-    color: white;
-    min-width: 90px;
-    font-weight: 500;
-}
-
-.form-field-horizontal input {
-    height: 30px;
-    padding: 10px 10px;
-    border-radius: 5px;
-    border: none;
-    outline: none;
-    font-size: 14px;
-    max-width: 250px;
-}
-
-.form-field-horizontal .icono-ojo {
-    position: absolute;
-    right: 15px;
-    width: 15px;
-    height: 15px;
-    top:-5px;
-}
-
-.form-field-horizontal img.input-icon {
-    width: 26px;
-    height: 26px;
-    transform: -2px; /* Sube un poco el icono
-}*/
-
-/* Input personalizado con espacio para icono a la izquierda
-.input-with-icon {
-    position: relative;
-    display: flex;
-    align-items: center;
-    width: 100%;
-    margin-bottom: 16px;
-}
-
-.input-with-icon input {
-    width: 90%;
-    padding: 10px 12px 10px 44px; /* espacio izquierdo para la imagen
-    border: 2px solid gray;
-    border-radius: 20px;
-    outline: none;
-    box-sizing: border-box;
-    background-color: white; /* O blanco implícito
-    margin-left: 15px;
-
-}
-
-input::placeholder {
-    font-size: 10px;
-    margin-left: 10px;
-
-}
-
-.input-icon-inside {
-    position: absolute;
-    left: 25px;
-    top: -15px;
-    width: 20px;
-    height: 20px;
-    border-radius: 5px;
-
-}
-
-.input-with-icon .input-icon-inside {
-    position: absolute;
-    left: 18px;
-    width: 20px;
-    height: 20px;
-
-}
-
-.submit-button:hover {
-    background-color: rgba(255, 255, 255, 0.9);
-}
-
-.custom-input {
-    padding-left: 40px;
-    width: 70%;
-    border: 1px solid #ccc;
-    border-radius: 20px;
-    height: 40px;
-    font-size: 12px;
-
-    color: black;
-    outline: none;
-    box-sizing: border-box;
-    height: 30px;
-}
-
-.user-info {
-    font-size: 11px;
-    color: #fbfafa;
-    margin-top: -14px;
-    margin-left: 9px; /* o lo necesario para alinear bien debajo del input
-    margin-bottom: 10px;
-}*/
-
-/* Esto es para obligar al navegador a que ponga el color q tenia el input
-input:-webkit-autofill,
-input:-webkit-autofill:hover,
-input:-webkit-autofill:focus,
-input:-webkit-autofill:active {
-    -webkit-box-shadow: 0 0 0 1000px white inset !important;
-    box-shadow: 0 0 0 1000px white inset !important;
-    background-color: white !important;
-    -webkit-text-fill-color: black !important;
-    -webkit-background-clip: text;
-}
-
-
-/*
-.submit-button {
-    background-color: #196c2c;
-    color: #f6f7f8;
-    border: 2px solid white;
-    border-radius: 20px;
-    padding: 5px 10px;
-    font-weight: bold;
-    cursor: pointer;
-    transition: background 0.3s;
-    width: 30%;
-    height: 20%;
-    margin-bottom: 10px;
-    font-size: 12px;
-}*/
-/*
-
-
-.form-gradient-box img{
-    width: 20%;
-    height: 20%;
-    margin-top: 20px;
-}*/
-
-
 /* =====================================================
         Responsive Styles - Archivo CSS Reutilizable
         Puedes incluir este archivo en todas tus vistas.
     =====================================================*/
-@media (max-width: 768px) {
-  .login-page {
-    padding: 20px 0;
-    height: auto;
-    align-items: flex-start;
-  }
+/* RESPONSIVE DESIGN */
 
+/* Tablets (pantallas entre 768px y 991.98px) */
+@media (max-width: 991.98px) {
   .login-box {
     flex-direction: column;
-    width: 100%;
-    height: auto;
-    border-radius: 8px;
-    margin: 0 10px;
+    width: 90%;
+    min-height: auto;
   }
 
   .logo-section {
-    width: 100%;
-    padding: 15px;
     border-right: none;
-    border-bottom: 1px solid #ccc;
+    border-bottom: 1px solid #ddd;
+    padding: 10px;
+  }
+
+  .logo {
+    width: 150px;
+    height: 150px;
   }
 
   .form-container {
-    width: 100%;
     padding: 15px;
+    max-width: 100%;
+    width: 100%;
   }
 
   .form-gradient-box {
-    padding: 15px;
     width: 100%;
+    padding: 20px 10px;
+  }
+}
+
+
+/* Móviles grandes (pantallas entre 576px y 767.98px) */
+@media (max-width: 767.98px) {
+  .login-page {
+    height: auto;
+    padding: 20px 10px;
+  }
+
+  .logo {
+    width: 120px;
+    height: 120px;
+  }
+
+  .app-name {
+    font-size: 18px;
+  }
+
+  .form-container {
+    padding: 10px;
   }
 
   .form-buttons {
     flex-direction: column;
     gap: 10px;
-    align-items: center;
   }
 
+  .btn,
   .btn-aceptar {
     width: 100%;
+    max-width: 200px;
+  }
+}
+
+
+/* Móviles pequeños (pantallas menores a 576px) */
+@media (max-width: 575.98px) {
+  .login-box {
+    width: 100%;
+    border: none;
+    border-radius: 0;
+    box-shadow: none;
   }
 
-  .register-link {
-    font-size: 13px;
+  .logo-section {
     padding: 10px;
   }
 
-  .custom-small-input input {
-    font-size: 14px !important;
-  }
-
-  .language-switcher {
-    position: static;
-    margin-top: 10px;
-  }
-
-  .divider {
-    width: 100%;
-  }
-
-  .logo {
-    width: 120px;
-    height: auto;
+  .form-gradient-box {
+    padding: 15px 10px;
   }
 
   .user-icon {
     width: 40px;
     height: 40px;
   }
-}
 
-/* ============ TABLETS (768px a 991px) ============*/
-@media (min-width: 768px) and (max-width: 991.98px) {
-  .login-box {
-    flex-direction: column;
-    width: 90%;
-    margin: auto;
-  }
-
-  .logo-section {
-    width: 100%;
-    border-right: none;
-    border-bottom: 1px solid #ccc;
-    padding: 20px;
-    text-align: center;
-  }
-
-  .form-container {
-    width: 100%;
-    padding: 20px;
-    display: flex;
-    justify-content: center;
-  }
-
-  .form-gradient-box {
-    width: 100%;
-    padding: 20px;
-  }
-
-  .form-buttons {
-    justify-content: center;
-    gap: 10px;
-  }
-
-  .btn-aceptar {
-    width: 50%;
-    max-width: 200px;
-  }
-
-  .logo {
-    width: 150px;
-    height: auto;
-  }
-
-  .user-icon {
-    width: 50px;
-    height: 50px;
-  }
-
-  .custom-small-input input {
-    font-size: 14px !important;
-  }
-
-  .register-link {
-    font-size: 14px;
-    text-align: center;
+  .divider {
+    margin: 0.5rem auto;
   }
 
   .language-switcher {
     position: static;
     margin-top: 10px;
-  }
-}
-/* ============ MÓVILES PEQUEÑOS (Teléfonos < 576px) ============ */
-
-@media (max-width: 575.98px) {
-  .login-box {
-    flex-direction: column; /* Apila el logo y el formulario */
-    width: 95%;
-    min-height: auto;
-    border: none;
-    box-shadow: none;
-  }
-
-  .logo-section {
-    border-right: none;
-    border-bottom: 1px solid #ddd;
-    padding: 15px;
-  }
-
-  .logo {
-    width: 120px;
-    height: auto;
-  }
-
-  .form-container {
-    padding: 15px;
-  }
-
-  .form-gradient-box {
-    border-radius: 0;
-    padding: 15px;
-  }
-
-  .btn-aceptar {
-    width: 100%;
-    max-width: none;
-    height: 38px;
-    font-size: 14px;
-  }
-
-  .register-link {
-    font-size: 12px;
-  }
-
-  .custom-small-input input {
-    font-size: 12px !important;
-  }
-
-  .divider {
-    margin: 0.5rem auto;
   }
 
   .bandera {
@@ -833,36 +576,12 @@ input:-webkit-autofill:active {
     height: 24px;
   }
 
-  .language-switcher {
-    top: 5px;
-    right: 0;
-  }
-}
-/* ============ LAPTOPS (992px a 1199px) ============ */
-
-@media (min-width: 992px) and (max-width: 1199.98px) {
-  .login-box {
-    width: 80%;
-  }
-
-  .logo-section,
-  .form-container {
-    padding: 25px;
-  }
-
-  .form-gradient-box {
-    padding: 25px;
-  }
-
-  .btn-aceptar {
-    width: 40%;
-    max-width: 180px;
-  }
-
   .custom-small-input input {
-    font-size: 14px !important;
+    font-size: 11px !important;
+  }
+
+  .register-link {
+    font-size: 12px;
   }
 }
-
-
 </style>

@@ -5,14 +5,14 @@
             <div class="logo-section">
                 <img src="../assets/img/Logo/logo.jpg" alt="Finanza Familiar Logo" class="logo" />
                 <!-- Título que cambia según modo: Crear nuevo usuario o Editar usuario existente -->
-    <h2>
+                  <h2>
 
-      {{ props.userId === null
+                    {{ props.userId === null
 
-        ? $t('register.title_new')  /* Cuando es nuevo usuario */
-        : $t('register.title_edit') /* Cuando es edición */
-      }}
-    </h2>
+                      ? $t('register.title_new')  /* Cuando es nuevo usuario */
+                      : $t('register.title_edit') /* Cuando es edición */
+                    }}
+                  </h2>
                 <!-- <h1 class="app-name">{{ $t('register.app_name') }}</h1>-->
 
                 <!-- Texto que indica la opción de idioma -->
@@ -534,11 +534,7 @@ html, body {
   object-fit: contain;
   margin-bottom: 10px;
 }
-.app-name {
-  font-size: 20px;
-  font-weight: bold;
-  text-align: center;
-}
+
 .language-switcher {
     margin-top: 15px;
 }
@@ -568,11 +564,15 @@ html, body {
   height: 50px;
   margin-bottom: 10px;
 }
+
+
 .divider {
-    width: 80%;
-    border: 1px solid black;
-    margin-bottom: 20px;
-    max-width: 350px;
+    height: 2px;
+    background-color: #010000;
+    border: none;
+    margin: 1rem auto;
+    width: 100%; /* o 100%, o un valor fijo como 300px */
+    display: block;
 }
 
 .form-field-horizontal {
@@ -580,49 +580,13 @@ html, body {
   margin-bottom: 16px;
 }
 
-.input-with-icon input.custom-input {
-    width: 80%;
-    padding: 10px 12px 10px 44px;
-    border-radius: 20px;
-    border: 2px solid #ccc;
-    background-color: white !important;
-    color: black !important;
-    font-size: 12px;
-    outline: none;
-    box-sizing: border-box;
-    margin-left: 32px;
-}
-.input-with-icon {
-    position: relative;
-    display: flex;
-    align-items: center;
-    width: 100%;
-    margin-bottom: 16px;
-}
-
 input::placeholder {
     font-size: 10px; /* tamaño de letra del placeholder */
     margin-left: 10px;
 
 }
-.input-icon-inside {
-  position: absolute;
-  left: 40px;
-  top: 50%;
-  transform: translateY(-50%);
-  width: 20px;
-  height: 20px;
-}
-.icono-ojo {
-  position: absolute;
-  right: 35px;
-  top: 50%;
-  transform: translateY(-50%);
-  width: 15px;
-  height: 15px;
-  cursor: pointer;
-}
-.submit-button {
+
+/*.submit-button {
   margin-top: 10px;
   padding: 10px 25px;
   border: none;
@@ -635,7 +599,7 @@ input::placeholder {
 }
 .submit-button:hover {
   background-color: #e0e0e0;
-}
+}*/
 
 .bandera{
     width: 30px;
@@ -653,23 +617,11 @@ input::placeholder {
 .custom-height {
   height: 40px; /* o el valor que uses en los inputs normales */
   font-size: 12px;
-   width: 100%;
-}
-.custom-input {
-  padding-left: 40px; /* espacio para el ícono */
   width: 100%;
-  border: 1px solid #ccc;
-  border-radius: 20px;
-  height: 40px;
-  font-size: 12px;
-  color: black;
-  outline: none;
-  box-sizing: border-box;
-  height: 30px;
 }
 
 
-.custom-small-input input {
+/*.custom-small-input input {
     font-size: 12px !important;
 }
 
@@ -682,7 +634,7 @@ input::placeholder {
 }
 
 .custom-small-input .v-field {
-    background-color:  transparent !important; /* o el fondo de tu contenedor */
+    background-color:  transparent !important;
     border-radius: 8px;
 }
 .custom-small-input .v-field--focused {
@@ -690,15 +642,15 @@ input::placeholder {
 }
 
 .custom-input:focus {
-  border-color: #2196f3; /* cambia al color azul cuando se enfoca */
+  border-color: #2196f3;
   box-shadow: 0 0 5px rgba(33, 150, 243, 0.5);
-}
+}*/
 
 .form-buttons {
   display: flex;
-  justify-content: center;
-  gap: 5px; /* espacio entre botones */
-  margin-left: 100px;
+  justify-content: flex-end;
+  gap: 10px; /* espacio entre botones */
+  margin-left: 150px;
 
 }
 
@@ -706,13 +658,15 @@ input::placeholder {
   display: flex; /* ← clave */
   align-items: center; /* centra verticalmente */
   justify-content: center; /* centra horizontalmente */
-  padding: 10px 20px;
   font-size: 12px;
   border: none;
   border-radius: 6px;
   cursor: pointer;
-  width: 60px;
+  width: 75px;
   height: 30px;
+  font-style: "popins";
+  margin-bottom: 5px;
+  margin-top: 5px;
 }
 
 .btn-aceptar {
@@ -729,6 +683,7 @@ input::placeholder {
     margin-top: 10px;
     font-size: 12px;
 }
+
 input:-webkit-autofill,
 input:-webkit-autofill:hover,
 input:-webkit-autofill:focus,
@@ -740,28 +695,54 @@ input:-webkit-autofill:active {
     -webkit-background-clip: text;
 }
 
-/* ============ RESPONSIVE ============ */
+/* RESPONSIVE DESIGN */
 
-/* Teléfonos pequeños (hasta 575px) */
-@media (max-width: 575.98px) {
-  .login-page {
-    align-items: flex-start;
-    padding-top: 20px;
-  }
-
+/* Tablets (pantallas entre 768px y 991.98px) */
+@media (max-width: 991.98px) {
   .login-box {
     flex-direction: column;
-    width: 100%;
-    min-height: unset;
-    border-radius: 0;
-    border: none;
-    box-shadow: none;
+    width: 90%;
+    min-height: auto;
   }
 
   .logo-section {
     border-right: none;
     border-bottom: 1px solid #ddd;
-    padding: 10px;
+    padding: 15px;
+  }
+
+  .logo {
+    width: 120px;
+    height: 120px;
+  }
+
+  .form-container {
+    padding: 15px;
+    max-width: 100%;
+    width: 100%;
+  }
+
+  .form-gradient-box {
+    width: 100%;
+    padding: 20px 10px;
+  }
+
+  .form-buttons {
+    justify-content: center;
+    margin-left: 0;
+  }
+
+  .btn {
+    width: 100px;
+  }
+}
+
+
+/* Móviles grandes (pantallas entre 576px y 767.98px) */
+@media (max-width: 767.98px) {
+  .login-page {
+    height: auto;
+    padding: 20px 10px;
   }
 
   .logo {
@@ -769,70 +750,97 @@ input:-webkit-autofill:active {
     height: 100px;
   }
 
-  .app-name {
-    font-size: 16px;
-  }
-
   .form-container {
     padding: 10px;
   }
 
-  .form-gradient-box {
-    padding: 15px 10px;
-    border-radius: 0;
-  }
-
-  .input-with-icon input.custom-input {
-    width: 100%;
-    margin-left: 0;
-    padding-left: 40px;
-  }
-
-  .input-icon-inside {
-    left: 12px;
-  }
-
-  .icono-ojo {
-    right: 12px;
-  }
-
   .form-buttons {
     flex-direction: column;
+    align-items: center;
+    gap: 10px;
     margin-left: 0;
-    gap: 8px;
   }
 
   .btn {
     width: 100%;
+    max-width: 200px;
   }
 
-  .submit-button {
+  .white-box {
+    padding: 15px;
+  }
+
+  .form-gradient-box {
+    padding: 15px 10px;
+  }
+}
+
+
+/* Móviles pequeños (pantallas menores a 576px) */
+@media (max-width: 575.98px) {
+  .login-box {
     width: 100%;
+    flex-direction: column;
+    border-radius: 0;
+    box-shadow: none;
+    border: none;
+  }
+
+  .logo-section {
+    padding: 10px;
+  }
+
+  .logo {
+    width: 80px;
+    height: 80px;
+  }
+
+  .form-gradient-box {
+    padding: 10px;
+  }
+
+  .user-icon {
+    width: 40px;
+    height: 40px;
+  }
+
+  .divider {
+    margin: 0.5rem auto;
+  }
+
+  .language-switcher {
+    margin-top: 10px;
+  }
+
+  .bandera {
+    width: 24px;
+    height: 24px;
+  }
+
+  .form-buttons {
+    flex-direction: column;
+    align-items: center;
+    gap: 8px;
+    margin-left: 0;
+  }
+
+  .btn {
+    width: 100%;
+    max-width: 200px;
   }
 
   .idioma-conf {
     text-align: center;
+    font-size: 11px;
+  }
+
+  .custom-height {
+    font-size: 11px;
+  }
+
+  input::placeholder {
+    font-size: 10px;
   }
 }
 
-/* Tablets (576px a 767px) */
-@media (min-width: 576px) and (max-width: 767.98px) {
-  .login-box {
-    flex-direction: column;
-    width: 90%;
-  }
-
-  .form-container {
-    padding: 15px;
-  }
-
-  .form-buttons {
-    margin-left: 0;
-    justify-content: space-between;
-  }
-
-  .btn {
-    width: 45%;
-  }
-}
 </style>
