@@ -1,6 +1,6 @@
 import api from './api'
 
-const API_URL = 'http://192.168.1.103:3000/api/presupuestos'
+//const API_URL = 'http://192.168.1.103:3000/api/presupuestos'
 
 export const getPresupuestos = async () => {
   try {
@@ -43,6 +43,7 @@ export const getPresupuestosByUserName = async (username) => {
 }
 
 export const crearPresupuesto  = async (param) => {
+  console.log("param:", param)
     try {
       const response = await api.post('/presupuestos', param)
       return response.data
@@ -53,7 +54,10 @@ export const crearPresupuesto  = async (param) => {
 
 
 export const editarPresupuesto  = async (param) => {
+  console.log("param:", param)
+
     try {
+
     const response = await api.put('/presupuestos', param)
 
     return response.data

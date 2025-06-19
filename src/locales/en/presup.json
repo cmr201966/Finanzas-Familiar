@@ -7,6 +7,11 @@
   "amount": "Amount",
   "submit": "Accept",
   "cancel": "Cancel",
-  "actions":"Actions"
+  "delete":"Delete",
+  "actions":"Actions",
+  "required": "This field is required",
+  "only_numbers":  "Only valid numbers are allowed",
+  "no_negative": "Negative numbers are not allowed"
+
 
 }

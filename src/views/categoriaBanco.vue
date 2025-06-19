@@ -1,9 +1,6 @@
 <template>
     <NavBar />
     <Footer />
-    <div class="login-page">
-        <div class="login-box">
-
             <!-- Parte derecha con fondo degradado -->
             <div class="form-container">
                 <div class="form-gradient-box">
@@ -17,19 +14,19 @@
                         <hr class="divider" />
 
                         <!-- Banco -->
-                        <div class="form-field-horizontal input-with-icon">
-                            <input  type="text"
-                                    :placeholder="$t('categoriaBanco.bank')"
-                                    v-model="banconame"
-                                    required
-                                    name="banco"
-                                    autocomplete="off"
-                                    class="custom-input"
-                                    id="new-bank"
-                                    prepend-inner-icon="mdi-calendar-month"
-                                    ref="bankInput"
+                        <v-col cols="12" md="12">
+                            <v-text-field
+                                v-model="banconame"
+                                :placeholder="$t('categoriaBanco.bank')"
+                                class="custom-height"
+                                dense
+                                outlined
+                                @keydown.enter="submitForm"
+                                density="compact"
+                                color="primary"
+                                prepend-inner-icon="mdi-bank"
                             />
-                        </div>
+                        </v-col>
 
                         <!-- Raya de división -->
                         <hr class="divider" />
@@ -39,25 +36,41 @@
                         <div class="form-buttons">
 
                             <!-- Botón Aceptar (verde) -->
-                            <v-btn @click="submitForm" :disabled="enviando || !banconame.trim()" :loading="enviando" class="btn btn-aceptar">{{ $t("categoriaBanco.submit") }}</v-btn>
+                            <v-btn  @click="submitForm"
+                                    :disabled="enviando || !banconame.trim()"
+                                    :loading="enviando"
+                                    class="btn btn-aceptar"
+                                    >{{ $t("categoriaBanco.submit") }}
+                            </v-btn>
 
                             <!-- Botón Cancelar (rojo) -->
-                            <v-btn @click="cancelarFormulario" :disabled="enviando" class="btn btn-cancelar"> {{ $t("categoriaBanco.cancel") }}</v-btn>
+                            <v-btn  @click="cancelarFormulario"
+                                    :disabled="enviando"
+                                    class="btn btn-cancelar"> {{ $t("categoriaBanco.cancel") }}
+                            </v-btn>
                         </div>
 
 
                     <!-- Tabla de bancos-->
+                    <v-card
+                            class="mx-auto pa-2"
+                            elevation="8"
+                            style="max-width: 450px;
+                            border-radius: 16px;
+                            background-color: #f9f9f9;"
+                    >
                     <div style="max-height: 400px; overflow-y: auto;">
                         <v-data-table
                             :headers="headers"
                             :items="bancos"
                             item-value="id"
-                            class="elevation-1 font-tabla"
+                            class="tabla-bancos"
                             :items-per-page="-1"
                             hide-default-footer
-                            style="min-width:230px;"
+                            style="min-width:200px;"
                             fixed-header
                             height="200"
+
                         >
                         <template #item.acciones="{ item }">
                             <div class="d-flex align-center">
@@ -71,6 +84,7 @@
                         </template>
                         </v-data-table>
                     </div>
+                    </v-card>
                     <v-dialog v-model="mostrarDialogoEliminar" max-width="400">
                         <v-card>
                             <v-card-title class="text-h6">{{ $t("categoriaBanco.message-kill1") }}</v-card-title>
@@ -83,8 +97,6 @@
                     </v-dialog>
                 </div>
             </div>
-        </div>
-    </div>
 </template>
 
 <script setup>
@@ -116,6 +128,7 @@ const username = localStorage.getItem('username')
 
 // Este array contendrá todos los bancos mostrados en la tabla
 const bancos = ref([])
+
 
 onMounted(async () => {
     bancos.value= await getBancos();
@@ -196,7 +209,6 @@ async function confirmarEliminacion() {
     // Aquí se hace la petición para eliminar el registro desde la base de datos
 
     await eliminarBanco(bancoAEliminarId.value);
-    console.log("1")
 
   // Recargando la tabla de presupuestos
     bancos.value= await getBancos();
@@ -228,57 +240,10 @@ function cancelarFormulario() {
 <style scoped>
 /* Fondo general de la página */
 
-/* Contenedor general de la página, centrado vertical y horizontal */
-.login-page {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    min-height: 100vh; /* Altura de toda la pantalla */
-    background-color: transparent; /* O cualquier color de fondo */
-}
-
-/* Caja blanca principal que contiene logo y formulario */
-.login-box {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    width: 100%;
-}
-
-/* Parte izquierda: logo y texto */
-.logo-section {
-    flex: 1;
-    background-color: white;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    border-right: 1px solid #ddd;
-    padding: 20px;
-}
-
-/* Logo */
-.logo {
-    width: 200px;
-    height: 200px;
-    object-fit: contain;
-    margin-bottom: 10px;
-}
-
-
 .header-inline {
     display: flex;
     align-items: center;
     gap: 5px;
-}
-
-/* Nombre app */
-.app-name {
-    font-family: 'Poppins', sans-serif;
-    font-size: 20px;
-    font-weight: 700;
-    color: #333;
-    text-align: center;
 }
 
 /* Parte derecha: formulario y fondo */
@@ -304,14 +269,12 @@ function cancelarFormulario() {
 .form-gradient-box {
     border-radius: 10px;
     background: linear-gradient(135deg, #4caf50, #2196f3);
-    display: flex;
     flex-direction: column;
     align-items: center;
     padding: 20px 15px;
     box-sizing: border-box;
     color: white;
     border: 2px solid blue;
-    width: 300px;
     margin: auto;
 }
 
@@ -320,14 +283,15 @@ function cancelarFormulario() {
     width: 50px;
     height: 50px;
     margin-top: 10px;
+    margin-left: 2px;
     object-fit: contain;
 }
 
 .form-buttons {
     display: flex;
-    justify-content: center;
-    gap: 5px; /* espacio entre botones */
-    margin-left: 100px;
+    justify-content: flex-end;
+    gap: 10px; /* espacio entre botones */
+    margin-left: 150px;
 }
 
 .btn {
@@ -378,75 +342,35 @@ function cancelarFormulario() {
     height: 2px;
     background-color: #010000;
     border: none;
-    margin: 1rem auto;
-    width: 80%; /* o 100%, o un valor fijo como 300px */
+    margin: 10px;
+    width: 90%; /* o 100%, o un valor fijo como 300px */
     display: block;
 }
 
-
-/* ======================== */
-/* Inputs con iconos dentro */
-/* ======================== */
-
-/* Contenedor flex para alinear icono e input horizontalmente */
-
-.form-field-horizontal {
-    display: flex;
-    align-items: center;
-    gap: 4px;
-    margin-bottom: 12px;
-    width: 40%;
-    margin-bottom: 8px; /* antes era 12px */
+.custom-height {
+    height: 30px; /* o el valor que uses en los inputs normales */
+    font-size: 12px;
 }
 
-.form-field-horizontal label {
-    color: white;
-    min-width: 90px;
-    font-weight: 500;
+.tabla-bancos .v-data-table-header th {
+    background-color: #e3f2fd; /* azul claro */
+    color: #0d47a1;
+    font-weight: 600;
+    font-size: 0.9rem;
 }
 
-.form-field-horizontal input {
-    height: 30px;
-    padding: 10px 10px;
-    border-radius: 5px;
-    border: none;
-    outline: none;
-    font-size: 14px;
-    max-width: 250px;
+.tabla-bancos .v-data-table__td {
+    font-size: 0.85rem;
+    color: #333;
+    border-bottom: 1px solid #ccc;
 }
 
-.form-field-horizontal .icono-ojo {
-    position: absolute;
-    right: 15px;
-    width: 15px;
-    height: 15px;
-    top:-5px;
+.tabla-bancos .v-data-table__wrapper {
+    border-radius: 10px;
 }
 
-.form-field-horizontal img.input-icon {
-    width: 26px;
-    height: 26px;
-    transform: -2px; /* Sube un poco el icono */
-}
-
-/* Input personalizado con espacio para icono a la izquierda */
-.input-with-icon {
-    position: relative;
-    display: flex;
-    align-items: center;
-    width: 90%;
-    margin-bottom: 16px;
-}
-
-.input-with-icon input {
-    width: 90%;
-    padding: 10px 12px 10px 44px; /* espacio izquierdo para la imagen */
-    border: 2px solid gray;
-    border-radius: 20px;
-    outline: none;
-    box-sizing: border-box;
-    background-color: white; /* O blanco implícito */
-    margin-left: 8px;
+.tabla-bancos .v-data-table {
+    border-radius: 12px;
 }
 
 input::placeholder {
@@ -455,63 +379,11 @@ input::placeholder {
 
 }
 
-.input-icon-inside {
-    position: absolute;
-    left: 25px;
-    top: -15px;
-    width: 20px;
-    height: 20px;
-    border-radius: 5px;
-
-}
-
-.input-with-icon .input-icon-inside {
-    position: absolute;
-    left: 18px;
-    width: 20px;
-    height: 20px;
-
-}
-
-.submit-button:hover {
-    background-color: rgba(255, 255, 255, 0.9);
-}
-
-.menu-reducido {
-    width: 100px;
-    padding: 2px 0; /* Ajusta el alto vertical */
-    padding-inline: 7px;
-    min-height: 32px;
-}
-
-.custom-input {
-    padding-left: 40px; /* deja espacio para el icono */
-    width: 70%;
-    border: 1px solid #ccc;
-    border-radius: 20px;
-    height: 40px;
-    font-size: 12px;
-    background-color: white;
-    color: black;
-    outline: none;
-    box-sizing: border-box;
-    height: 30px;
-}
 .bandera{
     width: 30px;
     height: 30px;
 }
-.idioma-conf{
-    font-size: 12px;
-}
 
-.user-info {
-    font-size: 11px;
-    color: #fbfafa;
-    margin-top: -14px;
-    margin-left: 9px; /* o lo necesario para alinear bien debajo del input */
-    margin-bottom: 10px;
-}
 
 /* Esto es para obligar al navegador a que ponga el color q tenia el input*/
 input:-webkit-autofill,
@@ -532,14 +404,6 @@ input:-webkit-autofill:active {
     margin-top: 20px;
 }
 
-.font-tabla {
-    font-size: 12px; /* Puedes ajustar a 12px, 16px, etc. */
-}
-
-.font-tabla .v-data-table__td {
-  padding: 2px 4px; /* Ajusta vertical y horizontalmente */
-}
-
 /* Disminuir alto del header de la tabla */
 .v-data-table thead th {
     height: 26px;
@@ -557,169 +421,140 @@ input:-webkit-autofill:active {
         Puedes incluir este archivo en todas tus vistas.
     ===================================================== */
 
-    /* ============ TELÉFONOS GRANDES (576px a 767px) ============ */
-@media (max-width: 768px) {
-    .login-box {
-        flex-direction: column;
-        width: 90vw;
-        min-height: auto;
-        border-radius: 8px;
-        }
+/* RESPONSIVE DESIGN */
 
-    .logo-section {
-        border-right: none;
-        border-bottom: 1px solid #ddd;
-        padding: 15px;
-        flex: none;
-        width: 100%;
-        }
+/* Tablets (pantallas entre 768px y 991.98px) */
+@media (max-width: 991.98px) {
+  .form-container {
+    padding: 15px;
+    max-width: 100%;
+    width: 100%;
+    flex-direction: column;
+  }
 
-    .logo {
-        width: 120px;
-        height: 120px;
-        margin-bottom: 5px;
-    }
+  .form-buttons {
+    justify-content: center;
+    margin-left: 0;
+  }
 
-    .app-name {
-        font-size: 18px;
-    }
+  .btn {
+    width: 90px;
+    height: 30px;
+  }
 
-    .form-container {
-        flex: none;
-        width: 100%;
-        max-width: 100%;
-        padding: 15px;
-        margin: 0;
-    }
+  .form-gradient-box {
+    width: 100%;
+    padding: 20px 10px;
+  }
 
-    .form-gradient-box {
-        max-width: 100%;
-        padding: 15px 10px;
-        border-radius: 8px;
-    }
+  .name-opcion {
+    font-size: 20px;
+    text-align: center;
+  }
 
-    .form-gradient-box img.user-icon {
-        width: 40px;
-        height: 40px;
-        margin-top: 5px;
-    }
-
-    .input-with-icon input {
-        width: 100%;
-        padding-left: 40px;
-    }
-
-    .submit-button {
-        width: 100%;
-        height: 40px;
-        margin-bottom: 15px;
-    }
-
-    .language-switcher {
-        top: 0;
-        right: 0;
-        margin-bottom: 10px;
-    }
-
-    .bandera {
-        width: 30px;
-        height: 30px;
-    }
+  .user-icon {
+    width: 40px;
+    height: 40px;
+  }
 }
 
-/* ============ TABLETS (768px a 991px) ============ */
 
-@media (min-width: 768px) and (max-width: 991.98px) {
-    .login-box {
-        width: 80%;
-    }
+/* Móviles grandes (pantallas entre 576px y 767.98px) */
+@media (max-width: 767.98px) {
+  .form-container {
+    padding: 10px;
+    flex-direction: column;
+  }
 
-    .form-gradient-box {
-        padding: 30px;
-    }
+  .form-buttons {
+    flex-direction: column;
+    align-items: center;
+    gap: 10px;
+    margin-left: 0;
+  }
 
-    .logo {
-        width: 100px;
-        height: 100px;
-    }
+  .btn {
+    width: 100%;
+    max-width: 180px;
+    height: 35px;
+    font-size: 12px;
+  }
 
-    .app-name {
-        font-size: 20px;
-    }
+  .form-gradient-box {
+    padding: 15px 10px;
+  }
 
-    .submit-button {
-        height: 42px;
-        font-size: 16px;
-    }
-    }
+  .name-opcion {
+    font-size: 18px;
+    text-align: center;
+  }
 
-/* ============ MÓVILES PEQUEÑOS (Teléfonos < 576px) ============ */
+  .form-gradient-box img {
+    width: 60px;
+    height: 60px;
+  }
 
+  .divider {
+    margin: 8px auto;
+  }
+
+  .bandera {
+    width: 25px;
+    height: 25px;
+  }
+}
+
+
+/* Móviles pequeños (pantallas menores a 576px) */
 @media (max-width: 575.98px) {
+  .form-container {
+    padding: 10px;
+    flex-direction: column;
+  }
 
-    /* Contenedor principal */
+  .form-buttons {
+    flex-direction: column;
+    align-items: center;
+    gap: 10px;
+    margin-left: 0;
+  }
 
-    .login-box {
-        width: 100%;
-        margin: 0;
-        border-radius: 0;
-    }
+  .btn {
+    width: 100%;
+    max-width: 160px;
+    height: 35px;
+    font-size: 11px;
+  }
 
-    .form-gradient-box {
-        padding: 20px;
-    }
+  .form-gradient-box {
+    padding: 12px 10px;
+    margin: 0 auto;
+  }
 
-    .form-container {
-        padding: 10px;
-    }
+  .form-gradient-box img {
+    width: 50px;
+    height: 50px;
+    margin-top: 10px;
+  }
 
-    .logo {
-        width: 80px;
-        height: 80px;
-    }
+  .name-opcion {
+    font-size: 16px;
+    text-align: center;
+  }
 
-    .app-name {
-        font-size: 16px;
-    }
+  .divider {
+    margin: 6px auto;
+    width: 100%;
+  }
 
-    .submit-button {
-        height: 36px;
-        font-size: 14px;
-    }
+  .bandera {
+    width: 24px;
+    height: 24px;
+  }
 
-    .footer {
-        font-size: 12px;
-    }
+  input::placeholder {
+    font-size: 12px;
+  }
 }
-
-/* ============ LAPTOPS (992px a 1199px) ============ */
-
-@media (min-width: 992px) and (max-width: 1199.98px) {
-
-    .login-box {
-        width: 60%;
-    }
-
-    .form-gradient-box {
-        padding: 35px;
-    }
-
-    .logo {
-        width: 120px;
-        height: 120px;
-    }
-
-    .app-name {
-        font-size: 22px;
-    }
-
-    .submit-button {
-        height: 46px;
-        font-size: 17px;
-    }
-    }
-
-
-
 
 </style>
