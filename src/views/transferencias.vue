@@ -205,6 +205,7 @@ import { getAllAccounts } from "@/services/accountService"
 import { guardarTransferencia } from '@/services/transferencias';
 import { getTransferenciasById } from "@/services/transferencias";
 import { eliminarTransferencia } from "@/services/transferencias";
+import { updateTransferencia } from "@/services/transferencias";
 
 
 
@@ -313,14 +314,13 @@ const enviando = ref(false)
 
 function editarTransferenciaVista(item) {
   editando.value = true;
+
 // Formatea la fecha si viene como ISO (yyyy-mm-dd) u objeto Date
 const fecha = new Date(item.date);
 const dia = fecha.getDate().toString().padStart(2, '0');
 const mes = (fecha.getMonth() + 1).toString().padStart(2, '0');
 const anio = fecha.getFullYear();
 const fechaFormateada = `${dia}/${mes}/${anio}`;
-
-console.log('Descripción original:', item.description);
 
 
 form.value = {
@@ -330,11 +330,8 @@ form.value = {
   fecha: fechaFormateada,  // usar el campo correcto
   description: item.description || '',  // si tu input usa form.descripcion
 
-
-
 }
   transferenciaSeleccionado.value = item;
-  console.log('Formulario resultante:', form.value)
 }
 
 const mostrarDialogoEliminar = ref(false)
@@ -377,6 +374,9 @@ async function confirmarEliminacion() {
 
 const submitForm = async () => {
 
+  console.log("11111")
+  console.log(form.value.fecha)
+
 const origen = form.value.from_account_id;
 const destino = form.value.to_account_id;
 const importe = form.value.amount;
@@ -403,6 +403,7 @@ const fecha = form.value.fecha;
 
   try {
     enviando.value = true;
+
     const nuevaTransferencia = {
       from_account_id: origen,
       to_account_id: destino,
@@ -412,10 +413,33 @@ const fecha = form.value.fecha;
       user_id: user_id_tmp.value
 
     };
+    console.log("2222")
+    console.log(editando.value)
+
+    if (editando.value && transferenciaSeleccionado.value?.id) {
+
+      //  Editar transferencia
+        console.log("33333")
+        console.log (transferenciaSeleccionado.value.id)
+        console.log("nueva transferencia", nuevaTransferencia)
+      await updateTransferencia(transferenciaSeleccionado.value.id, nuevaTransferencia);
+
+      console.log("Transferencia actualizada:", nuevaTransferencia);
+    } else {
+
+      // Crear nueva transferencia
+      //
+      // await guardarTransferencia(nuevaTransferencia);
+      await guardarTransferencia(nuevaTransferencia);
+
+      console.log("Transferencia creada:", nuevaTransferencia);
+    }
+
 
     // Guardar en la BD (ajusta según tu servicio real)
 
-    await guardarTransferencia(nuevaTransferencia);
+    //await guardarTransferencia(nuevaTransferencia);
+    //console.log("loque guarde:", nuevaTransferencia)
 
     // Agregar a la tabla
    //transferencias.value.push(nuevaTransferencia);
