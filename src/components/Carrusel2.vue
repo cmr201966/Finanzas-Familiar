@@ -64,7 +64,7 @@ const moveSlide = (direction) => {
 const handleClick = (image) => {
   switch (image.name) {
     case 'resumen':
-      router.push('/resumen')
+      router.push('/Resumen_General')
       break
     case 'transferencias':
       router.push('/transferencias')

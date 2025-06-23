@@ -57,3 +57,13 @@ export async function deleteAccount(id) {
   }
 }
 
+export async function accountSaldos() {
+  try {
+    const response = await api.get('/accounts/saldos');
+    return response.data.data
+  } catch (error) {
+    console.error('Error al obtener los saldos de las cuentas:', error)
+    throw error
+  }
+}
+
