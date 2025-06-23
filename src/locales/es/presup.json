@@ -7,6 +7,10 @@
   "amount": "Importe",
   "submit": "Aceptar",
   "cancel": "Cancelar",
-  "actions":"Acciones"
+  "delete":"Delete",
+  "actions":"Acciones",
+  "required": "Este campo es obligatorio",
+  "only_numbers": "Solo se permiten números válidos",
+  "no_negative": "No se permiten números negativos"
 
 }

@@ -12,95 +12,91 @@
                     <hr class="divider" />
 
                     <!-- Formulario directamente sobre fondo de gradiente -->
-
-                    <v-form @submit.prevent="submitForm" class="form-content">
+                    <div class="presupuesto-container"></div>
+                      <v-form @submit.prevent="submitForm">
 
                         <!--Input para seleccionar la categoria  :placeholder="$t('presup.category')" :label="$t('presup.category')"-->
 
-                        <v-autocomplete
-                            v-model="form.categoria_id"
-                            :items="categorias"
-                            item-title="name"
-                            item-value="id"
-                            :label="form.categoria_id ? '' : $t('presup.category')"
-                            :search-input.sync="search"
-                            :loading="loading"
-                            hide-no-data
-                            hide-selected
-                            required
-                            hide-details
-                            density="compact"
-                            class="custom-white-input"
-                            :clearable="false"
-                            style="background-color: white"
-                            prepend-inner-icon="mdi-format-list-bulleted"
-                            border-radios="4px"
-                        />
+                        <v-row>
+                            <v-col cols="12" md="12">
+                              <v-autocomplete
+                                v-model="form.categoria_id"
+                                :items="categorias"
+                                item-title="name"
+                                item-value="id"
+                                :label="form.categoria_id ? '' : $t('presup.category')"
+                                class="mb-3 custom-height"
+                                :loading="loading"
+                                density="compact"
+                                dense
+                                outlined
+                                prepend-inner-icon="mdi-tag-multiple"
+                              />
+                            </v-col>
+                          </v-row>
 
-                        <!-- Slot para personalizar cómo se muestra la categoría seleccionada -->
+                        <!-- Slot para personalizar cómo se muestra la categoría seleccionada-->
                         <template #selection="{ item, index }">
                             <span v-if="item && typeof item === 'object'">{{ item.name }}</span>
                         </template>
 
-                        <!--Input para seleccionar el mes -->
-                        <v-menu
-                            v-model="menuMes"
-                            :close-on-content-click="false"
-                            transition="scale-transition"
-                            offset-y
-                            max-width="290px"
-                            min-width="auto"
-                        >
+                        <!-- Importe y Fecha (alineados horizontalmente)-->
 
-                            <!-- Activador: el input que abre el menú -->
-
-                            <template #activator="{ props }">
-                                <v-text-field
-                                    v-model="form.mes"
-                                    v-bind="props"
-                                    :label="$t('presup.month')"
-                                    placeholder="Ej: mayo de 2025"
-                                    readonly
-                                    required
-                                    hide-details
+                            <v-row>
+                                  <!-- Importe -->
+                                <v-col cols="12" md="6">
+                                  <v-text-field
+                                    v-model.number="form.monto"
+                                    :label="$t('presup.amount')"
+                                    type="number"
+                                    min="0"
+                                    step="0.01"
+                                    @keypress="soloNumerosDecimal"
+                                    :rules="[
+                                      v => v !== null && v !== '' || $t('presup.required'),
+                                      v => !isNaN(v) || $t('presup.only_numbers'),
+                                      v => parseFloat(v) >= 0 || $t('presup.no_negative')
+                                    ]"
+                                    dense
+                                    outlined
                                     density="compact"
-                                    class="custom-white-input"
-                                    prepend-inner-icon="mdi-calendar-month"
-                                    />
-                            </template>
+                                    prepend-inner-icon="mdi-currency-usd"
 
-                            <!-- Contenido del menú (picker de mes personalizado) -->
+                                  />
+                                </v-col>
+                                <!--Input para seleccionar el mes -->
 
-                            <v-date-picker
-                                v-model="pickerMes"
-                                @update:model-value="selectMes"
-                                color="primary"
-                                type="month"
-                                show-adjacent-months
-                                hide-header
-                                view-mode="month"
-                                >
+                                    <v-col cols="12" md="6">
+                                      <v-menu
+                                        v-model="menuMes"
+                                        :close-on-content-click="false"
+                                        transition="scale-transition"
+                                        offset-y
 
-                                <!-- Header de navegación -->
+                                      >
+                                      <template #activator="{ props }">
+                                        <v-text-field
+                                          v-model="form.mes"
+                                          :label="$t('presup.month')"
+                                          density="compact"
+                                          readonly
+                                          v-bind="props"
+                                          class="custom-heigt white-rounded "
+                                          prepend-inner-icon="mdi-calendar-month"
+                                        />
+                                      </template>
 
-                                <template #header="{ togglePreviousMonth, toggleNextMonth }">
-                                    <div class="d-flex justify-space-between pa-2">
-                                        <v-btn icon @click="goToPreviousMonth">
-                                            <v-icon>mdi-chevron-left</v-icon>
-                                        </v-btn>
-                                        <v-btn icon @click="goToNextMonth">
-                                            <v-icon>mdi-chevron-right</v-icon>
-                                        </v-btn>
-                                    </div>
-                                </template>
-                            </v-date-picker>
-                        </v-menu>
+                                      <v-date-picker
+                                          type="month"
+                                          @update:model-value="selectMes"
+                                          :min="fechaMinima"
+                                          color="primary"
+                                      />
+                                    </v-menu>
+                                  </v-col>
+                            </v-row>
 
-                        <!-- input importe -->
-                        <div class="form-field-horizontal input-with-icon">
-                            <img src="../assets/img/icono/dinero.png" class="input-icon-inside" />
-                            <input type="number" :placeholder="$t('presup.amount')" v-model="form.importe" class="custom-input" />
-                        </div>
+
 
                         <hr class="divider1" />
 
@@ -110,16 +106,23 @@
 
                             <!-- Botón Aceptar (verde) -->
 
-                            <v-btn @click="submitForm" :loading="enviando" class="btn btn-aceptar">{{ $t("presup.submit") }}</v-btn>
+                            <v-btn
+                                @click="submitForm"
+                                :loading="enviando"
+                                :disabled="!formValido"
+                                class="btn btn-aceptar">{{ $t("presup.submit") }}</v-btn>
 
                             <!-- Botón Cancelar (rojo) -->
 
-                            <v-btn @click="cancelarFormulario" :disabled="enviando" class="btn btn-cancelar"> {{ $t("presup.cancel") }}</v-btn>
+                            <v-btn
+                                @click="cancelarFormulario"
+                                :disabled="enviando"
+                                class="btn btn-cancelar"> {{ $t("presup.cancel") }}</v-btn>
                         </div>
-                    </v-form>
+                      </v-form>
 
-                    <!-- Tabla de presupuestos por mes -->
-                    <div style="max-height: 400px; overflow-y: auto;">
+                      <!-- Tabla de presupuestos por mes -->
+                      <div style="max-height: 400px; overflow-y: auto;">
                         <v-data-table
                           :headers="headers"
                           :items="presupuestos"
@@ -131,17 +134,21 @@
                         >
                           <template #item.acciones="{ item }">
                             <div class="d-flex align-center">
-                              <v-btn icon class="bg-transparent" @click="editarPresupuestoVista(item)">
+                              <v-btn  icon
+                                      class="bg-transparent"
+                                      @click="editarPresupuestoVista(item)">
                                 <v-icon size="18">mdi-pencil</v-icon>
                               </v-btn>
-                              <v-btn icon class="bg-transparent" @click="eliminarPresupuestoVista(item.id)">
+                              <v-btn  icon
+                                      class="bg-transparent"
+                                      @click="eliminarPresupuestoVista(item.id)">
                                 <v-icon size="18" color="red">mdi-delete</v-icon>
                               </v-btn>
                             </div>
                           </template>
                         </v-data-table>
-                    </div>
-                    <v-dialog v-model="mostrarDialogoEliminar" max-width="400">
+                      </div>
+                      <v-dialog v-model="mostrarDialogoEliminar" max-width="400">
                       <v-card>
                         <v-card-title class="text-h6">¿Estás seguro?</v-card-title>
                             <v-card-text>¿Deseas eliminar este presupuesto? Esta acción no se puede deshacer.</v-card-text>
@@ -150,9 +157,9 @@
                                   <v-btn color="red" text @click="confirmarEliminacion">Eliminar</v-btn>
                               </v-card-actions>
                       </v-card>
-                    </v-dialog>
+                      </v-dialog>
+                    </div>
                   </div>
-                </div>
     </div>
 </div>
 </template>
@@ -170,36 +177,32 @@ import { editarPresupuesto } from '@/services/presupuestos';
 import { eliminarPresupuesto } from '@/services/presupuestos' ;
 
 
-//usuario autentificado
-const username = localStorage.getItem('username')
 
-// PARA TODO LO REFERENTE AL IDIOMA
-const { locale, t } = useI18n();
-
+const username = localStorage.getItem('username') //usuario autentificado
 const router = useRouter();
+const { locale, t } = useI18n();                // PARA TODO LO REFERENTE AL IDIOMA
+
 
 //PARA TODO LO REFERENTE AL MES
 const menuMes = ref(false);
 const pickerMes = ref("");
+const hoy = new Date();
+const año = hoy.getFullYear();
+const mes = String(hoy.getMonth() + 1).padStart(2, '0');
+const fechaMinima = `${año}-${mes}`;
+
 
 const goToPreviousMonth = () => {
-  const current = new Date(pickerMes.value);
-  current.setMonth(current.getMonth() - 1);
-  pickerMes.value = current.toISOString().slice(0, 10);
+    const current = new Date(pickerMes.value);
+    current.setMonth(current.getMonth() - 1);
+    pickerMes.value = current.toISOString().slice(0, 10);
 };
 
 const goToNextMonth = () => {
-  const current = new Date(pickerMes.value);
-  current.setMonth(current.getMonth() + 1);
-  pickerMes.value = current.toISOString().slice(0, 10);
+    const current = new Date(pickerMes.value);
+    current.setMonth(current.getMonth() + 1);
+    pickerMes.value = current.toISOString().slice(0, 10);
 };
-
-const form = ref({
-  importe: "",
-  categoria: null,
-  mes: "", // 🟢 Mostrado en el input: "mayo de 2025"
-  mes_guardado: "", // 🟡 Usado para enviar al backend: "2025-05"
-});
 
 // Cuando el usuario elige el mes
 
@@ -207,20 +210,33 @@ const selectMes = (val) => {
   const date = new Date(val);
 
   if (!isNaN(date)) {
-    form.value.mes_guardado = date.toISOString().slice(0, 7); // "YYYY-MM"
-    form.value.mes = date.toLocaleDateString("es-ES", {
-      year: "numeric",
-      month: "long",
-    });
+    // Fecha mínima: primer día del mes actual
+    const hoy = new Date();
+    const inicioMesActual = new Date(hoy.getFullYear(), hoy.getMonth(), 1);
+
+    if (date >= inicioMesActual) {
+      form.value.mes_guardado = date.toISOString().slice(0, 7); // "YYYY-MM"
+      form.value.mes = date.toLocaleDateString("es-ES", {
+        year: "numeric",
+        month: "long",
+      });
+      menuMes.value = false;
+    } else {
+      // Opcional: mensaje de error o simplemente ignorar
+      alert("No puede seleccionar meses anteriores al actual.");
+    }
   }
-
-  menuMes.value = false;
 };
 
-const formatearMes = (fechaStr) => {
-  const date = new Date(fechaStr);
-  return date.toLocaleDateString("es-ES", { year: "numeric", month: "long" });
-};
+
+
+const form = ref({
+    monto: "",
+    categoria: null,
+    mes: "", // 🟢 Mostrado en el input: "mayo de 2025"
+    mes_guardado: "", // 🟡 Usado para enviar al backend: "2025-05"
+});
+
 
 //PARA TODO LO REFERENTE A LA CATEGORIA
 // Cargando las categorias
@@ -231,12 +247,13 @@ const search = ref("");
 const loading = ref(false);
 
 
-
 //ES PARA CARGAR LA VISTA
 
 onMounted(async () => {
-  categorias.value = await getCategoriasByType('gasto', username);
-  presupuestos.value= await getPresupuestosByUserName(username);
+
+    categorias.value = await getCategoriasByType('gasto', username);
+    presupuestos.value= await getPresupuestosByUserName(username);
+
 });
 
 //PARA EL BOTON ACEPTAR
@@ -267,6 +284,34 @@ function limpiarFormulario() {
   };
 }
 
+const formValido = computed(() => {
+  return (
+    form.value.monto !== '' && form.value.monto !== null && Number(form.value.monto) >= 0 &&
+    form.value.categoria_id !== null && form.value.categoria_id !== '' &&
+    form.value.mes !== '' && form.value.mes !== null
+  );
+});
+
+function soloNumerosDecimal(e) {
+    const key = e.key;
+    const valor = e.target.value;
+
+    // Permitir números del 0 al 9
+    if (/[0-9]/.test(key)) return;
+
+    // Permitir solo un punto decimal
+    if (key === '.' && !valor.includes('.')) return;
+
+    // Bloquear todo lo demás
+    e.preventDefault();
+}
+
+watch(() => form.value.monto, (val) => {
+    if (val < 0 || isNaN(val)) {
+      form.value.monto = 0;
+    }
+});
+
 //Editar Presupuesto
 function editarPresupuestoVista(item) {
 
@@ -276,9 +321,12 @@ function editarPresupuestoVista(item) {
     categoria_id: item.categoria_id,
     categoria: item.categoria,
     monto: item.importe,
+
     mes: "2025-06",
 //    mes: item.mes,
     mes_guardado: item.mes_guardado || "",
+
+
   };
 }
 
@@ -291,6 +339,7 @@ function eliminarPresupuestoVista(id) {
 
   idParaEliminar.value = id;
   mostrarDialogoEliminar.value = true;
+  limpiarFormulario
 }
 
 async function confirmarEliminacion() {
@@ -306,6 +355,7 @@ async function confirmarEliminacion() {
 
   // Recargando la tabla de presupuestos
     presupuestos.value = await getPresupuestosByUserName(username);
+    limpiarFormulario();
 
    // Cerrar el diálogo
 
@@ -335,7 +385,7 @@ const submitForm = async () => {
       id: form.value.id,
       categoria_id: form.value.categoria_id,
       mes: Number(partes[1]),
-      monto_limite: form.value.importe,
+      monto_limite: form.value.monto,
       usuario_id: user.data.id,
     };
 
@@ -361,6 +411,8 @@ const submitForm = async () => {
     enviando.value = false;
   }
 };
+
+
 
 //PARA LOS BOTONES DE LA VISTA
 
@@ -433,6 +485,14 @@ const cargarPresupuestos = async () => {
   border-radius: 4px;                 /* bordes redondeados opcionales */
 }
 
+.mb-3 {
+  margin-bottom: 16px;
+}
+.custom-height {
+  height: 40px; /* o el valor que uses en los inputs normales */
+  font-size: 12px;
+}
+
 /* Contenedor general de la página, centrado vertical y horizontal */
 
 .login-page {
@@ -453,13 +513,13 @@ const cargarPresupuestos = async () => {
 
 /* Parte derecha: formulario y fondo */
 .form-container {
-  max-width: 400px; /* Limita el ancho máximo del formulario */
-  margin: auto;
-  flex: 2;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  padding: 10px;
+    max-width: 400px; /* Limita el ancho máximo del formulario */
+    margin: auto;
+    flex: 2;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 10px;
 }
 
 .header-inline {
@@ -470,23 +530,16 @@ const cargarPresupuestos = async () => {
 
 .form-gradient-box {
   border-radius: 10px;
-  background: linear-gradient(135deg, #4caf50, #2196f3);
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  padding: 20px 15px;
-  box-sizing: border-box;
-  color: white;
-  border: 2px solid blue;
-  width: 400px;
-  margin: auto;
-}
+    background: linear-gradient(135deg, #4caf50, #2196f3);
 
-.form-content {
-  display: flex;
-  flex-direction: column;
-  width: 75%;
-  gap: 8px;
+    flex-direction: column;
+    align-items: center;
+    padding: 20px 15px;
+    box-sizing: border-box;
+    color: white;
+    border: 2px solid blue;
+
+    margin: auto;
 }
 
 .user-icon {
@@ -496,15 +549,27 @@ const cargarPresupuestos = async () => {
 }
 
 .divider {
-  width: 80%;
-  border: 1px solid black;
-  margin: 10px 0;
-  max-width: 350px;
+  height: 2px;
+    background-color: #010000;
+    border: none;
+    margin: 1rem auto;
+    width: 100%; /* o 100%, o un valor fijo como 300px */
+    display: block;
 }
 
 .divider1 {
-  width: 105%;
-  border: 1px solid black;
+    height: 2px;
+    background-color: #010000;
+    border: none;
+    margin: 1rem auto;
+    width: 100%; /* o 100%, o un valor fijo como 300px */
+    display: block;
+}
+
+.presupuesto-container {
+  max-width: 600px;
+  margin: auto;
+
 }
 
 /*Titulo de la opcion*/
@@ -602,8 +667,8 @@ const cargarPresupuestos = async () => {
 
 .form-buttons {
   display: flex;
-  justify-content: center;
-  gap: 5px; /* espacio entre botones */
+  justify-content: flex-end;
+  gap: 10px; /* espacio entre botones */
   margin-left: 150px;
 }
 
@@ -620,6 +685,7 @@ const cargarPresupuestos = async () => {
   height: 30px;
   font-style: "popins";
   margin-bottom: 10px;
+  margin-top: 10px;
 }
 
 .btn-aceptar {
