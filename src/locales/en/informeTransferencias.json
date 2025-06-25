@@ -1,0 +1,20 @@
+{
+    "app_option": "Transfers Report",
+    "source_account" :"Source account",
+    "destination_account": "Destination account",
+    "description":"Transfer Description",
+    "submit": "Filter selection",
+    "month":"Month",
+    "monthStart": "Start month",
+    "monthEnd": "End month",
+    "export":"Export",
+    "excel":"Export excel",
+    "source":"Source",
+    "destination":"Destination",
+    "amount":"Amount",
+    "date":"Date",
+    "actions":"Actions",
+    "imprimir":"Print",
+    "messagePDF":"The Transfer Report .PDF has been successfully exported.",
+    "messageEXCEL":"The Transfer Report .EXCEL has been successfully exported."
+}

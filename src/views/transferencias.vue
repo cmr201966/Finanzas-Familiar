@@ -84,7 +84,7 @@
                                       readonly
                                       v-bind="props"
                                       density="compact"
-                                      class="custom-heigt white-rounded"
+                                      class="custom-height white-rounded"
                                       prepend-inner-icon="mdi-calendar-month"
                                     />
                                   </template>
@@ -319,8 +319,6 @@ const dia = fecha.getDate().toString().padStart(2, '0');
 const mes = (fecha.getMonth() + 1).toString().padStart(2, '0');
 const anio = fecha.getFullYear();
 const fechaFormateada = `${dia}/${mes}/${anio}`;
-
-console.log('Descripción original:', item.description);
 
 
 form.value = {
