@@ -21,6 +21,8 @@ import esTransferencias from './locales/es/transferencias.json'
 import enTransferencias from './locales/en/transferencias.json'
 import esTransacciones from './locales/es/transacciones.json'
 import enTransacciones from './locales/en/transacciones.json'
+import esinformePresupuesto from './locales/es/informePresupuesto.json'
+import eninformePresupuesto from './locales/en/informePresupuesto.json'
 
 const messages = {
   es: {
@@ -33,7 +35,8 @@ const messages = {
     categoriaBanco:esCategoriaBanco,
     categoriaTipoCuenta:esCategoriaTipoCuenta,
     transacciones:esTransacciones,
-    transferencias:esTransferencias
+    transferencias:esTransferencias,
+    informePresupuesto:esinformePresupuesto
   },
   en: {
     login: enLogin,
@@ -45,7 +48,8 @@ const messages = {
     categoriaBanco:enCategoriaBanco,
     categoriaTipoCuenta:enCategoriaTipoCuenta,
     transacciones:enTransacciones,
-    transferencias:enTransferencias
+    transferencias:enTransferencias,
+    informePresupuesto:eninformePresupuesto
   }
 }
 
