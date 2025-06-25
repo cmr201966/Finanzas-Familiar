@@ -407,17 +407,15 @@ position: absolute;
   padding-left: 3vw;
   height: 5vh;
 }
-.entrada-saldo{
+
+.entrada-saldo input{
   position: absolute;
   top: 39%;
-  left: 33.2%;
-  width: 75%;
-}
-.entrada-saldo input{
-  width: 46%;
+  left: 53%;
   background-color: white;
   border-radius: 1vw;
   border: 2px solid #000000;
+  width: 35%;
   padding-left: 3vw;
   height: 5vh;
 }

@@ -43,9 +43,9 @@
     </div>
     <div class="saldo-actual">
      <img class="img-resumensaldo" src="../assets/img/tarjetas/saldocuentas.png" alt="">
-     <p class="texto-saldo">
-        Saldo actual
-     </p>
+        <p class="texto-saldo">
+          Saldo actual: {{ saldoActualMes.toFixed(2) }}
+        </p>
      </div>
     <div class="saldo-general">
      <img class="img-resumensaldo" src="../assets/img/tarjetas/saldocuentas.png" alt="">
@@ -68,11 +68,24 @@
     <div class="evolucion-temporal">
      <p class="texto-evolucion-temporal">
         Evolucion temporal
+        <GraficoEvolucion
+  v-if="ingresosPorMes.length && gastosPorMes.length"
+  :ingresos="ingresosPorMes"
+  :gastos="gastosPorMes"
+  :etiquetasMeses="etiquetasMeses"
+/>
      </p>
     </div>
     <div class="bancos-cuentas">
      <p class="texto-bancos-cuentas">
         Bancos y cuentas
+        <div class="lista-bancos">
+    <ul>
+  <li v-for="cuenta in cuentasConBancoYNombre" :key="cuenta.banco + cuenta.nombre">
+    {{ cuenta.banco }} - {{ cuenta.nombre }}: ${{ cuenta.saldo.toFixed(2) }}
+  </li>
+</ul>
+  </div>
      </p>
     </div>
     <div class="presupuesto-real">
@@ -89,13 +102,16 @@ import { ref, computed, onMounted } from 'vue'
 import GraficoGastos from '@/components/Graficogastos.vue' // ajusta el path si es diferente
 import { getAllTransactions } from '@/services/transaccionesService.js'
 import { getAllExpenses } from '@/services/expensesService.js'
-import { accountSaldos } from '@/services/accountService'
+import { accountSaldos, getAllAccounts } from '@/services/accountService'
+import { getBancos } from '@/services/BancoService.js'
+import GraficoEvolucion from '@/components/GraficoEvolucion.vue'
 const mesSeleccionado = computed(() => Number(fecha.value.slice(5, 7)))
 const añoSeleccionado = computed(() => Number(fecha.value.slice(0, 4)))
 const fecha = ref(new Date().toISOString().slice(0, 10))
 const categoria = ref([])
 const transacciones = ref([])
-const saldoGeneral = ref(0)
+const cuentas = ref([])
+const bancos = ref([]) // si lo vas a usar
 const fechaFormateada = computed(() => {
   const meses = [
     'ene',
@@ -128,17 +144,55 @@ const fechaFormateada = computed(() => {
 onMounted(async () => {
   await cargarCategoria()
   await cargarTransacciones()
-   await cargarSaldo()
+   await cargarBancos()
+   await cargarCuentas()
+
 })
 
-async function cargarSaldo() {
+async function cargarCuentas() {
   try {
-    const data = await accountSaldos()
-    saldoGeneral.value = data.total || 0  // ajusta según cómo venga la respuesta
+    const data = await getAllAccounts() // ✅ aquí se declara 'data'
+    cuentas.value = data
+    console.log('Cuentas obtenidas:', data) // ✅ aquí se usa correctamente
   } catch (error) {
-    console.error('Error al cargar saldo:', error)
+    console.error('Error al cargar cuentas:', error)
   }
 }
+
+async function cargarBancos() {
+  try {
+    bancos.value = await getBancos()
+  } catch (error) {
+    console.error('Error al cargar bancos:', error)
+  }
+}
+
+// Agrupar por banco y sumar saldos
+const cuentasConBancoYNombre = computed(() => {
+  return cuentas.value
+    .filter(cuenta => parseFloat(cuenta.initial_balance) > 0)
+    .map(cuenta => ({
+      banco: cuenta.bank || 'Desconocido',
+      nombre: cuenta.name || 'Sin nombre',
+      saldo: parseFloat(cuenta.initial_balance) || 0
+    }))
+})
+
+const saldoGeneral = computed(() => {
+  const saldoInicial = cuentas.value.reduce((total, cuenta) => {
+    return total + (parseFloat(cuenta.initial_balance) || 0)
+  }, 0)
+
+  const totalIngresos = transacciones.value
+    .filter(t => t.type === 'ingreso')
+    .reduce((total, t) => total + Number(t.amount), 0)
+
+  const totalGastos = transacciones.value
+    .filter(t => t.type === 'gasto')
+    .reduce((total, t) => total + Number(t.amount), 0)
+
+  return saldoInicial + totalIngresos - totalGastos
+})
 
 const meses = [
   'enero', 'febrero', 'marzo', 'abril', 'mayo', 'junio',
@@ -149,6 +203,10 @@ const leyendaFecha = computed(() => {
   const mesIndex = mesSeleccionado.value - 1
   const mesNombre = meses[mesIndex] || ''
   return `Gastos de ${mesNombre} ${añoSeleccionado.value}`
+})
+
+const saldoActualMes = computed(() => {
+  return ingresoTotalMes.value - gastoTotalMes.value
 })
 
 const transaccionesDelMes = computed(() => {
@@ -203,7 +261,7 @@ const ingresoTotalMes = computed(() => {
 async function cargarTransacciones() {
   try {
     const data = await getAllTransactions()
-    transacciones.value = data.transacciones
+    transacciones.value = Array.isArray(data) ? data : data.transacciones || []
   } catch (error) {
     console.error('Error al cargar transacciones:', error)
   }
@@ -241,6 +299,34 @@ const gastosPorCategoria = computed(() => {
 function exportarDatos() {
   alert('Aquí va la lógica para exportar datos')
 }
+
+const etiquetasMeses = [
+  'Ene', 'Feb', 'Mar', 'Abr', 'May', 'Jun',
+  'Jul', 'Ago', 'Sep', 'Oct', 'Nov', 'Dic'
+]
+
+const ingresosPorMes = computed(() => {
+  const ingresos = Array(12).fill(0)
+  transacciones.value.forEach(t => {
+    const fecha = new Date(t.date)
+    if (t.type === 'ingreso' && !isNaN(fecha) && !isNaN(Number(t.amount))) {
+      ingresos[fecha.getMonth()] += Number(t.amount)
+    }
+  })
+  return ingresos
+})
+
+const gastosPorMes = computed(() => {
+  const gastos = Array(12).fill(0)
+  transacciones.value.forEach(t => {
+    const fecha = new Date(t.date)
+    if (t.type === 'gasto' && !isNaN(fecha) && !isNaN(Number(t.amount))) {
+      gastos[fecha.getMonth()] += Number(t.amount)
+    }
+  })
+  return gastos
+})
+
 </script>
 
 <style>
@@ -346,7 +432,7 @@ function exportarDatos() {
   position: absolute;
   top: 12%;
   left: 5%;
-  width: 20%;
+  width: 17%;
   height: 18%;
   display: flex;
   flex-direction: column;
@@ -370,8 +456,8 @@ function exportarDatos() {
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.05); /* sombra suave y difusa */
   position: absolute;
   top: 12%;
-  left: 28%;
-  width: 20%;
+  left: 23%;
+  width: 17%;
   height: 18%;
   display: flex;
   flex-direction: column;
@@ -395,8 +481,8 @@ function exportarDatos() {
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.05); /* sombra suave y difusa */
   position: absolute;
   top: 12%;
-  left: 51%;
-  width: 20%;
+  left: 41%;
+  width: 17%;
   height: 18%;
   display: flex;
   flex-direction: column;
@@ -409,8 +495,8 @@ function exportarDatos() {
   font-family: 'Arial', sans-serif;
   font-size: 1vw;
   font-weight: bold;
-  padding-left: 3vw;
-  padding-bottom: 2.5vw;
+  padding-left: 4vw;
+  padding-bottom: 1vw;
   color: #374151; /* gris oscuro (tailwind gray-700) */
 }
 .alertas-activas {
@@ -420,8 +506,8 @@ function exportarDatos() {
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.05); /* sombra suave y difusa */
   position: absolute;
   top: 12%;
-  left: 74%;
-  width: 20%;
+  left: 77%;
+  width: 17%;
   height: 18%;
   display: flex;
   flex-direction: column;
@@ -436,6 +522,31 @@ function exportarDatos() {
   font-weight: bold;
   padding-left: 3vw;
   padding-bottom: 2.5vw;
+  color: #374151; /* gris oscuro (tailwind gray-700) */
+}
+.saldo-general{
+  background-color: white;
+  border: 1px solid #e5e7eb; /* gris claro (tailwind gray-200) */
+  border-radius: 1vw;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.05); /* sombra suave y difusa */
+  position: absolute;
+  top: 12%;
+  left: 59%;
+  width: 17%;
+  height: 18%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  padding: 1rem;
+  text-align: center;
+}
+.texto-saldo-general{
+  font-family: 'Arial', sans-serif;
+  font-size: 1vw;
+  font-weight: bold;
+  padding-left: 5vw;
+  padding-bottom: 1vw;
   color: #374151; /* gris oscuro (tailwind gray-700) */
 }
 .distribucion-gastos{
