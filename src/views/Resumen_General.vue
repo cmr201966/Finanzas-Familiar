@@ -44,7 +44,13 @@
     <div class="saldo-actual">
      <img class="img-resumensaldo" src="../assets/img/tarjetas/saldocuentas.png" alt="">
      <p class="texto-saldo">
-        Saldo actual: {{ saldoActual.toFixed(2) }}
+        Saldo actual
+     </p>
+     </div>
+    <div class="saldo-general">
+     <img class="img-resumensaldo" src="../assets/img/tarjetas/saldocuentas.png" alt="">
+     <p class="texto-saldo-general">
+        Saldo general: {{ saldoGeneral.toFixed(2) }}
      </p>
     </div>
     <div class="alertas-activas">
@@ -89,7 +95,7 @@ const añoSeleccionado = computed(() => Number(fecha.value.slice(0, 4)))
 const fecha = ref(new Date().toISOString().slice(0, 10))
 const categoria = ref([])
 const transacciones = ref([])
-const saldoActual = ref(0)
+const saldoGeneral = ref(0)
 const fechaFormateada = computed(() => {
   const meses = [
     'ene',
@@ -128,7 +134,7 @@ onMounted(async () => {
 async function cargarSaldo() {
   try {
     const data = await accountSaldos()
-    saldoActual.value = data.total || 0  // ajusta según cómo venga la respuesta
+    saldoGeneral.value = data.total || 0  // ajusta según cómo venga la respuesta
   } catch (error) {
     console.error('Error al cargar saldo:', error)
   }
