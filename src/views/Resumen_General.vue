@@ -91,7 +91,9 @@
     <div class="presupuesto-real">
      <p class="texto-presupuesto-real">
         Presupuesto vs Real
-        <Graficocuadrado :datos="Graficocuadrado" />
+        <div>
+    <Graficopresupuesto :datos="presupuestoReal" />
+  </div>
      </p>
     </div>
   </div>
@@ -106,12 +108,14 @@ import { getAllExpenses } from '@/services/expensesService.js'
 import { accountSaldos, getAllAccounts } from '@/services/accountService'
 import { getBancos } from '@/services/BancoService.js'
 import GraficoEvolucion from '@/components/GraficoEvolucion.vue'
-import Graficocuadrado from '@/components/Graficocuadrado.vue'
+import Graficopresupuesto from '@/components/Graficopresupuesto.vue'
+import { getPresupuestos } from '@/services/presupuestos.js'
 const mesSeleccionado = computed(() => Number(fecha.value.slice(5, 7)))
 const añoSeleccionado = computed(() => Number(fecha.value.slice(0, 4)))
 const fecha = ref(new Date().toISOString().slice(0, 10))
 const categoria = ref([])
 const transacciones = ref([])
+const presupuestoReal = ref([])
 const cuentas = ref([])
 const bancos = ref([]) // si lo vas a usar
 const fechaFormateada = computed(() => {
@@ -148,6 +152,7 @@ onMounted(async () => {
   await cargarTransacciones()
    await cargarBancos()
    await cargarCuentas()
+   await cargarPresupuestoReal()
 
 })
 
@@ -161,11 +166,54 @@ async function cargarCuentas() {
   }
 }
 
+const presupuestoVsReal = computed(() => {
+  // Usamos gastosPorCategoria que ya tienes (con total gasto)
+  return presupuestoPorCategoria.value.map(pres => {
+    const gasto = gastosPorCategoria.value.find(g => g.categoria === pres.categoria)
+    return {
+      categoria: pres.categoria,
+      presupuesto: pres.presupuesto,
+      gasto: gasto ? gasto.total : 0
+    }
+  })
+})
+
 async function cargarBancos() {
   try {
     bancos.value = await getBancos()
   } catch (error) {
     console.error('Error al cargar bancos:', error)
+  }
+}
+
+async function cargarPresupuestoReal() {
+  try {
+    const res = await getPresupuestos()
+    const presupuestos = res.data.presupuestos
+
+    // Armar mapa de gastos reales por categoría en el mes actual
+    const gastosPorCategoria = {}
+    transacciones.value
+      .filter(t => t.type === 'gasto' && new Date(t.date).getMonth() + 1 === mesSeleccionado.value)
+      .forEach(t => {
+        const catId = t.category_id
+        gastosPorCategoria[catId] = (gastosPorCategoria[catId] || 0) + Number(t.amount)
+      })
+
+    // Cruzar con presupuestos
+    presupuestoReal.value = presupuestos.map(p => {
+      const nombreCategoria = getCategoryName(p.categoria_id) || `Categoría ${p.categoria_id}`
+      return {
+        categoria: nombreCategoria,
+        presupuesto: Number(p.monto_limite),
+        real: gastosPorCategoria[p.categoria_id] || 0
+      }
+    })
+
+    console.log('Datos para el gráfico presupuesto-real:', presupuestoReal.value)
+
+  } catch (error) {
+    console.error('Error al cargar presupuesto real:', error)
   }
 }
 
