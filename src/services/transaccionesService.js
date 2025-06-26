@@ -24,6 +24,8 @@ export async function createTransaction(transactionData) {
 
 export async function updateTransaction(id, transaccion) {
   try {
+    console.log( "llega a actualizar esto", transaccion)
+    console.log('Actualizando transacción ID:', id);
     const res = await api.put(`/transacciones/${id}`, transaccion)
     return res.data
   } catch (error) {

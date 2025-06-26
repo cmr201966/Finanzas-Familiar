@@ -196,8 +196,8 @@ async function guardarTransaccion() {
   description: form.value.descripcion,
   date: form.value.fechaApertura,
   category_id: form.value.categoria_id,
-  account_id: 1,   // <--- IMPORTANTE
-  user_id: 1,        // <--- IMPORTANTE
+  account_id: form.value.cuentas,   // <--- IMPORTANTE
+  user_id: 1,      // <--- IMPORTANTE
   created_at: new Date().toISOString().split('T')[0]  // 'YYYY-MM-DD'
 }
 
@@ -205,7 +205,8 @@ async function guardarTransaccion() {
 
   try {
     if (isEditMode.value) {
-      await updateTransaction(id, transaccion)
+      console.log('ID a actualizar:', id.value);  // imprime para verificar qué tiene id
+      await updateTransaction(id.value, transaccion)
     } else {
       await createTransaction(transaccion)
     }
