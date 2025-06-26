@@ -1,0 +1,19 @@
+{
+    "app_option": "Informe Transferencias",
+    "source_account" :"Cuenta Origen",
+    "destination_account": "Cuenta Destino",
+    "description":"Descripción de la transferencia",
+    "submit": "Filtrar selección",
+    "monthStart": "Mes inicial",
+    "monthEnd": "Mes final",
+    "month":"Mes",
+    "export":"Exporta",
+    "source":"Origen",
+    "destination":"Destino",
+    "amount":"Importe",
+    "date":"Fecha",
+    "actions":"Acción",
+    "imprimir":"Imprimir",
+    "messagePDF":"El Informe Transferencias .PDF ha sido exportado exitosamente",
+    "messageEXCEL":"El Informe Transferencias .EXCEL ha sido exportado exitosamente"
+}

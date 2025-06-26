@@ -67,7 +67,7 @@ const handleClick = (image) => {
       router.push('/Resumen_General')
       break
     case 'transferencias':
-      router.push('/transferencias')
+      router.push('/informeTransferencias')
       break
     case 'cuentas':
       router.push('/cuentas')
