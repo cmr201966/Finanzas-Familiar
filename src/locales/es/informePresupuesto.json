@@ -1,5 +1,13 @@
 {
     "name_option": "Informe Presupuesto",
     "select_category": "Selecciones una categoría",
-    "select_month": "Selecciones un mes"
+    "select_month": "Mes",
+    "presupuesto_total":"Presupuesto total del mes",
+    "saldo_disponible":"Saldo disponible",
+    "gasto_real":"Gasto real",
+    "category":"Categoria",
+    "presupuesto":"Presupuesto",
+    "usado":"% Usado",
+    "export":"Exporta",
+    "cancel": "Cancelar"
 }

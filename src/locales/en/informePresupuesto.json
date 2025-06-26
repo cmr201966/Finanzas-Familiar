@@ -1,5 +1,13 @@
 {
     "name_option": "Budget Inform",
     "select_category": "Select category",
-    "select_month": "Select the month"
+    "select_month": "Select the month",
+    "presupuesto_total":"Total monthly budget",
+    "gasto_real":"Actual spending",
+    "saldo_disponible": "Available balance",
+    "presupuesto":"Budget",
+    "category":"Category",
+    "usado":"% Used",
+    "export":"Export",
+    "cancel": "Cancel"
 }
