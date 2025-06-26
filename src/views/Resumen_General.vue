@@ -91,6 +91,7 @@
     <div class="presupuesto-real">
      <p class="texto-presupuesto-real">
         Presupuesto vs Real
+        <Graficocuadrado :datos="Graficocuadrado" />
      </p>
     </div>
   </div>
@@ -105,6 +106,7 @@ import { getAllExpenses } from '@/services/expensesService.js'
 import { accountSaldos, getAllAccounts } from '@/services/accountService'
 import { getBancos } from '@/services/BancoService.js'
 import GraficoEvolucion from '@/components/GraficoEvolucion.vue'
+import Graficocuadrado from '@/components/Graficocuadrado.vue'
 const mesSeleccionado = computed(() => Number(fecha.value.slice(5, 7)))
 const añoSeleccionado = computed(() => Number(fecha.value.slice(0, 4)))
 const fecha = ref(new Date().toISOString().slice(0, 10))
