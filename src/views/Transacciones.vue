@@ -126,6 +126,7 @@ const cuentas = ref ([])
 const transacciones = ref ([])
 const isEditMode = ref(false)
 const selectedId = ref(null)
+const id = ref(null)
 const indiceEditando = ref(null)
 const router = useRouter()
 const fechaActual = new Date().toISOString().split('T')[0]
@@ -204,9 +205,9 @@ async function guardarTransaccion() {
 
   try {
     if (isEditMode.value) {
-      await updateTransaction(selectedId.value, datos)
+      await updateTransaction(id, { transaction: datos })
     } else {
-      await createTransaction(datos)
+      await createTransaction({ transaction: datos })
     }
     await cargarTransacciones()
     resetForm()
@@ -227,8 +228,9 @@ async function editarTransaccion(index) {
     form.value.ingreso = trans.type === 'ingreso'  // true si es ingreso, false si gasto
     form.value.cuentas = trans.account_id || ''
 
-    selectedId.value = trans.id  // guardamos el id de la transacción para editarla
+   id.value = trans.id // ✅ usar la variable correcta
     isEditMode.value = true
+    console.log("Datos enviados para actualizar:", form.value)
   } catch (error) {
     console.error('Error al cargar transacción para edición:', error)
   }
