@@ -190,24 +190,24 @@ async function guardarTransaccion() {
     return
   }
 
-  const datos = {
+  const transaccion = {
   amount: form.value.importe,
   type: form.value.ingreso ? 'ingreso' : 'gasto',
   description: form.value.descripcion,
   date: form.value.fechaApertura,
   category_id: form.value.categoria_id,
-  account_id: form.value.cuentas,   // <--- IMPORTANTE
-  user_id: form.value.cuentas,        // <--- IMPORTANTE
+  account_id: 1,   // <--- IMPORTANTE
+  user_id: 1,        // <--- IMPORTANTE
   created_at: new Date().toISOString().split('T')[0]  // 'YYYY-MM-DD'
 }
 
-  console.log('Datos a enviar:', datos)
+  console.log('Datos a enviar:', transaccion)
 
   try {
     if (isEditMode.value) {
-      await updateTransaction(id, { transaction: datos })
+      await updateTransaction(id, transaccion)
     } else {
-      await createTransaction({ transaction: datos })
+      await createTransaction(transaccion)
     }
     await cargarTransacciones()
     resetForm()
