@@ -73,7 +73,7 @@ const handleClick = (image) => {
       router.push('/cuentas')
       break
     case 'presupuesto':
-      router.push('/presupuesto')
+      router.push('/informePresupuesto')
       break
     case 'informeAnual':
       router.push('/informe-anual')
