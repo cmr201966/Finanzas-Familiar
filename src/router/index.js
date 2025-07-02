@@ -11,6 +11,7 @@ import Transacciones from "../views/Transacciones.vue";
 import transferencias from "../views/transferencias.vue";
 import Resumen_General from "../views/Resumen_General.vue"
 import informeTransferencias from "../views/informeTransferencias.vue";
+import InformeMA from "../views/InformeMA.vue"
 
 import informePresupuesto from "../views/informePresupuesto.vue";
 
@@ -30,6 +31,7 @@ const routes = [
   { path: '/Resumen_General', name: 'Resumen_General', component: Resumen_General},
   {path: '/informeTransferencias', name: 'informeTransferencias', component: informeTransferencias},
   { path: '/informePresupuesto', name: 'informePresupuesto', component: informePresupuesto},
+  { path: '/informe-anual', name: 'informeMA', component: InformeMA},
 
 ];
 
