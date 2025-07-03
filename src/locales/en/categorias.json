@@ -4,5 +4,11 @@
     "placeholderdescripcion":"Description...",
     "ingreso":"Income",
     "gastos":"Expense",
+    "submit": "Accept",
+    "cancel": "Cancel",
+    "name":"Name",
+    "description":"Description",
+    "type":"Type",
+    "accion":"Action",
     "categoriaG":"Saved categories"
 }

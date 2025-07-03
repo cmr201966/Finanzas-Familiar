@@ -7,64 +7,65 @@
                 <h1 class="name-opcion">{{ $t("informeTransferencias.app_option") }}</h1>
             </div>
             <hr class="divider " />
+
             <div class="informe-container">
+                <v-row>
+                    <!-- Mes inicial -->
+                <v-col cols="12" md="6">
+                <v-menu
+                    v-model="fechaInicial"
+                    :close-on-content-click="false"
+                    transition="scale-transition"
+                    offset-y
+                >
+                    <template #activator="{ props }">
+                    <v-text-field
+                        v-model="form.fechaInicial"
+                        :label="$t('informeTransferencias.monthStart')"
+                        readonly
+                        v-bind="props"
+                        density="compact"
+                        class="custom-height white-rounded"
+                        prepend-inner-icon="mdi-calendar-month"
+                    />
+                    </template>
 
-                    <v-row>
-                        <!--mes inicial -->
-                        <v-col cols="12" md="6" >
-                            <v-menu
-                                v-model="fechaInicial"
-                                :close-on-content-click="false"
-                                transition="scale-transition"
-                                offset-y
-                                >
-                                <template #activator="{ props }">
-                                    <v-text-field
-                                        v-model="form.fechaInicial"
-                                        :label="$t('informeTransferencias.monthStart')"
-                                        readonly
-                                        v-bind="props"
-                                        density="compact"
-                                        class="custom-height white-rounded input-fecha"
-                                        prepend-inner-icon="mdi-calendar-month"
-                                    />
-                                </template>
+                    <v-date-picker
+                    view-mode="month"
+                    @update:model-value="(val) => seleccionarMes(val, 'inicial')"
+                    color="primary"
+                    />
+                </v-menu>
+                </v-col>
 
-                                <v-date-picker
-                                    @update:model-value="selectFechaInicial"
-                                    color="primary"
-                                />
-                            </v-menu>
-                        </v-col>
+                <!-- Mes final -->
+                <v-col cols="12" md="6">
+                <v-menu
+                    v-model="fechaFinal"
+                    :close-on-content-click="false"
+                    transition="scale-transition"
+                    offset-y
+                >
+                    <template #activator="{ props }">
+                    <v-text-field
+                        v-model="form.fechaFinal"
+                        :label="$t('informeTransferencias.monthEnd')"
+                        readonly
+                        v-bind="props"
+                        density="compact"
+                        class="custom-height white-rounded"
+                        prepend-inner-icon="mdi-calendar-month"
+                    />
+                    </template>
 
-                        <!--mes final -->
-                        <v-col cols="12" md="6">
+                    <v-date-picker
+                    view-mode="month"
+                    @update:model-value="(val) => seleccionarMes(val, 'final')"
+                    color="primary"
+                    />
+                </v-menu>
+                </v-col>
 
-                            <v-menu
-                                v-model="fechaFinal"
-                                :close-on-content-click="false"
-                                transition="scale-transition"
-                                offset-y
-                                >
-                                <template #activator="{ props }">
-                                    <v-text-field
-                                        v-model="form.fechaFinal"
-                                        :label="$t('informeTransferencias.monthEnd')"
-                                        readonly
-                                        v-bind="props"
-                                        density="compact"
-                                        class="custom-height white-rounded input-fecha"
-                                        prepend-inner-icon="mdi-calendar-month"
-                                    />
-                                </template>
-
-                                <v-date-picker
-                                    @update:model-value="selectFechaFinal"
-                                    color="primary"
-                                />
-                            </v-menu>
-
-                        </v-col>
                     </v-row>
 
                     <!-- Cuenta Origen -->
@@ -118,13 +119,14 @@
 
                     <!-- Boton Filtrar -->
 
-                    <div class="d-flex justify-end">
-                        <v-btn  @click="submitForm"
-                                :disabled="enviando "
-                                :loading="enviando"
-                                class="btn-filtrar">{{ $t("informeTransferencias.submit") }}
-                        </v-btn>
-                    </div>
+                    <v-btn
+                        @click="filtrarTransferencias"
+                        :disabled="!formTieneDatos || enviando"
+                        :loading="enviando"
+                        class="btn-filtrar"
+                        >
+                        {{ $t("informeTransferencias.submit") }}
+                    </v-btn>
 
                     <!-- Tabla de transferencias -->
                     <v-card
@@ -204,8 +206,6 @@
                             </v-btn>
                         </div>
                     </div>
-
-
             </div>
         </div>
 
@@ -254,10 +254,16 @@ const cuentaOrigen = ref([]);
 const cuentaDestino = ref([]);
 const fechaInicial = ref(false);
 const fechaFinal = ref(false);
-const fechaMinima = new Date().toISOString().split('T')[0];
 const user_id_tmp = ref(null)
 const enviando = ref(false)
 const transferencias = ref([])
+
+
+//PARA TODO LO REFERENTE AL MES
+const hoy = new Date();
+const año = hoy.getFullYear();
+const mes = String(hoy.getMonth() + 1).padStart(2, '0');
+
 
 //para el mensaje que saldra al exportar
 const snackbar = ref(false)
@@ -300,6 +306,43 @@ watch(() => form.value.to_account_id, (nuevoDestino) => {
 });
 
 
+const seleccionarMes = (valor, tipo) => {
+    const fechaSeleccionada = new Date(valor);
+    const mesNombre = fechaSeleccionada.toLocaleString('es-ES', { month: 'long' });
+    const mesFormateado = mesNombre.charAt(0).toUpperCase() + mesNombre.slice(1);
+    const anio = fechaSeleccionada.getFullYear();
+    const resultado = `${mesFormateado} ${anio}`;
+
+    if (tipo === 'inicial') {
+        form.value.fechaInicial = resultado;
+    } else {
+        // Validar que la fecha final sea mayor o igual que la inicial
+        const fechaIni = obtenerFechaInterna(form.value.fechaInicial);
+        if (fechaIni && fechaSeleccionada < fechaIni) {
+        alert("La fecha final debe ser posterior o igual a la fecha inicial.");
+        return;
+        }
+        form.value.fechaFinal = resultado;
+    }
+
+    if (tipo === 'inicial') fechaInicial.value = false;
+    else fechaFinal.value = false;
+};
+
+// 🎯 Función para convertir "Junio 2025" a Date
+const obtenerFechaInterna = (fechaFormateada) => {
+    if (!fechaFormateada) return null;
+    const [mesNombre, anio] = fechaFormateada.split(" ");
+    const meses = {
+        Enero: 0, Febrero: 1, Marzo: 2, Abril: 3, Mayo: 4, Junio: 5,
+        Julio: 6, Agosto: 7, Septiembre: 8, Octubre: 9, Noviembre: 10, Diciembre: 11
+    };
+    const mes = meses[mesNombre];
+    if (mes === undefined) return null;
+    return new Date(anio, mes);
+};
+
+
 const selectFecha = (fecha) => {
     const d = new Date(fecha);
     const dia = d.getDate().toString().padStart(2, '0');
@@ -319,6 +362,50 @@ const selectFechaFinal = (value) => {
     fechaFinal.value = false;
 };
 
+const formTieneDatos = computed(() => {
+    const f = form.value;
+    return f.fechaInicial || f.fechaFinal || f.from_account_id || f.to_account_id || f.description;
+});
+
+const compararMes = (fechaStr, fechaFiltroFormateada) => {
+    const f1 = new Date(fechaStr);
+    const f2 = obtenerFechaInterna(fechaFiltroFormateada);
+    return f1.getFullYear() * 12 + f1.getMonth() - (f2.getFullYear() * 12 + f2.getMonth());
+};
+
+const filtrarTransferencias = () => {
+    const f = form.value;
+
+    transferenciasConNombres.value = transferencias.value.filter(t => {
+        const cumpleFechaInicial = f.fechaInicial
+        ? compararMes(t.fecha, f.fechaInicial) >= 0
+        : true;
+
+        const cumpleFechaFinal = f.fechaFinal
+        ? compararMes(t.fecha, f.fechaFinal) <= 0
+        : true;
+
+        const cumpleOrigen = f.from_account_id
+        ? t.from_account_id === f.from_account_id
+        : true;
+
+        const cumpleDestino = f.to_account_id
+        ? t.to_account_id === f.to_account_id
+        : true;
+
+        const cumpleDescripcion = f.description
+        ? t.description?.toLowerCase().includes(f.description.toLowerCase())
+        : true;
+
+        return (
+        cumpleFechaInicial &&
+        cumpleFechaFinal &&
+        cumpleOrigen &&
+        cumpleDestino &&
+        cumpleDescripcion
+        );
+    });
+    };
 
 onMounted(async () => {
 
@@ -329,6 +416,7 @@ onMounted(async () => {
     cuentaOrigen.value = await getAccountById(user_id.data.id);
     cuentaDestino.value = await getAllAccounts();
     transferencias.value= await getTransferenciasById(user_id_tmp.value);
+    transferenciasConNombres.value = transferencias.value;
 });
 
 //PARA LOS BOTONES DE LA VISTA
@@ -343,8 +431,6 @@ const cancelarFormulario = () => {
         fecha: ''
     };
 
-    menuFecha.value = false;
-    search.value = "";
     router.push("/home"); // ← Redirige al home
 };
 
@@ -545,7 +631,7 @@ const imprimirDocumento = () => {
 
 
 .custom-height {
-    height: 40px; /* o el valor que uses en los inputs normales */
+   height: 40px; /* o el valor que uses en los inputs normales */
     font-size: 12px;
     border: 2px solid rgb(10, 10, 10);
     border-radius: 10px;
@@ -637,20 +723,21 @@ const imprimirDocumento = () => {
     border: none;
     border-radius: 6px;
     cursor: pointer;
-    width: 150px;
     height: 30px;
     font-style: "popins";
     margin-bottom: 4px;
     margin-top: 4px;
-    background-color: #196c2c; /* verde */
-    color:white !important;
+    background-color: #196c2c; /* verde
+    color:white !important;*/
 }
+
 .form-buttons-separados {
     display: flex;
     justify-content: space-between;
     width: 100%;
     align-items: center;
     flex-wrap: wrap;
+    margin-top: 7px;
 }
 
 .grupo-izquierdo {
@@ -700,10 +787,13 @@ const imprimirDocumento = () => {
 .btn-cancelar {
     align-items: center;
     justify-content:end;
+    font-size: 10px;
     cursor: pointer;
     background-color: #dc3545; /* rojo */
+    border-radius: 6px;
+    border: none;
     color: white;
-    width: 85px;
+    width: 90px;
     height: 30px;
     margin-bottom: 4px;
     margin-top: 4px;

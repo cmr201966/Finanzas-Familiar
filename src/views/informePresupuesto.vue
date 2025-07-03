@@ -173,7 +173,6 @@
                         </v-btn>
                     </div>
 
-
                     <!-- Botón Cancelar (rojo) -->
                     <div    class="grupo-derecha">
 
@@ -247,33 +246,47 @@ const mes = String(hoy.getMonth() + 1).padStart(2, '0');
 const fechaMinima = `${año}-${mes}`;
 
 const itemsTabla = computed(() => {
-  const mes = form.value.mes_guardado;
+    const mes = form.value.mes_guardado;
 
-  if (!mes) return [];
+    if (!mes) return [];
 
-  return presupuestos.value
-    .filter(p => p.mes === mes)
-    .map(p => {
-      // Obtener gasto real por categoría
-      const gasto = transferenciasConNombres.value
-        .filter(t =>
-          t.fecha?.startsWith(mes) &&
-          t.categoria_id === p.categoria_id &&
-          t.username === username
-        )
-        .reduce((total, t) => total + parseFloat(t.monto || 0), 0);
+    return presupuestos.value
+        .filter(p => p.mes === mes)
+        .map(p => {
+        // Obtener gasto real por categoría
+        const gasto = transferenciasConNombres.value
+            .filter(t =>
+            t.fecha?.startsWith(mes) &&
+            t.categoria_id === p.categoria_id &&
+            t.username === username
+            )
+            .reduce((total, t) => total + parseFloat(t.monto || 0), 0);
 
-      const porcentaje = p.monto > 0 ? ((gasto / p.monto) * 100).toFixed(1) : 0;
+        const porcentaje = p.monto > 0 ? ((gasto / p.monto) * 100).toFixed(1) : 0;
 
-      return {
-        id: p.id,
-        categoria: categorias.value.find(c => c.id === p.categoria_id)?.name || '',
-        presupuesto: p.monto,
-        gasto: gasto,
-        usado: `${porcentaje}%`
-      };
-    });
+        return {
+            id: p.id,
+            categoria: categorias.value.find(c => c.id === p.categoria_id)?.name || '',
+            presupuesto: p.monto,
+            gasto: gasto,
+            usado: `${porcentaje}%`
+        };
+        });
 });
+
+
+// Para el boton Cancelar
+const cancelarFormulario = () => {
+  form.value = {
+    monto: "",
+    categoria_id: null,
+    mes: "",
+    mes_guardado: "",
+  };
+  
+  router.push("/home"); // ← Redirige al home
+};
+
 
 
 //const presupuestoTotal = ref(0);
@@ -526,10 +539,13 @@ const presupuestosFiltrados = computed(() => {
 .btn-cancelar {
     align-items: center;
     justify-content:end;
+    font-size: 10px;
     cursor: pointer;
     background-color: #dc3545; /* rojo */
+    border-radius: 6px;
+    border: none;
     color: white;
-    width: 80px;
+    width: 90px;
     height: 30px;
     margin-bottom: 4px;
     margin-top: 4px;
