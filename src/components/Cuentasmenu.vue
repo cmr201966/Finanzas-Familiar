@@ -1,14 +1,206 @@
 <template>
   <div>
     <div class="fondo">
-      <p class="crear">{{ $t('cuentas.crear' )}}</p>
+      <div class="header-inline">
+        <img class="img-nombre" src="../assets/img/tarjetas/cuentas.png" alt="">
+        <p class="crear">{{ $t('cuentas.crear' )}}</p>
+      </div>
+
       <hr class="mi-barra" />
-    <img class="img-nombre-c" src="../assets/img/icono/cuenta.png" alt="">
+
+      <v-row class="seccion-campos">
+
+        <v-col cols="12" md="12"  class="pa-0 ma-0 ms-5">
+          <v-text-field
+            v-model="form.nombreCuenta"
+            :placeholder="$t('cuentas.placeholderNombreCuenta')"
+            prepend-inner-icon="mdi-credit-card-outline"
+            outlined
+            dense
+            density="compact"
+            color="primary"
+            width="450"
+            type="text"
+        />
+        </v-col>
+        <v-col cols="12" md="12" class="pa-0 ma-0 ms-5" style="max-width: 450px;">
+          <v-select
+            v-model="form.banco"
+            :items="bancos"
+            item-text="name"
+            item-value="name"
+            :label="$t('cuentas.banco')"
+            prepend-inner-icon="mdi-bank"
+            outlined
+            dense
+            density="compact"
+            clearable
+          />
+        </v-col>
+
+
+        <v-col cols="12" md="12" class="pa-0 ma-0 ms-5" style="max-width: 450px;">
+          <v-select
+            v-model="form.tipoCuenta"
+            :items="tiposFiltrados"
+            item-text="name"
+            item-value="name"
+            :label="$t('cuentas.tipo-cuenta')"
+            prepend-inner-icon="mdi-wallet"
+            outlined
+            dense
+            density="compact"
+            clearable
+          />
+        </v-col>
+      </v-row>
+
+      <!-- Calendario -->
+      <v-row>
+        <v-col cols="12" md="6" class="pa-0 ma-0">
+          <v-menu
+            v-model="menuFecha"
+            :close-on-content-click="false"
+            transition="scale-transition"
+            offset-y
+            max-width="250px"
+            min-width="auto"
+            >
+            <template #activator="{ props }">
+              <v-text-field
+                v-model="form.fechaApertura"
+                label="Fecha de apertura"
+                prepend-inner-icon="mdi-calendar"
+                type="date"
+                readonly
+                v-bind="props"
+                outlined
+                dense
+                density="compact"
+                color="primary"
+                class="custom-height"
+              />
+            </template>
+            <v-date-picker
+                v-model="fechaSeleccionada"
+                @update:model-value="onFechaSeleccionada"
+              />
+          </v-menu>
+        </v-col>
+
+        <!-- Saldo inicial -->
+        <v-col cols="12" md="6" class="pa-0 ma-0">
+          <v-text-field
+            v-model.number="form.saldoInicial"
+            :label="$t('cuentas.placeholdersaldo')"
+            class="custom-height"
+            type="number"
+            min="0"
+            step="0.01"
+            @keypress="soloNumerosDecimal"
+            :rules="[
+              v => v !== null && v !== '' || $t('presup.required'),
+              v => !isNaN(v) || $t('presup.only_numbers'),
+              v => parseFloat(v) >= 0 || $t('presup.no_negative')
+            ]"
+            dense
+            outlined
+            density="compact"
+            prepend-inner-icon="mdi-currency-usd"
+          />
+        </v-col>
+      </v-row>
+
+      <!-- Checkboxes Cuenta principal y Notificaciones-->
+
+        <v-row class="checkbox-row" justify="center" align="center">
+          <!-- Checkbox de cuenta principal -->
+          <v-col cols="6" class="d-flex align-center justify-center">
+            <p class="checkbox-label">{{ $t('cuentas.cuentaP') }}</p>
+            <v-checkbox
+              v-model="form.cuentaPrincipal"
+              color="white"
+              hide-details
+              class="checkbox-label"
+              density="compact"
+            />
+          </v-col>
+
+          <!-- Checkbox de notificaciones -->
+          <v-col cols="6" class="d-flex align-center justify-center">
+            <p class="checkbox-label">{{ $t('cuentas.notifica') }}</p>
+            <v-checkbox
+              v-model="form.recibirNotificaciones"
+              color="white"
+              hide-details
+              class="checkbox-label"
+              density="compact"
+            />
+          </v-col>
+        </v-row>
+
+      <hr class="mi-barra2" />
+
+      <!-- Botones
+      <div class="botones">
+        <v-btn class="save" color="primary" @click="guardarCategoria">
+          {{ $t('categorias.submit') }}
+        </v-btn>
+        <v-btn class="cancelar" color="error" @click="cancelar">
+          {{ $t('categorias.cancel') }}
+        </v-btn>
+      </div>-->
+
+      <div class="form-buttons">
+
+        <!-- Botón Aceptar (verde) -->
+        <v-btn  @click="guardarCuenta"
+          class="btn btn-aceptar" >{{ $t("categorias.submit") }}
+        </v-btn>
+
+        <!-- Botón Cancelar (rojo) -->
+        <v-btn  @click="cancelar"
+                class="btn btn-cancelar"> {{ $t("categorias.cancel") }}
+        </v-btn>
+      </div>
+
+
+      <!-- Tabla de cuentas bancaria -->
+      <v-card
+        class="mx-auto pa-2 mt-4"
+        elevation="8"
+        style="max-width: 800px; border-radius: 16px; background-color: #f9f9f9;"
+      >
+        <v-data-table
+          :headers="headers"
+          :items="cuentas"
+          item-value="id"
+          class="tabla-cuentas font-tabla"
+          :items-per-page="-1"
+          hide-default-footer
+          dense
+          height="150"
+        >
+        <template #item.actions="{ index }">
+          <div class="acciones-cuenta">
+            <v-btn icon size="small" @click="editarCuenta(index)" variant="text" color="primary">
+              <v-icon>mdi-pencil</v-icon>
+            </v-btn>
+            <v-btn icon size="small" @click="eliminarCuenta(index)" variant="text" color="error">
+              <v-icon>mdi-delete</v-icon>
+            </v-btn>
+          </div>
+        </template>
+      </v-data-table>
+  </v-card>
+
+    <!--<img class="img-nombre-c" src="../assets/img/icono/cuenta.png" alt="">
       <div class="entrada-nombre">
-        <input class="in-nombre" 
-        type="text" v-model="form.nombreCuenta" 
+        <input class="in-nombre"
+        type="text" v-model="form.nombreCuenta"
         :placeholder="$t('cuentas.placeholderNombreCuenta')" />
       </div>
+
 
       <img class="img-banco" src="../assets/img/icono/banco.png" alt="">
       <div class="entrada-banco">
@@ -17,9 +209,10 @@
     <option v-for="b in bancos" :key="b.id" :value="b.name">{{ b.name }}</option>
   </select>
 </div>
-       <img class="img-tipo" src="..\assets\img\icono\TCB.png" alt="">
+
+      <img class="img-tipo" src="..\assets\img\icono\TCB.png" alt="">
       <div class="entrada-tipo-cuenta">
-       <select v-model="form.tipoCuenta">
+      <select v-model="form.tipoCuenta">
   <option disabled value="">{{ $t('cuentas.tipo-cuenta') }}</option>
   <option v-for="t in tiposFiltrados" :key="t.id" :value="t.name">
     {{ t.name }}
@@ -35,7 +228,7 @@
       <div class="entrada-saldo">
         <input type="number"
         min="0"
-        v-model="form.saldoInicial" 
+        v-model="form.saldoInicial"
         :placeholder="$t('cuentas.placeholdersaldo')" />
       </div>
 
@@ -51,7 +244,7 @@
         <input type="checkbox" v-model="form.recibirNotificaciones" />
       </div>
 
-      <hr class="mi-barra2" />
+
 
       <div class="botones">
         <v-btn class="save" color="primary" @click="guardarCuenta">
@@ -62,6 +255,7 @@
           Cancelar
         </v-btn>
       </div>
+
       <div class="lista-cuentas">
       <h3>{{ $t('cuentas.cuentasG' )}}</h3>
       <ul>
@@ -79,7 +273,7 @@
   </span>
 </li>
       </ul>
-    </div>
+    </div>-->
     </div>
 
   </div>
@@ -97,12 +291,20 @@ import {
 } from '@/services/accountService.js'
 import { getBancos } from '@/services/bancoService.js'
 import { getTiposCuenta } from '@/services/tipodecuentaService.js'
+import { useI18n } from "vue-i18n";
+import { nextTick } from 'vue'
+
+
+const { t } = useI18n()
 
 const router = useRouter()
 
 const cuentas = ref([])
 const bancos = ref([])
 const tiposCuenta = ref([])
+
+const menuFecha = ref(false)
+const fechaSeleccionada = ref(null)
 
 const form = reactive({
   nombreCuenta: '',
@@ -113,6 +315,15 @@ const form = reactive({
   cuentaPrincipal: false,
   recibirNotificaciones: false
 })
+
+const selectFecha = (fecha) => {
+  const d = new Date(fecha);
+  const dia = d.getDate().toString().padStart(2, '0');
+  const mes = (d.getMonth() + 1).toString().padStart(2, '0');
+  const anio = d.getFullYear();
+  form.value.fecha = `${dia}/${mes}/${anio}`;  // formato completo
+  menuFecha.value = false;
+};
 
 const isEditMode = ref(false)
 const selectedId = ref(null)
@@ -131,6 +342,16 @@ async function cargarCuentas() {
   }
 }
 
+const headers =computed(() =>  [
+  { title: t('cuentas.ncuenta'), value: 'name' },
+  { title: t('cuentas.nbanco'), value: 'bank' },
+  { title: t('cuentas.tcuenta'), value: 'type' },
+  { title: t('cuentas.opend'), value: 'created_at' },
+  { title: t('cuentas.amount'), value: 'initial_balance' },
+  { title: t('cuentas.accion'), value: 'actions', sortable: false }
+])
+
+
 async function cargarBancos() {
   try {
     bancos.value = await getBancos()
@@ -138,6 +359,17 @@ async function cargarBancos() {
     console.error('Error al cargar bancos:', error)
   }
 }
+
+function onFechaSeleccionada(fecha) {
+  const d = new Date(fecha)
+  const dia = d.getDate().toString().padStart(2, '0')
+  const mes = (d.getMonth() + 1).toString().padStart(2, '0')
+  const anio = d.getFullYear()
+
+  form.fechaApertura = `${anio}-${mes}-${dia}` // o en otro formato que necesites
+  menuFecha.value = false
+}
+
 async function cargarTiposCuenta() {
   try {
     tiposCuenta.value = await getTiposCuenta()
@@ -174,6 +406,7 @@ async function guardarCuenta() {
     notifications: form.recibirNotificaciones,
     user_id: 1
   }
+
 console.log('Datos enviados:', datosTransformados)
   try {
     if (isEditMode.value) {
@@ -191,14 +424,16 @@ console.log('Datos enviados:', datosTransformados)
 async function editarCuenta(index) {
   try {
     const cuenta = cuentas.value[index]
-
     form.nombreCuenta = cuenta.name
     form.banco = cuenta.bank
-    form.tipoCuenta = cuenta.type
     form.fechaApertura = cuenta.created_at ? cuenta.created_at.split(' ')[0] : ''
     form.saldoInicial = cuenta.initial_balance
     form.cuentaPrincipal = cuenta.main_account || false
     form.recibirNotificaciones = cuenta.notifications || false
+
+    // Esperar un tick para que tiposFiltrados se actualice con el nuevo banco
+    await nextTick()
+    form.tipoCuenta = cuenta.type
 
     selectedId.value = cuenta.id
     isEditMode.value = true
@@ -238,6 +473,70 @@ function resetForm() {
 
 
 <style scoped>
+
+.acciones-cuenta {
+  display: flex;
+  justify-content: center;
+  gap: 4px;
+}
+
+.custom-height {
+  height: 40px; /* o el valor que uses en los inputs normales */
+  font-size: 12px;
+  width: 200px;
+  margin-left: 20px;
+}
+
+.img-nombre{
+  display: block;
+  width: 40px;
+
+}
+
+
+.form-buttons {
+  display: flex;
+  justify-content: flex-end;
+  gap: 10px; /* espacio entre botones */
+  margin-left: 150px;
+}
+
+.btn {
+  display: flex; /* ← clave */
+  align-items: center; /* centra verticalmente */
+  justify-content: center; /* centra horizontalmente */
+  padding: 10px 20px;
+  font-size: 10px;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  width: 75px;
+  height: 30px;
+  font-style: "popins";
+  margin-bottom: 10px;
+  margin-top: 10px;
+}
+
+.btn-aceptar {
+  background-color: #196c2c; /* verde */
+  color: white;
+}
+
+.btn-cancelar {
+  background-color: #dc3545; /* rojo */
+  color: white;
+}
+.checkbox-label {
+  font-size: 12px;
+  margin-right: 8px;
+}
+
+.header-inline {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+}
+
 .lista-cuentas ul {
   list-style: none;
   padding: 0;
@@ -259,10 +558,31 @@ function resetForm() {
   word-break: break-word;
 }
 
+.font-tabla {
+    font-size: 12px; /* Puedes ajustar a 12px, 16px, etc. */
+}
+
+.font-tabla .v-data-table__td {
+  padding: 2px 4px; /* Ajusta vertical y horizontalmente */
+}
+
+/* Disminuir alto del header de la tabla */
+.v-data-table thead th {
+    height: 26px;
+    padding-top: 0px;
+    padding-bottom: 2px;
+}
+
+/* Disminuir el alto de las filas (tr) */
+.v-data-table tbody tr {
+    height: 20px; /* o el alto que quieras */
+}
+
 .botones-cuenta {
   display: flex;
   gap: 0.5vw;
 }
+
 .lista-cuentas{
 position: absolute;
   top: 69%;
@@ -311,8 +631,7 @@ position: absolute;
   z-index: 1000;
 }
 .img-notificaciones{
-  position: absolute;
-  top: 49.4% ;
+  top: 29.4% ;
   left: 53%;
   width: 8%;
   height: 8%;
@@ -342,7 +661,22 @@ position: absolute;
   gap: 1vw;
   min-width: 0.5vw;
 }
-.save{
+.checks{
+  margin-top:5px;
+
+}
+
+.save,
+.cancelar {
+
+  padding: 0.4em 1em;
+  height: 2.5rem;
+  font-size: 10px;
+  width: 85px;
+
+}
+
+/*.save{
     width: 7vw !important;
     height: 5vh !important;
     font-size: 1vw;
@@ -352,7 +686,8 @@ position: absolute;
     width: 7vw !important;
     height: 5vh !important;
     font-size: 1vw;
-}
+}*/
+
 .entrada-nombre {
   position: absolute;
   top: 15%;
@@ -426,47 +761,52 @@ position: absolute;
   border-radius: 0.5vw;
 }
 .entrada-notificaciones input{
-  position: absolute;
-  top: 48%;
+  margin-top: 5px;
   left: 83%;
   border-radius: 0.5vw;
 }
 .fondo {
-  background: linear-gradient(#79bef7, #13ac18);
-  width: 38%;
-  min-height: 70%;
-  position: absolute;
-  top: 10%;
-  left: 32%;
-  border-radius: 1%;
-  border: 2px solid black;
-  padding-bottom: 2vw; /* Añade espacio inferior para la lista */
-  overflow-y: auto; /* Habilita scroll si se excede mucho */
+    border-radius: 10px;
+    background: linear-gradient(135deg, #4caf50, #2196f3);
+    flex-direction: column;
+    align-items: center;
+    padding: 20px 15px;
+    box-sizing: border-box;
+    color: white;
+    border: 2px solid blue;
+    margin: auto;
+    max-width: 500px;
+    overflow: hidden;
 }
+
+
 .crear {
   position: absolute;
   top: 4%;
   left: 30%;
   font-family: "Popins", arial, sans-serif;
 }
-.mi-barra {
-  position: absolute;
-  border: none;      /* quita borde default */
-  border-bottom: 2px solid #000;  /* línea negra de 2px */
-  width: 90%;       /* o el ancho que quieras */
-  margin: 10px 0;    /* espacio arriba y abajo */
-  top: 8%;
-  left: 5%;
-}
+
+.mi-barra,
 .mi-barra2 {
+    height: 2px;
+    background-color: #010000;
+    border: none;
+    margin: 10px auto;
+    width: 100%; /* o 100%, o un valor fijo como 300px */
+    display: block
+}
+
+ /* .mi-barra2 {
  position: absolute;
-  border: none;      /* quita borde default */
-  border-bottom: 2px solid #000;  /* línea negra de 2px */
-  width: 90%;       /* o el ancho que quieras */
-  margin: 10px 0;    /* espacio arriba y abajo */
+  border: none;     quita borde default
+  border-bottom: 2px solid #000;
+  width: 90%;
+  margin: 10px 0;
   top: 55%;
   left: 5%;
-}
+}*/
+
 .cuenta-principal {
   position: absolute;
   top: 47.5%;
@@ -485,7 +825,7 @@ position: absolute;
 /* Responsive media queries (solo ajustan tamaños y anchos para móvil y tablet, sin tocar posiciones absolutas) */
 
 @media (max-width: 1024px) {
- 
+
   .entrada-nombre input{
     top: 15.3%;
     left: 13%;
@@ -503,7 +843,7 @@ position: absolute;
     font-size: 1vw;
     height: 4.5vh;
   }
- 
+
   .entrada-tipo-cuenta select{
     top: 31.3%;
     left: 13%;
@@ -521,7 +861,7 @@ position: absolute;
     font-size: 1vw;
     height: 4.5vh;
   }
- 
+
   .entrada-saldo input {
     top: 39%;
     left: 53%;

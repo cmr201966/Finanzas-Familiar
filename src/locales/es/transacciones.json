@@ -4,8 +4,13 @@
     "placeholderimporte":"Importe...",
     "seleccion-cuenta":"Seleccione cuenta asociada",
     "descripcionT":"Descripcion de la transaccion...",
-    "transaccionesG":"Transacciones guardadas"
-
+    "transaccionesG":"Transacciones guardadas",
+    "date":"Fecha",
+    "type":"Tipo",
+    "category":"Categoría",
+    "account":"Cuenta",
+    "amount":"Importe",
+    "acction":"Acción"
 
 
 }

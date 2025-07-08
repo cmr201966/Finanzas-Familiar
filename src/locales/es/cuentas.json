@@ -6,5 +6,12 @@
     "placeholdersaldo":"Saldo inicial",
     "cuentaP":"Cuenta principal",
     "notifica":"Notificaciones",
-    "cuentasG":"Cuentas guardadas:"
+    "cuentasG":"Cuentas guardadas:",
+    "ncuenta":"Cuenta",
+    "nbanco":"Banco",
+    "tcuenta":"Tipo cuenta",
+    "opend":"Apertura",
+    "amount":"Saldo",
+    "accion":"Acción"
+
 }

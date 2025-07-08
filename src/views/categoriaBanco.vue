@@ -1,102 +1,106 @@
 <template>
     <NavBar />
     <Footer />
-            <!-- Parte derecha con fondo degradado -->
-            <div class="form-container">
-                <div class="form-gradient-box">
+      <!-- Parte derecha con fondo degradado -->
+      <div class="form-gradient-box">
+          <div class="header-inline">
+              <img  src="../assets/img/tarjetas/banco.png"
+                    class="user-icon"
+                    alt="Icono usuario"
+              />
+              <h1 class="name-opcion">{{ $t("categoriaBanco.app_option") }}</h1>
+          </div>
 
-                        <div class="header-inline">
-                            <img src="../assets/img/tarjetas/banco.png" class="user-icon" alt="Icono usuario" />
-                            <h1 class="name-opcion">{{ $t("categoriaBanco.app_option") }}</h1>
-                        </div>
+          <!-- Raya de división -->
+          <hr class="divider1" />
 
-                        <!-- Raya de división -->
-                        <hr class="divider" />
+          <div class="banco-container">
+            <!-- Banco -->
+          <v-row>
+            <v-col cols="12" md="12" class="pa-0">
+              <v-text-field
+                v-model="banconame"
+                :placeholder="$t('categoriaBanco.bank')"
+                class="custom-height"
+                dense
+                outlined
+                @keydown.enter="submitForm"
+                density="compact"
+                color="primary"
+                prepend-inner-icon="mdi-bank"
+                width="280"
+              />
+            </v-col>
+          </v-row>
+            <!-- Raya de división -->
+            <hr class="divider" />
 
-                        <!-- Banco -->
-                        <v-col cols="12" md="12">
-                            <v-text-field
-                                v-model="banconame"
-                                :placeholder="$t('categoriaBanco.bank')"
-                                class="custom-height"
-                                dense
-                                outlined
-                                @keydown.enter="submitForm"
-                                density="compact"
-                                color="primary"
-                                prepend-inner-icon="mdi-bank"
-                            />
-                        </v-col>
+            <!-- Botones de  Aceptar y cancelar -->
 
-                        <!-- Raya de división -->
-                        <hr class="divider" />
+            <div class="form-buttons">
 
-                        <!-- Botones de  Aceptar y cancelar -->
+              <!-- Botón Aceptar (verde) -->
+              <v-btn  @click="submitForm"
+                      :disabled="enviando || !banconame.trim()"
+                      :loading="enviando"
+                      class="btn btn-aceptar"
+                    >{{ $t("categoriaBanco.submit") }}
+              </v-btn>
 
-                        <div class="form-buttons">
-
-                            <!-- Botón Aceptar (verde) -->
-                            <v-btn  @click="submitForm"
-                                    :disabled="enviando || !banconame.trim()"
-                                    :loading="enviando"
-                                    class="btn btn-aceptar"
-                                    >{{ $t("categoriaBanco.submit") }}
-                            </v-btn>
-
-                            <!-- Botón Cancelar (rojo) -->
-                            <v-btn  @click="cancelarFormulario"
-                                    :disabled="enviando"
-                                    class="btn btn-cancelar"> {{ $t("categoriaBanco.cancel") }}
-                            </v-btn>
-                        </div>
-
-
-                    <!-- Tabla de bancos-->
-                    <v-card
-                            class="mx-auto pa-2"
-                            elevation="8"
-                            style="max-width: 450px;
-                            border-radius: 16px;
-                            background-color: #f9f9f9;"
-                    >
-                    <div style="max-height: 400px; overflow-y: auto;">
-                        <v-data-table
-                            :headers="headers"
-                            :items="bancos"
-                            item-value="id"
-                            class="tabla-bancos"
-                            :items-per-page="-1"
-                            hide-default-footer
-                            style="min-width:200px;"
-                            fixed-header
-                            height="200"
-
-                        >
-                        <template #item.acciones="{ item }">
-                            <div class="d-flex align-center">
-                                <v-btn icon class="bg-transparent" @click="editarBancoVista(item)">
-                                    <v-icon size="18">mdi-pencil</v-icon>
-                                </v-btn>
-                                <v-btn icon class="bg-transparent" @click="eliminarBancoVista(item.id)">
-                                    <v-icon size="18" color="red">mdi-delete</v-icon>
-                                </v-btn>
-                            </div>
-                        </template>
-                        </v-data-table>
-                    </div>
-                    </v-card>
-                    <v-dialog v-model="mostrarDialogoEliminar" max-width="400">
-                        <v-card>
-                            <v-card-title class="text-h6">{{ $t("categoriaBanco.message-kill1") }}</v-card-title>
-                                <v-card-text>{{ $t("categoriaBanco.message-kill2") }}</v-card-text>
-                                <v-card-actions>
-                                    <v-btn text @click="mostrarDialogoEliminar = false">{{ $t("categoriaBanco.cancel") }}</v-btn>
-                                    <v-btn color="red" text @click="confirmarEliminacion">{{ $t("categoriaBanco.delete") }}</v-btn>
-                                </v-card-actions>
-                        </v-card>
-                    </v-dialog>
-                </div>
+              <!-- Botón Cancelar (rojo) -->
+              <v-btn  @click="cancelarFormulario"
+                      :disabled="enviando"
+                      class="btn btn-cancelar"> {{ $t("categoriaBanco.cancel") }}
+              </v-btn>
             </div>
+
+
+            <!-- Tabla de bancos-->
+            <v-card
+              class="mx-auto pa-2"
+              elevation="8"
+              style="max-width: 450px;
+              border-radius: 16px;
+              background-color: #f9f9f9;"
+              >
+              <div style="max-height: 400px; overflow-y: auto;">
+                <v-data-table
+                  :headers="headers"
+                  :items="bancos"
+                  item-value="id"
+                  class="tabla-bancos"
+                  :items-per-page="-1"
+                  hide-default-footer
+                  style="min-width:200px;"
+                  fixed-header
+                  height="200"
+
+                  >
+                    <template #item.acciones="{ item }">
+                        <div class="d-flex align-center">
+                          <v-btn icon class="bg-transparent" @click="editarBancoVista(item)">
+                              <v-icon size="16">mdi-pencil</v-icon>
+                          </v-btn>
+                          <v-btn icon class="bg-transparent" @click="eliminarBancoVista(item.id)">
+                              <v-icon size="16" color="red">mdi-delete</v-icon>
+                          </v-btn>
+                        </div>
+                    </template>
+                </v-data-table>
+              </div>
+            </v-card>
+              <v-dialog v-model="mostrarDialogoEliminar" max-width="400">
+              <v-card>
+                <v-card-title class="text-h6">{{ $t("categoriaBanco.message-kill1") }}</v-card-title>
+                  <v-card-text>{{ $t("categoriaBanco.message-kill2") }}</v-card-text>
+                      <v-card-actions>
+                          <v-btn text @click="mostrarDialogoEliminar = false">{{ $t("categoriaBanco.cancel") }}</v-btn>
+                          <v-btn color="red" text @click="confirmarEliminacion">{{ $t("categoriaBanco.delete") }}</v-btn>
+                      </v-card-actions>
+                  </v-card>
+              </v-dialog>
+            </div>
+          </div>
 </template>
 
 <script setup>
@@ -241,10 +245,12 @@ function cancelarFormulario() {
 /* Fondo general de la página */
 
 .header-inline {
-    display: flex;
-    align-items: center;
-    gap: 5px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 15px;
 }
+
 
 /* Parte derecha: formulario y fondo */
 
@@ -267,102 +273,117 @@ function cancelarFormulario() {
 /* Recuadro con gradiente */
 
 .form-gradient-box {
-    border-radius: 10px;
-    background: linear-gradient(135deg, #4caf50, #2196f3);
-    flex-direction: column;
-    align-items: center;
-    padding: 20px 15px;
-    box-sizing: border-box;
-    color: white;
-    border: 2px solid blue;
-    margin: auto;
+  border-radius: 16px;
+  background: linear-gradient(135deg, #42a5f5, #66bb6a);
+  padding: 25px;
+  box-sizing: border-box;
+  color: white;
+  margin: 20px auto;
+  max-width: 650px;
+  box-shadow: 0 4px 20px rgba(0,0,0,0.15);
 }
 
-/* Icono de usuario arriba */
-.form-gradient-box img.user-icon {
-    width: 50px;
-    height: 50px;
-    margin-top: 10px;
-    margin-left: 2px;
-    object-fit: contain;
+.banco-container {
+  max-width: 400px;
+  margin: auto;
+  padding: 10px;
 }
 
 .form-buttons {
-    display: flex;
-    justify-content: flex-end;
-    gap: 10px; /* espacio entre botones */
-    margin-left: 150px;
+  display: flex;
+  justify-content: flex-end;
+  flex-wrap: wrap;
+  gap: 12px;
+  margin-top: 20px;
 }
 
 .btn {
-    display: flex; /* ← clave */
-    align-items: center; /* centra verticalmente */
-    justify-content: center; /* centra horizontalmente */
-    padding: 10px 20px;
-    font-size: 10px;
-    border: none;
-    border-radius: 6px;
-    cursor: pointer;
-    width: 65px;
-    height: 20px;
-    font-style: "popins";
-    margin-bottom: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 8px 16px;
+  font-size: 11px !important;
+  font-family: 'Poppins', sans-serif !important;
+  text-transform: none !important;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  width: 30px;
+  height: 20px;
+  transition: all 0.3s ease;
+  margin-top: 10px;
+  margin-bottom: 10px;
 }
 
 .btn-aceptar {
-    background-color: #196c2c; /* verde */
-    color: white;
+  background-color: #2e7d32;
+  color: white;
 }
 
 .btn-cancelar {
-    background-color: #dc3545; /* rojo */
-    color: white;
+  background-color: #c62828;
+  color: white;
+}
+
+.btn:hover {
+  filter: brightness(1.1);
 }
 /*Titulo de la opcion*/
 
 .name-opcion {
-    font-family: "Poppins", sans-serif;
-    font-size: 25px;
-    font-weight: 700;
-    color: #070606;
-    text-align: center;
-    left: 8px;
+  font-family: "Poppins", sans-serif;
+  font-size: 24px;
+  font-weight: bold;
+  color: white;
 }
 
 /* Imagen de usuario más pequeña */
 .user-icon {
-    width:50px;
-    height: 50px;
-    object-fit: contain;
-    margin-bottom: 10px;
+  width: 50px;
+  height: 50px;
+  object-fit: contain;
 }
 
 /* Línea divisoria */
 .divider {
-    height: 2px;
-    background-color: #010000;
-    border: none;
-    margin: 10px;
-    width: 90%; /* o 100%, o un valor fijo como 300px */
-    display: block;
+  border: 1px solid black;
+  margin: 5px 0;
+  width: 90%;
+}
+
+.divider1 {
+  border: 1px solid black;
+  margin: 5px 0;
+  width: 85%;
+  margin-left: 12px;
 }
 
 .custom-height {
-    height: 30px; /* o el valor que uses en los inputs normales */
-    font-size: 12px;
+    height: 20px; /* o el valor que uses en los inputs normales */
+    font-size: 11px;
+    top: 5px;
+    margin-bottom: 20px;
 }
 
 .tabla-bancos .v-data-table-header th {
-    background-color: #e3f2fd; /* azul claro */
-    color: #0d47a1;
-    font-weight: 600;
-    font-size: 0.9rem;
+  background-color: #1976d2;
+  color: white;
+  font-size: 12px;
+  padding: 8px;
+  border-top-left-radius: 8px;
+  border-top-right-radius: 8px;
 }
 
 .tabla-bancos .v-data-table__td {
-    font-size: 0.85rem;
-    color: #333;
-    border-bottom: 1px solid #ccc;
+  font-size: 13px;
+  color: #333;
+  background-color: #fafafa;
+}
+
+.tabla-bancos .v-data-table__td {
+  font-size: 13px;
+  color: #333;
+  background-color: #fafafa;
 }
 
 .tabla-bancos .v-data-table__wrapper {
@@ -379,10 +400,6 @@ input::placeholder {
 
 }
 
-.bandera{
-    width: 30px;
-    height: 30px;
-}
 
 
 /* Esto es para obligar al navegador a que ponga el color q tenia el input*/
@@ -395,13 +412,6 @@ input:-webkit-autofill:active {
     background-color: white !important;
     -webkit-text-fill-color: black !important;
     -webkit-background-clip: text;
-}
-
-
-.form-gradient-box img{
-    width: 20%;
-    height: 20%;
-    margin-top: 20px;
 }
 
 /* Disminuir alto del header de la tabla */
@@ -489,18 +499,8 @@ input:-webkit-autofill:active {
     text-align: center;
   }
 
-  .form-gradient-box img {
-    width: 60px;
-    height: 60px;
-  }
-
   .divider {
     margin: 8px auto;
-  }
-
-  .bandera {
-    width: 25px;
-    height: 25px;
   }
 }
 
@@ -531,11 +531,6 @@ input:-webkit-autofill:active {
     margin: 0 auto;
   }
 
-  .form-gradient-box img {
-    width: 50px;
-    height: 50px;
-    margin-top: 10px;
-  }
 
   .name-opcion {
     font-size: 16px;
@@ -545,11 +540,6 @@ input:-webkit-autofill:active {
   .divider {
     margin: 6px auto;
     width: 100%;
-  }
-
-  .bandera {
-    width: 24px;
-    height: 24px;
   }
 
   input::placeholder {

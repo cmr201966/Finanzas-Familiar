@@ -6,6 +6,12 @@
     "placeholdersaldo":"Initial balance",
     "cuentaP":"Main account",
     "notifica":"Notifications",
-    "cuentasG":"Saved accounts:"
-    
+    "cuentasG":"Saved accounts:",
+    "ncuenta":"Account",
+    "nbanco":"Bank",
+    "tcuenta":"Account type",
+    "opend":"Opening date",
+    "amount":"Amount",
+    "accion":"Atción"
+
 }

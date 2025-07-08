@@ -1,7 +1,6 @@
 <template>
     <NavBar />
     <Footer />
-            <div class="form-container">
                 <div class="form-gradient-box">
 
                         <div class="header-inline">
@@ -14,7 +13,7 @@
 
                         <!-- Input tipo de cuenta -->
 
-                        <v-col cols="12" md="12">
+                        <v-col cols="12" md="12" class="pa-0">
                             <v-text-field
                                 v-model="tipocuentaname"
                                 :placeholder="$t('categoriaTipoCuenta.account_type')"
@@ -23,6 +22,7 @@
                                 @keydown.enter="submitForm"
                                 color="primary"
                                 density="compact"
+                                class="custom-height"
                                 prepend-inner-icon="mdi-wallet"
                             />
                         </v-col>
@@ -87,7 +87,7 @@
                         </v-card>
                     </v-dialog>
                 </div>
-            </div>
+
 </template>
 
 <script setup>
@@ -214,9 +214,11 @@ function cancelarFormulario() {
 /* Fondo general de la página */
 
 .header-inline {
-    display: flex;
-    align-items: center;
-    gap: 5px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 15px;
+  justify-content: center;
 }
 
 /* Parte derecha: formulario y fondo */
@@ -240,14 +242,14 @@ function cancelarFormulario() {
 /* Recuadro con gradiente */
 
 .form-gradient-box {
-    border-radius: 10px;
-    background: linear-gradient(135deg, #4caf50, #2196f3);
-    flex-direction: column;
-    align-items: center;
-    box-sizing: border-box;
-    color: white;
-    border: 2px solid blue;
-    margin: auto;
+  border-radius: 16px;
+  background: linear-gradient(135deg, #42a5f5, #66bb6a);
+  padding: 25px;
+  box-sizing: border-box;
+  color: white;
+  margin: 20px auto;
+  max-width: 600px;
+  box-shadow: 0 4px 20px rgba(0,0,0,0.15);
 }
 
 /* Icono de usuario arriba */
@@ -258,26 +260,38 @@ function cancelarFormulario() {
     object-fit: contain;
 }
 
+.custom-height {
+    height: 20px; /* o el valor que uses en los inputs normales */
+    font-size: 10px;
+    top: 5px;
+    margin-bottom: 20px;
+    width: 260px;
+}
+
 .form-buttons {
-    display: flex;
-    justify-content: center;
-    gap: 5px; /* espacio entre botones */
-    margin-left: 100px;
+  display: flex;
+  justify-content: flex-end;
+  flex-wrap: wrap;
+  gap: 12px;
+  margin-top: 20px;
 }
 
 .btn {
-    display: flex; /* ← clave */
-    align-items: center; /* centra verticalmente */
-    justify-content: center; /* centra horizontalmente */
-    padding: 10px 20px;
-    font-size: 10px;
-    border: none;
-    border-radius: 6px;
-    cursor: pointer;
-    width: 65px;
-    height: 20px;
-    font-style: "popins";
-    margin-bottom: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 8px 16px;
+  font-size: 11px !important;
+  font-family: 'Poppins', sans-serif !important;
+  text-transform: none !important;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  width: 30px;
+  height: 10px;
+  transition: all 0.3s ease;
+  margin-top: 5px;
+  margin-bottom: 10px;
 }
 
 .btn-aceptar {
@@ -289,23 +303,28 @@ function cancelarFormulario() {
     background-color: #dc3545; /* rojo */
     color: white;
 }
+
+
+.btn:hover {
+  filter: brightness(1.1);
+}
+
+
 /*Titulo de la opcion*/
 
 .name-opcion {
-    font-family: "Poppins", sans-serif;
-    font-size: 20px;
-    font-weight: 700;
-    color: #070606;
-    text-align: center;
-    left: 8px;
+  font-family: "Poppins", sans-serif;
+  font-size: 24px;
+  font-weight: bold;
+  color: white;
 }
 
 /* Imagen de usuario más pequeña */
 .user-icon {
-    width:50px;
-    height: 50px;
-    object-fit: contain;
-    margin-bottom: 10px;
+  width: 50px;
+  height: 50px;
+  object-fit: contain;
+  margin-bottom: 10px;
 }
 
 /* Línea divisoria */
@@ -313,14 +332,9 @@ function cancelarFormulario() {
     height: 2px;
     background-color: #010000;
     border: none;
-    margin: 10px;
+    margin: 4px 0;
     width: 90%; /* o 100%, o un valor fijo como 300px */
     display: block;
-}
-
-.bandera{
-    width: 30px;
-    height: 30px;
 }
 
 /* Esto es para obligar al navegador a que ponga el color q tenia el input*/
@@ -347,14 +361,25 @@ input:-webkit-autofill:active {
 }
 
 .font-tabla .v-data-table__td {
-  padding: 2px 4px; /* Ajusta vertical y horizontalmente */
+  font-size: 13px;
+  color: #333;
+  background-color: #fafafa;
 }
 
 /* Disminuir alto del header de la tabla */
 .v-data-table thead th {
-    height: 26px;
-    padding-top: 0px;
-    padding-bottom: 2px;
+  background-color: #1976d2 !important;
+  color: white !important;
+  font-size: 14px;
+  font-weight: 600;
+  padding: 8px;
+  border-top-left-radius: 8px;
+  border-top-right-radius: 8px;
+}
+
+
+.v-data-table {
+  border-radius: 12px;
 }
 
 /* Disminuir el alto de las filas (tr) */
