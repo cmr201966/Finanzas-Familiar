@@ -1,57 +1,56 @@
 <template>
     <NavBar />
+        <div class="form-gradient-box">
+          <div class="header-inline">
+            <img  src="../assets/img/tarjetas/transf.png"
+                  class="transfer-icon"
+                  alt="Icono tranferencias"
+              />
 
-                <div class="form-gradient-box">
+              <h1 class="name-opcion">{{ $t("transferencias.app_option") }}</h1>
+          </div>
 
-                        <div class="header-inline">
+          <!-- Raya de división -->
+          <hr class="divider " />
 
-                            <img  src="../assets/img/tarjetas/transf.png"
-                                  class="transfer-icon"
-                                  alt="Icono tranferencias"
-                            />
+          <div class="transferencias-container">
 
-                            <h1 class="name-opcion">{{ $t("transferencias.app_option") }}</h1>
-                        </div>
+            <!-- Formulario de transferencia -->
+            <form @submit.prevent="submitForm">
 
-                        <!-- Raya de división -->
-                        <hr class="divider " />
+              <!-- Cuenta Origen -->
+              <v-row>
+                <v-col cols="12" md="12">
+                  <v-autocomplete
+                      v-model="form.from_account_id"
+                      :items="cuentasOrigenFiltradas"
+                      item-title="name"
+                      item-value="id"
+                      :label="form.from_account_id ? '' : $t('transferencias.source_account')"
+                      class="custom-height white-rounded"
+                      dense
+                      outlined
+                      density="compact"
+                      prepend-inner-icon="mdi-arrow-up-bold-circle"
+                    />
+                  </v-col>
 
-                        <div class="transferencias-container">
-
-                          <!-- Formulario de transferencia -->
-                          <form @submit.prevent="submitForm">
-                            <!-- Cuenta Origen -->
-                          <v-row>
-                            <v-col cols="12" md="12">
-                              <v-autocomplete
-                                v-model="form.from_account_id"
-                                :items="cuentasOrigenFiltradas"
-                                item-title="name"
-                                item-value="id"
-                                :label="form.from_account_id ? '' : $t('transferencias.source_account')"
-                                class="custom-height white-rounded"
-                                dense
-                                outlined
-                                density="compact"
-                                prepend-inner-icon="mdi-arrow-up-bold-circle"
-                              />
-                            </v-col>
-                            <!-- Cuenta Destino -->
-                            <v-col cols="12" md="12">
-                              <v-autocomplete
-                                v-model="form.to_account_id"
-                                :items="cuentasDestinoFiltradas"
-                                item-title="name"
-                                item-value="id"
-                                :label= "$t('transferencias.destination_account')"
-                                class="custom-height"
-                                dense
-                                outlined
-                                density="compact"
-                                prepend-inner-icon="mdi-arrow-down-bold-circle"
-                              />
-                            </v-col>
-                          </v-row>
+                  <!-- Cuenta Destino -->
+                  <v-col cols="12" md="12">
+                    <v-autocomplete
+                      v-model="form.to_account_id"
+                      :items="cuentasDestinoFiltradas"
+                      item-title="name"
+                      item-value="id"
+                      :label= "$t('transferencias.destination_account')"
+                      class="custom-height"
+                      dense
+                      outlined
+                      density="compact"
+                      prepend-inner-icon="mdi-arrow-down-bold-circle"
+                    />
+                  </v-col>
+                </v-row>
 
                           <!-- Importe y Fecha (alineados horizontalmente)
                           <div class="d-flex flex-row" style="gap: 16px;">-->
@@ -536,7 +535,6 @@ function limpiarFormulario() {
 }
 
 
-
 .white-rounded .v-field {
   background-color: white;
   border-radius: 10px;
@@ -561,7 +559,7 @@ function limpiarFormulario() {
 }
 
 .form-gradient-box {
-  border-radius: 10px;
+    border-radius: 10px;
     background: linear-gradient(135deg, #4caf50, #2196f3);
     flex-direction: column;
     align-items: center;

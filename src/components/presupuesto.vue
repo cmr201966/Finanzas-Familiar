@@ -96,8 +96,6 @@
                                   </v-col>
                             </v-row>
 
-
-
                         <hr class="divider1" />
 
                         <!-- Botones de  Aceptar y cancelar -->
@@ -122,32 +120,34 @@
                       </v-form>
 
                       <!-- Tabla de presupuestos por mes -->
-                      <div style="max-height: 400px; overflow-y: auto;">
-                        <v-data-table
-                          :headers="headers"
-                          :items="presupuestos"
-                          item-value="id"
-                          class="elevation-1 font-tabla"
-                          :items-per-page="-1"
-                          hide-default-footer
-                          style="min-width:300px;"
-                        >
-                          <template #item.acciones="{ item }">
-                            <div class="d-flex align-center">
-                              <v-btn  icon
-                                      class="bg-transparent"
-                                      @click="editarPresupuestoVista(item)">
-                                <v-icon size="18">mdi-pencil</v-icon>
-                              </v-btn>
-                              <v-btn  icon
-                                      class="bg-transparent"
-                                      @click="eliminarPresupuestoVista(item.id)">
-                                <v-icon size="18" color="red">mdi-delete</v-icon>
-                              </v-btn>
-                            </div>
-                          </template>
-                        </v-data-table>
-                      </div>
+                      <v-card
+  class="mx-auto pa-2"
+  elevation="8"
+  style="max-width: 600px; border-radius: 16px; background-color: #f9f9f9;"
+>
+  <div style="max-height: 400px; overflow-y: auto;">
+    <v-data-table
+      :headers="headers"
+      :items="presupuestos"
+      item-value="id"
+      class="tabla-transferencias"
+      :items-per-page="-1"
+      hide-default-footer
+      dense
+    >
+      <template #item.acciones="{ item }">
+        <div class="d-flex align-center">
+          <v-btn icon class="bg-transparent" @click="editarPresupuestoVista(item)">
+            <v-icon size="18">mdi-pencil</v-icon>
+          </v-btn>
+          <v-btn icon class="bg-transparent" @click="eliminarPresupuestoVista(item.id)">
+            <v-icon size="18" color="red">mdi-delete</v-icon>
+          </v-btn>
+        </div>
+      </template>
+    </v-data-table>
+  </div>
+</v-card>
                       <v-dialog v-model="mostrarDialogoEliminar" max-width="400">
                       <v-card>
                         <v-card-title class="text-h6">¿Estás seguro?</v-card-title>

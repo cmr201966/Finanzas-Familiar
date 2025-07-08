@@ -1,8 +1,14 @@
 {
     "titulo-transacciones":"Transactions",
-    "placeholdertransaccion":"Select a category...",
+    "placeholdertransaccion":"Select of category...",
     "placeholderimporte":"Amount...",
     "seleccion-cuenta":"Select associated account",
     "descripcionT":"Transaction description...",
-    "transaccionesG":"Saved transactions"
+    "transaccionesG":"Saved transactions",
+    "date":"Date",
+    "type":"Type",
+    "category":"Category",
+    "account":"Account",
+    "amount":"Amount",
+    "acction":"Action"
 }

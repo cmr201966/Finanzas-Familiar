@@ -4,5 +4,11 @@
     "placeholderdescripcion":"Descripcion...",
     "ingreso":"Ingreso",
     "gastos":"Gastos",
-    "categoriaG":"Categorias Guardadas"
+    "categoriaG":"Categorias Guardadas",
+    "name":"Nombre",
+    "description":"Descripción",
+    "type":"Tipo",
+    "accion":"Acción",
+    "submit": "Aceptar",
+    "cancel": "Cancelar"
 }
