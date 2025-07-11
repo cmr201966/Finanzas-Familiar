@@ -531,14 +531,12 @@ const cargarPresupuestos = async () => {
 .form-gradient-box {
   border-radius: 10px;
     background: linear-gradient(135deg, #4caf50, #2196f3);
-
     flex-direction: column;
     align-items: center;
     padding: 20px 15px;
     box-sizing: border-box;
     color: white;
     border: 2px solid blue;
-
     margin: auto;
 }
 

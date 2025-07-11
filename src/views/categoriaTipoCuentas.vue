@@ -13,14 +13,13 @@
 
                         <!-- Input tipo de cuenta -->
 
-                        <v-col cols="12" md="12" class="pa-0">
+                        <v-col cols="12" md="12" class="pa-2 mb-6 ms-1">
                             <v-text-field
                                 v-model="tipocuentaname"
                                 :placeholder="$t('categoriaTipoCuenta.account_type')"
                                 dense
                                 outlined
                                 @keydown.enter="submitForm"
-                                color="primary"
                                 density="compact"
                                 class="custom-height"
                                 prepend-inner-icon="mdi-wallet"
@@ -47,7 +46,7 @@
 
                     <!-- Tabla de tipo de cuentas-->
                     <v-card
-                            class="mx-auto pa-2"
+                            class="mx-auto pa-3"
                             elevation="8"
                             style="max-width: 450px; border-radius: 16px; background-color: #f9f9f9;"
                     >
@@ -230,7 +229,7 @@ function cancelarFormulario() {
     display: flex;
     align-items: center;
     justify-content: center;
-    padding: 10px;
+    padding: 5px;
 }
 
 
@@ -261,10 +260,9 @@ function cancelarFormulario() {
 }
 
 .custom-height {
-    height: 20px; /* o el valor que uses en los inputs normales */
+    height: 15px; /* o el valor que uses en los inputs normales */
     font-size: 10px;
-    top: 5px;
-    margin-bottom: 20px;
+    margin-bottom: 50px;
     width: 260px;
 }
 
@@ -335,6 +333,7 @@ function cancelarFormulario() {
     margin: 4px 0;
     width: 90%; /* o 100%, o un valor fijo como 300px */
     display: block;
+    margin-top: 40px;
 }
 
 /* Esto es para obligar al navegador a que ponga el color q tenia el input*/

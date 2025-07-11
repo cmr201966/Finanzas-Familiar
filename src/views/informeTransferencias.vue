@@ -11,168 +11,170 @@
             <div class="informe-container">
                 <v-row>
                     <!-- Mes inicial -->
-                <v-col cols="12" md="6">
-                <v-menu
-                    v-model="fechaInicial"
-                    :close-on-content-click="false"
-                    transition="scale-transition"
-                    offset-y
-                >
-                    <template #activator="{ props }">
-                    <v-text-field
-                        v-model="form.fechaInicial"
-                        :label="$t('informeTransferencias.monthStart')"
-                        readonly
-                        v-bind="props"
-                        density="compact"
-                        class="custom-height white-rounded"
-                        prepend-inner-icon="mdi-calendar-month"
-                    />
-                    </template>
-
-                    <v-date-picker
-                    view-mode="month"
-                    @update:model-value="(val) => seleccionarMes(val, 'inicial')"
-                    color="primary"
-                    />
-                </v-menu>
-                </v-col>
-
-                <!-- Mes final -->
-                <v-col cols="12" md="6">
-                <v-menu
-                    v-model="fechaFinal"
-                    :close-on-content-click="false"
-                    transition="scale-transition"
-                    offset-y
-                >
-                    <template #activator="{ props }">
-                    <v-text-field
-                        v-model="form.fechaFinal"
-                        :label="$t('informeTransferencias.monthEnd')"
-                        readonly
-                        v-bind="props"
-                        density="compact"
-                        class="custom-height white-rounded"
-                        prepend-inner-icon="mdi-calendar-month"
-                    />
-                    </template>
-
-                    <v-date-picker
-                    view-mode="month"
-                    @update:model-value="(val) => seleccionarMes(val, 'final')"
-                    color="primary"
-                    />
-                </v-menu>
-                </v-col>
-
-                    </v-row>
-
-                    <!-- Cuenta Origen -->
-                    <v-row>
-                        <v-col cols="12" md="12" class="espacio-reducido">
-                            <v-autocomplete
-                                v-model="form.from_account_id"
-                                :items="cuentasOrigenFiltradas"
-                                item-title="name"
-                                item-value="id"
-                                :label="form.from_account_id ? '' : $t('informeTransferencias.source_account')"
-                                class="custom-height white-rounded"
-                                dense
-                                outlined
-                                density="compact"
-                                prepend-inner-icon="mdi-arrow-up-bold-circle"
-                            />
-                        </v-col>
-
-                        <!-- Cuenta Destino -->
-
-                        <v-col cols="12" md="12">
-                            <v-autocomplete
-                                v-model="form.to_account_id"
-                                :items="cuentasDestinoFiltradas"
-                                item-title="name"
-                                item-value="id"
-                                :label= "$t('informeTransferencias.destination_account')"
-                                class="custom-height"
-                                dense
-                                outlined
-                                density="compact"
-                                prepend-inner-icon="mdi-arrow-down-bold-circle"
-                            />
-                        </v-col>
-
-                        <!-- Descripción -->
-
-                        <v-col cols="12" md="12">
+                    <v-col cols="12" md="6">
+                        <v-menu
+                            v-model="fechaInicial"
+                            :close-on-content-click="false"
+                            transition="scale-transition"
+                            offset-y
+                        >
+                            <template #activator="{ props }">
                             <v-text-field
-                                v-model="form.description"
-                                :placeholder="$t('informeTransferencias.description')"
-                                dense
-                                outlined
+                                v-model="form.fechaInicial"
+                                :label="$t('informeTransferencias.monthStart')"
+                                readonly
+                                v-bind="props"
                                 density="compact"
-                                prepend-inner-icon="mdi-note-outline"
-                                class="custom-height"
+                                class="custom-height white-rounded"
+                                prepend-inner-icon="mdi-calendar-month"
                             />
-                        </v-col>
-                    </v-row>
+                            </template>
+
+                            <v-date-picker
+                            view-mode="month"
+                            @update:model-value="(val) => seleccionarMes(val, 'inicial')"
+                            color="primary"
+                            />
+                        </v-menu>
+                    </v-col>
+
+                    <!-- Mes final -->
+                    <v-col cols="12" md="6">
+                        <v-menu
+                            v-model="fechaFinal"
+                            :close-on-content-click="false"
+                            transition="scale-transition"
+                            offset-y
+                        >
+                            <template #activator="{ props }">
+                            <v-text-field
+                                v-model="form.fechaFinal"
+                                :label="$t('informeTransferencias.monthEnd')"
+                                readonly
+                                v-bind="props"
+                                density="compact"
+                                class="custom-height white-rounded"
+                                prepend-inner-icon="mdi-calendar-month"
+                            />
+                            </template>
+
+                            <v-date-picker
+                            view-mode="month"
+                            @update:model-value="(val) => seleccionarMes(val, 'final')"
+                            color="primary"
+                            />
+                        </v-menu>
+                    </v-col>
+
+                </v-row>
+
+                <!-- Cuenta Origen -->
+                <v-row>
+                    <v-col cols="12" md="12" class="espacio-reducido ">
+                        <v-autocomplete
+                            v-model="form.from_account_id"
+                            :items="cuentasOrigenFiltradas"
+                            item-title="name"
+                            item-value="id"
+                            :label="form.from_account_id ? '' : $t('informeTransferencias.source_account')"
+                            class="custom-height white-rounded"
+                            dense
+                            outlined
+                            density="compact"
+                            prepend-inner-icon="mdi-arrow-up-bold-circle"
+                        />
+                    </v-col>
+
+                    <!-- Cuenta Destino -->
+
+                    <v-col cols="12" md="12" >
+                        <v-autocomplete
+                            v-model="form.to_account_id"
+                            :items="cuentasDestinoFiltradas"
+                            item-title="name"
+                            item-value="id"
+                            :label= "$t('informeTransferencias.destination_account')"
+                            class="custom-height"
+                            dense
+                            outlined
+                            density="compact"
+                            prepend-inner-icon="mdi-arrow-down-bold-circle"
+                        />
+                    </v-col>
+
+                    <!-- Descripción -->
+
+                    <v-col cols="12" md="12">
+                        <v-text-field
+                            v-model="form.description"
+                            :placeholder="$t('informeTransferencias.description')"
+                            dense
+                            outlined
+                            density="compact"
+                            prepend-inner-icon="mdi-note-outline"
+                            class="custom-height"
+                        />
+                    </v-col>
 
                     <!-- Boton Filtrar -->
-
-                    <v-btn
-                        @click="filtrarTransferencias"
-                        :disabled="!formTieneDatos || enviando"
-                        :loading="enviando"
-                        class="btn-filtrar"
-                        >
-                        {{ $t("informeTransferencias.submit") }}
-                    </v-btn>
-
-                    <!-- Tabla de transferencias -->
-                    <v-card
-                        class="mx-auto pa-2"
-                        elevation="8"
-                        style="max-width: 600px; border-radius: 16px; background-color: #f9f9f9;"
-                        >
-                        <v-data-table
-                            :headers="headers"
-                            :items="transferenciasConNombres"
-                            item-value="id"
-                            class="tabla-informeTransferencias"
-                            :items-per-page="-1"
-                            hide-default-footer
-                            fixed-header
-                            height="150"
-                            dense
+                    <v-col cols="12" md="12" class="d-flex justify-end">
+                        <v-btn
+                            @click="filtrarTransferencias"
+                            :disabled="!formTieneDatos || enviando"
+                            :loading="enviando"
+                            class="btn-filtrar"
                             >
-                        </v-data-table>
-                    </v-card>
+                            {{ $t("informeTransferencias.submit") }}
+                        </v-btn>
+                    </v-col>
 
-                    <!-- Contenedor principal de botones -->
-                    <div class="form-buttons-separados">
+                </v-row>
 
-                        <!-- Botones de Exportar PDF, Excel e Imprimir -->
-                        <div  class="grupo-izquierdo">
-                            <!-- PDF -->
-                            <v-btn
-                                @click="exportarPDF"
-                                :disabled="enviando"
-                                :loading="enviando"
-                                class="btn-exportar"
-                                color="lighten-4"
-                                style="flex-direction: column; align-items: center; padding: 8px"
-                                >
-                                <span   style="font-size: 10px;
-                                        font-weight: bold">
-                                        {{ $t("informeTransferencias.export") }}
-                                </span>
-                                <v-icon color="red" size="28">mdi-file-pdf-box</v-icon>
-                            </v-btn>
+                <!-- Tabla de transferencias -->
+                <v-card
+                    class="mx-auto pa-2"
+                    elevation="8"
+                    style="max-width: 600px; border-radius: 16px; background-color: #f9f9f9;"
+                    >
+                    <v-data-table
+                        :headers="headers"
+                        :items="transferenciasConNombres"
+                        item-value="id"
+                        class="tabla-informeTransferencias"
+                        :items-per-page="-1"
+                        hide-default-footer
+                        fixed-header
+                        height="150"
+                        dense
+                        >
+                    </v-data-table>
+                </v-card>
 
-                            <!-- Excel -->
-                            <v-btn
-                                @click="exportarExcel"
-                                :disabled="enviando"
+                <!-- Contenedor principal de botones -->
+                <div class="form-buttons-separados">
+
+                    <!-- Botones de Exportar PDF, Excel e Imprimir -->
+                    <div  class="grupo-izquierdo">
+                        <!-- PDF -->
+                        <v-btn
+                            @click="exportarPDF"
+                            :disabled="enviando"
+                            :loading="enviando"
+                            class="btn-exportar"
+                            color="lighten-4"
+                            style="flex-direction: column; align-items: center; padding: 8px"
+                            >
+                            <span   style="font-size: 10px;
+                                    font-weight: bold">
+                                    {{ $t("informeTransferencias.export") }}
+                            </span>
+                            <v-icon color="red" size="28">mdi-file-pdf-box</v-icon>
+                        </v-btn>
+
+                        <!-- Excel -->
+                        <v-btn
+                            @click="exportarExcel"
+                            :disabled="enviando"
                                 :loading="enviando"
                                 class="btn-exportar"
                                 color="lighten-4"
@@ -329,7 +331,7 @@ const seleccionarMes = (valor, tipo) => {
     else fechaFinal.value = false;
 };
 
-// 🎯 Función para convertir "Junio 2025" a Date
+// Función para convertir "Junio 2025" a Date
 const obtenerFechaInterna = (fechaFormateada) => {
     if (!fechaFormateada) return null;
     const [mesNombre, anio] = fechaFormateada.split(" ");
@@ -373,52 +375,6 @@ const compararMes = (fechaStr, fechaFiltroFormateada) => {
     return f1.getFullYear() * 12 + f1.getMonth() - (f2.getFullYear() * 12 + f2.getMonth());
 };
 
-const filtrarTransferencias = () => {
-    const f = form.value;
-
-    transferenciasConNombres.value = transferencias.value.filter(t => {
-        const cumpleFechaInicial = f.fechaInicial
-        ? compararMes(t.fecha, f.fechaInicial) >= 0
-        : true;
-
-        const cumpleFechaFinal = f.fechaFinal
-        ? compararMes(t.fecha, f.fechaFinal) <= 0
-        : true;
-
-        const cumpleOrigen = f.from_account_id
-        ? t.from_account_id === f.from_account_id
-        : true;
-
-        const cumpleDestino = f.to_account_id
-        ? t.to_account_id === f.to_account_id
-        : true;
-
-        const cumpleDescripcion = f.description
-        ? t.description?.toLowerCase().includes(f.description.toLowerCase())
-        : true;
-
-        return (
-        cumpleFechaInicial &&
-        cumpleFechaFinal &&
-        cumpleOrigen &&
-        cumpleDestino &&
-        cumpleDescripcion
-        );
-    });
-    };
-
-onMounted(async () => {
-
-    const user_id = await getUserByUserName(username)
-
-    user_id_tmp.value=user_id.data.id
-
-    cuentaOrigen.value = await getAccountById(user_id.data.id);
-    cuentaDestino.value = await getAllAccounts();
-    transferencias.value= await getTransferenciasById(user_id_tmp.value);
-    transferenciasConNombres.value = transferencias.value;
-});
-
 //PARA LOS BOTONES DE LA VISTA
 
 // Para el boton Cancelar
@@ -434,21 +390,81 @@ const cancelarFormulario = () => {
     router.push("/home"); // ← Redirige al home
 };
 
+const transferenciasConNombres = ref([])
 
 
-const transferenciasConNombres = computed(() => {
-    return transferencias.value.map((item) => {
-        const cuentaOrigenNombre = cuentaOrigen.value.find(c => c.id === item.from_account_id)?.name || item.from_account_id;
-        const cuentaDestinoNombre = cuentaDestino.value.find(c => c.id === item.to_account_id)?.name || item.to_account_id;
+// Función para actualizar con nombres
+function actualizarTransferenciasConNombres(lista) {
+  transferenciasConNombres.value = lista.map((item) => {
+    const cuentaOrigenNombre = cuentaOrigen.value.find(c => c.id === item.from_account_id)?.name || item.from_account_id;
+    const cuentaDestinoNombre = cuentaDestino.value.find(c => c.id === item.to_account_id)?.name || item.to_account_id;
 
-        return {
-        ...item,
-        from_account_id: cuentaOrigenNombre,
-        to_account_id: cuentaDestinoNombre,
-        };
-    });
+    return {
+      ...item,
+      from_account_id: cuentaOrigenNombre,
+      to_account_id: cuentaDestinoNombre,
+    };
+  });
+}
+
+
+onMounted(async () => {
+
+    const user_id = await getUserByUserName(username)
+
+    user_id_tmp.value=user_id.data.id
+
+    cuentaOrigen.value = await getAccountById(user_id.data.id);
+    cuentaDestino.value = await getAllAccounts();
+    transferencias.value= await getTransferenciasById(user_id_tmp.value);
+    transferenciasConNombres.value = transferencias.value;
 });
 
+const filtrarTransferencias = () => {
+  const f = form.value;
+
+  const resultado = transferencias.value.filter(t => {
+    const cumpleFechaInicial = f.fechaInicial
+      ? compararMes(t.fecha, f.fechaInicial) >= 0
+      : true;
+
+    const cumpleFechaFinal = f.fechaFinal
+      ? compararMes(t.fecha, f.fechaFinal) <= 0
+      : true;
+
+    const cumpleOrigen = f.from_account_id
+      ? t.from_account_id === f.from_account_id
+      : true;
+
+    const cumpleDestino = f.to_account_id
+      ? t.to_account_id === f.to_account_id
+      : true;
+
+    const cumpleDescripcion = f.description
+      ? t.description?.toLowerCase().includes(f.description.toLowerCase())
+      : true;
+
+    return (
+      cumpleFechaInicial &&
+      cumpleFechaFinal &&
+      cumpleOrigen &&
+      cumpleDestino &&
+      cumpleDescripcion
+    );
+  });
+
+  // Mapear resultados con nombres de cuentas
+  transferenciasConNombres.value = resultado.map((item) => {
+    const cuentaOrigenNombre = cuentaOrigen.value.find(c => c.id === item.from_account_id)?.name || item.from_account_id;
+    const cuentaDestinoNombre = cuentaDestino.value.find(c => c.id === item.to_account_id)?.name || item.to_account_id;
+
+    return {
+      ...item,
+      from_account_id: cuentaOrigenNombre,
+      to_account_id: cuentaDestinoNombre,
+    };
+  });
+};
 
 const headers = computed(() => [
     { title: t('informeTransferencias.date'), value: 'date', width: '90px' },
@@ -587,7 +603,7 @@ const imprimirDocumento = () => {
     border: 2px solid blue;
     margin: auto;
     width: 500px;
-    height: 600px;
+    height:auto;
 }
 
 .contendedor-blanco {
@@ -596,7 +612,7 @@ const imprimirDocumento = () => {
     justify-content: center;
     align-items: center;
     margin: auto;
-    height: 560px;
+    height: auto;
 }
 
 
@@ -631,12 +647,10 @@ const imprimirDocumento = () => {
 
 
 .custom-height {
-   height: 40px; /* o el valor que uses en los inputs normales */
+    height: 40px; /* o el valor que uses en los inputs normales */
     font-size: 12px;
-    border: 2px solid rgb(10, 10, 10);
-    border-radius: 10px;
-    margin-top: 2px;
-    margin-bottom: 2px;
+    margin-top: 4px;
+    margin-bottom: 4px;
 }
 
 
@@ -652,10 +666,10 @@ const imprimirDocumento = () => {
 }
 
 .espacio-reducido {
-    margin-top: 4px !important;
-    margin-bottom: 4px !important;
-    padding-top: 0 !important;
-    padding-bottom: 0 !important;
+    margin-top: 2px !important;
+    margin-bottom: 2px !important;
+    padding-top: 2 !important;
+    padding-bottom: 2 !important;
 }
 
 .input-fecha {
@@ -717,7 +731,7 @@ const imprimirDocumento = () => {
 
 .btn-filtrar {
     align-items: center;
-    justify-content:end; /* centra horizontalmente */
+    justify-content:end;
     padding: 10px 20px;
     font-size: 10px;
     border: none;
@@ -727,9 +741,10 @@ const imprimirDocumento = () => {
     font-style: "popins";
     margin-bottom: 4px;
     margin-top: 4px;
-    background-color: #196c2c; /* verde
-    color:white !important;*/
+    background-color: #0a5b1d !important;
+    color: white !important;
 }
+
 
 .form-buttons-separados {
     display: flex;
@@ -792,7 +807,7 @@ const imprimirDocumento = () => {
     background-color: #dc3545; /* rojo */
     border-radius: 6px;
     border: none;
-    color: white;
+    color: white !important;
     width: 90px;
     height: 30px;
     margin-bottom: 4px;

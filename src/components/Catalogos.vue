@@ -33,8 +33,8 @@ import presupuesto from '../assets/img/tarjetas/presupuesto.png'
 import Cuentas from '../assets/img/tarjetas/cuentas.png'
 import Bancos from '../assets/img/tarjetas/banco.png'
 import TipoCuenta from '../assets/img/tarjetas/TCB.png'
-import ingresos from '../assets/img/tarjetas/ingresos.png'
-import gastos from '../assets/img/tarjetas/Gastos.png'
+//import ingresos from '../assets/img/tarjetas/ingresos.png'
+//import gastos from '../assets/img/tarjetas/Gastos.png'
 import transferencia from '../assets/img/tarjetas/transf.png'
 import transacciones from '../assets/img/tarjetas/transacciones.png'
 
@@ -48,8 +48,8 @@ const images = ref([
   { src: Bancos, alt: 'home.Bancos', name: 'Bancos' },
   { src: TipoCuenta, alt: 'home.TipoCuenta', name: 'TipoCuenta' },
   { src: presupuesto, alt: 'home.presupuesto', name: 'presupuesto' },
-  { src: ingresos, alt: 'home.ingresos', name: 'ingresos' },
-  { src: gastos, alt: 'home.gastos', name: 'gastos' },
+  //{ src: ingresos, alt: 'home.ingresos', name: 'ingresos' },
+  //{ src: gastos, alt: 'home.gastos', name: 'gastos' },
   { src: transferencia, alt: 'home.transferencias', name: 'transferencias' },
   { src: transacciones, alt: 'home.transacciones', name: 'transacciones' }
 ])

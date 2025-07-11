@@ -1,6 +1,5 @@
 <template>
-    <NavBar />
-    <Footer />
+  <NavBar />
   <div class="fondo">
       <div class="header-inline">
           <img class="img-nombreT" src="../assets/img/tarjetas/Transaccion.png" alt="">
@@ -75,19 +74,37 @@
         <!-- Fecha -->
 
         <v-col cols="12" md="6">
-          <v-text-field
-            v-model="form.fechaApertura"
-            :placeholder="$t('transacciones.fecha')"
-            prepend-inner-icon="mdi-calendar"
-            type="date"
-            dense
-            outlined
-            hide-details
-            color="primary"
-            density="compact"
-            class="white-rounded custom-height"
-            width="100%"
-          />
+          <v-menu
+            v-model="menuFecha"
+            :close-on-content-click="false"
+            transition="scale-transition"
+            offset-y
+            max-width="290px"
+            min-width="auto"
+          >
+            <template #activator="{ props }">
+              <v-text-field
+                v-model="form.fechaApertura"
+                v-bind="props"
+                :placeholder="$t('transacciones.date')"
+                dense
+                outlined
+                hide-details
+                color="primary"
+                density="compact"
+                class="white-rounded custom-height"
+                type="text"
+                readonly
+                prepend-inner-icon="mdi-calendar"
+              />
+            </template>
+
+            <v-date-picker
+              v-model="form.fechaApertura"
+              color="primary"
+              @update:model-value="menuFecha = false"
+            />
+          </v-menu>
         </v-col>
       </v-row>
 
@@ -137,14 +154,14 @@
       <div class="form-buttons">
 
         <!-- Botón Aceptar (verde) -->
-        <v-btn  @click="submitForm"
-                class="btn btn-aceptar">{{ $t("transferencias.submit") }}
+        <v-btn  @click="guardarTransaccion"
+                class="btn btn-aceptar">{{ $t("transacciones.submit") }}
         </v-btn>
 
         <!-- Botón Cancelar (rojo) -->
-        <v-btn  @click="cancelarFormulario"
+        <v-btn  @click="cancelar"
                 color="error"
-                class="btn btn-cancelar"> {{ $t("transferencias.cancel") }}
+                class="btn btn-cancelar"> {{ $t("transacciones.cancel") }}
         </v-btn>
       </div>
 
@@ -176,10 +193,10 @@
 
           <template #item.acciones="{ item }">
             <div class="d-flex align-center justify-start" style="gap: 2px">
-                <v-btn icon variant="text" color="primary" @click="editarTransaccion(index)">
+                <v-btn icon variant="text" color="primary" @click="editarTransaccion(item)">
                     <v-icon size="16">mdi-pencil</v-icon>
                 </v-btn>
-                <v-btn icon variant="text" color="error" @click="eliminarTransaccion(index)">
+                <v-btn icon variant="text" color="error" @click="eliminarTransaccion(item)">
                     <v-icon size="16">mdi-delete</v-icon>
                 </v-btn>
             </div>
@@ -289,16 +306,23 @@
         </ul>
       </div>-->
   </div>
+  <Footer />
 </template>
 
 <script setup>
 import NavBar from '../components/NavBar.vue'
 import Footer from '../components/Footer.vue'
 import { useRouter } from 'vue-router'
-import { ref, onMounted, reactive, watch } from 'vue'
+import { ref, onMounted, reactive, watch , computed} from 'vue'
 import { getAllExpenses } from '@/services/expensesService.js' // Ajusta la ruta si es necesario
 import { getAllAccounts } from '@/services/accountService.js'
 import { getAllTransactions, createTransaction, deleteTransaction, updateTransaction } from '@/services/transaccionesService.js'
+import { useI18n } from "vue-i18n";
+
+
+const menuFecha = ref(false)
+const { locale, t } = useI18n();
+
 const form = ref({
   categoria_id: '',
   importe: '',
@@ -332,6 +356,16 @@ watch(() => form.value.categoria_id, (nuevoId) => {
   }
 })
 
+watch(() => form.value.fechaApertura, (nuevaFecha) => {
+  if (nuevaFecha instanceof Date) {
+    const d = nuevaFecha
+    const dia = d.getDate().toString().padStart(2, '0')
+    const mes = (d.getMonth() + 1).toString().padStart(2, '0')
+    const anio = d.getFullYear()
+    form.value.fechaApertura = `${anio}-${mes}-${dia}` // o cambia al formato que prefieras
+  }
+})
+
 async function cargarCategoria() {
   try {
     const data = await getAllExpenses()
@@ -362,14 +396,14 @@ async function cargarTransacciones() {
   }
 }
 
-const headersTransacciones = [
-  { title: 'Fecha', key: 'date' },
-  { title: 'Tipo', key: 'type' },
-  { title: 'Categoría', key: 'categoria' },
-  { title: 'Cuenta', key: 'cuenta' },
-  { title: 'Monto', key: 'amount' },
-  { title: 'Acciones', key: 'acciones', sortable: false }
-]
+const headersTransacciones = computed(() => [
+  { title: t('transacciones.date'),  value: 'date' },
+  { title: t('transacciones.type'),  value: 'type' },
+  { title: t('transacciones.category') , value: 'categoria' },
+  { title: t('transacciones.account'),  value: 'cuenta' },
+  { title: t('transacciones.amount'),  value: 'amount' },
+  { title: t('transacciones.action'), value: 'acciones', sortable: false }
+])
 
 
 function getCategoryName(category_id) {
@@ -416,18 +450,35 @@ async function guardarTransaccion() {
   }
 }
 
-async function editarTransaccion(index) {
-  try {
-    const trans = transacciones.value[index]
+//async function editarTransaccion(index) {
+ // try {
+ //   const trans = transacciones.value[index]
 
+ //   form.value.categoria_id = trans.category_id || ''
+//    form.value.importe = trans.amount || ''
+//    form.value.fechaApertura = trans.date || ''
+ //   form.value.descripcion = trans.description || ''
+//    form.value.ingreso = trans.type === 'ingreso'  // true si es ingreso, false si gasto
+//    form.value.cuentas = trans.account_id || ''
+
+//   id.value = trans.id // ✅ usar la variable correcta
+ //   isEditMode.value = true
+ //   console.log("Datos enviados para actualizar:", form.value)
+//  } catch (error) {
+//    console.error('Error al cargar transacción para edición:', error)
+ // }
+//}
+
+async function editarTransaccion(trans) {
+  try {
     form.value.categoria_id = trans.category_id || ''
     form.value.importe = trans.amount || ''
     form.value.fechaApertura = trans.date || ''
     form.value.descripcion = trans.description || ''
-    form.value.ingreso = trans.type === 'ingreso'  // true si es ingreso, false si gasto
+    form.value.ingreso = trans.type === 'ingreso'
     form.value.cuentas = trans.account_id || ''
 
-   id.value = trans.id // ✅ usar la variable correcta
+    id.value = trans.id
     isEditMode.value = true
     console.log("Datos enviados para actualizar:", form.value)
   } catch (error) {
@@ -435,15 +486,25 @@ async function editarTransaccion(index) {
   }
 }
 
-async function eliminarTransaccion(index) {
-  const trans = transacciones.value[index]
+//async function eliminarTransaccion(index) {
+ // const trans = transacciones.value[index]
+//  try {
+ //   await deleteTransaction(trans.id)
+//    await cargarTransacciones() // vuelve a cargar la lista actualizada desde el backend
+//  } catch (error) {
+//    console.error('Error al eliminar transaccion:', error)
+ // }
+//}
+
+async function eliminarTransaccion(trans) {
   try {
     await deleteTransaction(trans.id)
-    await cargarTransacciones() // vuelve a cargar la lista actualizada desde el backend
+    await cargarTransacciones()
   } catch (error) {
-    console.error('Error al eliminar transaccion:', error)
+    console.error('Error al eliminar transacción:', error)
   }
 }
+
 function cancelar() {
   resetForm()
   router.push('/home')
@@ -533,14 +594,14 @@ function resetForm() {
 /* === Inputs Vuetify personalizados === */
 .white-rounded .v-field {
   border-radius: 10px;
-  border: 2px solid #818080;
+  /*border: 2px solid #818080;*/
 
 }
 
 .custom-height {
   font-size: 12px;
   margin-top: 2px;
-  margin-bottom: 2px;
+  margin-bottom: 15px;
   max-height: 45px;
 }
 

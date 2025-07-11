@@ -11,7 +11,6 @@ import Transacciones from "../views/Transacciones.vue";
 import transferencias from "../views/transferencias.vue";
 import Resumen_General from "../views/Resumen_General.vue"
 import informeTransferencias from "../views/informeTransferencias.vue";
-
 import informePresupuesto from "../views/informePresupuesto.vue";
 
 const routes = [

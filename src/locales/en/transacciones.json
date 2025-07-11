@@ -5,10 +5,12 @@
     "seleccion-cuenta":"Select associated account",
     "descripcionT":"Transaction description...",
     "transaccionesG":"Saved transactions",
+    "submit":"Accept",
+    "cancel": "Cancel",
     "date":"Date",
     "type":"Type",
     "category":"Category",
     "account":"Account",
     "amount":"Amount",
-    "acction":"Action"
+    "action":"Action"
 }

@@ -17,7 +17,7 @@
           <div class="banco-container">
             <!-- Banco -->
           <v-row>
-            <v-col cols="12" md="12" class="pa-0">
+            <v-col cols="12" md="12" class="pa-3 mb-0">
               <v-text-field
                 v-model="banconame"
                 :placeholder="$t('categoriaBanco.bank')"
@@ -347,7 +347,8 @@ function cancelarFormulario() {
 /* Línea divisoria */
 .divider {
   border: 1px solid black;
-  margin: 5px 0;
+  margin: 5px;
+  margin-top: 70px;
   width: 90%;
 }
 
@@ -359,10 +360,9 @@ function cancelarFormulario() {
 }
 
 .custom-height {
-    height: 20px; /* o el valor que uses en los inputs normales */
+    height: 10px; /* o el valor que uses en los inputs normales */
     font-size: 11px;
-    top: 5px;
-    margin-bottom: 20px;
+
 }
 
 .tabla-bancos .v-data-table-header th {

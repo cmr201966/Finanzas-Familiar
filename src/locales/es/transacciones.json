@@ -5,12 +5,14 @@
     "seleccion-cuenta":"Seleccione cuenta asociada",
     "descripcionT":"Descripcion de la transaccion...",
     "transaccionesG":"Transacciones guardadas",
+    "submit":"Aceptar",
+    "cancel": "Cancelar",
     "date":"Fecha",
     "type":"Tipo",
     "category":"Categoría",
     "account":"Cuenta",
     "amount":"Importe",
-    "acction":"Acción"
+    "action":"Acción"
 
 
 }

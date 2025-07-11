@@ -9,8 +9,8 @@
     <hr class="mi-barra" />
 
     <!-- Campo: Nombre de Categoría -->
-    <v-row class="seccion-campos">
-      <v-col cols="12" md="12"  class="pa-0 ma-0 ms-5">
+    <v-row >
+      <v-col cols="12" md="12">
         <v-text-field
           v-model="form.nombreCategoria"
           :placeholder="$t('categorias.placeholdercategoria')"
@@ -19,13 +19,14 @@
           dense
           density="compact"
           color="primary"
-          width="450"
+          width="390"
+          class="white-rounded custom-height"
 
         />
       </v-col>
 
       <!-- Campo: Descripción -->
-      <v-col cols="12" md="12" class="pa-0 ma-0 ms-5" >
+      <v-col cols="12" md="12">
         <v-text-field
           v-model="form.descripcion"
           :placeholder="$t('categorias.placeholderdescripcion')"
@@ -34,7 +35,7 @@
           dense
           density="compact"
           color="primary"
-          width="450"
+          width="390"
         />
       </v-col>
 </v-row>
@@ -81,12 +82,12 @@
 
         <!-- Botón Aceptar (verde) -->
         <v-btn  @click="guardarCategoria" :style="{ backgroundColor: '#196c2c', color: 'white' }"
-          class="btn">{{ $t("categorias.submit") }}
+          class="btn btn-aceptar">{{ $t("categorias.submit") }}
         </v-btn>
 
         <!-- Botón Cancelar (rojo) -->
         <v-btn  @click="cancelar" :style="{ backgroundColor: '#dc3545', color: 'white' }"
-                class="btn"> {{ $t("categorias.cancel") }}
+                class="btn btn-cancelar"> {{ $t("categorias.cancel") }}
         </v-btn>
     </div>
 
@@ -110,19 +111,20 @@
       </ul>
     </div> -->
     <v-card
-      class="mx-auto pa-2 mt-4"
+      class="pa-2"
       elevation="8"
-      style="max-width: 600px; border-radius: 16px; background-color: #f9f9f9;"
+      style="max-width: 450px; border-radius: 16px; background-color: #f9f9f9; margin-left: 2px;"
     >
       <v-data-table
         :headers="headers"
         :items="categoria"
         item-value="id"
-        class="tabla-informePresupuesto"
+        class="tabla-categorias"
         :items-per-page="-1"
         hide-default-footer
+        fixed-header
         dense
-        height="220"
+        height="150"
       >
       <template #item.actions="{ index }">
           <div class="acciones-categoria">
@@ -257,32 +259,54 @@ function resetForm() {
     background: linear-gradient(135deg, #4caf50, #2196f3);
     flex-direction: column;
     align-items: center;
-    padding: 20px 15px;
     box-sizing: border-box;
     color: white;
     border: 2px solid blue;
-    margin: auto;
-    max-width: 500px;
-    overflow: hidden;
+    width:450px;
+    margin: 0 auto;
+    padding: 5px;
+
 }
 
 .header-inline {
     display: flex;
     align-items: center;
-    gap: 15px;
+    gap: 5px;
+}
+
+.seccion-campos {
+  margin-top: 0 !important;
+  margin-bottom: 0 !important;
+  padding-top: 0 !important;
+  padding-bottom: 0 !important;
+}
+
+.checkbox-row {
+  margin-top: -5px !important; /*  Sube los checkboxes */
+  margin-bottom: 0 !important;
+  padding-top: 0 !important;
+  padding-bottom: 0 !important;
+}
+
+.custom-height {
+  font-size: 12px;
+  margin-top: 2px;
+  margin-bottom: 15px;
+  max-height: 45px;
 }
 
 .img-nombre{
   display: block;
-  width: 60px;
+  width: 40px;
   height: auto;
 }
 
 .form-buttons {
   display: flex;
-  justify-content: flex-end;
-  gap: 10px; /* espacio entre botones */
-  margin-left: 150px;
+  justify-content: center; /* o flex-end si prefieres */
+  align-items: center;
+  gap: 8px; /* 🔽 espacio entre botones */
+  margin-top: -5px;
 }
 
 .btn {
@@ -292,14 +316,15 @@ function resetForm() {
   display: flex; /* ← clave */
   align-items: center; /* centra verticalmente */
   justify-content: center; /* centra horizontalmente */
-  padding: 10px 20px;
   border: none;
   border-radius: 6px;
   cursor: pointer;
   width: 75px;
-  height: 30px;
+  height: 10px;
   margin-bottom: 10px;
   margin-top: 10px;
+  margin-right: 10px;
+
 
 }
 
@@ -311,6 +336,7 @@ function resetForm() {
 .btn-cancelar {
   background-color: #dc3545; /* rojo */
   color: white;
+  margin-right: 10px;
 }
 
 .acciones-categoria {
@@ -320,36 +346,31 @@ function resetForm() {
   justify-content: center;
 }
 
-
 .titulo-categoria{
   text-align: center;
   font-family: popins, sans-serif;
-  font-size: 1.2rem;
+  font-size: 17px;
   font-weight: bold;
-  margin-top: 1vw;
-  margin-bottom: 1vw;
+  margin-top: 5px;
+  margin-bottom: 5px;
 }
 
 .mi-barra,
 .mi-barra2 {
-  height: 2px;
-    background-color: #010000;
-    border: none;
-    margin: 10px auto;
-    width: 100%; /* o 100%, o un valor fijo como 300px */
-    display: block
-}
-
-.seccion-campos {
-  margin-top: 10px;
-
+  border: none;
+  border-bottom: 2px solid #000;
+  width: 100%;
+  margin-bottom: 10px;
+  left: 5%;
 }
 
 .categoria-ingreso,
 .categoria-gastos {
-  font-weight: bold;
-  margin-right: 1vw;
+  margin: 0 10px 0 0;
+  font-size: 14px;
+
 }
+
 /*kkk*/
 .botones-categoria{
   display: flex;
@@ -365,6 +386,37 @@ function resetForm() {
   font-size: 0.9rem;
   margin-right: 1rem;  /* espacio a la derecha para los botones */
 }
+
+.tabla-categorias .v-data-table-header th {
+  background-color: #e3f2fd; /* azul claro */
+  color: #0d47a1;
+  font-weight: 300;
+  font-size: 12px;
+}
+
+.tabla-categorias .v-data-table__td {
+  font-size: 12px;
+  color: #333;
+  border-bottom: 1px solid #ccc;
+}
+
+.tabla-categorias .v-data-table__wrapper {
+  border-radius: 10px;
+}
+
+.tabla-categorias .v-data-table {
+  border-radius: 12px;
+}
+
+.v-data-table th,
+.v-data-table td {
+  padding: 0px 0px;     /* Reduce padding */
+  white-space: nowrap;  /* Evita salto de línea dentro de la celda */
+  max-width: 100px;     /* Ajusta ancho máximo */
+  overflow: hidden;
+  text-overflow: ellipsis; /* Agrega "..." si no cabe el texto */
+}
+
 
 @media (max-width: 1115px) {
   .texto-categoria {
